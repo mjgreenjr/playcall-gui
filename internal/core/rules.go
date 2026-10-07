@@ -72,6 +72,8 @@ func RulesFor(sport string) (Rules, error) {
 		return basketballRules{regulation: 4}, nil
 	case "cbb":
 		return basketballRules{regulation: 2}, nil
+	case "nhl":
+		return nhlRules{}, nil
 	}
 	return nil, fmt.Errorf("sport %s: %w", sport, ErrNotImplemented)
 }
