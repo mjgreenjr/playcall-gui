@@ -219,7 +219,8 @@ After any change, run:
 - Core packages never print or exit; only `main` does.
 - Keep OS-specific code in separate files behind interfaces.
 - Use targeted edits for fixes; keep `gofmt` clean.
-- Commit directly on master unless told otherwise.
+- Never commit or push to master. Work on a branch for the task and open a pull request. One slice per PR.
+- Each PR description lists which golden tests now pass and anything that diverges from the Python reference.
 
 ## Out of scope
 - The GUI itself (phase 2, Fyne, done locally by the owner), Windows and macOS, following several games at once, shot-clock tracking.
