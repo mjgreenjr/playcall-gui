@@ -1,0 +1,15 @@
+$ playcall list --sport nba
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard -> scoreboard_nba_day.json
+-- stdout --
+NBA
+401901820  BKN  @ CHA   Final  124-90
+401898389  NO   @ OKC   Final  116-110
+401914128  DEN  @ UTAH  Final  117-106
+401898390  LAL  @ GS    Final  98-124
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

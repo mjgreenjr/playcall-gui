@@ -1,0 +1,188 @@
+{
+ "events": [
+  {
+   "id": "900001",
+   "date": "2026-10-04T17:00Z",
+   "name": "Tampa Bay Buccaneers at Dallas Cowboys",
+   "shortName": "TB @ DAL",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "post",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, October 8th at 8:15 PM EDT",
+     "shortDetail": "Final"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872980",
+     "date": "2026-10-09T00:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "6",
+        "abbreviation": "DAL",
+        "displayName": "Dallas Cowboys"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "27",
+        "abbreviation": "TB",
+        "displayName": "Tampa Bay Buccaneers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "900002",
+   "date": "2026-10-12T00:20Z",
+   "name": "Tampa Bay Buccaneers at Dallas Cowboys",
+   "shortName": "TB @ DAL",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, October 8th at 8:15 PM EDT",
+     "shortDetail": "10/11 - 8:20 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872980",
+     "date": "2026-10-09T00:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "6",
+        "abbreviation": "DAL",
+        "displayName": "Dallas Cowboys"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "27",
+        "abbreviation": "TB",
+        "displayName": "Tampa Bay Buccaneers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "900003",
+   "date": "2026-10-09T00:15Z",
+   "name": "Tampa Bay Buccaneers at Dallas Cowboys",
+   "shortName": "TB @ DAL",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "in",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, October 8th at 8:15 PM EDT",
+     "shortDetail": "5:12 - 1st"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872980",
+     "date": "2026-10-09T00:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "6",
+        "abbreviation": "DAL",
+        "displayName": "Dallas Cowboys"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "27",
+        "abbreviation": "TB",
+        "displayName": "Tampa Bay Buccaneers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "900004",
+   "date": "2026-10-11T17:00Z",
+   "name": "Tampa Bay Buccaneers at Dallas Cowboys",
+   "shortName": "TB @ DAL",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, October 8th at 8:15 PM EDT",
+     "shortDetail": "10/11 - 1:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872980",
+     "date": "2026-10-09T00:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "6",
+        "abbreviation": "DAL",
+        "displayName": "Dallas Cowboys"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "27",
+        "abbreviation": "TB",
+        "displayName": "Tampa Bay Buccaneers"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

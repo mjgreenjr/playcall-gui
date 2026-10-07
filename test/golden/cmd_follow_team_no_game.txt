@@ -1,0 +1,12 @@
+$ playcall follow CAR --dry-run --once --mock test/fixtures/playbyplay_multi_plays.json
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> scoreboard_nfl_week.json
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams?limit=500 -> teams_nfl.json
+-- stdout --
+(empty)
+-- stderr --
+(empty)
+-- log (INFO and above) --
+ERROR CAR has no nfl game on the current scoreboard
+-- exit 1 --

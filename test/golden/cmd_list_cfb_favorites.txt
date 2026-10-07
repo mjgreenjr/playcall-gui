@@ -1,0 +1,13 @@
+$ playcall list --sport cfb
+config: {"favorite_teams": {"cbb": [], "cfb": ["KENN", "USF"], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80 -> scoreboard_cfb_fbs.json
+-- stdout --
+CFB
+401871051  JXST @ KENN  10/7  - 07:00 PM EDT  0-0
+401862794  USF  @ UTSA  10/8  - 07:30 PM EDT  0-0
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

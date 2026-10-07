@@ -1,0 +1,12 @@
+$ playcall list
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> scoreboard_syn_noteams.json
+-- stdout --
+NFL
+401872980  TB  @ DAL  10/8  - 08:15 PM EDT  0-0
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

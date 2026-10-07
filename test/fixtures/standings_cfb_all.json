@@ -1,0 +1,1101 @@
+{
+ "id": "80",
+ "name": "FBS",
+ "isConference": false,
+ "children": [
+  {
+   "id": "151",
+   "name": "American Conference",
+   "abbreviation": "American",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "2226",
+       "abbreviation": "FAU",
+       "displayName": "Florida Atlantic Owls"
+      }
+     },
+     {
+      "team": {
+       "id": "235",
+       "abbreviation": "MEM",
+       "displayName": "Memphis Tigers"
+      }
+     },
+     {
+      "team": {
+       "id": "2636",
+       "abbreviation": "UTSA",
+       "displayName": "UTSA Roadrunners"
+      }
+     },
+     {
+      "team": {
+       "id": "58",
+       "abbreviation": "USF",
+       "displayName": "South Florida Bulls"
+      }
+     },
+     {
+      "team": {
+       "id": "249",
+       "abbreviation": "UNT",
+       "displayName": "North Texas Mean Green"
+      }
+     },
+     {
+      "team": {
+       "id": "5",
+       "abbreviation": "UAB",
+       "displayName": "UAB Blazers"
+      }
+     },
+     {
+      "team": {
+       "id": "202",
+       "abbreviation": "TLSA",
+       "displayName": "Tulsa Golden Hurricane"
+      }
+     },
+     {
+      "team": {
+       "id": "349",
+       "abbreviation": "ARMY",
+       "displayName": "Army Black Knights"
+      }
+     },
+     {
+      "team": {
+       "id": "151",
+       "abbreviation": "ECU",
+       "displayName": "East Carolina Pirates"
+      }
+     },
+     {
+      "team": {
+       "id": "2655",
+       "abbreviation": "TULN",
+       "displayName": "Tulane Green Wave"
+      }
+     },
+     {
+      "team": {
+       "id": "218",
+       "abbreviation": "TEM",
+       "displayName": "Temple Owls"
+      }
+     },
+     {
+      "team": {
+       "id": "2426",
+       "abbreviation": "NAVY",
+       "displayName": "Navy Midshipmen"
+      }
+     },
+     {
+      "team": {
+       "id": "242",
+       "abbreviation": "RICE",
+       "displayName": "Rice Owls"
+      }
+     },
+     {
+      "team": {
+       "id": "2429",
+       "abbreviation": "CLT",
+       "displayName": "Charlotte 49ers"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "1",
+   "name": "Atlantic Coast Conference",
+   "abbreviation": "acc",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "2390",
+       "abbreviation": "MIA",
+       "displayName": "Miami Hurricanes"
+      }
+     },
+     {
+      "team": {
+       "id": "221",
+       "abbreviation": "PITT",
+       "displayName": "Pittsburgh Panthers"
+      }
+     },
+     {
+      "team": {
+       "id": "150",
+       "abbreviation": "DUKE",
+       "displayName": "Duke Blue Devils"
+      }
+     },
+     {
+      "team": {
+       "id": "2567",
+       "abbreviation": "SMU",
+       "displayName": "SMU Mustangs"
+      }
+     },
+     {
+      "team": {
+       "id": "154",
+       "abbreviation": "WAKE",
+       "displayName": "Wake Forest Demon Deacons"
+      }
+     },
+     {
+      "team": {
+       "id": "259",
+       "abbreviation": "VT",
+       "displayName": "Virginia Tech Hokies"
+      }
+     },
+     {
+      "team": {
+       "id": "228",
+       "abbreviation": "CLEM",
+       "displayName": "Clemson Tigers"
+      }
+     },
+     {
+      "team": {
+       "id": "52",
+       "abbreviation": "FSU",
+       "displayName": "Florida State Seminoles"
+      }
+     },
+     {
+      "team": {
+       "id": "258",
+       "abbreviation": "UVA",
+       "displayName": "Virginia Cavaliers"
+      }
+     },
+     {
+      "team": {
+       "id": "152",
+       "abbreviation": "NCSU",
+       "displayName": "NC State Wolfpack"
+      }
+     },
+     {
+      "team": {
+       "id": "153",
+       "abbreviation": "UNC",
+       "displayName": "North Carolina Tar Heels"
+      }
+     },
+     {
+      "team": {
+       "id": "183",
+       "abbreviation": "SYR",
+       "displayName": "Syracuse Orange"
+      }
+     },
+     {
+      "team": {
+       "id": "25",
+       "abbreviation": "CAL",
+       "displayName": "California Golden Bears"
+      }
+     },
+     {
+      "team": {
+       "id": "97",
+       "abbreviation": "LOU",
+       "displayName": "Louisville Cardinals"
+      }
+     },
+     {
+      "team": {
+       "id": "24",
+       "abbreviation": "STAN",
+       "displayName": "Stanford Cardinal"
+      }
+     },
+     {
+      "team": {
+       "id": "103",
+       "abbreviation": "BC",
+       "displayName": "Boston College Eagles"
+      }
+     },
+     {
+      "team": {
+       "id": "59",
+       "abbreviation": "GT",
+       "displayName": "Georgia Tech Yellow Jackets"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "4",
+   "name": "Big 12 Conference",
+   "abbreviation": "big12",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "2641",
+       "abbreviation": "TTU",
+       "displayName": "Texas Tech Red Raiders"
+      }
+     },
+     {
+      "team": {
+       "id": "252",
+       "abbreviation": "BYU",
+       "displayName": "BYU Cougars"
+      }
+     },
+     {
+      "team": {
+       "id": "254",
+       "abbreviation": "UTAH",
+       "displayName": "Utah Utes"
+      }
+     },
+     {
+      "team": {
+       "id": "239",
+       "abbreviation": "BAY",
+       "displayName": "Baylor Bears"
+      }
+     },
+     {
+      "team": {
+       "id": "12",
+       "abbreviation": "ARIZ",
+       "displayName": "Arizona Wildcats"
+      }
+     },
+     {
+      "team": {
+       "id": "248",
+       "abbreviation": "HOU",
+       "displayName": "Houston Cougars"
+      }
+     },
+     {
+      "team": {
+       "id": "2132",
+       "abbreviation": "CIN",
+       "displayName": "Cincinnati Bearcats"
+      }
+     },
+     {
+      "team": {
+       "id": "197",
+       "abbreviation": "OKST",
+       "displayName": "Oklahoma State Cowboys"
+      }
+     },
+     {
+      "team": {
+       "id": "2306",
+       "abbreviation": "KSU",
+       "displayName": "Kansas State Wildcats"
+      }
+     },
+     {
+      "team": {
+       "id": "66",
+       "abbreviation": "ISU",
+       "displayName": "Iowa State Cyclones"
+      }
+     },
+     {
+      "team": {
+       "id": "2116",
+       "abbreviation": "UCF",
+       "displayName": "UCF Knights"
+      }
+     },
+     {
+      "team": {
+       "id": "277",
+       "abbreviation": "WVU",
+       "displayName": "West Virginia Mountaineers"
+      }
+     },
+     {
+      "team": {
+       "id": "9",
+       "abbreviation": "ASU",
+       "displayName": "Arizona State Sun Devils"
+      }
+     },
+     {
+      "team": {
+       "id": "2305",
+       "abbreviation": "KU",
+       "displayName": "Kansas Jayhawks"
+      }
+     },
+     {
+      "team": {
+       "id": "38",
+       "abbreviation": "COLO",
+       "displayName": "Colorado Buffaloes"
+      }
+     },
+     {
+      "team": {
+       "id": "2628",
+       "abbreviation": "TCU",
+       "displayName": "TCU Horned Frogs"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "5",
+   "name": "Big Ten Conference",
+   "abbreviation": "big10",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "84",
+       "abbreviation": "IU",
+       "displayName": "Indiana Hoosiers"
+      }
+     },
+     {
+      "team": {
+       "id": "158",
+       "abbreviation": "NEB",
+       "displayName": "Nebraska Cornhuskers"
+      }
+     },
+     {
+      "team": {
+       "id": "26",
+       "abbreviation": "UCLA",
+       "displayName": "UCLA Bruins"
+      }
+     },
+     {
+      "team": {
+       "id": "30",
+       "abbreviation": "USC",
+       "displayName": "USC Trojans"
+      }
+     },
+     {
+      "team": {
+       "id": "135",
+       "abbreviation": "MINN",
+       "displayName": "Minnesota Golden Gophers"
+      }
+     },
+     {
+      "team": {
+       "id": "194",
+       "abbreviation": "OSU",
+       "displayName": "Ohio State Buckeyes"
+      }
+     },
+     {
+      "team": {
+       "id": "275",
+       "abbreviation": "WIS",
+       "displayName": "Wisconsin Badgers"
+      }
+     },
+     {
+      "team": {
+       "id": "2294",
+       "abbreviation": "IOWA",
+       "displayName": "Iowa Hawkeyes"
+      }
+     },
+     {
+      "team": {
+       "id": "2483",
+       "abbreviation": "ORE",
+       "displayName": "Oregon Ducks"
+      }
+     },
+     {
+      "team": {
+       "id": "77",
+       "abbreviation": "NU",
+       "displayName": "Northwestern Wildcats"
+      }
+     },
+     {
+      "team": {
+       "id": "130",
+       "abbreviation": "MICH",
+       "displayName": "Michigan Wolverines"
+      }
+     },
+     {
+      "team": {
+       "id": "213",
+       "abbreviation": "PSU",
+       "displayName": "Penn State Nittany Lions"
+      }
+     },
+     {
+      "team": {
+       "id": "264",
+       "abbreviation": "WASH",
+       "displayName": "Washington Huskies"
+      }
+     },
+     {
+      "team": {
+       "id": "2509",
+       "abbreviation": "PUR",
+       "displayName": "Purdue Boilermakers"
+      }
+     },
+     {
+      "team": {
+       "id": "356",
+       "abbreviation": "ILL",
+       "displayName": "Illinois Fighting Illini"
+      }
+     },
+     {
+      "team": {
+       "id": "120",
+       "abbreviation": "MD",
+       "displayName": "Maryland Terrapins"
+      }
+     },
+     {
+      "team": {
+       "id": "127",
+       "abbreviation": "MSU",
+       "displayName": "Michigan State Spartans"
+      }
+     },
+     {
+      "team": {
+       "id": "164",
+       "abbreviation": "RUTG",
+       "displayName": "Rutgers Scarlet Knights"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "12",
+   "name": "Conference USA",
+   "abbreviation": "usa",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "2335",
+       "abbreviation": "LIB",
+       "displayName": "Liberty Flames"
+      }
+     },
+     {
+      "team": {
+       "id": "55",
+       "abbreviation": "JXST",
+       "displayName": "Jacksonville State Gamecocks"
+      }
+     },
+     {
+      "team": {
+       "id": "2229",
+       "abbreviation": "FIU",
+       "displayName": "Florida International Panthers"
+      }
+     },
+     {
+      "team": {
+       "id": "166",
+       "abbreviation": "NMSU",
+       "displayName": "New Mexico State Aggies"
+      }
+     },
+     {
+      "team": {
+       "id": "48",
+       "abbreviation": "DEL",
+       "displayName": "Delaware Blue Hens"
+      }
+     },
+     {
+      "team": {
+       "id": "2393",
+       "abbreviation": "MTSU",
+       "displayName": "Middle Tennessee Blue Raiders"
+      }
+     },
+     {
+      "team": {
+       "id": "338",
+       "abbreviation": "KENN",
+       "displayName": "Kennesaw State Owls"
+      }
+     },
+     {
+      "team": {
+       "id": "2623",
+       "abbreviation": "MOST",
+       "displayName": "Missouri State Bears"
+      }
+     },
+     {
+      "team": {
+       "id": "2534",
+       "abbreviation": "SHSU",
+       "displayName": "Sam Houston Bearkats"
+      }
+     },
+     {
+      "team": {
+       "id": "98",
+       "abbreviation": "WKU",
+       "displayName": "Western Kentucky Hilltoppers"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "18",
+   "name": "FBS Independents",
+   "abbreviation": "ind",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "87",
+       "abbreviation": "ND",
+       "displayName": "Notre Dame Fighting Irish"
+      }
+     },
+     {
+      "team": {
+       "id": "41",
+       "abbreviation": "CONN",
+       "displayName": "UConn Huskies"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "15",
+   "name": "Mid-American Conference",
+   "abbreviation": "midam",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "2649",
+       "abbreviation": "TOL",
+       "displayName": "Toledo Rockets"
+      }
+     },
+     {
+      "team": {
+       "id": "113",
+       "abbreviation": "MASS",
+       "displayName": "Massachusetts Minutemen"
+      }
+     },
+     {
+      "team": {
+       "id": "2117",
+       "abbreviation": "CMU",
+       "displayName": "Central Michigan Chippewas"
+      }
+     },
+     {
+      "team": {
+       "id": "195",
+       "abbreviation": "OHIO",
+       "displayName": "Ohio Bobcats"
+      }
+     },
+     {
+      "team": {
+       "id": "2711",
+       "abbreviation": "WMU",
+       "displayName": "Western Michigan Broncos"
+      }
+     },
+     {
+      "team": {
+       "id": "2199",
+       "abbreviation": "EMU",
+       "displayName": "Eastern Michigan Eagles"
+      }
+     },
+     {
+      "team": {
+       "id": "2309",
+       "abbreviation": "KENT",
+       "displayName": "Kent State Golden Flashes"
+      }
+     },
+     {
+      "team": {
+       "id": "2084",
+       "abbreviation": "BUFF",
+       "displayName": "Buffalo Bulls"
+      }
+     },
+     {
+      "team": {
+       "id": "193",
+       "abbreviation": "M-OH",
+       "displayName": "Miami (OH) RedHawks"
+      }
+     },
+     {
+      "team": {
+       "id": "189",
+       "abbreviation": "BGSU",
+       "displayName": "Bowling Green Falcons"
+      }
+     },
+     {
+      "team": {
+       "id": "2006",
+       "abbreviation": "AKR",
+       "displayName": "Akron Zips"
+      }
+     },
+     {
+      "team": {
+       "id": "2050",
+       "abbreviation": "BALL",
+       "displayName": "Ball State Cardinals"
+      }
+     },
+     {
+      "team": {
+       "id": "16",
+       "abbreviation": "SAC",
+       "displayName": "Sacramento State Hornets"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "17",
+   "name": "Mountain West Conference",
+   "abbreviation": "mwest",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "2449",
+       "abbreviation": "NDSU",
+       "displayName": "North Dakota State Bison"
+      }
+     },
+     {
+      "team": {
+       "id": "167",
+       "abbreviation": "UNM",
+       "displayName": "New Mexico Lobos"
+      }
+     },
+     {
+      "team": {
+       "id": "2005",
+       "abbreviation": "AFA",
+       "displayName": "Air Force Falcons"
+      }
+     },
+     {
+      "team": {
+       "id": "23",
+       "abbreviation": "SJSU",
+       "displayName": "San José State Spartans"
+      }
+     },
+     {
+      "team": {
+       "id": "2439",
+       "abbreviation": "UNLV",
+       "displayName": "UNLV Rebels"
+      }
+     },
+     {
+      "team": {
+       "id": "2751",
+       "abbreviation": "WYO",
+       "displayName": "Wyoming Cowboys"
+      }
+     },
+     {
+      "team": {
+       "id": "2440",
+       "abbreviation": "NEV",
+       "displayName": "Nevada Wolf Pack"
+      }
+     },
+     {
+      "team": {
+       "id": "2638",
+       "abbreviation": "UTEP",
+       "displayName": "UTEP Miners"
+      }
+     },
+     {
+      "team": {
+       "id": "62",
+       "abbreviation": "HAW",
+       "displayName": "Hawai'i Rainbow Warriors"
+      }
+     },
+     {
+      "team": {
+       "id": "2459",
+       "abbreviation": "NIU",
+       "displayName": "Northern Illinois Huskies"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "9",
+   "name": "Pac-12 Conference",
+   "abbreviation": "pac12",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "68",
+       "abbreviation": "BOIS",
+       "displayName": "Boise State Broncos"
+      }
+     },
+     {
+      "team": {
+       "id": "278",
+       "abbreviation": "FRES",
+       "displayName": "Fresno State Bulldogs"
+      }
+     },
+     {
+      "team": {
+       "id": "204",
+       "abbreviation": "ORST",
+       "displayName": "Oregon State Beavers"
+      }
+     },
+     {
+      "team": {
+       "id": "21",
+       "abbreviation": "SDSU",
+       "displayName": "San Diego State Aztecs"
+      }
+     },
+     {
+      "team": {
+       "id": "36",
+       "abbreviation": "CSU",
+       "displayName": "Colorado State Rams"
+      }
+     },
+     {
+      "team": {
+       "id": "326",
+       "abbreviation": "TXST",
+       "displayName": "Texas State Bobcats"
+      }
+     },
+     {
+      "team": {
+       "id": "328",
+       "abbreviation": "USU",
+       "displayName": "Utah State Aggies"
+      }
+     },
+     {
+      "team": {
+       "id": "265",
+       "abbreviation": "WSU",
+       "displayName": "Washington State Cougars"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "8",
+   "name": "Southeastern Conference",
+   "abbreviation": "sec",
+   "isConference": true,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "333",
+       "abbreviation": "ALA",
+       "displayName": "Alabama Crimson Tide"
+      }
+     },
+     {
+      "team": {
+       "id": "61",
+       "abbreviation": "UGA",
+       "displayName": "Georgia Bulldogs"
+      }
+     },
+     {
+      "team": {
+       "id": "251",
+       "abbreviation": "TEX",
+       "displayName": "Texas Longhorns"
+      }
+     },
+     {
+      "team": {
+       "id": "57",
+       "abbreviation": "FLA",
+       "displayName": "Florida Gators"
+      }
+     },
+     {
+      "team": {
+       "id": "96",
+       "abbreviation": "UK",
+       "displayName": "Kentucky Wildcats"
+      }
+     },
+     {
+      "team": {
+       "id": "344",
+       "abbreviation": "MSST",
+       "displayName": "Mississippi State Bulldogs"
+      }
+     },
+     {
+      "team": {
+       "id": "99",
+       "abbreviation": "LSU",
+       "displayName": "LSU Tigers"
+      }
+     },
+     {
+      "team": {
+       "id": "142",
+       "abbreviation": "MIZ",
+       "displayName": "Missouri Tigers"
+      }
+     },
+     {
+      "team": {
+       "id": "2633",
+       "abbreviation": "TENN",
+       "displayName": "Tennessee Volunteers"
+      }
+     },
+     {
+      "team": {
+       "id": "145",
+       "abbreviation": "MISS",
+       "displayName": "Ole Miss Rebels"
+      }
+     },
+     {
+      "team": {
+       "id": "2",
+       "abbreviation": "AUB",
+       "displayName": "Auburn Tigers"
+      }
+     },
+     {
+      "team": {
+       "id": "245",
+       "abbreviation": "TA&M",
+       "displayName": "Texas A&M Aggies"
+      }
+     },
+     {
+      "team": {
+       "id": "238",
+       "abbreviation": "VAN",
+       "displayName": "Vanderbilt Commodores"
+      }
+     },
+     {
+      "team": {
+       "id": "201",
+       "abbreviation": "OU",
+       "displayName": "Oklahoma Sooners"
+      }
+     },
+     {
+      "team": {
+       "id": "8",
+       "abbreviation": "ARK",
+       "displayName": "Arkansas Razorbacks"
+      }
+     },
+     {
+      "team": {
+       "id": "2579",
+       "abbreviation": "SC",
+       "displayName": "South Carolina Gamecocks"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "37",
+   "name": "Sun Belt Conference",
+   "abbreviation": "belt",
+   "isConference": true,
+   "children": [
+    {
+     "id": "167",
+     "name": "Sun Belt - East",
+     "abbreviation": "belte",
+     "isConference": false,
+     "standings": {
+      "entries": [
+       {
+        "team": {
+         "id": "256",
+         "abbreviation": "JMU",
+         "displayName": "James Madison Dukes"
+        }
+       },
+       {
+        "team": {
+         "id": "2247",
+         "abbreviation": "GAST",
+         "displayName": "Georgia State Panthers"
+        }
+       },
+       {
+        "team": {
+         "id": "2026",
+         "abbreviation": "APP",
+         "displayName": "App State Mountaineers"
+        }
+       },
+       {
+        "team": {
+         "id": "276",
+         "abbreviation": "MRSH",
+         "displayName": "Marshall Thundering Herd"
+        }
+       },
+       {
+        "team": {
+         "id": "290",
+         "abbreviation": "GASO",
+         "displayName": "Georgia Southern Eagles"
+        }
+       },
+       {
+        "team": {
+         "id": "324",
+         "abbreviation": "CCU",
+         "displayName": "Coastal Carolina Chanticleers"
+        }
+       },
+       {
+        "team": {
+         "id": "295",
+         "abbreviation": "ODU",
+         "displayName": "Old Dominion Monarchs"
+        }
+       }
+      ]
+     }
+    },
+    {
+     "id": "168",
+     "name": "Sun Belt - West",
+     "abbreviation": "beltw",
+     "isConference": false,
+     "standings": {
+      "entries": [
+       {
+        "team": {
+         "id": "309",
+         "abbreviation": "UL",
+         "displayName": "Louisiana Ragin' Cajuns"
+        }
+       },
+       {
+        "team": {
+         "id": "6",
+         "abbreviation": "USA",
+         "displayName": "South Alabama Jaguars"
+        }
+       },
+       {
+        "team": {
+         "id": "2653",
+         "abbreviation": "TROY",
+         "displayName": "Troy Trojans"
+        }
+       },
+       {
+        "team": {
+         "id": "2348",
+         "abbreviation": "LT",
+         "displayName": "Louisiana Tech Bulldogs"
+        }
+       },
+       {
+        "team": {
+         "id": "2032",
+         "abbreviation": "ARST",
+         "displayName": "Arkansas State Red Wolves"
+        }
+       },
+       {
+        "team": {
+         "id": "2572",
+         "abbreviation": "USM",
+         "displayName": "Southern Miss Golden Eagles"
+        }
+       },
+       {
+        "team": {
+         "id": "2433",
+         "abbreviation": "ULM",
+         "displayName": "UL Monroe Warhawks"
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+$ playcall list
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> scoreboard_empty.json
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?dates=20261007 -> (no data)
+-- stdout --
+NFL
+-- stderr --
+(empty)
+-- log (INFO and above) --
+ERROR No events found in scoreboard data
+-- exit 1 --

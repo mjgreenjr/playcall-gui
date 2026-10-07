@@ -1,0 +1,13 @@
+$ playcall list
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": ["TB", "TEN"], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> scoreboard_nfl_week.json
+-- stdout --
+NFL
+401872980  TB  @ DAL  10/8  - 08:15 PM EDT  0-0
+401872984  HOU @ TEN  10/11 - 01:00 PM EDT  0-0
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

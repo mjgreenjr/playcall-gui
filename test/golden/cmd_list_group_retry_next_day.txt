@@ -1,0 +1,16 @@
+$ playcall list --sport mlb --group AL
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?groups=7 -> scoreboard_empty.json
+GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?groups=7&dates=20261007 -> scoreboard_empty.json
+GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard -> scoreboard_mlb_day.json
+GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?groups=7&dates=20261006 -> scoreboard_mlb_day.json
+-- stdout --
+MLB - AL
+401908015  LAD @ ATL  Final  3-1
+401908004  MIL @ SD   Final  3-4
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

@@ -1,0 +1,13 @@
+$ playcall list --sport mlb
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard -> scoreboard_mlb_day.json
+-- stdout --
+MLB
+401908015  LAD @ ATL  Final  3-1
+401908004  MIL @ SD   Final  3-4
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

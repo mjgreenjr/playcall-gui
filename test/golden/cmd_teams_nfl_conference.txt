@@ -1,0 +1,27 @@
+$ playcall teams --group AFC
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/v2/sports/football/nfl/standings?group=8 -> standings_nfl_afc.json
+-- stdout --
+NFL - AFC
+BAL  Baltimore Ravens
+BUF  Buffalo Bills
+CIN  Cincinnati Bengals
+CLE  Cleveland Browns
+DEN  Denver Broncos
+HOU  Houston Texans
+IND  Indianapolis Colts
+JAX  Jacksonville Jaguars
+KC   Kansas City Chiefs
+LV   Las Vegas Raiders
+LAC  Los Angeles Chargers
+MIA  Miami Dolphins
+NE   New England Patriots
+NYJ  New York Jets
+PIT  Pittsburgh Steelers
+TEN  Tennessee Titans
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

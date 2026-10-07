@@ -1,0 +1,39 @@
+{
+ "id": "4",
+ "name": "AFC East",
+ "abbreviation": "EAST",
+ "isConference": false,
+ "standings": {
+  "entries": [
+   {
+    "team": {
+     "id": "2",
+     "abbreviation": "BUF",
+     "displayName": "Buffalo Bills"
+    }
+   },
+   {
+    "team": {
+     "id": "17",
+     "abbreviation": "NE",
+     "displayName": "New England Patriots"
+    }
+   },
+   {
+    "team": {
+     "id": "20",
+     "abbreviation": "NYJ",
+     "displayName": "New York Jets"
+    }
+   },
+   {
+    "team": {
+     "id": "15",
+     "abbreviation": "MIA",
+     "displayName": "Miami Dolphins"
+    }
+   }
+  ]
+ },
+ "children": []
+}

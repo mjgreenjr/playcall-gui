@@ -1,0 +1,26 @@
+$ playcall list --all
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": ["TB", "TEN"], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> scoreboard_nfl_week.json
+-- stdout --
+NFL
+401872980  TB  @ DAL  10/8  - 08:15 PM EDT  0-0
+401872981  PHI @ JAX  10/11 - 09:30 AM EDT  0-0
+401872990  CHI @ GB   10/11 - 01:00 PM EDT  0-0
+401872984  HOU @ TEN  10/11 - 01:00 PM EDT  0-0
+401872982  CIN @ MIA  10/11 - 01:00 PM EDT  0-0
+401872986  LV  @ NE   10/11 - 01:00 PM EDT  0-0
+401872987  MIN @ NO   10/11 - 01:00 PM EDT  0-0
+401872983  CLE @ NYJ  10/11 - 01:00 PM EDT  0-0
+401872985  IND @ PIT  10/11 - 01:00 PM EDT  0-0
+401872988  NYG @ WSH  10/11 - 01:00 PM EDT  0-0
+401872989  DEN @ LAC  10/11 - 04:05 PM EDT  0-0
+401872991  DET @ ARI  10/11 - 04:25 PM EDT  0-0
+401872992  SF  @ SEA  10/11 - 04:25 PM EDT  0-0
+401872993  BAL @ ATL  10/11 - 08:20 PM EDT  0-0
+401872994  BUF @ LAR  10/12 - 08:15 PM EDT  0-0
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

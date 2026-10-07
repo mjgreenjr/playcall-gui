@@ -1,0 +1,2672 @@
+{
+ "events": [
+  {
+   "id": "401871051",
+   "date": "2026-10-07T23:00Z",
+   "name": "Jacksonville State Gamecocks at Kennesaw State Owls",
+   "shortName": "JXST @ KENN",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Wed, October 7th at 7:00 PM EDT",
+     "shortDetail": "10/7 - 7:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401871051",
+     "date": "2026-10-07T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "338",
+        "abbreviation": "KENN",
+        "displayName": "Kennesaw State Owls"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "55",
+        "abbreviation": "JXST",
+        "displayName": "Jacksonville State Gamecocks"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401871066",
+   "date": "2026-10-07T23:30Z",
+   "name": "New Mexico State Aggies at Florida International Panthers",
+   "shortName": "NMSU @ FIU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Wed, October 7th at 7:30 PM EDT",
+     "shortDetail": "10/7 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401871066",
+     "date": "2026-10-07T23:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2229",
+        "abbreviation": "FIU",
+        "displayName": "Florida International Panthers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "166",
+        "abbreviation": "NMSU",
+        "displayName": "New Mexico State Aggies"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401871090",
+   "date": "2026-10-07T00:00Z",
+   "name": "Southern Miss Golden Eagles at Troy Trojans",
+   "shortName": "USM @ TROY",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 4,
+    "type": {
+     "id": "3",
+     "name": "STATUS_FINAL",
+     "state": "post",
+     "completed": true,
+     "description": "Final",
+     "detail": "Final",
+     "shortDetail": "Final"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401871090",
+     "date": "2026-10-07T00:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "55",
+       "team": {
+        "id": "2653",
+        "abbreviation": "TROY",
+        "displayName": "Troy Trojans"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "34",
+       "team": {
+        "id": "2572",
+        "abbreviation": "USM",
+        "displayName": "Southern Miss Golden Eagles"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401870766",
+   "date": "2026-10-08T23:00Z",
+   "name": "Sam Houston Bearkats at Liberty Flames",
+   "shortName": "SHSU @ LIB",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, October 8th at 7:00 PM EDT",
+     "shortDetail": "10/8 - 7:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401870766",
+     "date": "2026-10-08T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2335",
+        "abbreviation": "LIB",
+        "displayName": "Liberty Flames"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2534",
+        "abbreviation": "SHSU",
+        "displayName": "Sam Houston Bearkats"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401871052",
+   "date": "2026-10-08T23:00Z",
+   "name": "Missouri State Bears at Western Kentucky Hilltoppers",
+   "shortName": "MOST @ WKU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, October 8th at 7:00 PM EDT",
+     "shortDetail": "10/8 - 7:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401871052",
+     "date": "2026-10-08T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "98",
+        "abbreviation": "WKU",
+        "displayName": "Western Kentucky Hilltoppers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2623",
+        "abbreviation": "MOST",
+        "displayName": "Missouri State Bears"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401862794",
+   "date": "2026-10-08T23:30Z",
+   "name": "South Florida Bulls at UTSA Roadrunners",
+   "shortName": "USF @ UTSA",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, October 8th at 7:30 PM EDT",
+     "shortDetail": "10/8 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401862794",
+     "date": "2026-10-08T23:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2636",
+        "abbreviation": "UTSA",
+        "displayName": "UTSA Roadrunners"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "58",
+        "abbreviation": "USF",
+        "displayName": "South Florida Bulls"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401869933",
+   "date": "2026-10-08T23:30Z",
+   "name": "South Alabama Jaguars at Arkansas State Red Wolves",
+   "shortName": "USA @ ARST",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, October 8th at 7:30 PM EDT",
+     "shortDetail": "10/8 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401869933",
+     "date": "2026-10-08T23:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2032",
+        "abbreviation": "ARST",
+        "displayName": "Arkansas State Red Wolves"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "6",
+        "abbreviation": "USA",
+        "displayName": "South Alabama Jaguars"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858254",
+   "date": "2026-10-09T23:00Z",
+   "name": "Florida State Seminoles at Louisville Cardinals",
+   "shortName": "FSU @ LOU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Fri, October 9th at 7:00 PM EDT",
+     "shortDetail": "10/9 - 7:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858254",
+     "date": "2026-10-09T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "97",
+        "abbreviation": "LOU",
+        "displayName": "Louisville Cardinals"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "52",
+        "abbreviation": "FSU",
+        "displayName": "Florida State Seminoles"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858487",
+   "date": "2026-10-10T01:00Z",
+   "name": "Iowa Hawkeyes at Washington Huskies",
+   "shortName": "IOWA @ WASH",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Fri, October 9th at 9:00 PM EDT",
+     "shortDetail": "10/9 - 9:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858487",
+     "date": "2026-10-10T01:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "264",
+        "abbreviation": "WASH",
+        "displayName": "Washington Huskies"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2294",
+        "abbreviation": "IOWA",
+        "displayName": "Iowa Hawkeyes"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401860922",
+   "date": "2026-10-10T01:00Z",
+   "name": "Washington State Cougars at Utah State Aggies",
+   "shortName": "WSU @ USU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Fri, October 9th at 9:00 PM EDT",
+     "shortDetail": "10/9 - 9:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401860922",
+     "date": "2026-10-10T01:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "328",
+        "abbreviation": "USU",
+        "displayName": "Utah State Aggies"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "265",
+        "abbreviation": "WSU",
+        "displayName": "Washington State Cougars"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401864519",
+   "date": "2026-10-10T01:00Z",
+   "name": "Wyoming Cowboys at San José State Spartans",
+   "shortName": "WYO @ SJSU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Fri, October 9th at 9:00 PM EDT",
+     "shortDetail": "10/9 - 9:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401864519",
+     "date": "2026-10-10T01:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "23",
+        "abbreviation": "SJSU",
+        "displayName": "San José State Spartans"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2751",
+        "abbreviation": "WYO",
+        "displayName": "Wyoming Cowboys"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856826",
+   "date": "2026-10-10T02:15Z",
+   "name": "Iowa State Cyclones at BYU Cougars",
+   "shortName": "ISU @ BYU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Fri, October 9th at 10:15 PM EDT",
+     "shortDetail": "10/9 - 10:15 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856826",
+     "date": "2026-10-10T02:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "252",
+        "abbreviation": "BYU",
+        "displayName": "BYU Cougars"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "66",
+        "abbreviation": "ISU",
+        "displayName": "Iowa State Cyclones"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858481",
+   "date": "2026-10-10T16:00Z",
+   "name": "Indiana Hoosiers at Nebraska Cornhuskers",
+   "shortName": "IU @ NEB",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:00 PM EDT",
+     "shortDetail": "10/10 - 12:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858481",
+     "date": "2026-10-10T16:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "158",
+        "abbreviation": "NEB",
+        "displayName": "Nebraska Cornhuskers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "84",
+        "abbreviation": "IU",
+        "displayName": "Indiana Hoosiers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856716",
+   "date": "2026-10-10T16:00Z",
+   "name": "Texas A&M Aggies at Missouri Tigers",
+   "shortName": "TA&M @ MIZ",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:00 PM EDT",
+     "shortDetail": "10/10 - 12:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856716",
+     "date": "2026-10-10T16:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "142",
+        "abbreviation": "MIZ",
+        "displayName": "Missouri Tigers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "245",
+        "abbreviation": "TA&M",
+        "displayName": "Texas A&M Aggies"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856824",
+   "date": "2026-10-10T16:00Z",
+   "name": "UCF Knights at Oklahoma State Cowboys",
+   "shortName": "UCF @ OKST",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:00 PM EDT",
+     "shortDetail": "10/10 - 12:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856824",
+     "date": "2026-10-10T16:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "197",
+        "abbreviation": "OKST",
+        "displayName": "Oklahoma State Cowboys"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2116",
+        "abbreviation": "UCF",
+        "displayName": "UCF Knights"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858256",
+   "date": "2026-10-10T16:00Z",
+   "name": "North Carolina Tar Heels at Pittsburgh Panthers",
+   "shortName": "UNC @ PITT",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:00 PM EDT",
+     "shortDetail": "10/10 - 12:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858256",
+     "date": "2026-10-10T16:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "221",
+        "abbreviation": "PITT",
+        "displayName": "Pittsburgh Panthers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "153",
+        "abbreviation": "UNC",
+        "displayName": "North Carolina Tar Heels"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856823",
+   "date": "2026-10-10T16:00Z",
+   "name": "Arizona Wildcats at West Virginia Mountaineers",
+   "shortName": "ARIZ @ WVU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:00 PM EDT",
+     "shortDetail": "10/10 - 12:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856823",
+     "date": "2026-10-10T16:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "277",
+        "abbreviation": "WVU",
+        "displayName": "West Virginia Mountaineers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "12",
+        "abbreviation": "ARIZ",
+        "displayName": "Arizona Wildcats"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858260",
+   "date": "2026-10-10T16:00Z",
+   "name": "Wake Forest Demon Deacons at NC State Wolfpack",
+   "shortName": "WAKE @ NCSU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:00 PM EDT",
+     "shortDetail": "10/10 - 12:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858260",
+     "date": "2026-10-10T16:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "152",
+        "abbreviation": "NCSU",
+        "displayName": "NC State Wolfpack"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "154",
+        "abbreviation": "WAKE",
+        "displayName": "Wake Forest Demon Deacons"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401862795",
+   "date": "2026-10-10T16:00Z",
+   "name": "Tulane Green Wave at Army Black Knights",
+   "shortName": "TULN @ ARMY",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:00 PM EDT",
+     "shortDetail": "10/10 - 12:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401862795",
+     "date": "2026-10-10T16:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "349",
+        "abbreviation": "ARMY",
+        "displayName": "Army Black Knights"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2655",
+        "abbreviation": "TULN",
+        "displayName": "Tulane Green Wave"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401866436",
+   "date": "2026-10-10T16:00Z",
+   "name": "Sacramento State Hornets at Bowling Green Falcons",
+   "shortName": "SAC @ BGSU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:00 PM EDT",
+     "shortDetail": "10/10 - 12:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401866436",
+     "date": "2026-10-10T16:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "189",
+        "abbreviation": "BGSU",
+        "displayName": "Bowling Green Falcons"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "16",
+        "abbreviation": "SAC",
+        "displayName": "Sacramento State Hornets"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858482",
+   "date": "2026-10-10T16:30Z",
+   "name": "Ball State Cardinals at Northwestern Wildcats",
+   "shortName": "BALL @ NU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:30 PM EDT",
+     "shortDetail": "10/10 - 12:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858482",
+     "date": "2026-10-10T16:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "77",
+        "abbreviation": "NU",
+        "displayName": "Northwestern Wildcats"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2050",
+        "abbreviation": "BALL",
+        "displayName": "Ball State Cardinals"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856714",
+   "date": "2026-10-10T16:45Z",
+   "name": "South Carolina Gamecocks at Florida Gators",
+   "shortName": "SC @ FLA",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 12:45 PM EDT",
+     "shortDetail": "10/10 - 12:45 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856714",
+     "date": "2026-10-10T16:45Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "57",
+        "abbreviation": "FLA",
+        "displayName": "Florida Gators"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2579",
+        "abbreviation": "SC",
+        "displayName": "South Carolina Gamecocks"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401869843",
+   "date": "2026-10-10T17:00Z",
+   "name": "Old Dominion Monarchs at App State Mountaineers",
+   "shortName": "ODU @ APP",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 1:00 PM EDT",
+     "shortDetail": "10/10 - 1:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401869843",
+     "date": "2026-10-10T17:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2026",
+        "abbreviation": "APP",
+        "displayName": "App State Mountaineers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "295",
+        "abbreviation": "ODU",
+        "displayName": "Old Dominion Monarchs"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401866440",
+   "date": "2026-10-10T18:00Z",
+   "name": "Miami (OH) RedHawks at Massachusetts Minutemen",
+   "shortName": "M-OH @ MASS",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 2:00 PM EDT",
+     "shortDetail": "10/10 - 2:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401866440",
+     "date": "2026-10-10T18:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "113",
+        "abbreviation": "MASS",
+        "displayName": "Massachusetts Minutemen"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "193",
+        "abbreviation": "M-OH",
+        "displayName": "Miami (OH) RedHawks"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856717",
+   "date": "2026-10-10T19:30Z",
+   "name": "Texas Longhorns at Oklahoma Sooners",
+   "shortName": "TEX VS OU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856717",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "201",
+        "abbreviation": "OU",
+        "displayName": "Oklahoma Sooners"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "251",
+        "abbreviation": "TEX",
+        "displayName": "Texas Longhorns"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858257",
+   "date": "2026-10-10T19:30Z",
+   "name": "Stanford Cardinal at Notre Dame Fighting Irish",
+   "shortName": "STAN @ ND",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858257",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "87",
+        "abbreviation": "ND",
+        "displayName": "Notre Dame Fighting Irish"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "24",
+        "abbreviation": "STAN",
+        "displayName": "Stanford Cardinal"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856718",
+   "date": "2026-10-10T19:30Z",
+   "name": "Ole Miss Rebels at Vanderbilt Commodores",
+   "shortName": "MISS @ VAN",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856718",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "238",
+        "abbreviation": "VAN",
+        "displayName": "Vanderbilt Commodores"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "145",
+        "abbreviation": "MISS",
+        "displayName": "Ole Miss Rebels"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858484",
+   "date": "2026-10-10T19:30Z",
+   "name": "UCLA Bruins at Oregon Ducks",
+   "shortName": "UCLA @ ORE",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858484",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2483",
+        "abbreviation": "ORE",
+        "displayName": "Oregon Ducks"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "26",
+        "abbreviation": "UCLA",
+        "displayName": "UCLA Bruins"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856825",
+   "date": "2026-10-10T19:30Z",
+   "name": "Houston Cougars at Kansas State Wildcats",
+   "shortName": "HOU @ KSU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856825",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2306",
+        "abbreviation": "KSU",
+        "displayName": "Kansas State Wildcats"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "248",
+        "abbreviation": "HOU",
+        "displayName": "Houston Cougars"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858255",
+   "date": "2026-10-10T19:30Z",
+   "name": "Duke Blue Devils at Georgia Tech Yellow Jackets",
+   "shortName": "DUKE @ GT",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858255",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "59",
+        "abbreviation": "GT",
+        "displayName": "Georgia Tech Yellow Jackets"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "150",
+        "abbreviation": "DUKE",
+        "displayName": "Duke Blue Devils"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858259",
+   "date": "2026-10-10T19:30Z",
+   "name": "Virginia Tech Hokies at California Golden Bears",
+   "shortName": "VT @ CAL",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858259",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "25",
+        "abbreviation": "CAL",
+        "displayName": "California Golden Bears"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "259",
+        "abbreviation": "VT",
+        "displayName": "Virginia Tech Hokies"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858480",
+   "date": "2026-10-10T19:30Z",
+   "name": "Illinois Fighting Illini at Michigan State Spartans",
+   "shortName": "ILL @ MSU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858480",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "127",
+        "abbreviation": "MSU",
+        "displayName": "Michigan State Spartans"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "356",
+        "abbreviation": "ILL",
+        "displayName": "Illinois Fighting Illini"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401862796",
+   "date": "2026-10-10T19:30Z",
+   "name": "Charlotte 49ers at North Texas Mean Green",
+   "shortName": "CLT @ UNT",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401862796",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "249",
+        "abbreviation": "UNT",
+        "displayName": "North Texas Mean Green"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2429",
+        "abbreviation": "CLT",
+        "displayName": "Charlotte 49ers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401862799",
+   "date": "2026-10-10T19:30Z",
+   "name": "Tulsa Golden Hurricane at Navy Midshipmen",
+   "shortName": "TLSA @ NAVY",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401862799",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2426",
+        "abbreviation": "NAVY",
+        "displayName": "Navy Midshipmen"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "202",
+        "abbreviation": "TLSA",
+        "displayName": "Tulsa Golden Hurricane"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401866435",
+   "date": "2026-10-10T19:30Z",
+   "name": "Eastern Michigan Eagles at Akron Zips",
+   "shortName": "EMU @ AKR",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401866435",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2006",
+        "abbreviation": "AKR",
+        "displayName": "Akron Zips"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2199",
+        "abbreviation": "EMU",
+        "displayName": "Eastern Michigan Eagles"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401866437",
+   "date": "2026-10-10T19:30Z",
+   "name": "Buffalo Bulls at Toledo Rockets",
+   "shortName": "BUFF @ TOL",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401866437",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2649",
+        "abbreviation": "TOL",
+        "displayName": "Toledo Rockets"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2084",
+        "abbreviation": "BUFF",
+        "displayName": "Buffalo Bulls"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401866438",
+   "date": "2026-10-10T19:30Z",
+   "name": "Central Michigan Chippewas at Ohio Bobcats",
+   "shortName": "CMU @ OHIO",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401866438",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "195",
+        "abbreviation": "OHIO",
+        "displayName": "Ohio Bobcats"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2117",
+        "abbreviation": "CMU",
+        "displayName": "Central Michigan Chippewas"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401866439",
+   "date": "2026-10-10T19:30Z",
+   "name": "Kent State Golden Flashes at Western Michigan Broncos",
+   "shortName": "KENT @ WMU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:30 PM EDT",
+     "shortDetail": "10/10 - 3:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401866439",
+     "date": "2026-10-10T19:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2711",
+        "abbreviation": "WMU",
+        "displayName": "Western Michigan Broncos"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2309",
+        "abbreviation": "KENT",
+        "displayName": "Kent State Golden Flashes"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401861964",
+   "date": "2026-10-10T19:45Z",
+   "name": "UConn Huskies at Temple Owls",
+   "shortName": "CONN @ TEM",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 3:45 PM EDT",
+     "shortDetail": "10/10 - 3:45 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401861964",
+     "date": "2026-10-10T19:45Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "218",
+        "abbreviation": "TEM",
+        "displayName": "Temple Owls"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "41",
+        "abbreviation": "CONN",
+        "displayName": "UConn Huskies"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401862797",
+   "date": "2026-10-10T20:00Z",
+   "name": "Rice Owls at East Carolina Pirates",
+   "shortName": "RICE @ ECU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 4:00 PM EDT",
+     "shortDetail": "10/10 - 4:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401862797",
+     "date": "2026-10-10T20:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "151",
+        "abbreviation": "ECU",
+        "displayName": "East Carolina Pirates"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "242",
+        "abbreviation": "RICE",
+        "displayName": "Rice Owls"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858483",
+   "date": "2026-10-10T20:15Z",
+   "name": "Maryland Terrapins at Ohio State Buckeyes",
+   "shortName": "MD @ OSU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 4:15 PM EDT",
+     "shortDetail": "10/10 - 4:15 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858483",
+     "date": "2026-10-10T20:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "194",
+        "abbreviation": "OSU",
+        "displayName": "Ohio State Buckeyes"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "120",
+        "abbreviation": "MD",
+        "displayName": "Maryland Terrapins"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856713",
+   "date": "2026-10-10T20:15Z",
+   "name": "Tennessee Volunteers at Arkansas Razorbacks",
+   "shortName": "TENN @ ARK",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 4:15 PM EDT",
+     "shortDetail": "10/10 - 4:15 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856713",
+     "date": "2026-10-10T20:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "8",
+        "abbreviation": "ARK",
+        "displayName": "Arkansas Razorbacks"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2633",
+        "abbreviation": "TENN",
+        "displayName": "Tennessee Volunteers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401860902",
+   "date": "2026-10-10T22:00Z",
+   "name": "San Diego State Aztecs at Oregon State Beavers",
+   "shortName": "SDSU @ ORST",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 6:00 PM EDT",
+     "shortDetail": "10/10 - 6:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401860902",
+     "date": "2026-10-10T22:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "204",
+        "abbreviation": "ORST",
+        "displayName": "Oregon State Beavers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "21",
+        "abbreviation": "SDSU",
+        "displayName": "San Diego State Aztecs"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856715",
+   "date": "2026-10-10T23:00Z",
+   "name": "LSU Tigers at Kentucky Wildcats",
+   "shortName": "LSU @ UK",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:00 PM EDT",
+     "shortDetail": "10/10 - 7:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856715",
+     "date": "2026-10-10T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "96",
+        "abbreviation": "UK",
+        "displayName": "Kentucky Wildcats"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "99",
+        "abbreviation": "LSU",
+        "displayName": "LSU Tigers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401862798",
+   "date": "2026-10-10T23:00Z",
+   "name": "UAB Blazers at Memphis Tigers",
+   "shortName": "UAB @ MEM",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:00 PM EDT",
+     "shortDetail": "10/10 - 7:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401862798",
+     "date": "2026-10-10T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "235",
+        "abbreviation": "MEM",
+        "displayName": "Memphis Tigers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "5",
+        "abbreviation": "UAB",
+        "displayName": "UAB Blazers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401864517",
+   "date": "2026-10-10T23:00Z",
+   "name": "Nevada Wolf Pack at UTEP Miners",
+   "shortName": "NEV @ UTEP",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:00 PM EDT",
+     "shortDetail": "10/10 - 7:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401864517",
+     "date": "2026-10-10T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2638",
+        "abbreviation": "UTEP",
+        "displayName": "UTEP Miners"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2440",
+        "abbreviation": "NEV",
+        "displayName": "Nevada Wolf Pack"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401864518",
+   "date": "2026-10-10T23:00Z",
+   "name": "North Dakota State Bison at UNLV Rebels",
+   "shortName": "NDSU @ UNLV",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:00 PM EDT",
+     "shortDetail": "10/10 - 7:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401864518",
+     "date": "2026-10-10T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2439",
+        "abbreviation": "UNLV",
+        "displayName": "UNLV Rebels"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2449",
+        "abbreviation": "NDSU",
+        "displayName": "North Dakota State Bison"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401869943",
+   "date": "2026-10-10T23:00Z",
+   "name": "Coastal Carolina Chanticleers at Marshall Thundering Herd",
+   "shortName": "CCU @ MRSH",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:00 PM EDT",
+     "shortDetail": "10/10 - 7:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401869943",
+     "date": "2026-10-10T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "276",
+        "abbreviation": "MRSH",
+        "displayName": "Marshall Thundering Herd"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "324",
+        "abbreviation": "CCU",
+        "displayName": "Coastal Carolina Chanticleers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856712",
+   "date": "2026-10-10T23:30Z",
+   "name": "Georgia Bulldogs at Alabama Crimson Tide",
+   "shortName": "UGA @ ALA",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:30 PM EDT",
+     "shortDetail": "10/10 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856712",
+     "date": "2026-10-10T23:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "333",
+        "abbreviation": "ALA",
+        "displayName": "Alabama Crimson Tide"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "61",
+        "abbreviation": "UGA",
+        "displayName": "Georgia Bulldogs"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858485",
+   "date": "2026-10-10T23:30Z",
+   "name": "USC Trojans at Penn State Nittany Lions",
+   "shortName": "USC @ PSU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:30 PM EDT",
+     "shortDetail": "10/10 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858485",
+     "date": "2026-10-10T23:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "213",
+        "abbreviation": "PSU",
+        "displayName": "Penn State Nittany Lions"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "30",
+        "abbreviation": "USC",
+        "displayName": "USC Trojans"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858258",
+   "date": "2026-10-10T23:30Z",
+   "name": "Syracuse Orange at Virginia Cavaliers",
+   "shortName": "SYR @ UVA",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:30 PM EDT",
+     "shortDetail": "10/10 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858258",
+     "date": "2026-10-10T23:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "258",
+        "abbreviation": "UVA",
+        "displayName": "Virginia Cavaliers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "183",
+        "abbreviation": "SYR",
+        "displayName": "Syracuse Orange"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401864516",
+   "date": "2026-10-10T23:30Z",
+   "name": "Air Force Falcons at Northern Illinois Huskies",
+   "shortName": "AFA @ NIU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:30 PM EDT",
+     "shortDetail": "10/10 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401864516",
+     "date": "2026-10-10T23:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2459",
+        "abbreviation": "NIU",
+        "displayName": "Northern Illinois Huskies"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2005",
+        "abbreviation": "AFA",
+        "displayName": "Air Force Falcons"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401869949",
+   "date": "2026-10-10T23:30Z",
+   "name": "James Madison Dukes at Georgia Southern Eagles",
+   "shortName": "JMU @ GASO",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:30 PM EDT",
+     "shortDetail": "10/10 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401869949",
+     "date": "2026-10-10T23:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "290",
+        "abbreviation": "GASO",
+        "displayName": "Georgia Southern Eagles"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "256",
+        "abbreviation": "JMU",
+        "displayName": "James Madison Dukes"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401869965",
+   "date": "2026-10-10T23:30Z",
+   "name": "Louisiana Ragin' Cajuns at Louisiana Tech Bulldogs",
+   "shortName": "UL @ LT",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:30 PM EDT",
+     "shortDetail": "10/10 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401869965",
+     "date": "2026-10-10T23:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2348",
+        "abbreviation": "LT",
+        "displayName": "Louisiana Tech Bulldogs"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "309",
+        "abbreviation": "UL",
+        "displayName": "Louisiana Ragin' Cajuns"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401858486",
+   "date": "2026-10-11T00:00Z",
+   "name": "Minnesota Golden Gophers at Purdue Boilermakers",
+   "shortName": "MINN @ PUR",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 8:00 PM EDT",
+     "shortDetail": "10/10 - 8:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401858486",
+     "date": "2026-10-11T00:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "2509",
+        "abbreviation": "PUR",
+        "displayName": "Purdue Boilermakers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "135",
+        "abbreviation": "MINN",
+        "displayName": "Minnesota Golden Gophers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856808",
+   "date": "2026-10-11T01:30Z",
+   "name": "Hawai'i Rainbow Warriors at Arizona State Sun Devils",
+   "shortName": "HAW @ ASU",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 9:30 PM EDT",
+     "shortDetail": "10/10 - 9:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856808",
+     "date": "2026-10-11T01:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "9",
+        "abbreviation": "ASU",
+        "displayName": "Arizona State Sun Devils"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "62",
+        "abbreviation": "HAW",
+        "displayName": "Hawai'i Rainbow Warriors"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401856827",
+   "date": "2026-10-11T02:15Z",
+   "name": "Kansas Jayhawks at Utah Utes",
+   "shortName": "KU @ UTAH",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 10:15 PM EDT",
+     "shortDetail": "10/10 - 10:15 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401856827",
+     "date": "2026-10-11T02:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "254",
+        "abbreviation": "UTAH",
+        "displayName": "Utah Utes"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2305",
+        "abbreviation": "KU",
+        "displayName": "Kansas Jayhawks"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401860901",
+   "date": "2026-10-11T02:30Z",
+   "name": "Boise State Broncos at Fresno State Bulldogs",
+   "shortName": "BOIS @ FRES",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 10:30 PM EDT",
+     "shortDetail": "10/10 - 10:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401860901",
+     "date": "2026-10-11T02:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "278",
+        "abbreviation": "FRES",
+        "displayName": "Fresno State Bulldogs"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "68",
+        "abbreviation": "BOIS",
+        "displayName": "Boise State Broncos"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+$ playcall follow TB --dry-run --once --mock test/fixtures/playbyplay_multi_plays.json
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> scoreboard_syn_doubleheader.json
+mock test/fixtures/playbyplay_multi_plays.json
+-- stdout --
+Found game 900003: TB @ DAL (5:12 - 1st)
+[DRY-RUN] 1 new play(s) for game 900003
+  4018729791798: Br.Robinson up the middle to NO 25 for 5 yards (D.Stutsman).
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+2nd & 2 · Br.Robinson up the middle to NO 25 for 5 yards (D.Stutsman). · 1st & 10
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/900003
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

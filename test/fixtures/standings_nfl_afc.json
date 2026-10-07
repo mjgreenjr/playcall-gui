@@ -1,0 +1,160 @@
+{
+ "id": "8",
+ "name": "American Football Conference",
+ "abbreviation": "AFC",
+ "isConference": true,
+ "children": [
+  {
+   "id": "4",
+   "name": "AFC East",
+   "abbreviation": "EAST",
+   "isConference": false,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "2",
+       "abbreviation": "BUF",
+       "displayName": "Buffalo Bills"
+      }
+     },
+     {
+      "team": {
+       "id": "17",
+       "abbreviation": "NE",
+       "displayName": "New England Patriots"
+      }
+     },
+     {
+      "team": {
+       "id": "20",
+       "abbreviation": "NYJ",
+       "displayName": "New York Jets"
+      }
+     },
+     {
+      "team": {
+       "id": "15",
+       "abbreviation": "MIA",
+       "displayName": "Miami Dolphins"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "12",
+   "name": "AFC North",
+   "abbreviation": "NORTH",
+   "isConference": false,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "5",
+       "abbreviation": "CLE",
+       "displayName": "Cleveland Browns"
+      }
+     },
+     {
+      "team": {
+       "id": "33",
+       "abbreviation": "BAL",
+       "displayName": "Baltimore Ravens"
+      }
+     },
+     {
+      "team": {
+       "id": "23",
+       "abbreviation": "PIT",
+       "displayName": "Pittsburgh Steelers"
+      }
+     },
+     {
+      "team": {
+       "id": "4",
+       "abbreviation": "CIN",
+       "displayName": "Cincinnati Bengals"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "13",
+   "name": "AFC South",
+   "abbreviation": "SOUTH",
+   "isConference": false,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "30",
+       "abbreviation": "JAX",
+       "displayName": "Jacksonville Jaguars"
+      }
+     },
+     {
+      "team": {
+       "id": "11",
+       "abbreviation": "IND",
+       "displayName": "Indianapolis Colts"
+      }
+     },
+     {
+      "team": {
+       "id": "34",
+       "abbreviation": "HOU",
+       "displayName": "Houston Texans"
+      }
+     },
+     {
+      "team": {
+       "id": "10",
+       "abbreviation": "TEN",
+       "displayName": "Tennessee Titans"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "6",
+   "name": "AFC West",
+   "abbreviation": "WEST",
+   "isConference": false,
+   "standings": {
+    "entries": [
+     {
+      "team": {
+       "id": "12",
+       "abbreviation": "KC",
+       "displayName": "Kansas City Chiefs"
+      }
+     },
+     {
+      "team": {
+       "id": "13",
+       "abbreviation": "LV",
+       "displayName": "Las Vegas Raiders"
+      }
+     },
+     {
+      "team": {
+       "id": "7",
+       "abbreviation": "DEN",
+       "displayName": "Denver Broncos"
+      }
+     },
+     {
+      "team": {
+       "id": "24",
+       "abbreviation": "LAC",
+       "displayName": "Los Angeles Chargers"
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

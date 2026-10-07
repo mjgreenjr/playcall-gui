@@ -1,0 +1,11 @@
+$ playcall list
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> (no data)
+-- stdout --
+NFL
+-- stderr --
+(empty)
+-- log (INFO and above) --
+ERROR Could not fetch scoreboard data
+-- exit 1 --

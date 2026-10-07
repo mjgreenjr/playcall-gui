@@ -1,0 +1,242 @@
+{
+ "sports": [
+  {
+   "id": "20",
+   "name": "Football",
+   "slug": "football",
+   "leagues": [
+    {
+     "id": "28",
+     "name": "National Football League",
+     "abbreviation": "NFL",
+     "teams": [
+      {
+       "team": {
+        "id": "22",
+        "abbreviation": "ARI",
+        "displayName": "Arizona Cardinals"
+       }
+      },
+      {
+       "team": {
+        "id": "1",
+        "abbreviation": "ATL",
+        "displayName": "Atlanta Falcons"
+       }
+      },
+      {
+       "team": {
+        "id": "33",
+        "abbreviation": "BAL",
+        "displayName": "Baltimore Ravens"
+       }
+      },
+      {
+       "team": {
+        "id": "2",
+        "abbreviation": "BUF",
+        "displayName": "Buffalo Bills"
+       }
+      },
+      {
+       "team": {
+        "id": "29",
+        "abbreviation": "CAR",
+        "displayName": "Carolina Panthers"
+       }
+      },
+      {
+       "team": {
+        "id": "3",
+        "abbreviation": "CHI",
+        "displayName": "Chicago Bears"
+       }
+      },
+      {
+       "team": {
+        "id": "4",
+        "abbreviation": "CIN",
+        "displayName": "Cincinnati Bengals"
+       }
+      },
+      {
+       "team": {
+        "id": "5",
+        "abbreviation": "CLE",
+        "displayName": "Cleveland Browns"
+       }
+      },
+      {
+       "team": {
+        "id": "6",
+        "abbreviation": "DAL",
+        "displayName": "Dallas Cowboys"
+       }
+      },
+      {
+       "team": {
+        "id": "7",
+        "abbreviation": "DEN",
+        "displayName": "Denver Broncos"
+       }
+      },
+      {
+       "team": {
+        "id": "8",
+        "abbreviation": "DET",
+        "displayName": "Detroit Lions"
+       }
+      },
+      {
+       "team": {
+        "id": "9",
+        "abbreviation": "GB",
+        "displayName": "Green Bay Packers"
+       }
+      },
+      {
+       "team": {
+        "id": "34",
+        "abbreviation": "HOU",
+        "displayName": "Houston Texans"
+       }
+      },
+      {
+       "team": {
+        "id": "11",
+        "abbreviation": "IND",
+        "displayName": "Indianapolis Colts"
+       }
+      },
+      {
+       "team": {
+        "id": "30",
+        "abbreviation": "JAX",
+        "displayName": "Jacksonville Jaguars"
+       }
+      },
+      {
+       "team": {
+        "id": "12",
+        "abbreviation": "KC",
+        "displayName": "Kansas City Chiefs"
+       }
+      },
+      {
+       "team": {
+        "id": "13",
+        "abbreviation": "LV",
+        "displayName": "Las Vegas Raiders"
+       }
+      },
+      {
+       "team": {
+        "id": "24",
+        "abbreviation": "LAC",
+        "displayName": "Los Angeles Chargers"
+       }
+      },
+      {
+       "team": {
+        "id": "14",
+        "abbreviation": "LAR",
+        "displayName": "Los Angeles Rams"
+       }
+      },
+      {
+       "team": {
+        "id": "15",
+        "abbreviation": "MIA",
+        "displayName": "Miami Dolphins"
+       }
+      },
+      {
+       "team": {
+        "id": "16",
+        "abbreviation": "MIN",
+        "displayName": "Minnesota Vikings"
+       }
+      },
+      {
+       "team": {
+        "id": "17",
+        "abbreviation": "NE",
+        "displayName": "New England Patriots"
+       }
+      },
+      {
+       "team": {
+        "id": "18",
+        "abbreviation": "NO",
+        "displayName": "New Orleans Saints"
+       }
+      },
+      {
+       "team": {
+        "id": "19",
+        "abbreviation": "NYG",
+        "displayName": "New York Giants"
+       }
+      },
+      {
+       "team": {
+        "id": "20",
+        "abbreviation": "NYJ",
+        "displayName": "New York Jets"
+       }
+      },
+      {
+       "team": {
+        "id": "21",
+        "abbreviation": "PHI",
+        "displayName": "Philadelphia Eagles"
+       }
+      },
+      {
+       "team": {
+        "id": "23",
+        "abbreviation": "PIT",
+        "displayName": "Pittsburgh Steelers"
+       }
+      },
+      {
+       "team": {
+        "id": "25",
+        "abbreviation": "SF",
+        "displayName": "San Francisco 49ers"
+       }
+      },
+      {
+       "team": {
+        "id": "26",
+        "abbreviation": "SEA",
+        "displayName": "Seattle Seahawks"
+       }
+      },
+      {
+       "team": {
+        "id": "27",
+        "abbreviation": "TB",
+        "displayName": "Tampa Bay Buccaneers"
+       }
+      },
+      {
+       "team": {
+        "id": "10",
+        "abbreviation": "TEN",
+        "displayName": "Tennessee Titans"
+       }
+      },
+      {
+       "team": {
+        "id": "28",
+        "abbreviation": "WSH",
+        "displayName": "Washington Commanders"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,694 @@
+{
+ "events": [
+  {
+   "id": "401872980",
+   "date": "2026-10-09T00:15Z",
+   "name": "Tampa Bay Buccaneers at Dallas Cowboys",
+   "shortName": "TB @ DAL",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Thu, October 8th at 8:15 PM EDT",
+     "shortDetail": "9/5 - 7:30 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872980",
+     "date": "2026-10-09T00:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "6",
+        "abbreviation": "DAL",
+        "displayName": "Dallas Cowboys"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "27",
+        "abbreviation": "TB",
+        "displayName": "Tampa Bay Buccaneers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872981",
+   "date": "2026-10-11T13:30Z",
+   "name": "Philadelphia Eagles at Jacksonville Jaguars",
+   "shortName": "PHI VS JAX",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 9:30 AM EDT",
+     "shortDetail": "10/9 - 9:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872981",
+     "date": "2026-10-11T13:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "30",
+        "abbreviation": "JAX",
+        "displayName": "Jacksonville Jaguars"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "21",
+        "abbreviation": "PHI",
+        "displayName": "Philadelphia Eagles"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872990",
+   "date": "2026-10-11T17:00Z",
+   "name": "Chicago Bears at Green Bay Packers",
+   "shortName": "CHI @ GB",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 1:00 PM EDT",
+     "shortDetail": "12/25 - 12:00 PM EST"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872990",
+     "date": "2026-10-11T17:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "9",
+        "abbreviation": "GB",
+        "displayName": "Green Bay Packers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "3",
+        "abbreviation": "CHI",
+        "displayName": "Chicago Bears"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872984",
+   "date": "2026-10-11T17:00Z",
+   "name": "Houston Texans at Tennessee Titans",
+   "shortName": "HOU @ TEN",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 1:00 PM EDT",
+     "shortDetail": "1/2 - 8:15 PM EST"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872984",
+     "date": "2026-10-11T17:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "10",
+        "abbreviation": "TEN",
+        "displayName": "Tennessee Titans"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "34",
+        "abbreviation": "HOU",
+        "displayName": "Houston Texans"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872982",
+   "date": "2026-10-11T17:00Z",
+   "name": "Cincinnati Bengals at Miami Dolphins",
+   "shortName": "CIN @ MIA",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 1:00 PM EDT",
+     "shortDetail": "Postponed"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872982",
+     "date": "2026-10-11T17:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "15",
+        "abbreviation": "MIA",
+        "displayName": "Miami Dolphins"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "4",
+        "abbreviation": "CIN",
+        "displayName": "Cincinnati Bengals"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872986",
+   "date": "2026-10-11T17:00Z",
+   "name": "Las Vegas Raiders at New England Patriots",
+   "shortName": "LV @ NE",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 1:00 PM EDT",
+     "shortDetail": "Delayed"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872986",
+     "date": "2026-10-11T17:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "17",
+        "abbreviation": "NE",
+        "displayName": "New England Patriots"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "13",
+        "abbreviation": "LV",
+        "displayName": "Las Vegas Raiders"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872987",
+   "date": "2026-10-11T17:00Z",
+   "name": "Minnesota Vikings at New Orleans Saints",
+   "shortName": "MIN @ NO",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 1:00 PM EDT",
+     "shortDetail": "Halftime"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872987",
+     "date": "2026-10-11T17:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "18",
+        "abbreviation": "NO",
+        "displayName": "New Orleans Saints"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "16",
+        "abbreviation": "MIN",
+        "displayName": "Minnesota Vikings"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872983",
+   "date": "2026-10-11T17:00Z",
+   "name": "Cleveland Browns at New York Jets",
+   "shortName": "CLE @ NYJ",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 1:00 PM EDT",
+     "shortDetail": "10/11 - 1:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872983",
+     "date": "2026-10-11T17:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "20",
+        "abbreviation": "NYJ",
+        "displayName": "New York Jets"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "5",
+        "abbreviation": "CLE",
+        "displayName": "Cleveland Browns"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872985",
+   "date": "2026-10-11T17:00Z",
+   "name": "Indianapolis Colts at Pittsburgh Steelers",
+   "shortName": "IND @ PIT",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 1:00 PM EDT",
+     "shortDetail": "10/11 - 1:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872985",
+     "date": "2026-10-11T17:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "23",
+        "abbreviation": "PIT",
+        "displayName": "Pittsburgh Steelers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "11",
+        "abbreviation": "IND",
+        "displayName": "Indianapolis Colts"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872988",
+   "date": "2026-10-11T17:00Z",
+   "name": "New York Giants at Washington Commanders",
+   "shortName": "NYG @ WSH",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 1:00 PM EDT",
+     "shortDetail": "10/11 - 1:00 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872988",
+     "date": "2026-10-11T17:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "28",
+        "abbreviation": "WSH",
+        "displayName": "Washington Commanders"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "19",
+        "abbreviation": "NYG",
+        "displayName": "New York Giants"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872989",
+   "date": "2026-10-11T20:05Z",
+   "name": "Denver Broncos at Los Angeles Chargers",
+   "shortName": "DEN @ LAC",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 4:05 PM EDT",
+     "shortDetail": "10/11 - 4:05 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872989",
+     "date": "2026-10-11T20:05Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "24",
+        "abbreviation": "LAC",
+        "displayName": "Los Angeles Chargers"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "7",
+        "abbreviation": "DEN",
+        "displayName": "Denver Broncos"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872991",
+   "date": "2026-10-11T20:25Z",
+   "name": "Detroit Lions at Arizona Cardinals",
+   "shortName": "DET @ ARI",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 4:25 PM EDT",
+     "shortDetail": "10/11 - 4:25 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872991",
+     "date": "2026-10-11T20:25Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "22",
+        "abbreviation": "ARI",
+        "displayName": "Arizona Cardinals"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "8",
+        "abbreviation": "DET",
+        "displayName": "Detroit Lions"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872992",
+   "date": "2026-10-11T20:25Z",
+   "name": "San Francisco 49ers at Seattle Seahawks",
+   "shortName": "SF @ SEA",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 4:25 PM EDT",
+     "shortDetail": "10/11 - 4:25 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872992",
+     "date": "2026-10-11T20:25Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "26",
+        "abbreviation": "SEA",
+        "displayName": "Seattle Seahawks"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "25",
+        "abbreviation": "SF",
+        "displayName": "San Francisco 49ers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872993",
+   "date": "2026-10-12T00:20Z",
+   "name": "Baltimore Ravens at Atlanta Falcons",
+   "shortName": "BAL @ ATL",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sun, October 11th at 8:20 PM EDT",
+     "shortDetail": "10/11 - 8:20 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872993",
+     "date": "2026-10-12T00:20Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "1",
+        "abbreviation": "ATL",
+        "displayName": "Atlanta Falcons"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "33",
+        "abbreviation": "BAL",
+        "displayName": "Baltimore Ravens"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401872994",
+   "date": "2026-10-13T00:15Z",
+   "name": "Buffalo Bills at Los Angeles Rams",
+   "shortName": "BUF @ LAR",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 0,
+    "type": {
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "state": "pre",
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Mon, October 12th at 8:15 PM EDT",
+     "shortDetail": "10/12 - 8:15 PM EDT"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401872994",
+     "date": "2026-10-13T00:15Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "0",
+       "team": {
+        "id": "14",
+        "abbreviation": "LAR",
+        "displayName": "Los Angeles Rams"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "0",
+       "team": {
+        "id": "2",
+        "abbreviation": "BUF",
+        "displayName": "Buffalo Bills"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

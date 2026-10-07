@@ -1,0 +1,13 @@
+$ playcall addfavorite lal --sport nba
+config: {"favorite_teams": {"nfl": ["BUF"]}, "interval": 10}
+-- requests --
+(none)
+-- stdout --
+Added LAL to nba favorites.
+-- stderr --
+(empty)
+-- log (INFO and above) --
+INFO Added LAL to nba favorites
+-- config after (parsed, sorted) --
+{"favorite_teams": {"nba": ["LAL"], "nfl": ["BUF"]}, "interval": 10}
+-- exit 0 --

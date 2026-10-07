@@ -1,0 +1,11 @@
+$ playcall teams
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams?limit=500 -> (no data)
+-- stdout --
+NFL
+-- stderr --
+(empty)
+-- log (INFO and above) --
+ERROR Could not fetch team data
+-- exit 1 --

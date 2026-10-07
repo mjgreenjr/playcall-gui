@@ -1,0 +1,191 @@
+{
+ "day": {
+  "date": "2026-10-06"
+ },
+ "events": [
+  {
+   "id": "401901820",
+   "date": "2026-10-06T23:00Z",
+   "name": "Brooklyn Nets at Charlotte Hornets",
+   "shortName": "BKN @ CHA",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0.0",
+    "period": 4,
+    "type": {
+     "id": "3",
+     "name": "STATUS_FINAL",
+     "state": "post",
+     "completed": true,
+     "description": "Final",
+     "detail": "Final",
+     "shortDetail": "Final"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401901820",
+     "date": "2026-10-06T23:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "90",
+       "team": {
+        "id": "30",
+        "abbreviation": "CHA",
+        "displayName": "Charlotte Hornets"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "124",
+       "team": {
+        "id": "17",
+        "abbreviation": "BKN",
+        "displayName": "Brooklyn Nets"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401898389",
+   "date": "2026-10-07T00:00Z",
+   "name": "New Orleans Pelicans at Oklahoma City Thunder",
+   "shortName": "NO VS OKC",
+   "status": {
+    "clock": 720.0,
+    "displayClock": "12:00",
+    "period": 4,
+    "type": {
+     "id": "3",
+     "name": "STATUS_FINAL",
+     "state": "post",
+     "completed": true,
+     "description": "Final",
+     "detail": "Final",
+     "shortDetail": "Final"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401898389",
+     "date": "2026-10-07T00:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "110",
+       "team": {
+        "id": "25",
+        "abbreviation": "OKC",
+        "displayName": "Oklahoma City Thunder"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "116",
+       "team": {
+        "id": "3",
+        "abbreviation": "NO",
+        "displayName": "New Orleans Pelicans"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401914128",
+   "date": "2026-10-07T01:00Z",
+   "name": "Denver Nuggets at Utah Jazz",
+   "shortName": "DEN @ UTAH",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0.0",
+    "period": 4,
+    "type": {
+     "id": "3",
+     "name": "STATUS_FINAL",
+     "state": "post",
+     "completed": true,
+     "description": "Final",
+     "detail": "Final",
+     "shortDetail": "Final"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401914128",
+     "date": "2026-10-07T01:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "106",
+       "team": {
+        "id": "26",
+        "abbreviation": "UTAH",
+        "displayName": "Utah Jazz"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "117",
+       "team": {
+        "id": "7",
+        "abbreviation": "DEN",
+        "displayName": "Denver Nuggets"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401898390",
+   "date": "2026-10-07T02:00Z",
+   "name": "Los Angeles Lakers at Golden State Warriors",
+   "shortName": "LAL @ GS",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0.0",
+    "period": 4,
+    "type": {
+     "id": "3",
+     "name": "STATUS_FINAL",
+     "state": "post",
+     "completed": true,
+     "description": "Final",
+     "detail": "Final",
+     "shortDetail": "Final"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401898390",
+     "date": "2026-10-07T02:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "124",
+       "team": {
+        "id": "9",
+        "abbreviation": "GS",
+        "displayName": "Golden State Warriors"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "98",
+       "team": {
+        "id": "13",
+        "abbreviation": "LAL",
+        "displayName": "Los Angeles Lakers"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

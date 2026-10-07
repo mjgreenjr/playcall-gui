@@ -426,7 +426,7 @@ def find_game_for_team(sport, abbr):
         if parsed is None or abbr not in (parsed[1].upper(), parsed[2].upper()):
             continue
         state = get_status(event).get("type", {}).get("state")
-        matches.append((rank.get(state, 2), event.get("startTime", ""), parsed))
+        matches.append((rank.get(state, 2), event.get("date", ""), parsed))
     if not matches:
         explain_missing_team(sport, abbr)
     _, _, (game_id, away, home, status, _, _) = min(matches, key=lambda m: m[:2])
@@ -449,7 +449,7 @@ def list_games(args):
         parsed = parse_scoreboard_event(g)
         if parsed is None:
             continue
-        parsed_games.append((g.get("startTime", ""), *parsed))
+        parsed_games.append((g.get("date", ""), *parsed))
     # Pad abbreviations to the longest one on the whole scoreboard, so the
     # width is the same whether or not favorites filter the list down
     abbr_width = max(

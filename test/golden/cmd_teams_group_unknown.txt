@@ -1,0 +1,11 @@
+$ playcall teams --group Nope
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+(none)
+-- stdout --
+(empty)
+-- stderr --
+playcall: unknown nfl group 'Nope'; valid groups: AFC (8), NFC (7), AFC East (4), AFC North (12), AFC South (13), AFC West (6), NFC East (1), NFC North (10), NFC South (11), NFC West (3)
+-- log (INFO and above) --
+(none)
+-- exit 1 --

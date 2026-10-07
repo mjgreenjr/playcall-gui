@@ -8,7 +8,7 @@ Go port of the playcall core logic, built to become a GUI application. The GUI i
 ## Reference implementation
 `reference/playcall.py` is the original Python script and the source of truth for behavior, constants and data tables (`SPORTS`, `GROUPS` with ids, `DEFAULT_GROUPS`, `NHL_SILENT_TYPES`, `NBA_SILENT_TYPES`, `REGULATION_PERIODS`, `CATCHUP_LIMITS`, `PREGAME_LEAD`, `PREGAME_MAX_SLEEP`, `NOTIF_EXPIRE_MS`). Where this file and the Python disagree, ask; do not guess. Function names in this file (`mlb_contexts`, `nhl_power_plays`, `nba_bundles`, `nhl_clock_left`, ...) are Python names; use idiomatic Go names.
 
-`test/golden/` holds the Python output for each fixture command, so `go test` can compare byte for byte. `tools/golden.py` generated the `replay_*` files by running `reference/playcall.py` over the fixtures. It is a reference tool: the Go port never calls it, and agents must not regenerate or edit the goldens to make a test pass. If a golden looks wrong, say so and ask.
+`test/golden/` holds the Python output for each fixture command, so `go test` can compare byte for byte. `tools/golden_cmds.py` generated the `cmd_*` command transcripts (list, teams, follow <team>, addfavorite) the same way. `tools/golden.py` generated the `replay_*` files by running `reference/playcall.py` over the fixtures. It is a reference tool: the Go port never calls it, and agents must not regenerate or edit the goldens to make a test pass. If a golden looks wrong, say so and ask.
 
 ## Stack
 - Go 1.24+, stdlib only in phase 1 (net/http, encoding/json, os, time, fmt, flag, log/slog, context)
@@ -80,6 +80,7 @@ Sinks:
 - Types are inconsistent (ids, scores and clocks are strings in some places and numbers in others). Use tolerant types. Play ids are compared as integers (`int64`), never as strings.
 - Teams are matched by `homeAway`, never by list position.
 - Timestamps look like `2026-10-09T01:00Z` (no seconds); use layout `"2006-01-02T15:04Z"`.
+- A scoreboard event's start time is its `date` field (ISO strings sort correctly as text). There is no `startTime` field, even though an earlier version of the Python looked for one. `list` sorts by `date`, stable, so games with the same start keep ESPN's order.
 - Pad and align by rune count, not `len()` (bytes). Output uses `·`; text can contain accents.
 
 ## Message contract (title / body / urgency)
@@ -184,6 +185,8 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
   - `replay_{name}_c3.txt`, `replay_{name}_c25.txt`, `replay_{name}_update.txt`: transcripts from `tools/golden.py`, which replays a fixture as a live game through the real poll code. Poll i sees only the first `min(i*chunk, N)` plays, where N is the number of unique plays and plays are counted in `extractPlays` order (top-level `plays`, then playback plays, then previous drives, then the current drive). `c3` and `c25` use chunk sizes 3 and 25 (25 exceeds the catch-up limit, so it exercises skipping). State carries over between polls in memory and nothing is written to disk. A final game reports "In Progress" until its last poll, so the final event appears only at the end. `update` polls the full feed, then again with the first scoring play's text extended by " (extra point is good)", then once more unchanged.
   - Each poll in a transcript starts with `== poll i: ... ==`, then the dry-run output, then `-> returned {true if the game finished}; last_play_id=... sent_ids={count} scoring_texts={count}`. The Go replay test must build the same truncated feeds and produce this exact text (the `-> returned` line may be formatted differently as long as the values match).
   - These cover the hard parts: MLB outs and runners, NHL power play and clock conversion, NBA miss bundling and hold-back, catch-up skipping, and scoring-text updates.
+  - `cmd_{scenario}.txt`: transcripts from `tools/golden_cmds.py` for `list`, `teams`, `follow <team>` and `addfavorite`. Each one runs a command with the network replaced by a table of URL -> fixture file, the clock frozen at 2026-10-07 12:00 local time, and a scratch home directory. A transcript has these sections: `$ playcall ...` (the command), `config:` (the config file the run started with), `-- requests --` (every URL requested, in order, and the fixture that answered it, or `(no data)`; `mock <path>` for a `--mock` read), `-- stdout --`, `-- stderr --`, `-- log (INFO and above) --` (`LEVEL message` lines), optionally `-- config after (parsed, sorted) --`, and `-- exit N --`. The Go tests must serve the same fixtures for the same URLs (an `httptest` server or a fake client), inject the same "now" (the date-retry URL uses `dates=20261007`), and compare stdout, the request list, the log messages (not the timestamp format) and the exit code. Compare the config after as parsed JSON, not as text.
+  - These cover the ordering (by `date`), the padding, the favorites filter, the group and date retries, the error messages (including the "did you mean" matches), the doubleheader choice (live, then upcoming earliest, then finished), and config creation and updates. Not covered: argparse's own usage and error text, which Go does not need to copy.
 - `test/fixtures/` (copied from the Python repo):
   - scoreboard_in_progress.json: one live NFL event
   - scoreboard_in_progress_full.json: complete, unmodified NFL scoreboard response
@@ -197,6 +200,8 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
   - playbyplay_cfb_multi_plays.json: cfb live game, trimmed (drives-shaped)
   - playbyplay_mlb_multi_plays.json: MLB final game (LAD @ ATL), real full feed. With `--once`: the last announced play, then the final event.
   - playbyplay_nhl_multi_plays.json: NHL live game (UTA @ NJ, 3rd period), real full feed (ids out of order). With `--once`: the newest announced play.
+  - Captured from ESPN on 2026-10-07 and trimmed to the fields the code reads (structure and values unchanged): scoreboard_nfl_week.json (15 games, several days, scheduled times), scoreboard_cfb_fbs.json (58 games, 4-letter abbreviations, feed not in date order), scoreboard_mlb_day.json and scoreboard_nba_day.json (finished games, with `day.date`), teams_nfl.json (the teams endpoint), standings_cfb_all.json (nested conferences), standings_nfl_afc.json and standings_nfl_afc_east.json (standings for a conference and a division).
+  - Synthetic, written by `tools/golden_cmds.py`: scoreboard_syn_padding.json (scheduled-time and other statuses, derived from the NFL week), scoreboard_syn_doubleheader.json and scoreboard_syn_doubleheader_nolive.json (one team in several games), scoreboard_syn_noteams.json (an event with one team), scoreboard_empty.json (`{"events": []}`).
 
 ## Verification
 After any change, run:

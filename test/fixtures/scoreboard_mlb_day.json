@@ -1,0 +1,99 @@
+{
+ "day": {
+  "date": "2026-10-06"
+ },
+ "events": [
+  {
+   "id": "401908015",
+   "date": "2026-10-06T22:00Z",
+   "name": "Los Angeles Dodgers at Atlanta Braves",
+   "shortName": "LAD @ ATL",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 9,
+    "type": {
+     "id": "3",
+     "name": "STATUS_FINAL",
+     "state": "post",
+     "completed": true,
+     "description": "Final",
+     "detail": "Final",
+     "shortDetail": "Final"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401908015",
+     "date": "2026-10-06T22:00Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "1",
+       "team": {
+        "id": "15",
+        "abbreviation": "ATL",
+        "displayName": "Atlanta Braves"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "3",
+       "team": {
+        "id": "19",
+        "abbreviation": "LAD",
+        "displayName": "Los Angeles Dodgers"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401908004",
+   "date": "2026-10-07T01:30Z",
+   "name": "Milwaukee Brewers at San Diego Padres",
+   "shortName": "MIL @ SD",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0:00",
+    "period": 9,
+    "type": {
+     "id": "3",
+     "name": "STATUS_FINAL",
+     "state": "post",
+     "completed": true,
+     "description": "Final",
+     "detail": "Final",
+     "shortDetail": "Final"
+    }
+   },
+   "competitions": [
+    {
+     "id": "401908004",
+     "date": "2026-10-07T01:30Z",
+     "competitors": [
+      {
+       "homeAway": "home",
+       "score": "4",
+       "team": {
+        "id": "25",
+        "abbreviation": "SD",
+        "displayName": "San Diego Padres"
+       }
+      },
+      {
+       "homeAway": "away",
+       "score": "3",
+       "team": {
+        "id": "8",
+        "abbreviation": "MIL",
+        "displayName": "Milwaukee Brewers"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

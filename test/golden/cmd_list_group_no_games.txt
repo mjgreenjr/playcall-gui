@@ -1,0 +1,15 @@
+$ playcall list --sport mlb --group NL West
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?groups=6 -> scoreboard_empty.json
+GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?groups=6&dates=20261007 -> scoreboard_empty.json
+GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard -> scoreboard_mlb_day.json
+GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?groups=6&dates=20261006 -> scoreboard_empty.json
+-- stdout --
+MLB - NL West
+No games scheduled.
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

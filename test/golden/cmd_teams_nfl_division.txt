@@ -1,0 +1,15 @@
+$ playcall teams --group AFC East
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/v2/sports/football/nfl/standings?group=4 -> standings_nfl_afc_east.json
+-- stdout --
+NFL - AFC East
+BUF  Buffalo Bills
+MIA  Miami Dolphins
+NE   New England Patriots
+NYJ  New York Jets
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- exit 0 --

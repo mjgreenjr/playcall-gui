@@ -1,0 +1,13 @@
+$ playcall addfavorite ta&m --sport cfb
+config: {"favorite_teams": {"cbb": [], "cfb": ["MICH"], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+(none)
+-- stdout --
+Added TA&M to cfb favorites.
+-- stderr --
+(empty)
+-- log (INFO and above) --
+INFO Added TA&M to cfb favorites
+-- config after (parsed, sorted) --
+{"favorite_teams": {"cbb": [], "cfb": ["MICH", "TA&M"], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- exit 0 --

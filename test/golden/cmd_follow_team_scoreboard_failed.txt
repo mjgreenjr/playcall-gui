@@ -1,0 +1,11 @@
+$ playcall follow TB --dry-run --once --mock test/fixtures/playbyplay_multi_plays.json
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> (no data)
+-- stdout --
+(empty)
+-- stderr --
+(empty)
+-- log (INFO and above) --
+ERROR Could not fetch scoreboard data
+-- exit 1 --

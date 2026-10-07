@@ -1,0 +1,13 @@
+$ playcall addfavorite buf
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+-- requests --
+(none)
+-- stdout --
+Added BUF to nfl favorites.
+-- stderr --
+(empty)
+-- log (INFO and above) --
+INFO Added BUF to nfl favorites
+-- config after (parsed, sorted) --
+{"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": ["BUF"], "nhl": [], "wnba": []}, "interval": 10}
+-- exit 0 --
