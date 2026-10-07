@@ -33,6 +33,7 @@ func TestFollowGoldens(t *testing.T) {
 		{"cfb.txt", []string{"follow", "999", "--sport", "cfb", "--mock", fixtures + "playbyplay_cfb_multi_plays.json", "--dry-run", "--once"}},
 		{"nba.txt", []string{"follow", "999", "--sport", "nba", "--mock", fixtures + "playbyplay_nba_multi_plays.json", "--dry-run", "--once"}},
 		{"wnba.txt", []string{"follow", "999", "--sport", "wnba", "--mock", fixtures + "playbyplay_wnba_multi_plays.json", "--dry-run", "--once"}},
+		{"nhl.txt", []string{"follow", "999", "--sport", "nhl", "--mock", fixtures + "playbyplay_nhl_multi_plays.json", "--dry-run", "--once"}},
 		// Flags before the subcommand, between it and the game id, and after it.
 		{"cfb.txt", []string{"--dry-run", "--sport=cfb", "follow", "--once", "999", "--mock", fixtures + "playbyplay_cfb_multi_plays.json"}},
 		{"nfl_multi.txt", []string{"--once", "--mock", fixtures + "playbyplay_multi_plays.json", "follow", "999", "--dry-run"}},
@@ -76,7 +77,7 @@ func TestStubsAreNotImplemented(t *testing.T) {
 		{"follow", "BUF"}, // team lookup
 		{"follow", "999"}, // no --once
 		{"follow", "999", "--once", "--mock", fixtures + "playbyplay_multi_plays.json"}, // no --dry-run: toast sink
-		{"follow", "999", "--once", "--dry-run", "--sport", "nhl", "--mock", fixtures + "playbyplay_nhl_multi_plays.json"},
+		{"follow", "999", "--once", "--dry-run", "--sport", "mlb", "--mock", fixtures + "playbyplay_mlb_multi_plays.json"},
 		{"--sport", "mlb", "follow", "999", "--once", "--dry-run"},
 	} {
 		stdout, stderr, code := runCLI(t, args...)

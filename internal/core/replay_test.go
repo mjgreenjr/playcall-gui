@@ -186,6 +186,7 @@ func TestReplayGoldens(t *testing.T) {
 		{"cfb", "cfb", "playbyplay_cfb_multi_plays.json", true},
 		{"nba", "nba", "playbyplay_nba_multi_plays.json", true},
 		{"wnba", "wnba", "playbyplay_wnba_multi_plays.json", true},
+		{"nhl", "nhl", "playbyplay_nhl_multi_plays.json", true},
 	}
 	for _, c := range cases {
 		data := loadFixture(t, c.fixture)
