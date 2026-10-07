@@ -31,6 +31,8 @@ func TestFollowGoldens(t *testing.T) {
 		{"nfl_multi.txt", []string{"follow", "999", "--mock", fixtures + "playbyplay_multi_plays.json", "--dry-run", "--once"}},
 		{"nfl_final.txt", []string{"follow", "999", "--mock", fixtures + "playbyplay_final.json", "--dry-run", "--once"}},
 		{"cfb.txt", []string{"follow", "999", "--sport", "cfb", "--mock", fixtures + "playbyplay_cfb_multi_plays.json", "--dry-run", "--once"}},
+		{"nba.txt", []string{"follow", "999", "--sport", "nba", "--mock", fixtures + "playbyplay_nba_multi_plays.json", "--dry-run", "--once"}},
+		{"wnba.txt", []string{"follow", "999", "--sport", "wnba", "--mock", fixtures + "playbyplay_wnba_multi_plays.json", "--dry-run", "--once"}},
 		// Flags before the subcommand, between it and the game id, and after it.
 		{"cfb.txt", []string{"--dry-run", "--sport=cfb", "follow", "--once", "999", "--mock", fixtures + "playbyplay_cfb_multi_plays.json"}},
 		{"nfl_multi.txt", []string{"--once", "--mock", fixtures + "playbyplay_multi_plays.json", "follow", "999", "--dry-run"}},
