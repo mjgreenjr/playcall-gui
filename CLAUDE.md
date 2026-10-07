@@ -1,24 +1,23 @@
 # playcall
 
-Go port of the playcall core logic, built to become a GUI application. The GUI is the main output; desktop toasts stay as an optional feature.
+Go app that follows live ESPN play-by-play (NFL, NBA, MLB, NHL, college football, men's college basketball, WNBA) and reports each play. The GUI is the main output; desktop toasts and the CLI stay as optional features. This repo is the only active implementation: the Python original (`reference/playcall.py`, and `/home/mike/Work/playcall`) is frozen. New sports, features and fixes go here only, and the Python is never updated to match.
 
-- Phase 1 (this repo's current task, done by the cloud agent): Go core library + CLI. Behavior must match the Python original exactly.
-- Phase 2 (done later by the owner, locally): a Fyne GUI in `cmd/playcall-gui`, on top of the same core. Do NOT add Fyne or any other dependency, do not create `cmd/playcall-gui`, and do not write GUI code. The only preparation is the `Event`/`Sink` boundary below.
+Status: the core library and CLI (slices 1-7) are merged and match the Python on every golden. Current work is phase 2, a Fyne GUI in `cmd/playcall-gui` on top of the same core. Slice 7b (`follow` without `--once`, `stop`, systemctl) is deferred and likely skipped, since the GUI manages its own lifecycle.
 
-## Reference implementation
-`reference/playcall.py` is the original Python script and the source of truth for behavior, constants and data tables (`SPORTS`, `GROUPS` with ids, `DEFAULT_GROUPS`, `NHL_SILENT_TYPES`, `NBA_SILENT_TYPES`, `REGULATION_PERIODS`, `CATCHUP_LIMITS`, `PREGAME_LEAD`, `PREGAME_MAX_SLEEP`, `NOTIF_EXPIRE_MS`). Where this file and the Python disagree, ask; do not guess. Function names in this file (`mlb_contexts`, `nhl_power_plays`, `nba_bundles`, `nhl_clock_left`, ...) are Python names; use idiomatic Go names.
+## Reference implementation (frozen)
+`reference/playcall.py` is the original Python script. It was the source of truth while the port was built and is kept as a parity baseline for the seven existing sports and for `tools/compare_live.sh`. Where this file and the Python disagree, this file wins; the Python is only evidence of how the old behavior worked. Fix bugs in the Go, and do not edit the Python. Function names in this file (`mlb_contexts`, `nhl_power_plays`, `nba_bundles`, `nhl_clock_left`, ...) are the Python names; the Go uses idiomatic names (`mlbContexts`, ...).
 
-`test/golden/` holds the Python output for each fixture command, so `go test` can compare byte for byte. `tools/golden_cmds.py` generated the `cmd_*` command transcripts (list, teams, follow <team>, addfavorite) the same way. `tools/golden.py` generated the `replay_*` files by running `reference/playcall.py` over the fixtures. It is a reference tool: the Go port never calls it, and agents must not regenerate or edit the goldens to make a test pass. If a golden looks wrong, say so and ask.
+`test/golden/` holds the Python's output for each fixture command, so `go test` can compare byte for byte. `tools/golden_cmds.py` generated the `cmd_*` command transcripts (list, teams, follow <team>, addfavorite, resume) and `tools/golden.py` the `replay_*` files by running the reference over the fixtures. The Go port never calls them. These goldens are a regression baseline: do not edit them by hand or regenerate them to make a test pass; if one looks wrong, say so and ask. Goldens for anything added after the port (new sports, new commands) have no Python behind them: write them from the Go build's output, review them by hand, and keep them separate from the Python-derived ones.
 
 ## Stack
-- Go 1.24+, stdlib only in phase 1 (net/http, encoding/json, os, time, fmt, flag, log/slog, context)
+- Go 1.24+. The core (`internal/...`) and the CLI are stdlib only (net/http, encoding/json, os, time, fmt, flag, log/slog, context). Fyne is allowed only in `cmd/playcall-gui`; ask before adding any other dependency.
 - Target: Linux only for now. Do not spend time on Windows or macOS. Keep OS-specific code (notifications, autostart, opening URLs) behind small interfaces in their own files so another platform can be added later.
-- Static binary, no runtime dependencies
+- The CLI is a static binary with no runtime dependencies. The GUI needs cgo (Fyne).
 
 ## Architecture
 The GUI is the main consumer, so the core must be reusable and independent of any output.
 
-Layout: `cmd/playcall` (CLI `main`), `internal/...` (core). `cmd/playcall-gui` will be added in phase 2 so Fyne's cgo requirement never touches the core or the CLI build.
+Layout: `cmd/playcall` (CLI `main`), `internal/...` (core). `cmd/playcall-gui` (phase 2) keeps Fyne's cgo requirement out of the core and the CLI build.
 
 - `internal/espn`: HTTP client and JSON types for scoreboard, summary, teams and standings. Includes `extract_plays` (drives layout and flat layout).
 - `internal/core` (or similar): per-sport rules that turn plays into events, the poll loop, state, and config.
@@ -52,7 +51,7 @@ type Sink interface {
 Sinks:
 - `StdoutSink` (`--dry-run`): prints the toast text exactly as the Python dry-run does.
 - `ToastSink` (Linux): runs `omarchy-notification-send` (see Toast contract). Optional; this is a feature, not the main output.
-- `GUISink` (phase 2, Fyne, built locally by the owner): not part of this task. The `Event` struct above is the interface it will consume, probably over a channel. Do not shape Event around toasts only, and never import Fyne from the core.
+- `GUISink` (phase 2, Fyne, in `cmd/playcall-gui`): consumes `Event`, probably over a channel. Do not shape Event around toasts only, and never import Fyne from the core.
 
 `last_play_id` / `sent_ids` advance only when `Send` succeeds (see Play tracking). Keep Title/Body rendering in the core, shared by all sinks, so every sink shows the same text.
 
@@ -205,28 +204,20 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
   - Synthetic, written by `tools/golden_cmds.py`: scoreboard_syn_padding.json (scheduled-time and other statuses, derived from the NFL week), scoreboard_syn_doubleheader.json and scoreboard_syn_doubleheader_nolive.json (one team in several games), scoreboard_syn_noteams.json (an event with one team), scoreboard_empty.json (`{"events": []}`).
 
 ## Verification
-After any change, run:
-1. `gofmt -l .` (must print nothing) and `go vet ./...`
-2. `go test ./...` (includes the golden comparisons)
-3. `go build -o playcall ./cmd/playcall`
-4. The fixture runs, each with `--dry-run --once` (these are covered by the golden tests, run them by hand when debugging):
-   - `./playcall follow 999 --mock test/fixtures/playbyplay_multi_plays.json`
-   - `./playcall follow 999 --mock test/fixtures/playbyplay_final.json`
-   - `./playcall follow 999 --sport nba --mock test/fixtures/playbyplay_nba_multi_plays.json`
-   - `./playcall follow 999 --sport cfb --mock test/fixtures/playbyplay_cfb_multi_plays.json`
-   - `./playcall follow 999 --sport wnba --mock test/fixtures/playbyplay_wnba_multi_plays.json`
-   - `./playcall follow 999 --sport mlb --mock test/fixtures/playbyplay_mlb_multi_plays.json`
-   - `./playcall follow 999 --sport nhl --mock test/fixtures/playbyplay_nhl_multi_plays.json`
-5. On a machine with network access, `./playcall list --dry-run` as a live smoke test (skip in the cloud sandbox).
+After any change, run `/verify` (`.claude/commands/verify.md`). The sequence lives in `.claude/hooks/verify.sh`: gofmt, `go vet ./...`, `go build ./...` and `go test ./...`, which includes the golden comparisons for every fixture and command transcript. The Stop hook runs the same script and skips it when the Go code and `test/` hash the same as the last passing run (`.claude/.verified_hash`, gitignored).
+
+Extra checks by hand:
+- `go build -o playcall ./cmd/playcall`, then a fixture run when debugging a golden diff, e.g. `./playcall follow 999 --sport nhl --mock test/fixtures/playbyplay_nhl_multi_plays.json --dry-run --once`.
+- On a machine with network access, `./playcall list --dry-run` as a live smoke test (skip in the cloud sandbox), or `tools/compare_live.sh SPORT GAME_ID SECONDS` to run the Python reference and the Go build side by side on a live game.
+
+To add a new sport, use the `add-sport` skill (`.claude/skills/add-sport/`).
 
 ## Rules
-- Go stdlib only in phase 1; ask before adding any dependency.
-- Keep behavior identical to the Python reference. Golden diffs are bugs unless the Python was wrong, in which case say so and ask first.
-- Core packages never print or exit; only `main` does.
+- Core packages never print or exit; only `main` does. Never import Fyne from `internal/...` or `cmd/playcall`.
 - Keep OS-specific code in separate files behind interfaces.
 - Use targeted edits for fixes; keep `gofmt` clean.
-- Never commit or push to master. Work on a branch for the task and open a pull request. One slice per PR.
-- Each PR description lists which golden tests now pass and anything that diverges from the Python reference.
+- Behavior of the seven existing sports must keep matching the goldens. A golden diff is a bug in the Go unless the Python was wrong; say so and ask first.
+- Commit directly on master. Do not create branches or pull requests unless the user asks for one. Commit when a piece of work is done and verified; push only when asked.
 
 ## Out of scope
-- The GUI itself (phase 2, Fyne, done locally by the owner), Windows and macOS, following several games at once, shot-clock tracking.
+- Windows and macOS, following several games at once, shot-clock tracking.
