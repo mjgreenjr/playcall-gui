@@ -1,0 +1,2518 @@
+{
+  "format": {
+    "regulation": {
+      "periods": 4,
+      "displayName": "Quarter",
+      "slug": "quarter",
+      "clock": 900.0
+    },
+    "overtime": {
+      "periods": 1,
+      "displayName": "sudden-death",
+      "slug": "sudden-death",
+      "clock": 600.0
+    },
+    "suddenDeath": {
+      "periods": 1,
+      "clock": 600.0
+    }
+  },
+  "gameInfo": {
+    "venue": {
+      "id": "3493",
+      "guid": "aa9f0642-8b00-34cf-b043-9b3965116455",
+      "fullName": "Caesars Superdome",
+      "address": {
+        "city": "New Orleans",
+        "state": "LA",
+        "zipCode": "70112",
+        "country": "USA"
+      },
+      "grass": false,
+      "images": [
+        {
+          "href": "https://a.espncdn.com/i/venues/nfl/day/3493.jpg",
+          "width": 2000,
+          "height": 1125,
+          "alt": "",
+          "rel": [
+            "full",
+            "day"
+          ]
+        },
+        {
+          "href": "https://a.espncdn.com/i/venues/nfl/day/interior/3493.jpg",
+          "width": 2000,
+          "height": 1125,
+          "alt": "",
+          "rel": [
+            "full",
+            "day",
+            "interior"
+          ]
+        }
+      ]
+    },
+    "weather": {
+      "temperature": 78,
+      "highTemperature": 78,
+      "lowTemperature": 78,
+      "conditionId": "Cloudy",
+      "gust": 11,
+      "precipitation": 39,
+      "link": {
+        "language": "en-US",
+        "rel": [
+          "70112"
+        ],
+        "href": "http://www.accuweather.com/en/us/caesars-superdome-la/70112/current-weather/19245_poi?lang=en-us",
+        "text": "Weather",
+        "shortText": "Weather",
+        "isExternal": true,
+        "isPremium": false
+      }
+    },
+    "officials": [
+      {
+        "fullName": "Brad Freeman",
+        "displayName": "Brad Freeman",
+        "position": {
+          "name": "Back Judge",
+          "displayName": "Back Judge",
+          "id": "110"
+        },
+        "order": 1
+      },
+      {
+        "fullName": "Mark Pellis",
+        "displayName": "Mark Pellis",
+        "position": {
+          "name": "Umpire",
+          "displayName": "Umpire",
+          "id": "116"
+        },
+        "order": 2
+      },
+      {
+        "fullName": "Jabir Walker",
+        "displayName": "Jabir Walker",
+        "position": {
+          "name": "Field Judge",
+          "displayName": "Field Judge",
+          "id": "111"
+        },
+        "order": 3
+      },
+      {
+        "fullName": "Land Clark",
+        "displayName": "Land Clark",
+        "position": {
+          "name": "Referee",
+          "displayName": "Referee",
+          "id": "114"
+        },
+        "order": 4
+      },
+      {
+        "fullName": "Dave Hawkshaw",
+        "displayName": "Dave Hawkshaw",
+        "position": {
+          "name": "Side Judge",
+          "displayName": "Side Judge",
+          "id": "115"
+        },
+        "order": 5
+      },
+      {
+        "fullName": "Dale Keller",
+        "displayName": "Dale Keller",
+        "position": {
+          "name": "Down Judge",
+          "displayName": "Down Judge",
+          "id": "112"
+        },
+        "order": 6
+      },
+      {
+        "fullName": "Stephen Ray",
+        "displayName": "Stephen Ray",
+        "position": {
+          "name": "Line Judge",
+          "displayName": "Line Judge",
+          "id": "113"
+        },
+        "order": 7
+      }
+    ]
+  },
+  "drives": {
+    "previous": [
+      {
+        "id": "4018729791",
+        "description": "3 plays, 80 yards, 1:26",
+        "team": {
+          "id": "1",
+          "name": "Falcons",
+          "abbreviation": "ATL",
+          "displayName": "Atlanta Falcons",
+          "shortDisplayName": "Falcons",
+          "logos": [
+            {
+              "href": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+              "width": 500,
+              "height": 500,
+              "alt": "",
+              "rel": [
+                "full",
+                "default"
+              ],
+              "lastUpdated": "2024-06-25T18:44Z"
+            },
+            {
+              "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
+              "width": 500,
+              "height": 500,
+              "alt": "",
+              "rel": [
+                "full",
+                "dark"
+              ],
+              "lastUpdated": "2024-06-25T18:44Z"
+            },
+            {
+              "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
+              "width": 500,
+              "height": 500,
+              "alt": "",
+              "rel": [
+                "full",
+                "scoreboard"
+              ],
+              "lastUpdated": "2024-06-25T18:44Z"
+            },
+            {
+              "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/atl.png",
+              "width": 500,
+              "height": 500,
+              "alt": "",
+              "rel": [
+                "full",
+                "scoreboard",
+                "dark"
+              ],
+              "lastUpdated": "2024-06-25T18:44Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/grayscale.png",
+              "width": 500,
+              "height": 500,
+              "alt": "",
+              "rel": [
+                "full",
+                "grayscale"
+              ],
+              "lastUpdated": "2026-03-31T12:54Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_white_color.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "primary_logo_on_white_color"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_black_color.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "primary_logo_on_black_color"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_primary_color.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "primary_logo_on_primary_color"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_secondary_color.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "primary_logo_on_secondary_color"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_black.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "primary_logo_black"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_white.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "primary_logo_white"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_white_color.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "secondary_logo_on_white_color"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_black_color.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "secondary_logo_on_black_color"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_primary_color.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "secondary_logo_on_primary_color"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_secondary_color.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "secondary_logo_on_secondary_color"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_black.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "secondary_logo_black"
+              ],
+              "lastUpdated": "2026-02-13T03:12Z"
+            },
+            {
+              "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_white.png",
+              "width": 4096,
+              "height": 4096,
+              "alt": "",
+              "rel": [
+                "full",
+                "secondary_logo_white"
+              ],
+              "lastUpdated": "2026-07-22T20:30Z"
+            }
+          ]
+        },
+        "start": {
+          "period": {
+            "type": "quarter",
+            "number": 1
+          },
+          "clock": {
+            "displayValue": "15:00"
+          },
+          "yardLine": 80,
+          "text": "ATL 20"
+        },
+        "end": {
+          "period": {
+            "type": "quarter",
+            "number": 1
+          },
+          "clock": {
+            "displayValue": "13:34"
+          },
+          "yardLine": 0,
+          "text": "NO 0"
+        },
+        "timeElapsed": {
+          "displayValue": "1:26"
+        },
+        "yards": 80,
+        "isScore": true,
+        "offensivePlays": 3,
+        "result": "TD",
+        "shortDisplayResult": "TD",
+        "displayResult": "Touchdown",
+        "plays": [
+          {
+            "id": "40187297940",
+            "sequenceNumber": "4000",
+            "type": {
+              "id": "53",
+              "text": "Kickoff",
+              "abbreviation": "K"
+            },
+            "text": "D.Carlson kicks 65 yards from NO 35 to landing zone to end zone, Touchback to the ATL 20.",
+            "awayScore": 0,
+            "homeScore": 0,
+            "period": {
+              "number": 1
+            },
+            "clock": {
+              "displayValue": "15:00"
+            },
+            "scoringPlay": false,
+            "priority": false,
+            "modified": "2026-10-06T00:20Z",
+            "wallclock": "2026-10-06T00:17:16Z",
+            "teamParticipants": [
+              {
+                "team": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/1?lang=en&region=us"
+                },
+                "id": "1",
+                "order": 1,
+                "type": "offense"
+              },
+              {
+                "team": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/18?lang=en&region=us"
+                },
+                "id": "18",
+                "statistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297940/teams/18/statistics/1?lang=en&region=us"
+                },
+                "playStatistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297940/teams/18/statistics/0?lang=en&region=us"
+                },
+                "order": 2,
+                "type": "defense"
+              }
+            ],
+            "isPenalty": false,
+            "statYardage": 0,
+            "start": {
+              "down": 0,
+              "distance": 0,
+              "yardLine": 35,
+              "yardsToEndzone": 65,
+              "team": {
+                "id": "18"
+              }
+            },
+            "end": {
+              "down": 1,
+              "distance": 10,
+              "yardLine": 80,
+              "yardsToEndzone": 80,
+              "downDistanceText": "1st & 10 at ATL 20",
+              "shortDownDistanceText": "1st & 10",
+              "possessionText": "ATL 20",
+              "team": {
+                "id": "1"
+              }
+            },
+            "isTurnover": false
+          },
+          {
+            "id": "40187297960",
+            "sequenceNumber": "6000",
+            "type": {
+              "id": "24",
+              "text": "Pass Reception",
+              "abbreviation": "REC"
+            },
+            "text": "(Shotgun) M.Penix pass short right to D.London to ATL 32 for 12 yards (J.Blackmon).",
+            "awayScore": 0,
+            "homeScore": 0,
+            "period": {
+              "number": 1
+            },
+            "clock": {
+              "displayValue": "15:00"
+            },
+            "scoringPlay": false,
+            "priority": false,
+            "modified": "2026-10-06T00:21Z",
+            "wallclock": "2026-10-06T00:18:05Z",
+            "teamParticipants": [
+              {
+                "team": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/1?lang=en&region=us"
+                },
+                "id": "1",
+                "statistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297960/teams/1/statistics/1?lang=en&region=us"
+                },
+                "playStatistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297960/teams/1/statistics/0?lang=en&region=us"
+                },
+                "order": 1,
+                "type": "offense"
+              },
+              {
+                "team": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/18?lang=en&region=us"
+                },
+                "id": "18",
+                "statistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297960/teams/18/statistics/1?lang=en&region=us"
+                },
+                "playStatistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297960/teams/18/statistics/0?lang=en&region=us"
+                },
+                "order": 2,
+                "type": "defense"
+              }
+            ],
+            "isPenalty": false,
+            "statYardage": 12,
+            "start": {
+              "down": 1,
+              "distance": 10,
+              "yardLine": 80,
+              "yardsToEndzone": 80,
+              "downDistanceText": "1st & 10 at ATL 20",
+              "shortDownDistanceText": "1st & 10",
+              "possessionText": "ATL 20",
+              "team": {
+                "id": "1"
+              }
+            },
+            "end": {
+              "down": 1,
+              "distance": 10,
+              "yardLine": 68,
+              "yardsToEndzone": 68,
+              "downDistanceText": "1st & 10 at ATL 32",
+              "shortDownDistanceText": "1st & 10",
+              "possessionText": "ATL 32",
+              "team": {
+                "id": "1"
+              }
+            },
+            "yardsAfterCatch": 13,
+            "isTurnover": false
+          },
+          {
+            "id": "40187297985",
+            "sequenceNumber": "8500",
+            "type": {
+              "id": "24",
+              "text": "Pass Reception",
+              "abbreviation": "REC"
+            },
+            "text": "(Shotgun) M.Penix pass short left to A.Hooper to ATL 41 for 9 yards (J.Sanker).",
+            "awayScore": 0,
+            "homeScore": 0,
+            "period": {
+              "number": 1
+            },
+            "clock": {
+              "displayValue": "14:22"
+            },
+            "scoringPlay": false,
+            "priority": false,
+            "modified": "2026-10-06T00:22Z",
+            "wallclock": "2026-10-06T00:18:43Z",
+            "teamParticipants": [
+              {
+                "team": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/1?lang=en&region=us"
+                },
+                "id": "1",
+                "statistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297985/teams/1/statistics/1?lang=en&region=us"
+                },
+                "playStatistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297985/teams/1/statistics/0?lang=en&region=us"
+                },
+                "order": 1,
+                "type": "offense"
+              },
+              {
+                "team": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/18?lang=en&region=us"
+                },
+                "id": "18",
+                "statistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297985/teams/18/statistics/1?lang=en&region=us"
+                },
+                "playStatistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/40187297985/teams/18/statistics/0?lang=en&region=us"
+                },
+                "order": 2,
+                "type": "defense"
+              }
+            ],
+            "isPenalty": false,
+            "statYardage": 9,
+            "start": {
+              "down": 1,
+              "distance": 10,
+              "yardLine": 68,
+              "yardsToEndzone": 68,
+              "downDistanceText": "1st & 10 at ATL 32",
+              "shortDownDistanceText": "1st & 10",
+              "possessionText": "ATL 32",
+              "team": {
+                "id": "1"
+              }
+            },
+            "end": {
+              "down": 2,
+              "distance": 1,
+              "yardLine": 59,
+              "yardsToEndzone": 59,
+              "downDistanceText": "2nd & 1 at ATL 41",
+              "shortDownDistanceText": "2nd & 1",
+              "possessionText": "ATL 41",
+              "team": {
+                "id": "1"
+              }
+            },
+            "yardsAfterCatch": 11,
+            "isTurnover": false
+          },
+          {
+            "id": "401872979110",
+            "sequenceNumber": "11000",
+            "type": {
+              "id": "68",
+              "text": "Rushing Touchdown",
+              "abbreviation": "TD"
+            },
+            "text": "Bi.Robinson left end for 59 yards, TOUCHDOWN. N.Folk extra point is GOOD, Center-L.McCullough, Holder-J.Bailey.",
+            "awayScore": 7,
+            "homeScore": 0,
+            "period": {
+              "number": 1
+            },
+            "clock": {
+              "displayValue": "13:34"
+            },
+            "scoringPlay": true,
+            "priority": false,
+            "modified": "2026-10-06T00:22Z",
+            "wallclock": "2026-10-06T00:19:22Z",
+            "teamParticipants": [
+              {
+                "team": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/1?lang=en&region=us"
+                },
+                "id": "1",
+                "statistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/401872979110/teams/1/statistics/1?lang=en&region=us"
+                },
+                "playStatistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/401872979110/teams/1/statistics/0?lang=en&region=us"
+                },
+                "order": 1,
+                "type": "offense"
+              },
+              {
+                "team": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/18?lang=en&region=us"
+                },
+                "id": "18",
+                "statistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/401872979110/teams/18/statistics/1?lang=en&region=us"
+                },
+                "playStatistics": {
+                  "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/401872979110/teams/18/statistics/0?lang=en&region=us"
+                },
+                "order": 2,
+                "type": "defense"
+              }
+            ],
+            "isPenalty": false,
+            "statYardage": 59,
+            "start": {
+              "down": 2,
+              "distance": 1,
+              "yardLine": 59,
+              "yardsToEndzone": 59,
+              "downDistanceText": "2nd & 1 at ATL 41",
+              "shortDownDistanceText": "2nd & 1",
+              "possessionText": "ATL 41",
+              "team": {
+                "id": "1"
+              }
+            },
+            "end": {
+              "down": -1,
+              "distance": 10,
+              "yardLine": 0,
+              "yardsToEndzone": 0,
+              "team": {
+                "id": "1"
+              }
+            },
+            "scoringType": {
+              "name": "touchdown",
+              "displayName": "Touchdown",
+              "abbreviation": "TD"
+            },
+            "pointAfterAttempt": {
+              "id": 61,
+              "text": "Extra Point Good",
+              "abbreviation": "Extra Point Good",
+              "value": 1
+            },
+            "isTurnover": false
+          }
+        ]
+      }
+    ],
+    "current": {
+      "id": "40187297911",
+      "description": "10 plays, 75 yards, 4:45",
+      "team": {
+        "id": "1",
+        "name": "Falcons",
+        "abbreviation": "ATL",
+        "displayName": "Atlanta Falcons",
+        "shortDisplayName": "Falcons",
+        "logos": [
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "default"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/grayscale.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "grayscale"
+            ],
+            "lastUpdated": "2026-03-31T12:54Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_white_color.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "primary_logo_on_white_color"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_black_color.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "primary_logo_on_black_color"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_primary_color.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "primary_logo_on_primary_color"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_secondary_color.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "primary_logo_on_secondary_color"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_black.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "primary_logo_black"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_white.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "primary_logo_white"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_white_color.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "secondary_logo_on_white_color"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_black_color.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "secondary_logo_on_black_color"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_primary_color.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "secondary_logo_on_primary_color"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_secondary_color.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "secondary_logo_on_secondary_color"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_black.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "secondary_logo_black"
+            ],
+            "lastUpdated": "2026-02-13T03:12Z"
+          },
+          {
+            "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_white.png",
+            "width": 4096,
+            "height": 4096,
+            "alt": "",
+            "rel": [
+              "full",
+              "secondary_logo_white"
+            ],
+            "lastUpdated": "2026-07-22T20:30Z"
+          }
+        ]
+      },
+      "start": {
+        "period": {
+          "type": "quarter",
+          "number": 2
+        },
+        "clock": {
+          "displayValue": "7:52"
+        },
+        "yardLine": 86,
+        "text": "ATL 14"
+      },
+      "end": {
+        "period": {
+          "type": "quarter",
+          "number": 2
+        },
+        "clock": {
+          "displayValue": "3:07"
+        },
+        "yardLine": 11,
+        "text": "NO 11"
+      },
+      "timeElapsed": {
+        "displayValue": "4:45"
+      },
+      "yards": 75,
+      "isScore": true,
+      "offensivePlays": 10,
+      "result": "FG",
+      "shortDisplayResult": "FG",
+      "displayResult": "Field Goal",
+      "plays": [
+        {
+          "id": "4018729791711",
+          "sequenceNumber": "171100",
+          "type": {
+            "id": "24",
+            "text": "Pass Reception",
+            "abbreviation": "REC"
+          },
+          "text": "(7:52) (Shotgun) M.Penix pass deep middle to D.London to NO 49 for 37 yards (J.Reid).\nPenalty on NO-K.McKinstry, Illegal Contact, declined.",
+          "awayScore": 21,
+          "homeScore": 7,
+          "period": {
+            "number": 2
+          },
+          "clock": {
+            "displayValue": "7:52"
+          },
+          "scoringPlay": false,
+          "priority": false,
+          "modified": "2026-10-06T01:33Z",
+          "wallclock": "2026-10-06T01:32:10Z",
+          "teamParticipants": [
+            {
+              "team": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/1?lang=en&region=us"
+              },
+              "id": "1",
+              "statistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791711/teams/1/statistics/1?lang=en&region=us"
+              },
+              "playStatistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791711/teams/1/statistics/0?lang=en&region=us"
+              },
+              "order": 1,
+              "type": "offense"
+            },
+            {
+              "team": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/18?lang=en&region=us"
+              },
+              "id": "18",
+              "statistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791711/teams/18/statistics/1?lang=en&region=us"
+              },
+              "playStatistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791711/teams/18/statistics/0?lang=en&region=us"
+              },
+              "order": 2,
+              "type": "defense"
+            }
+          ],
+          "isPenalty": false,
+          "statYardage": 37,
+          "start": {
+            "down": 1,
+            "distance": 10,
+            "yardLine": 86,
+            "yardsToEndzone": 86,
+            "downDistanceText": "1st & 10 at ATL 14",
+            "shortDownDistanceText": "1st & 10",
+            "possessionText": "ATL 14",
+            "team": {
+              "id": "1"
+            }
+          },
+          "end": {
+            "down": 1,
+            "distance": 10,
+            "yardLine": 49,
+            "yardsToEndzone": 49,
+            "downDistanceText": "1st & 10 at NO 49",
+            "shortDownDistanceText": "1st & 10",
+            "possessionText": "NO 49",
+            "team": {
+              "id": "1"
+            }
+          },
+          "yardsAfterCatch": 18,
+          "isTurnover": false
+        },
+        {
+          "id": "4018729791754",
+          "sequenceNumber": "175400",
+          "type": {
+            "id": "5",
+            "text": "Rush",
+            "abbreviation": "RUSH"
+          },
+          "text": "Bi.Robinson left end to NO 38 for 11 yards (J.Blackmon; C.Wooden).",
+          "awayScore": 21,
+          "homeScore": 7,
+          "period": {
+            "number": 2
+          },
+          "clock": {
+            "displayValue": "7:33"
+          },
+          "scoringPlay": false,
+          "priority": false,
+          "modified": "2026-10-06T01:36Z",
+          "wallclock": "2026-10-06T01:33:02Z",
+          "teamParticipants": [
+            {
+              "team": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/1?lang=en&region=us"
+              },
+              "id": "1",
+              "statistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791754/teams/1/statistics/1?lang=en&region=us"
+              },
+              "playStatistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791754/teams/1/statistics/0?lang=en&region=us"
+              },
+              "order": 1,
+              "type": "offense"
+            },
+            {
+              "team": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/18?lang=en&region=us"
+              },
+              "id": "18",
+              "statistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791754/teams/18/statistics/1?lang=en&region=us"
+              },
+              "playStatistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791754/teams/18/statistics/0?lang=en&region=us"
+              },
+              "order": 2,
+              "type": "defense"
+            }
+          ],
+          "isPenalty": false,
+          "statYardage": 11,
+          "start": {
+            "down": 1,
+            "distance": 10,
+            "yardLine": 49,
+            "yardsToEndzone": 49,
+            "downDistanceText": "1st & 10 at NO 49",
+            "shortDownDistanceText": "1st & 10",
+            "possessionText": "NO 49",
+            "team": {
+              "id": "1"
+            }
+          },
+          "end": {
+            "down": 1,
+            "distance": 10,
+            "yardLine": 38,
+            "yardsToEndzone": 38,
+            "downDistanceText": "1st & 10 at NO 38",
+            "shortDownDistanceText": "1st & 10",
+            "possessionText": "NO 38",
+            "team": {
+              "id": "1"
+            }
+          },
+          "isTurnover": false
+        },
+        {
+          "id": "4018729791776",
+          "sequenceNumber": "177600",
+          "type": {
+            "id": "5",
+            "text": "Rush",
+            "abbreviation": "RUSH"
+          },
+          "text": "(Shotgun) Bi.Robinson up the middle to NO 30 for 8 yards (J.Blackmon).",
+          "awayScore": 21,
+          "homeScore": 7,
+          "period": {
+            "number": 2
+          },
+          "clock": {
+            "displayValue": "6:46"
+          },
+          "scoringPlay": false,
+          "priority": false,
+          "modified": "2026-10-06T01:36Z",
+          "wallclock": "2026-10-06T01:33:48Z",
+          "teamParticipants": [
+            {
+              "team": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/1?lang=en&region=us"
+              },
+              "id": "1",
+              "statistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791776/teams/1/statistics/1?lang=en&region=us"
+              },
+              "playStatistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791776/teams/1/statistics/0?lang=en&region=us"
+              },
+              "order": 1,
+              "type": "offense"
+            },
+            {
+              "team": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/18?lang=en&region=us"
+              },
+              "id": "18",
+              "statistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791776/teams/18/statistics/1?lang=en&region=us"
+              },
+              "playStatistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791776/teams/18/statistics/0?lang=en&region=us"
+              },
+              "order": 2,
+              "type": "defense"
+            }
+          ],
+          "isPenalty": false,
+          "statYardage": 8,
+          "start": {
+            "down": 1,
+            "distance": 10,
+            "yardLine": 38,
+            "yardsToEndzone": 38,
+            "downDistanceText": "1st & 10 at NO 38",
+            "shortDownDistanceText": "1st & 10",
+            "possessionText": "NO 38",
+            "team": {
+              "id": "1"
+            }
+          },
+          "end": {
+            "down": 2,
+            "distance": 2,
+            "yardLine": 30,
+            "yardsToEndzone": 30,
+            "downDistanceText": "2nd & 2 at NO 30",
+            "shortDownDistanceText": "2nd & 2",
+            "possessionText": "NO 30",
+            "team": {
+              "id": "1"
+            }
+          },
+          "isTurnover": false
+        },
+        {
+          "id": "4018729791798",
+          "sequenceNumber": "179800",
+          "type": {
+            "id": "5",
+            "text": "Rush",
+            "abbreviation": "RUSH"
+          },
+          "text": "Br.Robinson up the middle to NO 25 for 5 yards (D.Stutsman).",
+          "awayScore": 21,
+          "homeScore": 7,
+          "period": {
+            "number": 2
+          },
+          "clock": {
+            "displayValue": "6:03"
+          },
+          "scoringPlay": false,
+          "priority": false,
+          "modified": "2026-10-06T01:36Z",
+          "wallclock": "2026-10-06T01:34:31Z",
+          "teamParticipants": [
+            {
+              "team": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/1?lang=en&region=us"
+              },
+              "id": "1",
+              "statistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791798/teams/1/statistics/1?lang=en&region=us"
+              },
+              "playStatistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791798/teams/1/statistics/0?lang=en&region=us"
+              },
+              "order": 1,
+              "type": "offense"
+            },
+            {
+              "team": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/seasons/2026/teams/18?lang=en&region=us"
+              },
+              "id": "18",
+              "statistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791798/teams/18/statistics/1?lang=en&region=us"
+              },
+              "playStatistics": {
+                "$ref": "http://sports.core.api.espn.pvt/v2/sports/football/leagues/nfl/events/401872979/competitions/401872979/plays/4018729791798/teams/18/statistics/0?lang=en&region=us"
+              },
+              "order": 2,
+              "type": "defense"
+            }
+          ],
+          "isPenalty": false,
+          "statYardage": 5,
+          "start": {
+            "down": 2,
+            "distance": 2,
+            "yardLine": 30,
+            "yardsToEndzone": 30,
+            "downDistanceText": "2nd & 2 at NO 30",
+            "shortDownDistanceText": "2nd & 2",
+            "possessionText": "NO 30",
+            "team": {
+              "id": "1"
+            }
+          },
+          "end": {
+            "down": 1,
+            "distance": 10,
+            "yardLine": 25,
+            "yardsToEndzone": 25,
+            "downDistanceText": "1st & 10 at NO 25",
+            "shortDownDistanceText": "1st & 10",
+            "possessionText": "NO 25",
+            "team": {
+              "id": "1"
+            }
+          },
+          "isTurnover": false
+        }
+      ]
+    }
+  },
+  "scoringPlays": [
+    {
+      "id": "401872979110",
+      "type": {
+        "id": "68",
+        "text": "Rushing Touchdown",
+        "abbreviation": "TD"
+      },
+      "text": "Bijan Robinson 59 Yd Rush (Nick Folk Kick)",
+      "awayScore": 7,
+      "homeScore": 0,
+      "period": {
+        "number": 1
+      },
+      "clock": {
+        "value": 814.0,
+        "displayValue": "13:34"
+      },
+      "team": {
+        "id": "1",
+        "uid": "s:20~l:28~t:1",
+        "displayName": "Atlanta Falcons",
+        "abbreviation": "ATL",
+        "links": [
+          {
+            "href": "https://www.espn.com/nfl/team/_/name/atl/atlanta-falcons",
+            "text": "Clubhouse"
+          },
+          {
+            "href": "https://www.espn.com/nfl/team/schedule/_/name/atl",
+            "text": "Schedule"
+          }
+        ],
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+        "logos": [
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "default"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          }
+        ]
+      },
+      "scoringType": {
+        "name": "touchdown",
+        "displayName": "Touchdown",
+        "abbreviation": "TD"
+      }
+    },
+    {
+      "id": "4018729791144",
+      "type": {
+        "id": "68",
+        "text": "Rushing Touchdown",
+        "abbreviation": "TD"
+      },
+      "text": "Bijan Robinson 4 Yd Rush (Nick Folk Kick)",
+      "awayScore": 14,
+      "homeScore": 0,
+      "period": {
+        "number": 1
+      },
+      "clock": {
+        "value": 48.0,
+        "displayValue": "0:48"
+      },
+      "team": {
+        "id": "1",
+        "uid": "s:20~l:28~t:1",
+        "displayName": "Atlanta Falcons",
+        "abbreviation": "ATL",
+        "links": [
+          {
+            "href": "https://www.espn.com/nfl/team/_/name/atl/atlanta-falcons",
+            "text": "Clubhouse"
+          },
+          {
+            "href": "https://www.espn.com/nfl/team/schedule/_/name/atl",
+            "text": "Schedule"
+          }
+        ],
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+        "logos": [
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "default"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          }
+        ]
+      },
+      "scoringType": {
+        "name": "touchdown",
+        "displayName": "Touchdown",
+        "abbreviation": "TD"
+      }
+    },
+    {
+      "id": "4018729791286",
+      "type": {
+        "id": "68",
+        "text": "Rushing Touchdown",
+        "abbreviation": "TD"
+      },
+      "text": "Alvin Kamara 3 Yd Rush (Daniel Carlson Kick)",
+      "awayScore": 14,
+      "homeScore": 7,
+      "period": {
+        "number": 2
+      },
+      "clock": {
+        "value": 897.0,
+        "displayValue": "14:57"
+      },
+      "team": {
+        "id": "18",
+        "uid": "s:20~l:28~t:18",
+        "displayName": "New Orleans Saints",
+        "abbreviation": "NO",
+        "links": [
+          {
+            "href": "https://www.espn.com/nfl/team/_/name/no/new-orleans-saints",
+            "text": "Clubhouse"
+          },
+          {
+            "href": "https://www.espn.com/nfl/team/schedule/_/name/no",
+            "text": "Schedule"
+          }
+        ],
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/no.png",
+        "logos": [
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/no.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "default"
+            ],
+            "lastUpdated": "2024-06-25T18:54Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:54Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/no.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard"
+            ],
+            "lastUpdated": "2024-06-25T18:54Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/no.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:54Z"
+          }
+        ]
+      },
+      "scoringType": {
+        "name": "touchdown",
+        "displayName": "Touchdown",
+        "abbreviation": "TD"
+      }
+    },
+    {
+      "id": "4018729791555",
+      "type": {
+        "id": "68",
+        "text": "Rushing Touchdown",
+        "abbreviation": "TD"
+      },
+      "text": "Brian Robinson Jr. 4 Yd Rush (Nick Folk Kick)",
+      "awayScore": 21,
+      "homeScore": 7,
+      "period": {
+        "number": 2
+      },
+      "clock": {
+        "value": 539.0,
+        "displayValue": "8:59"
+      },
+      "team": {
+        "id": "1",
+        "uid": "s:20~l:28~t:1",
+        "displayName": "Atlanta Falcons",
+        "abbreviation": "ATL",
+        "links": [
+          {
+            "href": "https://www.espn.com/nfl/team/_/name/atl/atlanta-falcons",
+            "text": "Clubhouse"
+          },
+          {
+            "href": "https://www.espn.com/nfl/team/schedule/_/name/atl",
+            "text": "Schedule"
+          }
+        ],
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+        "logos": [
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "default"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          }
+        ]
+      },
+      "scoringType": {
+        "name": "touchdown",
+        "displayName": "Touchdown",
+        "abbreviation": "TD"
+      }
+    },
+    {
+      "id": "4018729791938",
+      "type": {
+        "id": "59",
+        "text": "Field Goal Good",
+        "abbreviation": "FG"
+      },
+      "text": "Nick Folk 29 Yd Field Goal",
+      "awayScore": 24,
+      "homeScore": 7,
+      "period": {
+        "number": 2
+      },
+      "clock": {
+        "value": 187.0,
+        "displayValue": "3:07"
+      },
+      "team": {
+        "id": "1",
+        "uid": "s:20~l:28~t:1",
+        "displayName": "Atlanta Falcons",
+        "abbreviation": "ATL",
+        "links": [
+          {
+            "href": "https://www.espn.com/nfl/team/_/name/atl/atlanta-falcons",
+            "text": "Clubhouse"
+          },
+          {
+            "href": "https://www.espn.com/nfl/team/schedule/_/name/atl",
+            "text": "Schedule"
+          }
+        ],
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+        "logos": [
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "default"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          },
+          {
+            "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/atl.png",
+            "width": 500,
+            "height": 500,
+            "alt": "",
+            "rel": [
+              "full",
+              "scoreboard",
+              "dark"
+            ],
+            "lastUpdated": "2024-06-25T18:44Z"
+          }
+        ]
+      },
+      "scoringType": {
+        "name": "field-goal",
+        "displayName": "Field Goal",
+        "abbreviation": "FG"
+      }
+    }
+  ],
+  "header": {
+    "id": "401872979",
+    "uid": "s:20~l:28~e:401872979",
+    "season": {
+      "year": 2026,
+      "current": true,
+      "type": 2
+    },
+    "timeValid": true,
+    "competitions": [
+      {
+        "id": "401872979",
+        "uid": "s:20~l:28~e:401872979~c:401872979",
+        "date": "2026-10-06T00:15Z",
+        "neutralSite": false,
+        "conferenceCompetition": false,
+        "boxscoreAvailable": true,
+        "commentaryAvailable": false,
+        "liveAvailable": true,
+        "onWatchESPN": true,
+        "recent": true,
+        "wallclockAvailable": true,
+        "boxscoreSource": "full",
+        "playByPlaySource": "full",
+        "competitors": [
+          {
+            "id": "18",
+            "uid": "s:20~l:28~t:18",
+            "order": 0,
+            "homeAway": "home",
+            "team": {
+              "id": "18",
+              "guid": "97d2f6c9-2f22-459c-306a-046941ccab2a",
+              "uid": "s:20~l:28~t:18",
+              "location": "New Orleans",
+              "name": "Saints",
+              "nickname": "Saints",
+              "abbreviation": "NO",
+              "displayName": "New Orleans Saints",
+              "color": "d3bc8d",
+              "alternateColor": "000000",
+              "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/no.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "default"
+                  ],
+                  "lastUpdated": "2024-06-25T18:54Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "dark"
+                  ],
+                  "lastUpdated": "2024-06-25T18:54Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/no.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "scoreboard"
+                  ],
+                  "lastUpdated": "2024-06-25T18:54Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/no.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "scoreboard",
+                    "dark"
+                  ],
+                  "lastUpdated": "2024-06-25T18:54Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/grayscale.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "grayscale"
+                  ],
+                  "lastUpdated": "2026-03-31T12:53Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/primary_logo_on_white_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_white_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/primary_logo_on_black_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_black_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/primary_logo_on_primary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_primary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/primary_logo_on_secondary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_secondary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/primary_logo_black.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_black"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/primary_logo_white.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_white"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/secondary_logo_on_white_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_white_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/secondary_logo_on_black_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_black_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/secondary_logo_on_primary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_primary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/secondary_logo_on_secondary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_secondary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/secondary_logo_black.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_black"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/97d2f6c9-2f22-459c-306a-046941ccab2a/logos/secondary_logo_white.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_white"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                }
+              ],
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/nfl/team/_/name/no/new-orleans-saints",
+                  "text": "Clubhouse"
+                }
+              ]
+            },
+            "score": "7",
+            "linescores": [
+              {
+                "displayValue": "0"
+              },
+              {
+                "displayValue": "7"
+              }
+            ],
+            "record": [
+              {
+                "type": "total",
+                "summary": "1-2",
+                "displayValue": "1-2"
+              },
+              {
+                "type": "home",
+                "summary": "0-1",
+                "displayValue": "0-1"
+              },
+              {
+                "type": "vsconf",
+                "summary": "0-1",
+                "displayValue": "0-1"
+              }
+            ],
+            "timeoutsUsed": 0,
+            "possession": false
+          },
+          {
+            "id": "1",
+            "uid": "s:20~l:28~t:1",
+            "order": 1,
+            "homeAway": "away",
+            "team": {
+              "id": "1",
+              "guid": "49fd392a-86fe-4df3-1b77-9bbfa18b2ad5",
+              "uid": "s:20~l:28~t:1",
+              "location": "Atlanta",
+              "name": "Falcons",
+              "nickname": "Falcons",
+              "abbreviation": "ATL",
+              "displayName": "Atlanta Falcons",
+              "color": "a71930",
+              "alternateColor": "000000",
+              "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "default"
+                  ],
+                  "lastUpdated": "2024-06-25T18:44Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "dark"
+                  ],
+                  "lastUpdated": "2024-06-25T18:44Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/atl.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "scoreboard"
+                  ],
+                  "lastUpdated": "2024-06-25T18:44Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/atl.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "scoreboard",
+                    "dark"
+                  ],
+                  "lastUpdated": "2024-06-25T18:44Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/grayscale.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "grayscale"
+                  ],
+                  "lastUpdated": "2026-03-31T12:54Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_white_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_white_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_black_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_black_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_primary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_primary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_on_secondary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_secondary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_black.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_black"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/primary_logo_white.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_white"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_white_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_white_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_black_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_black_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_primary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_primary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_on_secondary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_secondary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_black.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_black"
+                  ],
+                  "lastUpdated": "2026-02-13T03:12Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/49fd392a-86fe-4df3-1b77-9bbfa18b2ad5/logos/secondary_logo_white.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_white"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                }
+              ],
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/nfl/team/_/name/atl/atlanta-falcons",
+                  "text": "Clubhouse"
+                }
+              ]
+            },
+            "score": "24",
+            "linescores": [
+              {
+                "displayValue": "14"
+              },
+              {
+                "displayValue": "10"
+              }
+            ],
+            "record": [
+              {
+                "type": "total",
+                "summary": "1-2",
+                "displayValue": "1-2"
+              },
+              {
+                "type": "road",
+                "summary": "1-1",
+                "displayValue": "1-1"
+              },
+              {
+                "type": "vsconf",
+                "summary": "1-1",
+                "displayValue": "1-1"
+              }
+            ],
+            "timeoutsUsed": 1,
+            "possession": false
+          }
+        ],
+        "status": {
+          "displayClock": "3:07",
+          "period": 2,
+          "type": {
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
+            "state": "in",
+            "completed": false,
+            "description": "In Progress",
+            "detail": "3:07 - 2nd Quarter",
+            "shortDetail": "3:07 - 2nd",
+            "statusPrimary": "3:07",
+            "statusSecondary": "2nd"
+          },
+          "isTBDFlex": false,
+          "displayPeriod": "2nd"
+        },
+        "broadcasts": [
+          {
+            "type": {
+              "id": "1",
+              "shortName": "TV"
+            },
+            "market": {
+              "id": "1",
+              "type": "National"
+            },
+            "media": {
+              "shortName": "ESPN"
+            },
+            "lang": "en",
+            "region": "us",
+            "isNational": true
+          }
+        ],
+        "boxscoreMinutes": true
+      }
+    ],
+    "links": [
+      {
+        "rel": [
+          "live",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/game?gameId=401872979",
+        "text": "Gamecast",
+        "shortText": "Gamecast",
+        "isExternal": false,
+        "isPremium": false
+      },
+      {
+        "rel": [
+          "boxscore",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/boxscore/_/gameId/401872979",
+        "text": "Box Score",
+        "shortText": "Box Score",
+        "isExternal": false,
+        "isPremium": false
+      },
+      {
+        "rel": [
+          "pbp",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/playbyplay/_/gameId/401872979",
+        "text": "Play-by-Play",
+        "shortText": "Play-by-Play",
+        "isExternal": false,
+        "isPremium": false
+      },
+      {
+        "rel": [
+          "teamstats",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/matchup?gameId=401872979",
+        "text": "Team Stats",
+        "shortText": "Team Stats",
+        "isExternal": false,
+        "isPremium": false
+      },
+      {
+        "rel": [
+          "videos",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/video?gameId=401872979",
+        "text": "Videos",
+        "shortText": "Videos",
+        "isExternal": false,
+        "isPremium": false
+      }
+    ],
+    "week": 4,
+    "league": {
+      "id": "28",
+      "uid": "s:20~l:28",
+      "name": "National Football League",
+      "abbreviation": "NFL",
+      "shortName": "NFL",
+      "slug": "nfl",
+      "isTournament": false,
+      "links": [
+        {
+          "rel": [
+            "index",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/",
+          "text": "Index"
+        },
+        {
+          "rel": [
+            "index",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28",
+          "text": "Index"
+        },
+        {
+          "rel": [
+            "schedule",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/schedule",
+          "text": "Schedule"
+        },
+        {
+          "rel": [
+            "schedule",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=scores",
+          "text": "Schedule"
+        },
+        {
+          "rel": [
+            "standings",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/standings",
+          "text": "Standings"
+        },
+        {
+          "rel": [
+            "standings",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=standings",
+          "text": "Standings"
+        },
+        {
+          "rel": [
+            "rankings",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/powerrankings",
+          "text": "Power Rankings"
+        },
+        {
+          "rel": [
+            "scores",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/scoreboard",
+          "text": "Scores"
+        },
+        {
+          "rel": [
+            "scores",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=scores",
+          "text": "Scores"
+        },
+        {
+          "rel": [
+            "stats",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/stats",
+          "text": "Stats"
+        },
+        {
+          "rel": [
+            "stats",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=stats",
+          "text": "Stats"
+        },
+        {
+          "rel": [
+            "teams",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/teams",
+          "text": "Teams"
+        },
+        {
+          "rel": [
+            "athletes",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/players",
+          "text": "Players"
+        },
+        {
+          "rel": [
+            "injuries",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/injuries",
+          "text": "Injuries"
+        },
+        {
+          "rel": [
+            "odds",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/odds",
+          "text": "Odds"
+        },
+        {
+          "rel": [
+            "odds",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=odds",
+          "text": "Odds"
+        },
+        {
+          "rel": [
+            "playoff-bracket",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/playoff-bracket",
+          "text": "Bracket"
+        },
+        {
+          "rel": [
+            "playoff-bracket",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=bracket",
+          "text": "Bracket"
+        },
+        {
+          "rel": [
+            "freeagency",
+            "desktop",
+            "league"
+          ],
+          "href": "https://insider.espn.com/nfl/freeagency/",
+          "text": "Freeagency"
+        }
+      ],
+      "logos": [
+        {
+          "href": "https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png",
+          "rel": [
+            "full",
+            "default"
+          ]
+        },
+        {
+          "href": "https://a.espncdn.com/i/teamlogos/leagues/500-dark/nfl.png",
+          "rel": [
+            "full",
+            "dark"
+          ]
+        }
+      ]
+    }
+  }
+}

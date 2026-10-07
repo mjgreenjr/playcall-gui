@@ -1,0 +1,94 @@
+{
+  "header": {
+    "id": "401628456",
+    "competitions": [
+      {
+        "id": "401628456",
+        "status": {
+          "displayClock": "5:14",
+          "period": 4,
+          "type": {
+            "id": "2",
+            "name": "STATUS_IN_PROGRESS",
+            "state": "in",
+            "completed": false,
+            "description": "In Progress",
+            "detail": "5:14 - 4th Quarter",
+            "shortDetail": "5:14 - 4th"
+          },
+          "displayPeriod": "4th"
+        },
+        "competitors": [
+          {
+            "id": "194",
+            "homeAway": "home",
+            "team": {
+              "id": "194",
+              "location": "Ohio State",
+              "name": "Buckeyes",
+              "abbreviation": "OSU",
+              "displayName": "Ohio State Buckeyes"
+            },
+            "score": "31"
+          },
+          {
+            "id": "130",
+            "homeAway": "away",
+            "team": {
+              "id": "130",
+              "location": "Michigan",
+              "name": "Wolverines",
+              "abbreviation": "MICH",
+              "displayName": "Michigan Wolverines"
+            },
+            "score": "24"
+          }
+        ]
+      }
+    ]
+  },
+  "drives": {
+    "previous": [],
+    "current": {
+      "plays": [
+        {
+          "id": "401628456781",
+          "sequenceNumber": "781",
+          "type": {
+            "id": "24",
+            "text": "Pass Reception"
+          },
+          "text": "J.McCord pass short right to E.Egbuka for 14 yards (W.Mohrman).",
+          "scoringPlay": false,
+          "isTurnover": false,
+          "start": {
+            "down": 1,
+            "distance": 10,
+            "shortDownDistanceText": "1st & 10"
+          },
+          "end": {
+            "down": 1,
+            "distance": 10,
+            "shortDownDistanceText": "1st & 10"
+          }
+        },
+        {
+          "id": "401628456782",
+          "sequenceNumber": "782",
+          "type": {
+            "id": "26",
+            "text": "Rushing Touchdown"
+          },
+          "text": "T.Henderson run for 6 yards, TOUCHDOWN.",
+          "scoringPlay": true,
+          "isTurnover": false,
+          "start": {
+            "down": 1,
+            "distance": 6,
+            "shortDownDistanceText": "1st & 6"
+          }
+        }
+      ]
+    }
+  }
+}

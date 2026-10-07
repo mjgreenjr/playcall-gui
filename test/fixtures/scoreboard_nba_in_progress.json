@@ -1,0 +1,75 @@
+{
+  "events": [
+    {
+      "id": "401585183",
+      "uid": "s:40~l:46~e:401585183",
+      "date": "2026-10-06T02:00Z",
+      "name": "Boston Celtics at Los Angeles Lakers",
+      "shortName": "BOS @ LAL",
+      "season": {
+        "year": 2026,
+        "type": 2,
+        "slug": "regular-season"
+      },
+      "competitions": [
+        {
+          "id": "401585183",
+          "competitors": [
+            {
+              "id": "13",
+              "homeAway": "home",
+              "team": {
+                "id": "13",
+                "location": "Los Angeles",
+                "name": "Lakers",
+                "abbreviation": "LAL",
+                "displayName": "Los Angeles Lakers"
+              },
+              "score": "78"
+            },
+            {
+              "id": "2",
+              "homeAway": "away",
+              "team": {
+                "id": "2",
+                "location": "Boston",
+                "name": "Celtics",
+                "abbreviation": "BOS",
+                "displayName": "Boston Celtics"
+              },
+              "score": "81"
+            }
+          ],
+          "status": {
+            "clock": 207.0,
+            "displayClock": "3:27",
+            "period": 3,
+            "type": {
+              "id": "2",
+              "name": "STATUS_IN_PROGRESS",
+              "state": "in",
+              "completed": false,
+              "description": "In Progress",
+              "detail": "3:27 - 3rd Quarter",
+              "shortDetail": "3:27 - 3rd"
+            }
+          }
+        }
+      ],
+      "status": {
+        "clock": 207.0,
+        "displayClock": "3:27",
+        "period": 3,
+        "type": {
+          "id": "2",
+          "name": "STATUS_IN_PROGRESS",
+          "state": "in",
+          "completed": false,
+          "description": "In Progress",
+          "detail": "3:27 - 3rd Quarter",
+          "shortDetail": "3:27 - 3rd"
+        }
+      }
+    }
+  ]
+}

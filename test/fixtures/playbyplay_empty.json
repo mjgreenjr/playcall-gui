@@ -1,0 +1,961 @@
+{
+  "format": {
+    "regulation": {
+      "periods": 4,
+      "displayName": "Quarter",
+      "slug": "quarter",
+      "clock": 900.0
+    },
+    "overtime": {
+      "periods": 1,
+      "displayName": "sudden-death",
+      "slug": "sudden-death",
+      "clock": 600.0
+    },
+    "suddenDeath": {
+      "periods": 1,
+      "clock": 600.0
+    }
+  },
+  "gameInfo": {
+    "venue": {
+      "id": "3679",
+      "guid": "0febca4c-a926-3713-9088-240cc5db6e37",
+      "fullName": "Huntington Bank Field",
+      "address": {
+        "city": "Cleveland",
+        "state": "OH",
+        "zipCode": "44114",
+        "country": "USA"
+      },
+      "grass": true,
+      "images": [
+        {
+          "href": "https://a.espncdn.com/i/venues/nfl/day/3679.jpg",
+          "width": 2000,
+          "height": 1125,
+          "alt": "",
+          "rel": [
+            "full",
+            "day"
+          ]
+        },
+        {
+          "href": "https://a.espncdn.com/i/venues/nfl/day/interior/3679.jpg",
+          "width": 2000,
+          "height": 1125,
+          "alt": "",
+          "rel": [
+            "full",
+            "day",
+            "interior"
+          ]
+        }
+      ]
+    },
+    "attendance": 68156,
+    "officials": [
+      {
+        "fullName": "Clete Blakeman",
+        "displayName": "Clete Blakeman",
+        "position": {
+          "name": "Referee",
+          "displayName": "Referee",
+          "id": "114"
+        },
+        "order": 3
+      },
+      {
+        "fullName": "James Coleman",
+        "displayName": "James Coleman",
+        "position": {
+          "name": "Side Judge",
+          "displayName": "Side Judge",
+          "id": "115"
+        },
+        "order": 2
+      },
+      {
+        "fullName": "Kent Payne",
+        "displayName": "Kent Payne",
+        "position": {
+          "name": "Line Judge",
+          "displayName": "Line Judge",
+          "id": "113"
+        },
+        "order": 1
+      },
+      {
+        "fullName": "Jonah Monroe",
+        "displayName": "Jonah Monroe",
+        "position": {
+          "name": "Back Judge",
+          "displayName": "Back Judge",
+          "id": "110"
+        },
+        "order": 4
+      },
+      {
+        "fullName": "Karina Tovar",
+        "displayName": "Karina Tovar",
+        "position": {
+          "name": "Field Judge",
+          "displayName": "Field Judge",
+          "id": "111"
+        },
+        "order": 5
+      },
+      {
+        "fullName": "Scott Walker",
+        "displayName": "Scott Walker",
+        "position": {
+          "name": "Umpire",
+          "displayName": "Umpire",
+          "id": "116"
+        },
+        "order": 6
+      },
+      {
+        "fullName": "Andy Warner",
+        "displayName": "Andy Warner",
+        "position": {
+          "name": "Down Judge",
+          "displayName": "Down Judge",
+          "id": "112"
+        },
+        "order": 7
+      }
+    ]
+  },
+  "drives": {
+    "previous": []
+  },
+  "scoringPlays": [],
+  "header": {
+    "id": "401872964",
+    "uid": "s:20~l:28~e:401872964",
+    "season": {
+      "year": 2026,
+      "current": true,
+      "type": 2
+    },
+    "timeValid": true,
+    "competitions": [
+      {
+        "id": "401872964",
+        "uid": "s:20~l:28~e:401872964~c:401872964",
+        "date": "2026-10-02T00:15Z",
+        "neutralSite": false,
+        "conferenceCompetition": false,
+        "boxscoreAvailable": true,
+        "commentaryAvailable": false,
+        "liveAvailable": false,
+        "onWatchESPN": false,
+        "recent": false,
+        "wallclockAvailable": true,
+        "boxscoreSource": "full",
+        "playByPlaySource": "full",
+        "competitors": [
+          {
+            "id": "5",
+            "uid": "s:20~l:28~t:5",
+            "order": 0,
+            "homeAway": "home",
+            "winner": true,
+            "team": {
+              "id": "5",
+              "guid": "539babc5-e5fb-753b-8ae1-c15032a91ef4",
+              "uid": "s:20~l:28~t:5",
+              "location": "Cleveland",
+              "name": "Browns",
+              "nickname": "Browns",
+              "abbreviation": "CLE",
+              "displayName": "Cleveland Browns",
+              "color": "472a08",
+              "alternateColor": "ff3c00",
+              "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "default"
+                  ],
+                  "lastUpdated": "2024-06-25T18:47Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "dark"
+                  ],
+                  "lastUpdated": "2024-06-25T18:47Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/cle.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "scoreboard"
+                  ],
+                  "lastUpdated": "2024-06-25T18:47Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/cle.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "scoreboard",
+                    "dark"
+                  ],
+                  "lastUpdated": "2024-06-25T18:47Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/grayscale.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "grayscale"
+                  ],
+                  "lastUpdated": "2026-03-30T20:28Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/primary_logo_on_white_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_white_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/primary_logo_on_black_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_black_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/primary_logo_on_primary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_primary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/primary_logo_on_secondary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_secondary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/primary_logo_black.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_black"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/primary_logo_white.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_white"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/secondary_logo_on_white_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_white_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/secondary_logo_on_black_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_black_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/secondary_logo_on_primary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_primary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/secondary_logo_on_secondary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_secondary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/secondary_logo_black.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_black"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/539babc5-e5fb-753b-8ae1-c15032a91ef4/logos/secondary_logo_white.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_white"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                }
+              ],
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/nfl/team/_/name/cle/cleveland-browns",
+                  "text": "Clubhouse"
+                }
+              ]
+            },
+            "score": "0",
+            "linescores": [
+              {
+                "displayValue": "0"
+              },
+              {
+                "displayValue": "21"
+              },
+              {
+                "displayValue": "0"
+              },
+              {
+                "displayValue": "6"
+              }
+            ],
+            "record": [
+              {
+                "type": "total",
+                "summary": "3-1",
+                "displayValue": "3-1"
+              },
+              {
+                "type": "home",
+                "summary": "2-0",
+                "displayValue": "2-0"
+              }
+            ],
+            "possession": false
+          },
+          {
+            "id": "23",
+            "uid": "s:20~l:28~t:23",
+            "order": 1,
+            "homeAway": "away",
+            "winner": false,
+            "team": {
+              "id": "23",
+              "guid": "debcd592-8d53-71f1-fc15-5c8b8ef9df6e",
+              "uid": "s:20~l:28~t:23",
+              "location": "Pittsburgh",
+              "name": "Steelers",
+              "nickname": "Steelers",
+              "abbreviation": "PIT",
+              "displayName": "Pittsburgh Steelers",
+              "color": "000000",
+              "alternateColor": "ffb612",
+              "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/pit.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "default"
+                  ],
+                  "lastUpdated": "2024-06-25T18:56Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "dark"
+                  ],
+                  "lastUpdated": "2024-06-25T18:56Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/pit.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "scoreboard"
+                  ],
+                  "lastUpdated": "2024-06-25T18:56Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/scoreboard/pit.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "scoreboard",
+                    "dark"
+                  ],
+                  "lastUpdated": "2024-06-25T18:56Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/grayscale.png",
+                  "width": 500,
+                  "height": 500,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "grayscale"
+                  ],
+                  "lastUpdated": "2026-03-31T12:53Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/primary_logo_on_white_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_white_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/primary_logo_on_black_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_black_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/primary_logo_on_primary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_primary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/primary_logo_on_secondary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_on_secondary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/primary_logo_black.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_black"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/primary_logo_white.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "primary_logo_white"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/secondary_logo_on_white_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_white_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/secondary_logo_on_black_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_black_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/secondary_logo_on_primary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_primary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/secondary_logo_on_secondary_color.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_on_secondary_color"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/secondary_logo_black.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_black"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                },
+                {
+                  "href": "https://a.espncdn.com/guid/debcd592-8d53-71f1-fc15-5c8b8ef9df6e/logos/secondary_logo_white.png",
+                  "width": 4096,
+                  "height": 4096,
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "secondary_logo_white"
+                  ],
+                  "lastUpdated": "2026-07-22T20:30Z"
+                }
+              ],
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/nfl/team/_/name/pit/pittsburgh-steelers",
+                  "text": "Clubhouse"
+                }
+              ]
+            },
+            "score": "0",
+            "linescores": [
+              {
+                "displayValue": "7"
+              },
+              {
+                "displayValue": "3"
+              },
+              {
+                "displayValue": "0"
+              },
+              {
+                "displayValue": "14"
+              }
+            ],
+            "record": [
+              {
+                "type": "total",
+                "summary": "2-2",
+                "displayValue": "2-2"
+              },
+              {
+                "type": "road",
+                "summary": "0-2",
+                "displayValue": "0-2"
+              }
+            ],
+            "possession": false
+          }
+        ],
+        "status": {
+          "clock": 0.0,
+          "displayClock": "15:00",
+          "period": 0,
+          "type": {
+            "id": "1",
+            "name": "STATUS_SCHEDULED",
+            "state": "pre",
+            "completed": false,
+            "description": "Scheduled",
+            "detail": "Sun, October 5th at 1:00 PM EDT",
+            "shortDetail": "10/5 - 1:00 PM EDT"
+          }
+        },
+        "broadcasts": [
+          {
+            "type": {
+              "id": "4",
+              "shortName": "Streaming"
+            },
+            "market": {
+              "id": "1",
+              "type": "National"
+            },
+            "media": {
+              "shortName": "Prime Video"
+            },
+            "lang": "en",
+            "region": "us",
+            "isNational": true
+          }
+        ],
+        "boxscoreMinutes": true
+      }
+    ],
+    "links": [
+      {
+        "rel": [
+          "summary",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/game/_/gameId/401872964/steelers-browns",
+        "text": "Gamecast",
+        "shortText": "Summary",
+        "isExternal": false,
+        "isPremium": false
+      },
+      {
+        "rel": [
+          "recap",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/recap?gameId=401872964",
+        "text": "Recap",
+        "shortText": "Recap",
+        "isExternal": false,
+        "isPremium": false
+      },
+      {
+        "rel": [
+          "boxscore",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/boxscore/_/gameId/401872964",
+        "text": "Box Score",
+        "shortText": "Box Score",
+        "isExternal": false,
+        "isPremium": false
+      },
+      {
+        "rel": [
+          "pbp",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/playbyplay/_/gameId/401872964",
+        "text": "Play-by-Play",
+        "shortText": "Play-by-Play",
+        "isExternal": false,
+        "isPremium": false
+      },
+      {
+        "rel": [
+          "teamstats",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/nfl/matchup?gameId=401872964",
+        "text": "Team Stats",
+        "shortText": "Team Stats",
+        "isExternal": false,
+        "isPremium": false
+      }
+    ],
+    "week": 4,
+    "league": {
+      "id": "28",
+      "uid": "s:20~l:28",
+      "name": "National Football League",
+      "abbreviation": "NFL",
+      "shortName": "NFL",
+      "slug": "nfl",
+      "isTournament": false,
+      "links": [
+        {
+          "rel": [
+            "index",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/",
+          "text": "Index"
+        },
+        {
+          "rel": [
+            "index",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28",
+          "text": "Index"
+        },
+        {
+          "rel": [
+            "schedule",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/schedule",
+          "text": "Schedule"
+        },
+        {
+          "rel": [
+            "schedule",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=scores",
+          "text": "Schedule"
+        },
+        {
+          "rel": [
+            "standings",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/standings",
+          "text": "Standings"
+        },
+        {
+          "rel": [
+            "standings",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=standings",
+          "text": "Standings"
+        },
+        {
+          "rel": [
+            "rankings",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/powerrankings",
+          "text": "Power Rankings"
+        },
+        {
+          "rel": [
+            "scores",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/scoreboard",
+          "text": "Scores"
+        },
+        {
+          "rel": [
+            "scores",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=scores",
+          "text": "Scores"
+        },
+        {
+          "rel": [
+            "stats",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/stats",
+          "text": "Stats"
+        },
+        {
+          "rel": [
+            "stats",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=stats",
+          "text": "Stats"
+        },
+        {
+          "rel": [
+            "teams",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/teams",
+          "text": "Teams"
+        },
+        {
+          "rel": [
+            "athletes",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/players",
+          "text": "Players"
+        },
+        {
+          "rel": [
+            "injuries",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/injuries",
+          "text": "Injuries"
+        },
+        {
+          "rel": [
+            "odds",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/odds",
+          "text": "Odds"
+        },
+        {
+          "rel": [
+            "odds",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=odds",
+          "text": "Odds"
+        },
+        {
+          "rel": [
+            "playoff-bracket",
+            "desktop",
+            "league"
+          ],
+          "href": "https://www.espn.com/nfl/playoff-bracket",
+          "text": "Bracket"
+        },
+        {
+          "rel": [
+            "playoff-bracket",
+            "sportscenter",
+            "app",
+            "league"
+          ],
+          "href": "sportscenter://x-callback-url/showClubhouse?uid=s:20~l:28&section=bracket",
+          "text": "Bracket"
+        },
+        {
+          "rel": [
+            "freeagency",
+            "desktop",
+            "league"
+          ],
+          "href": "https://insider.espn.com/nfl/freeagency/",
+          "text": "Freeagency"
+        }
+      ],
+      "logos": [
+        {
+          "href": "https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png",
+          "rel": [
+            "full",
+            "default"
+          ]
+        },
+        {
+          "href": "https://a.espncdn.com/i/teamlogos/leagues/500-dark/nfl.png",
+          "rel": [
+            "full",
+            "dark"
+          ]
+        }
+      ]
+    }
+  },
+  "wallclockAvailable": true
+}
