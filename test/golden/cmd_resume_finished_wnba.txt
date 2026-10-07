@@ -1,0 +1,25 @@
+$ playcall resume --sport wnba --mock test/fixtures/playbyplay_wnba_multi_plays.json --dry-run
+args: ["resume", "--sport", "wnba", "--mock", "test/fixtures/playbyplay_wnba_multi_plays.json", "--dry-run"]
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+state: {"game_id": "999", "last_play_id": null, "sport": "wnba", "started_at": 1790000000.0}
+-- requests --
+mock test/fixtures/playbyplay_wnba_multi_plays.json
+-- stdout --
+[DRY-RUN] 1 new play(s) for game 999
+  401918296501: End of Game
+[DRY-RUN] LV 60 · 0.0 4th · GS 71
+End of Game
+Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
+[DRY-RUN] LV 60 · Final · GS 71
+Game over
+Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
+-- stderr --
+(empty)
+-- log (INFO and above) --
+INFO Service started: resuming game 999
+INFO State saved: game 999, last play 401918296501
+INFO Game 999 has finished. Stopping polling.
+INFO State cleared
+-- state after (parsed, sorted) --
+(none)
+-- exit 0 --

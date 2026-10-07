@@ -176,7 +176,7 @@ def default_config(favorites=None):
     }
 
 
-def run(argv, responses, config=None):
+def run(argv, responses, config=None, state=None):
     table.clear()
     table.update(responses)
     requests.clear()
@@ -184,6 +184,14 @@ def run(argv, responses, config=None):
     os.makedirs(pc.CONFIG_DIR, exist_ok=True)
     with open(pc.CONFIG_FILE, "w", encoding="utf-8") as f:
         json.dump(config or default_config(), f, indent=2)
+    # State file: removed, or written when the scenario gives one
+    pc._saved_state = None
+    if os.path.exists(pc.STATE_FILE):
+        os.remove(pc.STATE_FILE)
+    if state is not None:
+        os.makedirs(pc.CACHE_DIR, exist_ok=True)
+        with open(pc.STATE_FILE, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=2, sort_keys=True)
     out, err = io.StringIO(), io.StringIO()
     code, message = 0, None
     old_argv = sys.argv
@@ -204,10 +212,12 @@ def run(argv, responses, config=None):
     return out.getvalue(), err.getvalue(), code
 
 
-def transcript(name, argv, responses, config=None, show_config=False):
-    out, err, code = run(argv, responses, config)
+def transcript(name, argv, responses, config=None, show_config=False, state=None, show_state=False):
+    out, err, code = run(argv, responses, config, state)
     lines = [f"$ playcall {' '.join(argv)}", "args: " + json.dumps(argv)]
     lines.append("config: " + json.dumps(config or default_config(), sort_keys=True))
+    if show_state:
+        lines.append("state: " + (json.dumps(state, sort_keys=True) if state is not None else "(none)"))
     lines.append("-- requests --")
     lines += requests or ["(none)"]
     lines.append("-- stdout --")
@@ -220,6 +230,13 @@ def transcript(name, argv, responses, config=None, show_config=False):
         with open(pc.CONFIG_FILE, encoding="utf-8") as f:
             lines.append("-- config after (parsed, sorted) --")
             lines.append(json.dumps(json.load(f), sort_keys=True))
+    if show_state:
+        lines.append("-- state after (parsed, sorted) --")
+        if os.path.exists(pc.STATE_FILE):
+            with open(pc.STATE_FILE, encoding="utf-8") as f:
+                lines.append(json.dumps(json.load(f), sort_keys=True))
+        else:
+            lines.append("(none)")
     lines.append(f"-- exit {code} --")
     return name, "\n".join(lines) + "\n"
 
@@ -386,6 +403,39 @@ def scenarios():
         {"favorite_teams": {"nfl": ["BUF"]}, "interval": 10},
         show_config=True,
     )
+
+    # ---- resume (state in, mock feed, dry-run; the first poll ends each game) ----
+    started = {"game_id": "999", "sport": "nfl", "last_play_id": None, "started_at": 1790000000.0}
+    final_feed = "test/fixtures/playbyplay_final.json"
+    yield transcript(
+        "resume_finished_nfl",
+        ["resume", "--mock", final_feed, "--dry-run"],
+        {},
+        state=started,
+        show_state=True,
+    )
+    yield transcript(
+        "resume_finished_wnba",
+        ["resume", "--sport", "wnba", "--mock", "test/fixtures/playbyplay_wnba_multi_plays.json", "--dry-run"],
+        {},
+        state=dict(started, sport="wnba"),
+        show_state=True,
+    )
+    yield transcript(
+        "resume_after_gap",
+        ["resume", "--mock", final_feed, "--dry-run"],
+        {},
+        state=dict(started, last_play_id="401872964223", scoring_texts={}),
+        show_state=True,
+    )
+    yield transcript(
+        "resume_once_keeps_state",
+        ["resume", "--mock", "test/fixtures/playbyplay_multi_plays.json", "--dry-run", "--once"],
+        {},
+        state=started,
+        show_state=True,
+    )
+    yield transcript("resume_no_state", ["resume", "--dry-run"], {}, show_state=True)
 
 
 def main():

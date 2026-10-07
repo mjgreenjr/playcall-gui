@@ -1,0 +1,19 @@
+$ playcall resume --mock test/fixtures/playbyplay_multi_plays.json --dry-run --once
+args: ["resume", "--mock", "test/fixtures/playbyplay_multi_plays.json", "--dry-run", "--once"]
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+state: {"game_id": "999", "last_play_id": null, "sport": "nfl", "started_at": 1790000000.0}
+-- requests --
+mock test/fixtures/playbyplay_multi_plays.json
+-- stdout --
+[DRY-RUN] 1 new play(s) for game 999
+  4018729791798: Br.Robinson up the middle to NO 25 for 5 yards (D.Stutsman).
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+2nd & 2 · Br.Robinson up the middle to NO 25 for 5 yards (D.Stutsman). · 1st & 10
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-- stderr --
+(empty)
+-- log (INFO and above) --
+(none)
+-- state after (parsed, sorted) --
+{"game_id": "999", "last_play_id": null, "sport": "nfl", "started_at": 1790000000.0}
+-- exit 0 --

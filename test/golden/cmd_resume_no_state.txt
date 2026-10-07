@@ -1,0 +1,15 @@
+$ playcall resume --dry-run
+args: ["resume", "--dry-run"]
+config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
+state: (none)
+-- requests --
+(none)
+-- stdout --
+(empty)
+-- stderr --
+(empty)
+-- log (INFO and above) --
+WARNING No state to resume; nothing to do
+-- state after (parsed, sorted) --
+(none)
+-- exit 0 --
