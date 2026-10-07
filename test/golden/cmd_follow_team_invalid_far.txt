@@ -1,4 +1,5 @@
 $ playcall follow ZZZZ --dry-run --once --mock test/fixtures/playbyplay_multi_plays.json
+args: ["follow", "ZZZZ", "--dry-run", "--once", "--mock", "test/fixtures/playbyplay_multi_plays.json"]
 config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
 -- requests --
 GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> scoreboard_nfl_week.json

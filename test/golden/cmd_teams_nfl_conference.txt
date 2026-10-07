@@ -1,4 +1,5 @@
 $ playcall teams --group AFC
+args: ["teams", "--group", "AFC"]
 config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
 -- requests --
 GET https://site.api.espn.com/apis/v2/sports/football/nfl/standings?group=8 -> standings_nfl_afc.json

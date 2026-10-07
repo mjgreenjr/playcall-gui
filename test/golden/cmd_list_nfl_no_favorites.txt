@@ -1,4 +1,5 @@
 $ playcall list
+args: ["list"]
 config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
 -- requests --
 GET https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard -> scoreboard_nfl_week.json

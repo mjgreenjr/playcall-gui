@@ -1,4 +1,5 @@
 $ playcall teams --sport cfb
+args: ["teams", "--sport", "cfb"]
 config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
 -- requests --
 GET https://site.api.espn.com/apis/v2/sports/football/college-football/standings?group=80 -> standings_cfb_all.json

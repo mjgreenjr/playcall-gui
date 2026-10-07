@@ -1,4 +1,5 @@
 $ playcall list --sport cfb
+args: ["list", "--sport", "cfb"]
 config: {"favorite_teams": {"cbb": [], "cfb": ["KENN", "USF"], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
 -- requests --
 GET https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80 -> scoreboard_cfb_fbs.json

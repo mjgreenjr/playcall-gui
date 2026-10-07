@@ -1,4 +1,5 @@
 $ playcall list --sport nba
+args: ["list", "--sport", "nba"]
 config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
 -- requests --
 GET https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard -> scoreboard_nba_day.json

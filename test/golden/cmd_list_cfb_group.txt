@@ -1,4 +1,5 @@
 $ playcall list --sport cfb --group Big Ten
+args: ["list", "--sport", "cfb", "--group", "Big Ten"]
 config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
 -- requests --
 GET https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=5 -> scoreboard_cfb_fbs.json

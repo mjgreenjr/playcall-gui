@@ -1,4 +1,5 @@
 $ playcall list --sport mlb --group NL West
+args: ["list", "--sport", "mlb", "--group", "NL West"]
 config: {"favorite_teams": {"cbb": [], "cfb": [], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
 -- requests --
 GET https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?groups=6 -> scoreboard_empty.json

@@ -1,4 +1,5 @@
 $ playcall addfavorite ta&m --sport cfb
+args: ["addfavorite", "ta&m", "--sport", "cfb"]
 config: {"favorite_teams": {"cbb": [], "cfb": ["MICH"], "mlb": [], "nba": [], "nfl": [], "nhl": [], "wnba": []}, "interval": 10}
 -- requests --
 (none)

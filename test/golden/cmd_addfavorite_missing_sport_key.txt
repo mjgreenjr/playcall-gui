@@ -1,4 +1,5 @@
 $ playcall addfavorite lal --sport nba
+args: ["addfavorite", "lal", "--sport", "nba"]
 config: {"favorite_teams": {"nfl": ["BUF"]}, "interval": 10}
 -- requests --
 (none)

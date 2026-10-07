@@ -206,7 +206,7 @@ def run(argv, responses, config=None):
 
 def transcript(name, argv, responses, config=None, show_config=False):
     out, err, code = run(argv, responses, config)
-    lines = [f"$ playcall {' '.join(argv)}"]
+    lines = [f"$ playcall {' '.join(argv)}", "args: " + json.dumps(argv)]
     lines.append("config: " + json.dumps(config or default_config(), sort_keys=True))
     lines.append("-- requests --")
     lines += requests or ["(none)"]
