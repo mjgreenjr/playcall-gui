@@ -3,3 +3,4 @@
 .claude/.verified_hash
 __pycache__/
 *.pyc
+slice*.md
