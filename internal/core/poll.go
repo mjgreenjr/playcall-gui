@@ -116,13 +116,22 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 	}
 	out.Status = InProgress
 
-	if p.Rules.TrackSent() {
-		// The sent-id path (NHL, NBA, WNBA, cbb) arrives with their rules.
-		return out, fmt.Errorf("sport %s: sent-id tracking: %w", p.Sport, ErrNotImplemented)
-	}
-	unseen, err := unseenPlays(plays, st.LastPlayID)
-	if err != nil {
-		return out, err
+	track := p.Rules.TrackSent()
+	var unseen []espn.Data
+	var sent map[string]bool
+	if track {
+		// Sent-id sports: new means "id not in sent_ids", in list order.
+		sent = make(map[string]bool, len(st.SentIDs))
+		for _, id := range st.SentIDs {
+			sent[id] = true
+		}
+		feed.SentIDs = sent
+		unseen = unsentPlays(plays, sent)
+	} else {
+		var err error
+		if unseen, err = unseenPlays(plays, st.LastPlayID); err != nil {
+			return out, err
+		}
 	}
 	rules := p.Rules.Prepare(feed)
 	unseen = filterPlays(unseen, rules.Announced)
@@ -138,6 +147,9 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		id, _ := espn.PlayID(skipped[len(skipped)-1])
 		last := PlayID(id)
 		st.LastPlayID = &last
+		if track {
+			markSent(st, sent, rules, skipped)
+		}
 	}
 
 	if st.ScoringTexts == nil {
@@ -219,6 +231,9 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 			id, _ := espn.PlayID(s.play)
 			last := PlayID(id)
 			st.LastPlayID = &last
+			if track {
+				markSent(st, sent, rules, []espn.Data{s.play})
+			}
 		}
 		if err := p.save(); err != nil {
 			return out, err
@@ -316,6 +331,28 @@ func unseenPlays(plays []espn.Data, last *PlayID) ([]espn.Data, error) {
 		out[i] = it.play
 	}
 	return out, nil
+}
+
+// unsentPlays returns the plays whose id is not in sent, in list order (never
+// compared to last_play_id: NHL and basketball ids are not chronological).
+func unsentPlays(plays []espn.Data, sent map[string]bool) []espn.Data {
+	return filterPlays(plays, func(p espn.Data) bool { return !sent[espn.PlayKey(p)] })
+}
+
+// markSent adds the ids of plays (each play's own, plus any bundled with it) to
+// sent and writes them to the state as a sorted list of strings.
+func markSent(st *State, sent map[string]bool, rules PlayRules, plays []espn.Data) {
+	for _, pl := range plays {
+		for _, id := range rules.IDs(pl) {
+			sent[id] = true
+		}
+	}
+	ids := make([]string, 0, len(sent))
+	for id := range sent {
+		ids = append(ids, id)
+	}
+	sort.Strings(ids)
+	st.SentIDs = ids
 }
 
 // splitCatchup keeps the newest limit plays to announce and returns the older

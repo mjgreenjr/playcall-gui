@@ -68,6 +68,10 @@ func RulesFor(sport string) (Rules, error) {
 	switch sport {
 	case "nfl", "cfb":
 		return footballRules{}, nil
+	case "nba", "wnba":
+		return basketballRules{regulation: 4}, nil
+	case "cbb":
+		return basketballRules{regulation: 2}, nil
 	}
 	return nil, fmt.Errorf("sport %s: %w", sport, ErrNotImplemented)
 }
