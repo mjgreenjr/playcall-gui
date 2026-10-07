@@ -192,9 +192,6 @@ func follow(opts options, target string, stdout, stderr io.Writer) int {
 	}
 	state := &core.State{GameID: target, Sport: opts.sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, core.StdoutSink{W: stdout}, fetch)
-	if errors.Is(err, core.ErrNotImplemented) {
-		return notImplemented(stderr, "follow --sport "+opts.sport)
-	}
 	if err != nil {
 		fmt.Fprintf(stderr, "playcall: %v\n", err)
 		return exitError

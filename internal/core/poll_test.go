@@ -397,16 +397,10 @@ func TestFormatTitle(t *testing.T) {
 }
 
 func TestUnimplementedSport(t *testing.T) {
-	for _, s := range []string{"mlb"} {
-		_, err := NewPoller(&State{GameID: "1", Sport: s}, &fakeSink{}, nil)
-		if !errors.Is(err, ErrNotImplemented) {
-			t.Errorf("%s: err = %v", s, err)
-		}
-	}
 	if _, err := RulesFor("curling"); err == nil || errors.Is(err, ErrNotImplemented) {
 		t.Errorf("invalid sport: %v", err)
 	}
-	for _, s := range []string{"nfl", "cfb", "nba", "wnba", "cbb", "nhl"} {
+	for _, s := range []string{"nfl", "cfb", "nba", "wnba", "cbb", "nhl", "mlb"} {
 		if _, err := RulesFor(s); err != nil {
 			t.Errorf("%s: %v", s, err)
 		}
