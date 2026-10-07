@@ -151,7 +151,7 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
 - `--test-notify` sends one sample toast (title "Test", body "playcall is working") and exits.
 
 ## Commands
-`./playcall` (built with `go build -o playcall .`). Flags (`--dry-run`, `--once`, `--interval`, `--mock`, `--sport`) work before or after the subcommand. Go's `flag` stops at the first positional argument, so use a `FlagSet` per subcommand and handle positionals yourself.
+`./playcall` (built with `go build -o playcall ./cmd/playcall`). Flags (`--dry-run`, `--once`, `--interval`, `--mock`, `--sport`) work before or after the subcommand. Go's `flag` stops at the first positional argument, so use a `FlagSet` per subcommand and handle positionals yourself.
 
 - `list [--all] [--sport S] [--group G]`: today's games. Output starts with a header line, `{SPORT}` (e.g. `MLB`) or `{SPORT} - {group name}` with `--group`. Then one line per game:
   ```
@@ -208,7 +208,7 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
 After any change, run:
 1. `gofmt -l .` (must print nothing) and `go vet ./...`
 2. `go test ./...` (includes the golden comparisons)
-3. `go build -o playcall .`
+3. `go build -o playcall ./cmd/playcall`
 4. The fixture runs, each with `--dry-run --once` (these are covered by the golden tests, run them by hand when debugging):
    - `./playcall follow 999 --mock test/fixtures/playbyplay_multi_plays.json`
    - `./playcall follow 999 --mock test/fixtures/playbyplay_final.json`
