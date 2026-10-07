@@ -71,6 +71,9 @@ type harness struct {
 	runner         *fakeRunner
 	stdout, stderr bytes.Buffer
 	logs           []string
+	override       source                                           // replaces src when set
+	sleep          func(ctx context.Context, d time.Duration) error // nil: return at once
+	sleeps         []time.Duration
 }
 
 func newHarness(t *testing.T) *harness {
@@ -81,15 +84,33 @@ func newHarness(t *testing.T) *harness {
 
 func (h *harness) run(t *testing.T, args ...string) int {
 	t.Helper()
+	return h.runCtx(t, context.Background(), args...)
+}
+
+// runCtx is run with a context the test can cancel. Sleeping never waits:
+// each sleep is recorded and then calls h.sleep, if set.
+func (h *harness) runCtx(t *testing.T, ctx context.Context, args ...string) int {
+	t.Helper()
 	old := slog.Default()
 	t.Cleanup(func() { slog.SetDefault(old) })
-	return run(context.Background(), deps{
-		Source: h.src,
+	var src source = h.src
+	if h.override != nil {
+		src = h.override
+	}
+	return run(ctx, deps{
+		Source: src,
 		Now:    fixedNow,
 		Paths:  func() (core.Paths, error) { return core.PathsFromHome(h.home), nil },
 		Runner: h.runner,
 		Stdout: &h.stdout,
 		Stderr: &h.stderr,
+		Sleep: func(ctx context.Context, d time.Duration) error {
+			h.sleeps = append(h.sleeps, d)
+			if h.sleep != nil {
+				return h.sleep(ctx, d)
+			}
+			return ctx.Err()
+		},
 		SetupLog: func(core.Paths, io.Writer) (func() error, error) {
 			slog.SetDefault(slog.New(logRecords{&h.logs}))
 			return func() error { return nil }, nil
@@ -161,7 +182,7 @@ func TestFollowOnceTouchesNothing(t *testing.T) {
 
 func TestServiceCommandsNotImplemented(t *testing.T) {
 	for _, args := range [][]string{
-		{"stop"}, {"resume"}, {"resume", "--once"},
+		{"stop"},
 		{"follow", "999"}, {"follow", "BUF"}, {"follow", "BUF", "--dry-run"}, // no --once
 	} {
 		h := newHarness(t)

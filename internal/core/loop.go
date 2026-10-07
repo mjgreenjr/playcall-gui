@@ -54,7 +54,7 @@ func (l *Loop) Run(ctx context.Context) error {
 			return nil
 		}
 		if out.Status == Finished {
-			slog.Info("Game has finished. Stopping polling.", "game", l.GameID)
+			slog.Info(fmt.Sprintf("Game %s has finished. Stopping polling.", l.GameID))
 			if l.OnFinished != nil {
 				l.OnFinished()
 			}

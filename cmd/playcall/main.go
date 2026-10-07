@@ -10,8 +10,10 @@ import (
 	"io"
 	"log/slog"
 	"os"
+	"os/signal"
 	"sort"
 	"strings"
+	"syscall"
 	"time"
 	"unicode/utf8"
 
@@ -32,7 +34,11 @@ func main() {
 			return core.SetupLogging(p, stdout, slog.LevelInfo)
 		},
 	}
-	os.Exit(run(context.Background(), d, os.Args[1:]))
+	// SIGINT and SIGTERM stop a running loop cleanly; the state is kept.
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	code := run(ctx, d, os.Args[1:])
+	stop()
+	os.Exit(code)
 }
 
 // deps is everything run needs from the outside world, so the commands can be
@@ -45,6 +51,8 @@ type deps struct {
 	Stdout   io.Writer
 	Stderr   io.Writer
 	SetupLog func(p core.Paths, stdout io.Writer) (closeLog func() error, err error)
+	// Sleep waits between polls; nil means a real timer. Tests inject one.
+	Sleep func(ctx context.Context, d time.Duration) error
 }
 
 // source reads ESPN data: from the network, or from a --mock file.
@@ -171,7 +179,7 @@ func run(ctx context.Context, d deps, args []string) int {
 	}
 
 	switch cmd {
-	case "stop", "resume":
+	case "stop":
 		return notImplemented(stderr, cmd)
 	case "follow":
 		if !opts.once {
@@ -211,6 +219,8 @@ func run(ctx context.Context, d deps, args []string) int {
 		return c.teams(ctx, group)
 	case "follow":
 		return c.follow(ctx, rest[0])
+	case "resume":
+		return c.resume(ctx)
 	case "addfavorite":
 		return c.addFavorite(strings.ToUpper(rest[0]))
 	}
@@ -397,16 +407,9 @@ func (c *command) follow(ctx context.Context, target string) int {
 		fmt.Fprintf(c.Stdout, "Found game %s: %s @ %s (%s)\n", g.ID, g.Away, g.Home, g.Status)
 	}
 
-	var fetch func(context.Context) (espn.Data, error)
-	if c.opts.mock != "" {
-		data, err := c.Source.ReadMock(c.opts.mock)
-		if err != nil {
-			return c.errorf("%v", err)
-		}
-		fetch = func(context.Context) (espn.Data, error) { return data, nil }
-	} else {
-		url := espn.SummaryURL(c.opts.sport, gameID)
-		fetch = func(ctx context.Context) (espn.Data, error) { return c.Source.Fetch(ctx, url) }
+	fetch, err := c.fetcher(gameID)
+	if err != nil {
+		return c.errorf("%v", err)
 	}
 	state := &core.State{GameID: gameID, Sport: c.opts.sport, StartedAt: float64(c.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, c.sink(), fetch)
@@ -423,4 +426,18 @@ func (c *command) follow(ctx context.Context, target string) int {
 		return c.errorf("%v", err)
 	}
 	return exitOK
+}
+
+// fetcher reads a game's play-by-play: from the --mock file (the same feed
+// on every poll) or from ESPN.
+func (c *command) fetcher(gameID string) (func(context.Context) (espn.Data, error), error) {
+	if c.opts.mock != "" {
+		data, err := c.Source.ReadMock(c.opts.mock)
+		if err != nil {
+			return nil, err
+		}
+		return func(context.Context) (espn.Data, error) { return data, nil }, nil
+	}
+	url := espn.SummaryURL(c.opts.sport, gameID)
+	return func(ctx context.Context) (espn.Data, error) { return c.Source.Fetch(ctx, url) }, nil
 }
