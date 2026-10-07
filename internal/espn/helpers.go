@@ -172,3 +172,7 @@ func ExtractPlays(data Data) []Data {
 	}
 	return out
 }
+
+// PlayKey is the play's id as text ("None" when it has none), the key used
+// for de-duplication, sent ids and scoring texts.
+func PlayKey(p Data) string { return playKey(p) }

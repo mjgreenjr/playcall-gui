@@ -2,6 +2,7 @@ package core
 
 import (
 	"bytes"
+	"encoding/json"
 	"log/slog"
 	"os"
 	"path/filepath"
@@ -303,5 +304,40 @@ func TestLogging(t *testing.T) {
 	}
 	if string(file) != out.String() {
 		t.Error("file and stdout differ")
+	}
+}
+
+func TestConfigKeepsUnknownKeys(t *testing.T) {
+	p := testPaths(t)
+	if err := p.EnsureDirs(); err != nil {
+		t.Fatal(err)
+	}
+	in := `{"zeta": [1, 2.50, {"a": null}], "favorite_teams": {"nfl": ["BUF"]}, "gui": {"width": 800}, "interval": 30}`
+	os.WriteFile(p.ConfigFile(), []byte(in), 0o644)
+	cfg, err := LoadConfig(p)
+	if err != nil {
+		t.Fatal(err)
+	}
+	cfg.FavoriteTeams["nfl"] = append(cfg.FavoriteTeams["nfl"], "NYJ")
+	if err := SaveConfig(p, cfg); err != nil {
+		t.Fatal(err)
+	}
+	b, _ := os.ReadFile(p.ConfigFile())
+	var got map[string]any
+	if err := json.Unmarshal(b, &got); err != nil {
+		t.Fatalf("saved config is not JSON: %v\n%s", err, b)
+	}
+	if _, ok := got["zeta"]; !ok {
+		t.Errorf("unknown key zeta lost:\n%s", b)
+	}
+	if g, _ := got["gui"].(map[string]any); g["width"] != float64(800) {
+		t.Errorf("unknown key gui lost:\n%s", b)
+	}
+	if !strings.Contains(string(b), "2.50") {
+		t.Errorf("unknown value was rewritten:\n%s", b)
+	}
+	again, err := LoadConfig(p)
+	if err != nil || len(again.FavoriteTeams["nfl"]) != 2 || ResolveInterval(nil, again) != 30 || len(again.Extra) != 2 {
+		t.Errorf("reload: %+v %v", again, err)
 	}
 }
