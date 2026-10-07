@@ -10,8 +10,10 @@ import (
 	"io"
 	"log/slog"
 	"os"
+	"sort"
 	"strings"
 	"time"
+	"unicode/utf8"
 
 	"playcall/internal/core"
 	"playcall/internal/espn"
@@ -19,8 +21,46 @@ import (
 )
 
 func main() {
-	os.Exit(run(os.Args[1:], os.Stdout, os.Stderr))
+	d := deps{
+		Source: httpSource{},
+		Now:    time.Now,
+		Paths:  core.DefaultPaths,
+		Runner: core.ExecRunner{},
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+		SetupLog: func(p core.Paths, stdout io.Writer) (func() error, error) {
+			return core.SetupLogging(p, stdout, slog.LevelInfo)
+		},
+	}
+	os.Exit(run(context.Background(), d, os.Args[1:]))
 }
+
+// deps is everything run needs from the outside world, so the commands can be
+// tested with no network, home directory, clock or notification program.
+type deps struct {
+	Source   source
+	Now      func() time.Time
+	Paths    func() (core.Paths, error)
+	Runner   core.Runner
+	Stdout   io.Writer
+	Stderr   io.Writer
+	SetupLog func(p core.Paths, stdout io.Writer) (closeLog func() error, err error)
+}
+
+// source reads ESPN data: from the network, or from a --mock file.
+type source interface {
+	espn.Fetcher
+	ReadMock(path string) (espn.Data, error)
+}
+
+// httpSource is the real source.
+type httpSource struct{ client espn.Client }
+
+func (s httpSource) Fetch(ctx context.Context, url string) (espn.Data, error) {
+	return s.client.Fetch(ctx, url)
+}
+
+func (httpSource) ReadMock(path string) (espn.Data, error) { return espn.ReadMock(path) }
 
 // Exit codes, as in the Python (argparse errors exit 2).
 const (
@@ -85,7 +125,8 @@ func parse(args []string) (opts options, positional []string, err error) {
 	return opts, positional, nil
 }
 
-func run(args []string, stdout, stderr io.Writer) int {
+func run(ctx context.Context, d deps, args []string) int {
+	stdout, stderr := d.Stdout, d.Stderr
 	opts, positional, err := parse(args)
 	if errors.Is(err, flag.ErrHelp) {
 		fmt.Fprint(stdout, usageText)
@@ -130,10 +171,50 @@ func run(args []string, stdout, stderr io.Writer) int {
 	}
 
 	switch cmd {
+	case "stop", "resume":
+		return notImplemented(stderr, cmd)
 	case "follow":
-		return follow(opts, rest[0], stdout, stderr)
+		if !opts.once {
+			// The service code is slice 7. Checked before any lookup, so no requests.
+			return notImplemented(stderr, "follow without --once")
+		}
 	}
-	return notImplemented(stderr, cmd)
+
+	// Like the Python, everything logs to the log file and stdout from here.
+	// A group that does not exist is reported first, without touching either.
+	var group *sports.Group
+	if (cmd == "list" || cmd == "teams") && opts.given["group"] {
+		g, err := sports.ResolveGroup(opts.sport, opts.group)
+		if err != nil {
+			fmt.Fprintf(stderr, "playcall: %v\n", err)
+			return exitError
+		}
+		group = &g
+	}
+	paths, err := d.Paths()
+	if err != nil {
+		fmt.Fprintf(stderr, "playcall: %v\n", err)
+		return exitError
+	}
+	closeLog, err := d.SetupLog(paths, stdout)
+	if err != nil {
+		fmt.Fprintf(stderr, "playcall: %v\n", err)
+		return exitError
+	}
+	defer closeLog()
+
+	c := &command{deps: d, opts: opts, paths: paths}
+	switch cmd {
+	case "list":
+		return c.list(ctx, group)
+	case "teams":
+		return c.teams(ctx, group)
+	case "follow":
+		return c.follow(ctx, rest[0])
+	case "addfavorite":
+		return c.addFavorite(strings.ToUpper(rest[0]))
+	}
+	return c.testNotify(ctx)
 }
 
 func notImplemented(stderr io.Writer, what string) int {
@@ -153,55 +234,193 @@ func isDigits(s string) bool {
 	return true
 }
 
-// follow runs one poll of a game (--once). Following continuously needs the
-// service code and team lookup, which are not written yet.
-func follow(opts options, target string, stdout, stderr io.Writer) int {
+// command is one invocation: the dependencies, the flags and the file paths.
+type command struct {
+	deps
+	opts  options
+	paths core.Paths
+}
+
+// fail logs err at ERROR, as the Python does before exiting 1.
+func fail(err error) int {
+	slog.Error(err.Error())
+	return exitError
+}
+
+func (c *command) errorf(format string, a ...any) int {
+	fmt.Fprintf(c.Stderr, "playcall: "+format+"\n", a...)
+	return exitError
+}
+
+// sink is the dry-run printer or the toast sink.
+func (c *command) sink() core.Sink {
+	if c.opts.dryRun {
+		return core.StdoutSink{W: c.Stdout}
+	}
+	return core.ToastSink{Runner: c.Runner}
+}
+
+// header is "{SPORT}" or "{SPORT} - {group name}".
+func (c *command) header(group *sports.Group) string {
+	h := strings.ToUpper(c.opts.sport)
+	if group != nil {
+		h += " - " + group.Name
+	}
+	return h
+}
+
+// padRight pads s with spaces to width runes.
+func padRight(s string, width int) string {
+	if n := utf8.RuneCountInString(s); n < width {
+		return s + strings.Repeat(" ", width-n)
+	}
+	return s
+}
+
+func (c *command) list(ctx context.Context, group *sports.Group) int {
+	groupID := ""
+	if group != nil {
+		groupID = group.ID
+	}
+	fmt.Fprintln(c.Stdout, c.header(group))
+	// A group can legitimately have no games (e.g. one league in a playoff round).
+	data, err := espn.FetchScoreboard(ctx, c.Source, c.opts.sport, groupID, group != nil, c.Now())
+	if err != nil {
+		return fail(err)
+	}
+	cfg, err := core.LoadConfig(c.paths)
+	if err != nil {
+		return c.errorf("%v", err)
+	}
+	favorites := map[string]bool{}
+	for _, t := range cfg.FavoriteTeams[c.opts.sport] {
+		favorites[t] = true
+	}
+	var games []espn.Game
+	for _, ev := range espn.List(data["events"]) {
+		if g, ok := espn.ParseScoreboardEvent(espn.Map(ev)); ok {
+			games = append(games, g)
+		}
+	}
+	// Pad abbreviations to the longest one on the whole scoreboard, so the
+	// width is the same whether or not favorites filter the list down.
+	width := 0
+	for _, g := range games {
+		width = max(width, utf8.RuneCountInString(g.Away), utf8.RuneCountInString(g.Home))
+	}
+	if !c.opts.all && len(favorites) > 0 {
+		var kept []espn.Game
+		for _, g := range games {
+			if favorites[strings.TrimSpace(g.Away)] || favorites[strings.TrimSpace(g.Home)] {
+				kept = append(kept, g)
+			}
+		}
+		games = kept
+	}
+	sort.SliceStable(games, func(i, j int) bool { return games[i].Date < games[j].Date })
+	if !espn.Truthy(data["events"]) {
+		fmt.Fprintln(c.Stdout, "No games scheduled.")
+	}
+	for _, g := range games {
+		fmt.Fprintf(c.Stdout, "%s  %s @ %s  %s  %s-%s\n", g.ID,
+			padRight(g.Away, width), padRight(g.Home, width), espn.PadStatus(g.Status), g.AwayScore, g.HomeScore)
+	}
+	return exitOK
+}
+
+func (c *command) teams(ctx context.Context, group *sports.Group) int {
+	groupID := ""
+	if group != nil {
+		groupID = group.ID
+	}
+	fmt.Fprintln(c.Stdout, c.header(group))
+	teams := espn.SortTeams(espn.FetchTeams(ctx, c.Source, c.opts.sport, groupID))
+	if len(teams) == 0 {
+		return fail(errors.New("Could not fetch team data"))
+	}
+	width := 0
+	for _, t := range teams {
+		width = max(width, utf8.RuneCountInString(t.Abbr))
+	}
+	for _, t := range teams {
+		fmt.Fprintf(c.Stdout, "%s  %s\n", padRight(t.Abbr, width), t.Name)
+	}
+	return exitOK
+}
+
+func (c *command) addFavorite(team string) int {
+	cfg, err := core.LoadConfig(c.paths)
+	if err != nil {
+		return c.errorf("%v", err)
+	}
+	sport := c.opts.sport
+	if cfg.FavoriteTeams == nil {
+		cfg.FavoriteTeams = map[string][]string{}
+	}
+	for _, t := range cfg.FavoriteTeams[sport] {
+		if t == team {
+			fmt.Fprintf(c.Stdout, "%s is already a %s favorite.\n", team, sport)
+			return exitOK
+		}
+	}
+	cfg.FavoriteTeams[sport] = append(cfg.FavoriteTeams[sport], team)
+	if err := core.SaveConfig(c.paths, cfg); err != nil {
+		return c.errorf("%v", err)
+	}
+	slog.Info(fmt.Sprintf("Added %s to %s favorites", team, sport))
+	fmt.Fprintf(c.Stdout, "Added %s to %s favorites.\n", team, sport)
+	return exitOK
+}
+
+// testNotify sends one sample notification. Like the Python it exits 0 even
+// if the send fails (ToastSink has logged the error).
+func (c *command) testNotify(ctx context.Context) int {
+	c.sink().Send(ctx, core.Event{
+		Title: "Test",
+		Body:  "playcall is working",
+		URL:   espn.GamePageURL(sports.DefaultSport, "999999999"),
+	})
+	return exitOK
+}
+
+// follow runs one poll of a game (--once; following continuously needs the
+// service code). A non-numeric target is a team abbreviation: its game is
+// looked up on the scoreboard first.
+func (c *command) follow(ctx context.Context, target string) int {
+	gameID := target
 	if !isDigits(target) {
-		return notImplemented(stderr, "follow TEAM")
+		g, err := core.FindGameForTeam(ctx, c.Source, c.opts.sport, strings.ToUpper(target), c.Now())
+		if err != nil {
+			return fail(err)
+		}
+		gameID = g.ID
+		fmt.Fprintf(c.Stdout, "Found game %s: %s @ %s (%s)\n", g.ID, g.Away, g.Home, g.Status)
 	}
-	if !opts.once {
-		return notImplemented(stderr, "follow without --once")
-	}
-	if !opts.dryRun {
-		return notImplemented(stderr, "follow without --dry-run (toast sink)")
-	}
-	paths, err := core.DefaultPaths()
-	if err != nil {
-		fmt.Fprintf(stderr, "playcall: %v\n", err)
-		return exitError
-	}
-	closeLog, err := core.SetupLogging(paths, stdout, slog.LevelInfo)
-	if err != nil {
-		fmt.Fprintf(stderr, "playcall: %v\n", err)
-		return exitError
-	}
-	defer closeLog()
 
 	var fetch func(context.Context) (espn.Data, error)
-	if opts.mock != "" {
-		data, err := espn.ReadMock(opts.mock)
+	if c.opts.mock != "" {
+		data, err := c.Source.ReadMock(c.opts.mock)
 		if err != nil {
-			fmt.Fprintf(stderr, "playcall: %v\n", err)
-			return exitError
+			return c.errorf("%v", err)
 		}
 		fetch = func(context.Context) (espn.Data, error) { return data, nil }
 	} else {
-		var client espn.Client
-		url := espn.SummaryURL(opts.sport, target)
-		fetch = func(ctx context.Context) (espn.Data, error) { return client.Fetch(ctx, url) }
+		url := espn.SummaryURL(c.opts.sport, gameID)
+		fetch = func(ctx context.Context) (espn.Data, error) { return c.Source.Fetch(ctx, url) }
 	}
-	state := &core.State{GameID: target, Sport: opts.sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
-	poller, err := core.NewPoller(state, core.StdoutSink{W: stdout}, fetch)
+	state := &core.State{GameID: gameID, Sport: c.opts.sport, StartedAt: float64(c.Now().UnixNano()) / 1e9}
+	poller, err := core.NewPoller(state, c.sink(), fetch)
 	if err != nil {
-		fmt.Fprintf(stderr, "playcall: %v\n", err)
-		return exitError
+		return c.errorf("%v", err)
 	}
 	poller.Once = true
-	poller.Trace = stdout
+	poller.Now = c.Now
+	if c.opts.dryRun {
+		poller.Trace = c.Stdout
+	}
 	// Like the Python, a failed fetch on a single poll is not an error exit.
-	if _, err := poller.Poll(context.Background()); err != nil {
-		fmt.Fprintf(stderr, "playcall: %v\n", err)
-		return exitError
+	if _, err := poller.Poll(ctx); err != nil {
+		return c.errorf("%v", err)
 	}
 	return exitOK
 }

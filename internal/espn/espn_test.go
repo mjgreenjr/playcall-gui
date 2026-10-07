@@ -293,3 +293,22 @@ func TestReadMockErrors(t *testing.T) {
 		t.Error("missing file should error")
 	}
 }
+
+func TestPadStatus(t *testing.T) {
+	for in, want := range map[string]string{
+		"9/5 - 7:30 PM EDT":    " 9/5  - 07:30 PM EDT",
+		"10/9 - 9:00 PM EDT":   "10/9  - 09:00 PM EDT",
+		"12/25 - 12:00 PM EST": "12/25 - 12:00 PM EST",
+		"1/2 - 8:15 PM EST":    " 1/2  - 08:15 PM EST",
+		"10/11 - 10:05 PM EDT": "10/11 - 10:05 PM EDT",
+		"Final":                "Final",
+		"Final/10":             "Final/10",
+		"4:35 - 2nd":           "4:35 - 2nd",
+		"Postponed":            "Postponed",
+		"10/9 - TBD":           "10/9 - TBD",
+	} {
+		if got := PadStatus(in); got != want {
+			t.Errorf("PadStatus(%q) = %q, want %q", in, got, want)
+		}
+	}
+}
