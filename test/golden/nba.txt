@@ -1,0 +1,5 @@
+[DRY-RUN] 1 new play(s) for game 999
+  401901820668: Drake Powell enters the game for Nolan Traore
+[DRY-RUN] BKN 113 · 4:32 4th · CHA 80
+Drake Powell enters the game for Nolan Traore
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999

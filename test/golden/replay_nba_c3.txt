@@ -1,0 +1,1831 @@
+== poll 1: revealed 3/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019018208: Naz Reid defensive rebound
+[DRY-RUN] BKN 0 · 11:42 1st · CHA 0
+Julius Randle misses 16-foot step back jumpshot · Naz Reid defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=4019018208 sent_ids=3 scoring_texts=0
+== poll 2: revealed 6/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019018209: Moussa Diabate makes 1-foot alley oop dunk (Dennis Schroder assists)
+  40190182011: Egor Demin out of bounds bad pass turnover
+[DRY-RUN] BKN 0 · 11:27 1st · CHA 2
+Moussa Diabate makes 1-foot alley oop dunk (Dennis Schroder assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 0 · 11:20 1st · CHA 2
+Egor Demin out of bounds bad pass turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182011 sent_ids=5 scoring_texts=1
+== poll 3: revealed 9/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182013: Michael Porter Jr. defensive rebound
+  40190182015: Day'Ron Sharpe offensive rebound
+[DRY-RUN] BKN 0 · 10:58 1st · CHA 2
+Naz Reid misses 26-foot three point step back jumpshot · Michael Porter Jr. defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 0 · 10:47 1st · CHA 2
+Day'Ron Sharpe misses driving layup · Day'Ron Sharpe offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182015 sent_ids=9 scoring_texts=1
+== poll 4: revealed 12/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  40190182018: Day'Ron Sharpe offensive rebound
+[DRY-RUN] BKN 0 · 10:44 1st · CHA 2
+Moussa Diabate blocks Day'Ron Sharpe 's 4-foot two point shot · Day'Ron Sharpe offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182018 sent_ids=11 scoring_texts=1
+== poll 5: revealed 15/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182020: Naz Reid defensive rebound
+  40190182022: Grayson Allen makes 30-foot three point jumper
+  40190182023: Michael Porter Jr. makes 2-foot driving floating jump shot (Day'Ron Sharpe assists)
+[DRY-RUN] BKN 0 · 10:40 1st · CHA 2
+Moussa Diabate blocks Day'Ron Sharpe 's 3-foot two point shot · Naz Reid defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 0 · 10:28 1st · CHA 5
+Grayson Allen makes 30-foot three point jumper
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 2 · 10:08 1st · CHA 5
+Michael Porter Jr. makes 2-foot driving floating jump shot (Day'Ron Sharpe assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182023 sent_ids=15 scoring_texts=3
+== poll 6: revealed 18/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182025: Dennis Schroder makes driving layup
+  40190182026: Michael Porter Jr. makes 18-foot pullup jump shot
+  40190182027: Julius Randle shooting foul
+[DRY-RUN] BKN 2 · 9:57 1st · CHA 7
+Dennis Schroder makes driving layup
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 4 · 9:50 1st · CHA 7
+Michael Porter Jr. makes 18-foot pullup jump shot
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 4 · 9:27 1st · CHA 7
+Julius Randle shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182027 sent_ids=18 scoring_texts=5
+== poll 7: revealed 21/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182030: Hornets offensive team rebound
+  40190182031: Moussa Diabate makes free throw 2 of 2
+[DRY-RUN] BKN 4 · 9:27 1st · CHA 7
+Moussa Diabate misses free throw 1 of 2 · Hornets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 4 · 9:27 1st · CHA 8
+Moussa Diabate makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182031 sent_ids=21 scoring_texts=6
+== poll 8: revealed 24/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182032: Day'Ron Sharpe makes 20-foot jumper (Egor Demin assists)
+  40190182035: Day'Ron Sharpe defensive rebound
+[DRY-RUN] BKN 6 · 9:06 1st · CHA 8
+Day'Ron Sharpe makes 20-foot jumper (Egor Demin assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 6 · 8:57 1st · CHA 8
+Grayson Allen misses driving layup · Day'Ron Sharpe defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182035 sent_ids=24 scoring_texts=7
+== poll 9: revealed 27/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182036: Liam McNeeley personal foul
+  40190182038: Day'Ron Sharpe makes driving layup (Egor Demin assists)
+  40190182040: Julius Randle shooting foul
+[DRY-RUN] BKN 6 · 8:49 1st · CHA 8
+Liam McNeeley personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 8 · 8:41 1st · CHA 8
+Day'Ron Sharpe makes driving layup (Egor Demin assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 8 · 8:31 1st · CHA 8
+Julius Randle shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182040 sent_ids=27 scoring_texts=8
+== poll 10: revealed 30/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182042: Naz Reid makes free throw 1 of 2
+  40190182043: Naz Reid makes free throw 2 of 2
+  40190182044: Moussa Diabate personal foul
+[DRY-RUN] BKN 8 · 8:31 1st · CHA 9
+Naz Reid makes free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 8 · 8:31 1st · CHA 10
+Naz Reid makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 8 · 8:24 1st · CHA 10
+Moussa Diabate personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182044 sent_ids=30 scoring_texts=10
+== poll 11: revealed 33/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182047: Nets offensive team rebound
+  40190182048: Liam McNeeley loose ball foul
+[DRY-RUN] BKN 8 · 8:20 1st · CHA 10
+Michael Porter Jr. misses 18-foot fade away jump shot · Nets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 8 · 8:19 1st · CHA 10
+Liam McNeeley loose ball foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182048 sent_ids=33 scoring_texts=10
+== poll 12: revealed 36/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182050: Michael Porter Jr. makes 24-foot three point jumper (Julius Randle assists)
+  40190182052: Egor Demin kicked ball violation
+  40190182054: Royce O'Neale enters the game for Liam McNeeley
+[DRY-RUN] BKN 11 · 8:04 1st · CHA 10
+Michael Porter Jr. makes 24-foot three point jumper (Julius Randle assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 11 · 7:53 1st · CHA 10
+Egor Demin kicked ball violation
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 11 · 7:53 1st · CHA 10
+Royce O'Neale enters the game for Liam McNeeley
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182054 sent_ids=36 scoring_texts=11
+== poll 13: revealed 39/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182056: Naz Reid offensive rebound
+  40190182057: Egor Demin shooting foul
+[DRY-RUN] BKN 11 · 7:37 1st · CHA 10
+Dennis Schroder misses driving layup · Naz Reid offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 11 · 7:37 1st · CHA 10
+Egor Demin shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182057 sent_ids=39 scoring_texts=11
+== poll 14: revealed 42/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182059: Naz Reid makes free throw 1 of 2
+  40190182060: Naz Reid makes free throw 2 of 2
+  40190182061: Julius Randle makes 25-foot three point jumper (Michael Porter Jr. assists)
+[DRY-RUN] BKN 11 · 7:37 1st · CHA 11
+Naz Reid makes free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 11 · 7:37 1st · CHA 12
+Naz Reid makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 14 · 7:24 1st · CHA 12
+Julius Randle makes 25-foot three point jumper (Michael Porter Jr. assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182061 sent_ids=42 scoring_texts=14
+== poll 15: revealed 45/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182063: Grayson Allen out of bounds bad pass turnover
+  40190182064: Michael Porter Jr. makes 24-foot three pointer (Day'Ron Sharpe assists)
+[DRY-RUN] BKN 14 · 7:09 1st · CHA 12
+Grayson Allen out of bounds bad pass turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 17 · 6:55 1st · CHA 12
+Michael Porter Jr. makes 24-foot three pointer (Day'Ron Sharpe assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182064 sent_ids=44 scoring_texts=15
+== poll 16: revealed 48/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182067: Moussa Diabate offensive rebound
+  40190182069: Moussa Diabate offensive rebound
+[DRY-RUN] BKN 17 · 6:45 1st · CHA 12
+Royce O'Neale misses 25-foot three point jumper · Moussa Diabate offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 17 · 6:31 1st · CHA 12
+Dennis Schroder misses driving floating jump shot · Moussa Diabate offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182069 sent_ids=48 scoring_texts=15
+== poll 17: revealed 51/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182071: Michael Porter Jr. defensive rebound
+  40190182072: Keon Ellis makes 25-foot running jump shot (Michael Porter Jr. assists)
+[DRY-RUN] BKN 17 · 6:27 1st · CHA 12
+Naz Reid misses 22-foot three point jumper · Michael Porter Jr. defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 20 · 6:22 1st · CHA 12
+Keon Ellis makes 25-foot running jump shot (Michael Porter Jr. assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182072 sent_ids=51 scoring_texts=16
+== poll 18: revealed 54/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182074: Hornets Full timeout
+  40190182077: Sion James enters the game for Dennis Schroder
+  40190182078: Ryan Kalkbrenner enters the game for Moussa Diabate
+[DRY-RUN] BKN 20 · 6:22 1st · CHA 12
+Hornets Full timeout
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 20 · 6:22 1st · CHA 12
+Sion James enters the game for Dennis Schroder
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 20 · 6:22 1st · CHA 12
+Ryan Kalkbrenner enters the game for Moussa Diabate
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182078 sent_ids=54 scoring_texts=16
+== poll 19: revealed 57/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182080: Moritz Wagner enters the game for Day'Ron Sharpe
+  40190182082: Julius Randle defensive rebound
+[DRY-RUN] BKN 20 · 6:22 1st · CHA 12
+Moritz Wagner enters the game for Day'Ron Sharpe
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 20 · 6:02 1st · CHA 12
+Naz Reid misses driving layup · Julius Randle defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182082 sent_ids=57 scoring_texts=16
+== poll 20: revealed 60/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  40190182084: Sion James defensive rebound
+  40190182085: Sion James makes driving layup
+[DRY-RUN] BKN 20 · 5:54 1st · CHA 12
+Egor Demin misses two point shot · Sion James defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 20 · 5:45 1st · CHA 14
+Sion James makes driving layup
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182085 sent_ids=60 scoring_texts=17
+== poll 21: revealed 63/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182086: Naz Reid shooting foul
+  40190182088: Julius Randle makes free throw 1 of 2
+  40190182089: Julius Randle makes free throw 2 of 2
+[DRY-RUN] BKN 20 · 5:26 1st · CHA 14
+Naz Reid shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 21 · 5:26 1st · CHA 14
+Julius Randle makes free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 22 · 5:26 1st · CHA 14
+Julius Randle makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182089 sent_ids=63 scoring_texts=19
+== poll 22: revealed 66/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182091: Tidjane Salaun enters the game for Naz Reid
+  40190182093: Terance Mann enters the game for Keon Ellis
+  40190182094: Moritz Wagner personal foul
+[DRY-RUN] BKN 22 · 5:26 1st · CHA 14
+Tidjane Salaun enters the game for Naz Reid
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 22 · 5:26 1st · CHA 14
+Terance Mann enters the game for Keon Ellis
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 22 · 5:14 1st · CHA 14
+Moritz Wagner personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=40190182094 sent_ids=66 scoring_texts=19
+== poll 23: revealed 69/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  40190182097: Chaney Johnson enters the game for Julius Randle
+  401901820107: Michael Porter Jr. kicked ball violation
+  401901820100: Sion James makes 23-foot three point jumper (Royce O'Neale assists)
+[DRY-RUN] BKN 22 · 5:14 1st · CHA 14
+Chaney Johnson enters the game for Julius Randle
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 22 · 5:07 1st · CHA 14
+Michael Porter Jr. kicked ball violation
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 22 · 4:56 1st · CHA 17
+Sion James makes 23-foot three point jumper (Royce O'Neale assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820100 sent_ids=69 scoring_texts=20
+== poll 24: revealed 72/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820102: Egor Demin makes 26-foot three pointer
+  401901820103: Chaney Johnson personal foul
+  401901820105: Grayson Allen makes free throw 1 of 2
+[DRY-RUN] BKN 25 · 4:43 1st · CHA 17
+Egor Demin makes 26-foot three pointer
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 25 · 4:34 1st · CHA 17
+Chaney Johnson personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 25 · 4:34 1st · CHA 18
+Grayson Allen makes free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820105 sent_ids=72 scoring_texts=22
+== poll 25: revealed 75/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820106: Grayson Allen makes free throw 2 of 2
+  401901820109: Sion James defensive rebound
+[DRY-RUN] BKN 25 · 4:34 1st · CHA 19
+Grayson Allen makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 25 · 4:17 1st · CHA 19
+Michael Porter Jr. misses 25-foot three point jumper · Sion James defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820109 sent_ids=75 scoring_texts=23
+== poll 26: revealed 78/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820110: Tidjane Salaun makes 23-foot three point jumper (Royce O'Neale assists)
+  401901820113: Grayson Allen defensive rebound
+[DRY-RUN] BKN 25 · 4:07 1st · CHA 22
+Tidjane Salaun makes 23-foot three point jumper (Royce O'Neale assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 25 · 3:47 1st · CHA 22
+Egor Demin misses 24-foot three point pullup jump shot · Grayson Allen defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820113 sent_ids=78 scoring_texts=24
+== poll 27: revealed 81/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820114: Grayson Allen makes 28-foot three pointer
+  401901820115: Nets Full timeout
+  401901820117: Michael Ajayi enters the game for Grayson Allen
+[DRY-RUN] BKN 25 · 3:35 1st · CHA 25
+Grayson Allen makes 28-foot three pointer
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 25 · 3:33 1st · CHA 25
+Nets Full timeout
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 25 · 3:33 1st · CHA 25
+Michael Ajayi enters the game for Grayson Allen
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820117 sent_ids=81 scoring_texts=25
+== poll 28: revealed 84/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820120: Noah Clowney enters the game for Michael Porter Jr.
+  401901820121: Ben Saraf enters the game for Egor Demin
+  401901820122: Moritz Wagner makes 23-foot three point jumper (Ben Saraf assists)
+[DRY-RUN] BKN 25 · 3:33 1st · CHA 25
+Noah Clowney enters the game for Michael Porter Jr.
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 25 · 3:33 1st · CHA 25
+Ben Saraf enters the game for Egor Demin
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 28 · 3:17 1st · CHA 25
+Moritz Wagner makes 23-foot three point jumper (Ben Saraf assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820122 sent_ids=84 scoring_texts=26
+== poll 29: revealed 87/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820124: Royce O'Neale makes 27-foot three pointer
+  401901820126: Ben Saraf makes 24-foot three pointer
+  401901820127: Michael Ajayi steps out of bounds turnover
+[DRY-RUN] BKN 28 · 3:01 1st · CHA 28
+Royce O'Neale makes 27-foot three pointer
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 31 · 2:52 1st · CHA 28
+Ben Saraf makes 24-foot three pointer
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 31 · 2:38 1st · CHA 28
+Michael Ajayi steps out of bounds turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820127 sent_ids=87 scoring_texts=28
+== poll 30: revealed 90/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401901820129: Michael Ajayi defensive rebound
+[DRY-RUN] BKN 31 · 2:21 1st · CHA 28
+Terance Mann misses 6-foot two point shot · Michael Ajayi defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820129 sent_ids=89 scoring_texts=28
+== poll 31: revealed 93/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820131: Moritz Wagner defensive rebound
+  401901820134: Sion James defensive rebound
+[DRY-RUN] BKN 31 · 2:08 1st · CHA 28
+Sion James misses 26-foot three point jumper · Moritz Wagner defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 31 · 1:56 1st · CHA 28
+Michael Ajayi blocks Noah Clowney 's 7-foot driving layup · Sion James defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820134 sent_ids=93 scoring_texts=28
+== poll 32: revealed 96/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820135: Michael Ajayi lost ball turnover (Terance Mann steals)
+  401901820137: Michael Ajayi personal foul
+  401901820139: Moritz Wagner makes free throw 1 of 2
+[DRY-RUN] BKN 31 · 1:37 1st · CHA 28
+Michael Ajayi lost ball turnover (Terance Mann steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 31 · 1:28 1st · CHA 28
+Michael Ajayi personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 32 · 1:28 1st · CHA 28
+Moritz Wagner makes free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820139 sent_ids=96 scoring_texts=29
+== poll 33: revealed 99/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820140: Moritz Wagner makes free throw 2 of 2
+  401901820142: Dennis Schroder enters the game for Sion James
+  401901820144: Julius Randle enters the game for Chaney Johnson
+[DRY-RUN] BKN 33 · 1:28 1st · CHA 28
+Moritz Wagner makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 1:28 1st · CHA 28
+Dennis Schroder enters the game for Sion James
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 1:28 1st · CHA 28
+Julius Randle enters the game for Chaney Johnson
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820144 sent_ids=99 scoring_texts=30
+== poll 34: revealed 102/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820146: Julius Randle defensive rebound
+  401901820147: Moritz Wagner offensive foul
+[DRY-RUN] BKN 33 · 1:06 1st · CHA 28
+Tidjane Salaun misses driving layup · Julius Randle defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 1:00 1st · CHA 28
+Moritz Wagner offensive foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820147 sent_ids=102 scoring_texts=30
+== poll 35: revealed 105/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820151: Moussa Diabate enters the game for Ryan Kalkbrenner
+  401901820152: Michael Ajayi makes 23-foot three point jumper (Royce O'Neale assists)
+[DRY-RUN] BKN 33 · 1:00 1st · CHA 28
+Moussa Diabate enters the game for Ryan Kalkbrenner
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 43.4 1st · CHA 31
+Michael Ajayi makes 23-foot three point jumper (Royce O'Neale assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820152 sent_ids=104 scoring_texts=31
+== poll 36: revealed 108/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820154: Noah Clowney out of bounds lost ball turnover
+  401901820156: Ben Saraf defensive rebound
+[DRY-RUN] BKN 33 · 31.4 1st · CHA 31
+Noah Clowney out of bounds lost ball turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 5.7 1st · CHA 31
+Royce O'Neale misses 23-foot three point jumper · Ben Saraf defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820156 sent_ids=107 scoring_texts=31
+== poll 37: revealed 111/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820157: Terance Mann bad pass
+turnover (Tidjane Salaun steals)
+  401901820159: End of the 1st Quarter
+  401901820162: Liam McNeeley enters the game for Royce O'Neale
+[DRY-RUN] BKN 33 · 0.0 1st · CHA 31
+Terance Mann bad pass turnover (Tidjane Salaun steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 0.0 1st · CHA 31
+End of the 1st Quarter
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 12:00 2nd · CHA 31
+Liam McNeeley enters the game for Royce O'Neale
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820162 sent_ids=110 scoring_texts=31
+== poll 38: revealed 114/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820163: Naz Reid enters the game for Tidjane Salaun
+  401901820166: Egor Demin enters the game for Ben Saraf
+  401901820167: Day'Ron Sharpe enters the game for Moritz Wagner
+[DRY-RUN] BKN 33 · 12:00 2nd · CHA 31
+Naz Reid enters the game for Tidjane Salaun
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 12:00 2nd · CHA 31
+Egor Demin enters the game for Ben Saraf
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 12:00 2nd · CHA 31
+Day'Ron Sharpe enters the game for Moritz Wagner
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820167 sent_ids=113 scoring_texts=31
+== poll 39: revealed 117/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401901820170: Terance Mann defensive rebound
+[DRY-RUN] BKN 33 · 11:44 2nd · CHA 31
+Liam McNeeley misses 24-foot three point jumper · Terance Mann defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820170 sent_ids=115 scoring_texts=31
+== poll 40: revealed 120/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820172: Hornets defensive team rebound
+  401901820174: Naz Reid makes 13-foot two point shot (Michael Ajayi assists)
+[DRY-RUN] BKN 33 · 11:27 2nd · CHA 31
+Julius Randle misses 26-foot three point jumper · Hornets defensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 11:02 2nd · CHA 33
+Naz Reid makes 13-foot two point shot (Michael Ajayi assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820174 sent_ids=118 scoring_texts=32
+== poll 41: revealed 123/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820177: Michael Ajayi defensive rebound
+  401901820178: Dennis Schroder makes 26-foot three pointer
+  401901820179: Day'Ron Sharpe bad pass
+turnover (Moussa Diabate steals)
+[DRY-RUN] BKN 33 · 10:41 2nd · CHA 33
+Day'Ron Sharpe misses 25-foot three point jumper · Michael Ajayi defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 10:17 2nd · CHA 36
+Dennis Schroder makes 26-foot three pointer
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 33 · 9:58 2nd · CHA 36
+Day'Ron Sharpe bad pass turnover (Moussa Diabate steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820179 sent_ids=122 scoring_texts=33
+== poll 42: revealed 126/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820181: Liam McNeeley lost ball turnover (Noah Clowney steals)
+  401901820183: Julius Randle makes running layup
+  401901820184: Julius Randle personal foul
+[DRY-RUN] BKN 33 · 9:48 2nd · CHA 36
+Liam McNeeley lost ball turnover (Noah Clowney steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 35 · 9:42 2nd · CHA 36
+Julius Randle makes running layup
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 35 · 9:31 2nd · CHA 36
+Julius Randle personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820184 sent_ids=125 scoring_texts=34
+== poll 43: revealed 129/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820187: Keon Ellis enters the game for Terance Mann
+  401901820189: Day'Ron Sharpe defensive rebound
+[DRY-RUN] BKN 35 · 9:31 2nd · CHA 36
+Keon Ellis enters the game for Terance Mann
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 35 · 9:18 2nd · CHA 36
+Naz Reid misses 23-foot three point step back jumpshot · Day'Ron Sharpe defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820189 sent_ids=128 scoring_texts=34
+== poll 44: revealed 132/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820190: Naz Reid personal foul
+  401901820193: Royce O'Neale enters the game for Michael Ajayi
+  401901820194: Egor Demin bad pass
+turnover (Dennis Schroder steals)
+[DRY-RUN] BKN 35 · 9:07 2nd · CHA 36
+Naz Reid personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 35 · 9:07 2nd · CHA 36
+Royce O'Neale enters the game for Michael Ajayi
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 35 · 9:02 2nd · CHA 36
+Egor Demin bad pass turnover (Dennis Schroder steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820194 sent_ids=131 scoring_texts=34
+== poll 45: revealed 135/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820196: Liam McNeeley offensive foul
+  401901820200: Tidjane Salaun enters the game for Liam McNeeley
+[DRY-RUN] BKN 35 · 8:58 2nd · CHA 36
+Liam McNeeley offensive foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 35 · 8:58 2nd · CHA 36
+Tidjane Salaun enters the game for Liam McNeeley
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820200 sent_ids=133 scoring_texts=34
+== poll 46: revealed 138/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820202: Royce O'Neale defensive rebound
+  401901820203: Egor Demin personal foul
+[DRY-RUN] BKN 35 · 8:35 2nd · CHA 36
+Keon Ellis misses 25-foot three point step back jumpshot · Royce O'Neale defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 35 · 8:30 2nd · CHA 36
+Egor Demin personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820203 sent_ids=136 scoring_texts=34
+== poll 47: revealed 141/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820206: Michael Porter Jr. enters the game for Noah Clowney
+  401901820207: Egor Demin personal foul
+  401901820209: Naz Reid lost ball turnover (Michael Porter Jr. steals)
+[DRY-RUN] BKN 35 · 8:30 2nd · CHA 36
+Michael Porter Jr. enters the game for Noah Clowney
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 35 · 8:29 2nd · CHA 36
+Egor Demin personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 35 · 8:18 2nd · CHA 36
+Naz Reid lost ball turnover (Michael Porter Jr. steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820209 sent_ids=139 scoring_texts=34
+== poll 48: revealed 144/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820211: Julius Randle makes 25-foot three pointer
+  401901820213: Naz Reid lost ball turnover (Julius Randle steals)
+  401901820215: Julius Randle makes running dunk
+[DRY-RUN] BKN 38 · 8:11 2nd · CHA 36
+Julius Randle makes 25-foot three pointer
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 38 · 8:02 2nd · CHA 36
+Naz Reid lost ball turnover (Julius Randle steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 40 · 7:59 2nd · CHA 36
+Julius Randle makes running dunk
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820215 sent_ids=142 scoring_texts=36
+== poll 49: revealed 147/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820216: Hornets Full timeout
+  401901820218: Sion James enters the game for Dennis Schroder
+  401901820219: Sion James makes 25-foot three point jumper (Royce O'Neale assists)
+[DRY-RUN] BKN 40 · 7:59 2nd · CHA 36
+Hornets Full timeout
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 40 · 7:59 2nd · CHA 36
+Sion James enters the game for Dennis Schroder
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 40 · 7:36 2nd · CHA 39
+Sion James makes 25-foot three point jumper (Royce O'Neale assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820219 sent_ids=145 scoring_texts=37
+== poll 50: revealed 150/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820221: Michael Porter Jr. makes 23-foot three point jumper (Egor Demin assists)
+  401901820223: Naz Reid out of bounds bad pass turnover
+  401901820224: Day'Ron Sharpe makes 6-foot two point shot (Egor Demin assists)
+[DRY-RUN] BKN 43 · 7:20 2nd · CHA 39
+Michael Porter Jr. makes 23-foot three point jumper (Egor Demin assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 43 · 7:10 2nd · CHA 39
+Naz Reid out of bounds bad pass turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 45 · 6:55 2nd · CHA 39
+Day'Ron Sharpe makes 6-foot two point shot (Egor Demin assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820224 sent_ids=148 scoring_texts=39
+== poll 51: revealed 153/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820226: Moussa Diabate offensive foul
+  401901820231: Ryan Kalkbrenner enters the game for Naz Reid
+[DRY-RUN] BKN 45 · 6:49 2nd · CHA 39
+Moussa Diabate offensive foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 45 · 6:49 2nd · CHA 39
+Ryan Kalkbrenner enters the game for Naz Reid
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820231 sent_ids=150 scoring_texts=39
+== poll 52: revealed 156/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820232: Grayson Allen enters the game for Moussa Diabate
+  401901820233: Tidjane Salaun shooting foul
+[DRY-RUN] BKN 45 · 6:49 2nd · CHA 39
+Grayson Allen enters the game for Moussa Diabate
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 45 · 6:38 2nd · CHA 39
+Tidjane Salaun shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820233 sent_ids=152 scoring_texts=39
+== poll 53: revealed 159/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820236: Nets offensive team rebound
+  401901820237: Julius Randle makes free throw 2 of 2
+[DRY-RUN] BKN 45 · 6:38 2nd · CHA 39
+Julius Randle misses free throw 1 of 2 · Nets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 46 · 6:38 2nd · CHA 39
+Julius Randle makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820237 sent_ids=155 scoring_texts=40
+== poll 54: revealed 162/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820239: Day'Ron Sharpe defensive rebound
+  401901820240: Michael Porter Jr. makes 24-foot running jump shot (Julius Randle assists)
+[DRY-RUN] BKN 46 · 6:20 2nd · CHA 39
+Sion James misses driving layup · Day'Ron Sharpe defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 49 · 6:14 2nd · CHA 39
+Michael Porter Jr. makes 24-foot running jump shot (Julius Randle assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820240 sent_ids=158 scoring_texts=41
+== poll 55: revealed 165/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820243: Egor Demin defensive rebound
+  401901820244: Day'Ron Sharpe makes 1-foot dunk (Egor Demin assists)
+  401901820246: Grayson Allen makes driving layup
+[DRY-RUN] BKN 49 · 5:59 2nd · CHA 39
+Royce O'Neale misses 23-foot three point jumper · Egor Demin defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 51 · 5:34 2nd · CHA 39
+Day'Ron Sharpe makes 1-foot dunk (Egor Demin assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 51 · 5:11 2nd · CHA 41
+Grayson Allen makes driving layup
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820246 sent_ids=162 scoring_texts=43
+== poll 56: revealed 168/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820248: Royce O'Neale defensive rebound
+  401901820249: Grayson Allen makes 29-foot running jump shot (Royce O'Neale assists)
+[DRY-RUN] BKN 51 · 4:52 2nd · CHA 41
+Egor Demin misses driving dunk · Royce O'Neale defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 51 · 4:44 2nd · CHA 44
+Grayson Allen makes 29-foot running jump shot (Royce O'Neale assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820249 sent_ids=165 scoring_texts=44
+== poll 57: revealed 171/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820251: Nets Full timeout
+  401901820253: Moritz Wagner enters the game for Day'Ron Sharpe
+  401901820254: Sion James personal foul
+[DRY-RUN] BKN 51 · 4:44 2nd · CHA 44
+Nets Full timeout
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 51 · 4:44 2nd · CHA 44
+Moritz Wagner enters the game for Day'Ron Sharpe
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 51 · 4:33 2nd · CHA 44
+Sion James personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820254 sent_ids=168 scoring_texts=44
+== poll 58: revealed 174/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820256: Keon Ellis makes 7-foot driving floating jump shot (Moritz Wagner assists)
+  401901820258: Keon Ellis personal foul
+  401901820263: Dennis Schroder enters the game for Ryan Kalkbrenner
+[DRY-RUN] BKN 53 · 4:26 2nd · CHA 44
+Keon Ellis makes 7-foot driving floating jump shot (Moritz Wagner assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 53 · 4:16 2nd · CHA 44
+Keon Ellis personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 53 · 4:16 2nd · CHA 44
+Dennis Schroder enters the game for Ryan Kalkbrenner
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820263 sent_ids=171 scoring_texts=45
+== poll 59: revealed 177/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820264: Naz Reid enters the game for Sion James
+  401901820265: Moussa Diabate enters the game for Tidjane Salaun
+  401901820266: Moussa Diabate back court turnover
+[DRY-RUN] BKN 53 · 4:16 2nd · CHA 44
+Naz Reid enters the game for Sion James
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 53 · 4:16 2nd · CHA 44
+Moussa Diabate enters the game for Tidjane Salaun
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 53 · 4:13 2nd · CHA 44
+Moussa Diabate back court turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820266 sent_ids=174 scoring_texts=45
+== poll 60: revealed 180/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820267: Keon Ellis back court turnover
+  401901820268: Naz Reid makes 6-foot two point shot (Grayson Allen assists)
+  401901820269: Egor Demin shooting foul
+[DRY-RUN] BKN 53 · 4:12 2nd · CHA 44
+Keon Ellis back court turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 53 · 3:58 2nd · CHA 46
+Naz Reid makes 6-foot two point shot (Grayson Allen assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 53 · 3:58 2nd · CHA 46
+Egor Demin shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820269 sent_ids=177 scoring_texts=46
+== poll 61: revealed 183/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820271: Naz Reid makes free throw 1 of 1
+  401901820274: Terance Mann enters the game for Keon Ellis
+  401901820343: Moritz Wagner offensive foul
+[DRY-RUN] BKN 53 · 3:58 2nd · CHA 47
+Naz Reid makes free throw 1 of 1
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 53 · 3:42 2nd · CHA 47
+Terance Mann enters the game for Keon Ellis
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 53 · 3:42 2nd · CHA 47
+Moritz Wagner offensive foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820343 sent_ids=180 scoring_texts=47
+== poll 62: revealed 186/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401901820350: Terance Mann enters the game for Keon Ellis
+[DRY-RUN] BKN 53 · 3:42 2nd · CHA 47
+Terance Mann enters the game for Keon Ellis
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820350 sent_ids=181 scoring_texts=47
+== poll 63: revealed 189/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820276: Moritz Wagner defensive rebound
+  401901820277: Egor Demin makes 26-foot three point jumper (Julius Randle assists)
+[DRY-RUN] BKN 53 · 3:25 2nd · CHA 47
+Grayson Allen misses driving floating jump shot · Moritz Wagner defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 3:18 2nd · CHA 47
+Egor Demin makes 26-foot three point jumper (Julius Randle assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820277 sent_ids=184 scoring_texts=48
+== poll 64: revealed 192/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820279: Michael Porter Jr. defensive rebound
+  401901820281: shot clock turnover
+  401901820282: Naz Reid makes 24-foot three point jumper (Dennis Schroder assists)
+[DRY-RUN] BKN 56 · 3:05 2nd · CHA 47
+Naz Reid misses 26-foot three point jumper · Michael Porter Jr. defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 2:38 2nd · CHA 47
+shot clock turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 2:18 2nd · CHA 50
+Naz Reid makes 24-foot three point jumper (Dennis Schroder assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820282 sent_ids=188 scoring_texts=49
+== poll 65: revealed 195/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820317: Nets offensive team rebound
+  401901820287: Chaney Johnson enters the game for Julius Randle
+[DRY-RUN] BKN 56 · 2:02 2nd · CHA 50
+Royce O'Neale blocks Julius Randle 's 14-foot two point shot · Nets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 2:01 2nd · CHA 50
+Chaney Johnson enters the game for Julius Randle
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820287 sent_ids=191 scoring_texts=49
+== poll 66: revealed 198/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820288: Ben Saraf enters the game for Egor Demin
+  401901820290: Naz Reid defensive rebound
+[DRY-RUN] BKN 56 · 2:01 2nd · CHA 50
+Ben Saraf enters the game for Egor Demin
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 1:59 2nd · CHA 50
+Moritz Wagner misses 23-foot three point jumper · Naz Reid defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820290 sent_ids=194 scoring_texts=49
+== poll 67: revealed 201/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820291: Terance Mann shooting foul
+  401901820294: Hornets offensive team rebound
+[DRY-RUN] BKN 56 · 1:54 2nd · CHA 50
+Terance Mann shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 1:54 2nd · CHA 50
+Moussa Diabate misses free throw 1 of 2 · Hornets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820294 sent_ids=197 scoring_texts=49
+== poll 68: revealed 204/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820295: Moussa Diabate makes free throw 2 of 2
+  401901820297: Sion James enters the game for Grayson Allen
+  401901820298: Michael Porter Jr. lost ball turnover (Royce O'Neale steals)
+[DRY-RUN] BKN 56 · 1:54 2nd · CHA 51
+Moussa Diabate makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 1:54 2nd · CHA 51
+Sion James enters the game for Grayson Allen
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 1:42 2nd · CHA 51
+Michael Porter Jr. lost ball turnover (Royce O'Neale steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820298 sent_ids=200 scoring_texts=50
+== poll 69: revealed 207/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820300: Royce O'Neale lost ball turnover (Moritz Wagner steals)
+  401901820302: Royce O'Neale personal foul
+[DRY-RUN] BKN 56 · 1:38 2nd · CHA 51
+Royce O'Neale lost ball turnover (Moritz Wagner steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 1:36 2nd · CHA 51
+Royce O'Neale personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820302 sent_ids=202 scoring_texts=50
+== poll 70: revealed 210/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820305: Chaney Johnson offensive rebound
+  401901820307: Hornets defensive team rebound
+[DRY-RUN] BKN 56 · 1:28 2nd · CHA 51
+Michael Porter Jr. misses 25-foot three point pullup jump shot · Chaney Johnson offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 1:24 2nd · CHA 51
+Moritz Wagner misses layup · Hornets defensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820307 sent_ids=206 scoring_texts=50
+== poll 71: revealed 213/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820311: Grayson Allen enters the game for Sion James
+  401901820313: Moritz Wagner defensive rebound
+[DRY-RUN] BKN 56 · 1:24 2nd · CHA 51
+Grayson Allen enters the game for Sion James
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 1:03 2nd · CHA 51
+Naz Reid misses driving floating jump shot · Moritz Wagner defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820313 sent_ids=209 scoring_texts=50
+== poll 72: revealed 216/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401901820315: Michael Porter Jr. offensive rebound
+[DRY-RUN] BKN 56 · 57.1 2nd · CHA 51
+Moritz Wagner misses 25-foot three point jumper · Michael Porter Jr. offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820315 sent_ids=211 scoring_texts=50
+== poll 73: revealed 219/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820319: Hornets defensive team rebound
+  401901820320: Michael Porter Jr. loose ball foul
+  401901820322: Naz Reid makes free throw 1 of 2
+[DRY-RUN] BKN 56 · 50.1 2nd · CHA 51
+Terance Mann misses 23-foot three point jumper · Hornets defensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 49.3 2nd · CHA 51
+Michael Porter Jr. loose ball foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 49.3 2nd · CHA 52
+Naz Reid makes free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820322 sent_ids=215 scoring_texts=51
+== poll 74: revealed 222/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820323: Naz Reid misses free throw 2 of 2
+  401901820325: Sion James enters the game for Grayson Allen
+  401901820326: Moussa Diabate offensive rebound
+[DRY-RUN] BKN 56 · 49.3 2nd · CHA 52
+Naz Reid misses free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 49.3 2nd · CHA 52
+Sion James enters the game for Grayson Allen
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 49.3 2nd · CHA 52
+Moussa Diabate offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820326 sent_ids=218 scoring_texts=51
+== poll 75: revealed 225/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401901820332: Michael Porter Jr. defensive rebound
+[DRY-RUN] BKN 56 · 33.6 2nd · CHA 52
+Dennis Schroder misses driving layup · Michael Porter Jr. defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820332 sent_ids=220 scoring_texts=51
+== poll 76: revealed 228/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820334: Hornets defensive team rebound
+  401901820338: Grayson Allen enters the game for Sion James
+  401901820340: Noah Clowney enters the game for Moritz Wagner
+[DRY-RUN] BKN 56 · 17.1 2nd · CHA 52
+Royce O'Neale blocks Ben Saraf 's 6-foot driving layup · Hornets defensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 17.1 2nd · CHA 52
+Grayson Allen enters the game for Sion James
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 17.1 2nd · CHA 52
+Noah Clowney enters the game for Moritz Wagner
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820340 sent_ids=224 scoring_texts=51
+== poll 77: revealed 231/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820341: Moussa Diabate lost ball turnover (Terance Mann steals)
+  401901820345: End of the 2nd Quarter
+  401901820355: Tidjane Salaun enters the game for Dennis Schroder
+[DRY-RUN] BKN 56 · 4.0 2nd · CHA 52
+Moussa Diabate lost ball turnover (Terance Mann steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 0.0 2nd · CHA 52
+End of the 2nd Quarter
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 12:00 3rd · CHA 52
+Tidjane Salaun enters the game for Dennis Schroder
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820355 sent_ids=227 scoring_texts=51
+== poll 78: revealed 234/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820356: Sion James enters the game for Naz Reid
+  401901820357: Liam McNeeley enters the game for Royce O'Neale
+  401901820358: Michael Ajayi enters the game for Grayson Allen
+[DRY-RUN] BKN 56 · 12:00 3rd · CHA 52
+Sion James enters the game for Naz Reid
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 12:00 3rd · CHA 52
+Liam McNeeley enters the game for Royce O'Neale
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 12:00 3rd · CHA 52
+Michael Ajayi enters the game for Grayson Allen
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820358 sent_ids=230 scoring_texts=51
+== poll 79: revealed 237/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820360: Day'Ron Sharpe enters the game for Michael Porter Jr.
+  401901820363: Hornets offensive team rebound
+[DRY-RUN] BKN 56 · 12:00 3rd · CHA 52
+Day'Ron Sharpe enters the game for Michael Porter Jr.
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 11:39 3rd · CHA 52
+Liam McNeeley misses driving floating jump shot · Hornets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820363 sent_ids=233 scoring_texts=51
+== poll 80: revealed 240/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820365: Liam McNeeley makes driving layup (Moussa Diabate assists)
+  401901820368: Chaney Johnson offensive rebound
+[DRY-RUN] BKN 56 · 11:29 3rd · CHA 54
+Liam McNeeley makes driving layup (Moussa Diabate assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 56 · 11:01 3rd · CHA 54
+Noah Clowney misses 25-foot three point jumper · Chaney Johnson offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820368 sent_ids=236 scoring_texts=52
+== poll 81: revealed 243/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820369: Chaney Johnson makes 2-foot dunk
+  401901820370: Terance Mann personal foul
+[DRY-RUN] BKN 58 · 10:57 3rd · CHA 54
+Chaney Johnson makes 2-foot dunk
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 58 · 10:41 3rd · CHA 54
+Terance Mann personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820370 sent_ids=238 scoring_texts=53
+== poll 82: revealed 246/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820374: Day'Ron Sharpe defensive rebound
+  401901820376: Moussa Diabate defensive rebound
+[DRY-RUN] BKN 58 · 10:29 3rd · CHA 54
+Day'Ron Sharpe blocks Sion James 's 5-foot driving layup · Day'Ron Sharpe defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 58 · 10:08 3rd · CHA 54
+Ben Saraf misses driving floating jump shot · Moussa Diabate defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820376 sent_ids=242 scoring_texts=53
+== poll 83: revealed 249/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820378: Terance Mann defensive rebound
+  401901820379: Chaney Johnson makes dunk (Day'Ron Sharpe assists)
+[DRY-RUN] BKN 58 · 10:01 3rd · CHA 54
+Michael Ajayi misses running layup · Terance Mann defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 60 · 9:49 3rd · CHA 54
+Chaney Johnson makes dunk (Day'Ron Sharpe assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820379 sent_ids=245 scoring_texts=54
+== poll 84: revealed 252/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820381: Noah Clowney personal foul
+  401901820383: Moussa Diabate offensive foul
+[DRY-RUN] BKN 60 · 9:39 3rd · CHA 54
+Noah Clowney personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 60 · 9:39 3rd · CHA 54
+Moussa Diabate offensive foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820383 sent_ids=247 scoring_texts=54
+== poll 85: revealed 255/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820386: Michael Ajayi personal foul
+  401901820388: Ben Saraf bad pass
+turnover (Moussa Diabate steals)
+[DRY-RUN] BKN 60 · 9:33 3rd · CHA 54
+Michael Ajayi personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 60 · 9:21 3rd · CHA 54
+Ben Saraf bad pass turnover (Moussa Diabate steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820388 sent_ids=249 scoring_texts=54
+== poll 86: revealed 258/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820391: Michael Ajayi offensive rebound
+  401901820392: Tidjane Salaun offensive foul
+[DRY-RUN] BKN 60 · 9:14 3rd · CHA 54
+Liam McNeeley misses 27-foot three point jumper · Michael Ajayi offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 60 · 9:05 3rd · CHA 54
+Tidjane Salaun offensive foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820392 sent_ids=252 scoring_texts=54
+== poll 87: revealed 261/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820395: Ben Saraf makes driving layup
+  401901820396: Day'Ron Sharpe shooting foul
+[DRY-RUN] BKN 62 · 8:52 3rd · CHA 54
+Ben Saraf makes driving layup
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 62 · 8:31 3rd · CHA 54
+Day'Ron Sharpe shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820396 sent_ids=254 scoring_texts=55
+== poll 88: revealed 264/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820399: Hornets offensive team rebound
+  401901820400: Tidjane Salaun misses free throw 2 of 2
+  401901820402: Ryan Kalkbrenner enters the game for Moussa Diabate
+[DRY-RUN] BKN 62 · 8:31 3rd · CHA 54
+Tidjane Salaun misses free throw 1 of 2 · Hornets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 62 · 8:31 3rd · CHA 54
+Tidjane Salaun misses free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 62 · 8:31 3rd · CHA 54
+Ryan Kalkbrenner enters the game for Moussa Diabate
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820402 sent_ids=258 scoring_texts=55
+== poll 89: revealed 267/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820403: Ben Saraf defensive rebound
+  401901820405: Tidjane Salaun defensive rebound
+[DRY-RUN] BKN 62 · 8:31 3rd · CHA 54
+Ben Saraf defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 62 · 8:15 3rd · CHA 54
+Day'Ron Sharpe misses 26-foot three point jumper · Tidjane Salaun defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820405 sent_ids=261 scoring_texts=55
+== poll 90: revealed 270/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820409: Day'Ron Sharpe defensive rebound
+  401901820410: Terance Mann makes 25-foot running jump shot (Noah Clowney assists)
+[DRY-RUN] BKN 62 · 7:49 3rd · CHA 54
+Day'Ron Sharpe blocks Tidjane Salaun 's 4-foot driving layup · Day'Ron Sharpe defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 65 · 7:41 3rd · CHA 54
+Terance Mann makes 25-foot running jump shot (Noah Clowney assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820410 sent_ids=264 scoring_texts=56
+== poll 91: revealed 273/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820412: Liam McNeeley makes 23-foot three point jumper (Michael Ajayi assists)
+  401901820415: Sion James defensive rebound
+[DRY-RUN] BKN 65 · 7:31 3rd · CHA 57
+Liam McNeeley makes 23-foot three point jumper (Michael Ajayi assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 65 · 7:14 3rd · CHA 57
+Ben Saraf misses 25-foot three point jumper · Sion James defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820415 sent_ids=267 scoring_texts=57
+== poll 92: revealed 276/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820417: Noah Clowney defensive rebound
+  401901820418: Chaney Johnson makes 1-foot dunk (Terance Mann assists)
+[DRY-RUN] BKN 65 · 7:03 3rd · CHA 57
+Sion James misses 23-foot three point jumper · Noah Clowney defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 67 · 6:58 3rd · CHA 57
+Chaney Johnson makes 1-foot dunk (Terance Mann assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820418 sent_ids=270 scoring_texts=58
+== poll 93: revealed 279/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820420: Hornets Full timeout
+  401901820424: Pat Connaughton enters the game for Sion James
+  401901820425: Jarkel Joiner enters the game for Michael Ajayi
+[DRY-RUN] BKN 67 · 6:58 3rd · CHA 57
+Hornets Full timeout
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 67 · 6:58 3rd · CHA 57
+Pat Connaughton enters the game for Sion James
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 67 · 6:58 3rd · CHA 57
+Jarkel Joiner enters the game for Michael Ajayi
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820425 sent_ids=273 scoring_texts=58
+== poll 94: revealed 282/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820428: Nolan Traore enters the game for Day'Ron Sharpe
+  401901820429: Moritz Wagner enters the game for Ben Saraf
+  401901820430: Liam McNeeley makes 25-foot three point jumper (Pat Connaughton assists)
+[DRY-RUN] BKN 67 · 6:58 3rd · CHA 57
+Nolan Traore enters the game for Day'Ron Sharpe
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 67 · 6:58 3rd · CHA 57
+Moritz Wagner enters the game for Ben Saraf
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 67 · 6:44 3rd · CHA 60
+Liam McNeeley makes 25-foot three point jumper (Pat Connaughton assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820430 sent_ids=276 scoring_texts=59
+== poll 95: revealed 285/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820501: Jarkel Joiner shooting foul
+  401901820503: Noah Clowney makes free throw 1 of 2
+  401901820504: Noah Clowney makes free throw 2 of 2
+[DRY-RUN] BKN 67 · 6:25 3rd · CHA 60
+Jarkel Joiner shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 68 · 6:25 3rd · CHA 60
+Noah Clowney makes free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 69 · 6:25 3rd · CHA 60
+Noah Clowney makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820504 sent_ids=279 scoring_texts=61
+== poll 96: revealed 288/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820434: Liam McNeeley makes 23-foot three point jumper (Pat Connaughton assists)
+  401901820440: Nolan Traore makes 4-foot driving floating jump shot
+[DRY-RUN] BKN 67 · 6:06 3rd · CHA 63
+Liam McNeeley makes 23-foot three point jumper (Pat Connaughton assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 69 · 5:49 3rd · CHA 63
+Nolan Traore makes 4-foot driving floating jump shot
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820440 sent_ids=281 scoring_texts=63
+== poll 97: revealed 291/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820442: Ryan Kalkbrenner offensive rebound
+  401901820444: Moritz Wagner defensive rebound
+[DRY-RUN] BKN 69 · 5:24 3rd · CHA 63
+Pat Connaughton misses 24-foot three point step back jumpshot · Ryan Kalkbrenner offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 69 · 5:19 3rd · CHA 63
+Ryan Kalkbrenner misses two point shot · Moritz Wagner defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820444 sent_ids=285 scoring_texts=63
+== poll 98: revealed 294/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820445: Noah Clowney makes running layup (Moritz Wagner assists)
+  401901820447: Moritz Wagner personal foul
+[DRY-RUN] BKN 71 · 5:14 3rd · CHA 63
+Noah Clowney makes running layup (Moritz Wagner assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 73 · 5:06 3rd · CHA 63
+Moritz Wagner personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820447 sent_ids=287 scoring_texts=64
+== poll 99: revealed 297/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820450: Nolan Traore defensive rebound
+  401901820451: Terance Mann makes 24-foot running jump shot (Nolan Traore assists)
+[DRY-RUN] BKN 73 · 4:53 3rd · CHA 63
+Pat Connaughton misses 34-foot three point jumper · Nolan Traore defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 76 · 4:45 3rd · CHA 63
+Terance Mann makes 24-foot running jump shot (Nolan Traore assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820451 sent_ids=290 scoring_texts=65
+== poll 100: revealed 300/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820454: Hornets offensive team rebound
+  401901820455: Terance Mann shooting foul
+  401901820457: Ryan Kalkbrenner makes free throw 1 of 2
+[DRY-RUN] BKN 76 · 4:29 3rd · CHA 63
+Tidjane Salaun misses 25-foot three point jumper · Hornets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 74 · 4:29 3rd · CHA 63
+Terance Mann shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 74 · 4:29 3rd · CHA 64
+Ryan Kalkbrenner makes free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820457 sent_ids=294 scoring_texts=66
+== poll 101: revealed 303/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820458: Ryan Kalkbrenner makes free throw 2 of 2
+  401901820460: Hannes Steinbach enters the game for Tidjane Salaun
+  401901820463: Danny Wolf enters the game for Chaney Johnson
+[DRY-RUN] BKN 74 · 4:29 3rd · CHA 65
+Ryan Kalkbrenner makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 76 · 4:29 3rd · CHA 65
+Hannes Steinbach enters the game for Tidjane Salaun
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 76 · 4:29 3rd · CHA 65
+Danny Wolf enters the game for Chaney Johnson
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820463 sent_ids=297 scoring_texts=67
+== poll 102: revealed 306/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820464: Josh Minott enters the game for Noah Clowney
+  401901820465: Nolan Traore bad pass
+turnover (Jarkel Joiner steals)
+[DRY-RUN] BKN 76 · 4:29 3rd · CHA 65
+Josh Minott enters the game for Noah Clowney
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 76 · 4:14 3rd · CHA 65
+Nolan Traore bad pass turnover (Jarkel Joiner steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820465 sent_ids=299 scoring_texts=67
+== poll 103: revealed 309/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820468: Liam McNeeley offensive rebound
+  401901820469: Liam McNeeley makes 28-foot three point jumper (Jarkel Joiner assists)
+  401901820471: Nets Full timeout
+[DRY-RUN] BKN 74 · 4:07 3rd · CHA 65
+Pat Connaughton misses 26-foot three point jumper · Liam McNeeley offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 76 · 4:00 3rd · CHA 68
+Liam McNeeley makes 28-foot three point jumper (Jarkel Joiner assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 76 · 3:57 3rd · CHA 68
+Nets Full timeout
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820471 sent_ids=303 scoring_texts=68
+== poll 104: revealed 312/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820473: PJ Hall enters the game for Ryan Kalkbrenner
+  401901820475: Drake Powell enters the game for Terance Mann
+  401901820476: Drake Powell makes 22-foot three point jumper (Moritz Wagner assists)
+[DRY-RUN] BKN 75 · 3:57 3rd · CHA 68
+PJ Hall enters the game for Ryan Kalkbrenner
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 75 · 3:57 3rd · CHA 68
+Drake Powell enters the game for Terance Mann
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 78 · 3:37 3rd · CHA 68
+Drake Powell makes 22-foot three point jumper (Moritz Wagner assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820476 sent_ids=306 scoring_texts=69
+== poll 105: revealed 315/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820478: Jarkel Joiner makes 24-foot three point jumper (Pat Connaughton assists)
+  401901820480: Josh Minott makes 23-foot three point jumper (Nolan Traore assists)
+  401901820482: Liam McNeeley offensive foul
+[DRY-RUN] BKN 78 · 3:18 3rd · CHA 71
+Jarkel Joiner makes 24-foot three point jumper (Pat Connaughton assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 81 · 3:05 3rd · CHA 71
+Josh Minott makes 23-foot three point jumper (Nolan Traore assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 81 · 2:41 3rd · CHA 71
+Liam McNeeley offensive foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820482 sent_ids=309 scoring_texts=71
+== poll 106: revealed 318/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820486: Sion James enters the game for Liam McNeeley
+  401901820487: Nolan Traore makes 3-foot two point shot (Moritz Wagner assists)
+[DRY-RUN] BKN 81 · 2:41 3rd · CHA 71
+Sion James enters the game for Liam McNeeley
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 82 · 2:34 3rd · CHA 71
+Nolan Traore makes 3-foot two point shot (Moritz Wagner assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820487 sent_ids=311 scoring_texts=72
+== poll 107: revealed 321/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820489: Sion James shooting foul
+  401901820491: Nolan Traore makes free throw 1 of 1
+  401901820492: Danny Wolf personal foul
+[DRY-RUN] BKN 83 · 2:34 3rd · CHA 71
+Sion James shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 84 · 2:34 3rd · CHA 71
+Nolan Traore makes free throw 1 of 1
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 83 · 2:20 3rd · CHA 71
+Danny Wolf personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820492 sent_ids=314 scoring_texts=73
+== poll 108: revealed 324/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820495: Hornets offensive team rebound
+  401901820496: PJ Hall makes free throw 2 of 2
+[DRY-RUN] BKN 83 · 2:20 3rd · CHA 71
+PJ Hall misses free throw 1 of 2 · Hornets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 83 · 2:20 3rd · CHA 72
+PJ Hall makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820496 sent_ids=317 scoring_texts=74
+== poll 109: revealed 327/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820498: Wyatt Fricks enters the game for Jarkel Joiner
+  401901820499: Danny Wolf makes alley oop layup (Moritz Wagner assists)
+  401901820505: PJ Hall bad pass
+turnover (Josh Minott steals)
+[DRY-RUN] BKN 83 · 2:20 3rd · CHA 72
+Wyatt Fricks enters the game for Jarkel Joiner
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 85 · 2:07 3rd · CHA 72
+Danny Wolf makes alley oop layup (Moritz Wagner assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 85 · 2:00 3rd · CHA 72
+PJ Hall bad pass turnover (Josh Minott steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820505 sent_ids=320 scoring_texts=75
+== poll 110: revealed 330/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401901820508: PJ Hall defensive rebound
+[DRY-RUN] BKN 87 · 1:56 3rd · CHA 72
+Nolan Traore misses dunk · PJ Hall defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820508 sent_ids=322 scoring_texts=75
+== poll 111: revealed 333/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820510: Wyatt Fricks offensive rebound
+  401901820511: Sion James bad pass
+turnover (Nolan Traore steals)
+[DRY-RUN] BKN 87 · 1:40 3rd · CHA 72
+PJ Hall misses 25-foot three point jumper · Wyatt Fricks offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 87 · 1:32 3rd · CHA 72
+Sion James bad pass turnover (Nolan Traore steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820511 sent_ids=325 scoring_texts=75
+== poll 112: revealed 336/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820514: Wyatt Fricks defensive rebound
+  401901820515: PJ Hall steps out of bounds turnover
+  401901820516: Danny Wolf makes 23-foot three point jumper (Drake Powell assists)
+[DRY-RUN] BKN 87 · 1:16 3rd · CHA 72
+Drake Powell misses driving layup · Wyatt Fricks defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 87 · 1:01 3rd · CHA 72
+PJ Hall steps out of bounds turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 90 · 43.3 3rd · CHA 72
+Danny Wolf makes 23-foot three point jumper (Drake Powell assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820516 sent_ids=329 scoring_texts=76
+== poll 113: revealed 339/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820518: PJ Hall lost ball turnover (Drake Powell steals)
+  401901820520: Josh Minott makes 1-foot dunk (Danny Wolf assists)
+  401901820522: Nolan Traore personal foul
+[DRY-RUN] BKN 90 · 20.6 3rd · CHA 72
+PJ Hall lost ball turnover (Drake Powell steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 17.4 3rd · CHA 72
+Josh Minott makes 1-foot dunk (Danny Wolf assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 4.8 3rd · CHA 72
+Nolan Traore personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820522 sent_ids=332 scoring_texts=77
+== poll 114: revealed 342/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820524: Pat Connaughton misses free throw 1 of 2
+  401901820525: Nets Full timeout
+  401901820526: (00:04.8) [Nets] COACH'S CHALLENGE (REPLAY SUPPORTS CALL) [Nets] charged with a timeout
+[DRY-RUN] BKN 92 · 4.8 3rd · CHA 72
+Pat Connaughton misses free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 4.8 3rd · CHA 72
+Nets Full timeout
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 4.8 3rd · CHA 72
+(00:04.8) [Nets] COACH'S CHALLENGE (REPLAY SUPPORTS CALL) [Nets] charged with a timeout
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820526 sent_ids=335 scoring_texts=77
+== poll 115: revealed 345/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820529: Michael Ajayi enters the game for PJ Hall
+  401901820530: Jarkel Joiner enters the game for Sion James
+  401901820531: Hornets offensive team rebound
+[DRY-RUN] BKN 92 · 4.8 3rd · CHA 72
+Michael Ajayi enters the game for PJ Hall
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 4.8 3rd · CHA 72
+Jarkel Joiner enters the game for Sion James
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 4.8 3rd · CHA 72
+Hornets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820531 sent_ids=338 scoring_texts=77
+== poll 116: revealed 348/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820532: Pat Connaughton makes free throw 2 of 2
+  401901820533: Jarkel Joiner personal foul
+[DRY-RUN] BKN 92 · 4.8 3rd · CHA 73
+Pat Connaughton makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 2.7 3rd · CHA 73
+Jarkel Joiner personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820533 sent_ids=340 scoring_texts=78
+== poll 117: revealed 351/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820536: Nets offensive team rebound
+  401901820537: End of the 3rd Quarter
+  401901820539: Tidjane Salaun enters the game for Pat Connaughton
+[DRY-RUN] BKN 92 · 0.0 3rd · CHA 73
+Nolan Traore misses heave jump shot · Nets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 0.0 3rd · CHA 73
+End of the 3rd Quarter
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 12:00 4th · CHA 73
+Tidjane Salaun enters the game for Pat Connaughton
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820539 sent_ids=344 scoring_texts=78
+== poll 118: revealed 354/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820543: Ben Saraf enters the game for Josh Minott
+  401901820544: Noah Clowney enters the game for Moritz Wagner
+  401901820545: Chaney Johnson enters the game for Nolan Traore
+[DRY-RUN] BKN 92 · 12:00 4th · CHA 73
+Ben Saraf enters the game for Josh Minott
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 12:00 4th · CHA 73
+Noah Clowney enters the game for Moritz Wagner
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 12:00 4th · CHA 73
+Chaney Johnson enters the game for Nolan Traore
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820545 sent_ids=347 scoring_texts=78
+== poll 119: revealed 357/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820548: Michael Ajayi defensive rebound
+  401901820549: Tidjane Salaun out of bounds bad pass turnover
+[DRY-RUN] BKN 92 · 11:39 4th · CHA 73
+Ben Saraf misses 26-foot three point pullup jump shot · Michael Ajayi defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 11:21 4th · CHA 73
+Tidjane Salaun out of bounds bad pass turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820549 sent_ids=350 scoring_texts=78
+== poll 120: revealed 360/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820550: Jarkel Joiner personal foul
+  401901820554: Hannes Steinbach defensive rebound
+[DRY-RUN] BKN 92 · 11:15 4th · CHA 73
+Jarkel Joiner personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 92 · 11:08 4th · CHA 73
+Noah Clowney misses 3-foot hook shot · Hannes Steinbach defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820554 sent_ids=353 scoring_texts=78
+== poll 121: revealed 363/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820556: Drake Powell defensive rebound
+  401901820557: Ben Saraf makes 23-foot three point jumper (Danny Wolf assists)
+[DRY-RUN] BKN 92 · 10:56 4th · CHA 73
+Wyatt Fricks misses 25-foot three point jumper · Drake Powell defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 95 · 10:45 4th · CHA 73
+Ben Saraf makes 23-foot three point jumper (Danny Wolf assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820557 sent_ids=356 scoring_texts=79
+== poll 122: revealed 366/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820559: Wyatt Fricks makes driving layup (Michael Ajayi assists)
+  401901820561: Noah Clowney makes 23-foot three point jumper (Danny Wolf assists)
+[DRY-RUN] BKN 95 · 10:25 4th · CHA 75
+Wyatt Fricks makes driving layup (Michael Ajayi assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 98 · 10:10 4th · CHA 75
+Noah Clowney makes 23-foot three point jumper (Danny Wolf assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820561 sent_ids=358 scoring_texts=81
+== poll 123: revealed 369/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820564: Hannes Steinbach offensive rebound
+  401901820567: Hannes Steinbach makes two point shot
+  401901820568: Drake Powell makes driving layup
+[DRY-RUN] BKN 98 · 9:53 4th · CHA 75
+Jarkel Joiner misses driving layup · Hannes Steinbach offensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 98 · 9:50 4th · CHA 77
+Hannes Steinbach makes two point shot
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 100 · 9:43 4th · CHA 77
+Drake Powell makes driving layup
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820568 sent_ids=362 scoring_texts=83
+== poll 124: revealed 372/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820569: Wyatt Fricks defensive goaltending violation
+  401901820570: Chaney Johnson personal foul
+  401901820574: Ryan Kalkbrenner enters the game for Hannes Steinbach
+[DRY-RUN] BKN 100 · 9:43 4th · CHA 79
+Wyatt Fricks defensive goaltending violation
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 100 · 9:33 4th · CHA 79
+Chaney Johnson personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 100 · 9:33 4th · CHA 79
+Ryan Kalkbrenner enters the game for Hannes Steinbach
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820574 sent_ids=365 scoring_texts=83
+== poll 125: revealed 375/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820575: Liam McNeeley enters the game for Michael Ajayi
+  401901820582: Grant Nelson enters the game for Danny Wolf
+  401901820576: Liam McNeeley bad pass
+turnover (Grant Nelson steals)
+[DRY-RUN] BKN 100 · 9:33 4th · CHA 79
+Liam McNeeley enters the game for Michael Ajayi
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 100 · 9:33 4th · CHA 77
+Grant Nelson enters the game for Danny Wolf
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 100 · 9:18 4th · CHA 77
+Liam McNeeley bad pass turnover (Grant Nelson steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820576 sent_ids=368 scoring_texts=83
+== poll 126: revealed 378/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820579: Ryan Kalkbrenner defensive rebound
+  401901820580: Liam McNeeley out of bounds bad pass turnover
+[DRY-RUN] BKN 100 · 9:09 4th · CHA 77
+Noah Clowney misses 25-foot three point jumper · Ryan Kalkbrenner defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 100 · 9:02 4th · CHA 77
+Liam McNeeley out of bounds bad pass turnover
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820580 sent_ids=371 scoring_texts=83
+== poll 127: revealed 381/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401901820584: Nets offensive team rebound
+[DRY-RUN] BKN 100 · 8:53 4th · CHA 77
+Wyatt Fricks blocks Drake Powell 's 2-foot driving layup · Nets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820584 sent_ids=373 scoring_texts=83
+== poll 128: revealed 384/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820587: Tidjane Salaun defensive rebound
+  401901820590: Drake Powell defensive rebound
+[DRY-RUN] BKN 100 · 8:48 4th · CHA 77
+Grant Nelson misses 25-foot three point jumper · Tidjane Salaun defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 100 · 8:37 4th · CHA 77
+Tidjane Salaun misses driving layup · Drake Powell defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820590 sent_ids=377 scoring_texts=83
+== poll 129: revealed 387/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820591: Drake Powell makes driving layup
+  401901820592: Liam McNeeley lost ball turnover (Noah Clowney steals)
+  401901820594: Grant Nelson makes 23-foot three point jumper (Ben Saraf assists)
+[DRY-RUN] BKN 102 · 8:28 4th · CHA 77
+Drake Powell makes driving layup
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 102 · 8:16 4th · CHA 77
+Liam McNeeley lost ball turnover (Noah Clowney steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 105 · 7:57 4th · CHA 77
+Grant Nelson makes 23-foot three point jumper (Ben Saraf assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820594 sent_ids=380 scoring_texts=85
+== poll 130: revealed 390/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820596: Hornets Full timeout
+  401901820599: Michael Ajayi enters the game for Wyatt Fricks
+  401901820600: Pat Connaughton enters the game for Jarkel Joiner
+[DRY-RUN] BKN 105 · 7:57 4th · CHA 77
+Hornets Full timeout
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 105 · 7:57 4th · CHA 77
+Michael Ajayi enters the game for Wyatt Fricks
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 105 · 7:57 4th · CHA 77
+Pat Connaughton enters the game for Jarkel Joiner
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820600 sent_ids=383 scoring_texts=85
+== poll 131: revealed 393/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820605: Josh Minott enters the game for Ben Saraf
+  401901820606: Danny Wolf enters the game for Noah Clowney
+  401901820607: Nolan Traore enters the game for Chaney Johnson
+[DRY-RUN] BKN 105 · 7:57 4th · CHA 77
+Josh Minott enters the game for Ben Saraf
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 105 · 7:57 4th · CHA 77
+Danny Wolf enters the game for Noah Clowney
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 105 · 7:57 4th · CHA 77
+Nolan Traore enters the game for Chaney Johnson
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820607 sent_ids=386 scoring_texts=85
+== poll 132: revealed 396/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820608: Tyler Bilodeau enters the game for Drake Powell
+  401901820609: Josh Minott personal foul
+  401901820611: Pat Connaughton lost ball turnover (Josh Minott steals)
+[DRY-RUN] BKN 105 · 7:57 4th · CHA 77
+Tyler Bilodeau enters the game for Drake Powell
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 105 · 7:52 4th · CHA 77
+Josh Minott personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 105 · 7:35 4th · CHA 77
+Pat Connaughton lost ball turnover (Josh Minott steals)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820611 sent_ids=389 scoring_texts=85
+== poll 133: revealed 399/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820613: Pat Connaughton shooting foul
+  401901820616: Nets offensive team rebound
+[DRY-RUN] BKN 105 · 7:31 4th · CHA 77
+Pat Connaughton shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 105 · 7:31 4th · CHA 77
+Josh Minott misses free throw 1 of 2 · Nets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820616 sent_ids=392 scoring_texts=85
+== poll 134: revealed 402/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820617: Josh Minott makes free throw 2 of 2
+  401901820619: Tyler Bilodeau defensive rebound
+[DRY-RUN] BKN 106 · 7:31 4th · CHA 77
+Josh Minott makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 106 · 7:08 4th · CHA 77
+Michael Ajayi misses driving floating jump shot · Tyler Bilodeau defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820619 sent_ids=395 scoring_texts=86
+== poll 135: revealed 405/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820620: Danny Wolf makes driving layup
+  401901820622: Danny Wolf personal foul
+  401901820626: Hannes Steinbach enters the game for Liam McNeeley
+[DRY-RUN] BKN 108 · 6:59 4th · CHA 77
+Danny Wolf makes driving layup
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 108 · 6:43 4th · CHA 77
+Danny Wolf personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 108 · 6:43 4th · CHA 77
+Hannes Steinbach enters the game for Liam McNeeley
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820626 sent_ids=398 scoring_texts=87
+== poll 136: revealed 408/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820627: Wyatt Fricks enters the game for Ryan Kalkbrenner
+  401901820629: Josh Minott defensive rebound
+[DRY-RUN] BKN 108 · 6:43 4th · CHA 77
+Wyatt Fricks enters the game for Ryan Kalkbrenner
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 108 · 6:35 4th · CHA 77
+Tidjane Salaun misses 23-foot three point jumper · Josh Minott defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820629 sent_ids=401 scoring_texts=87
+== poll 137: revealed 411/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820630: Nolan Traore makes driving layup (Grant Nelson assists)
+  401901820632: Wyatt Fricks shooting foul
+  401901820634: Nolan Traore makes free throw 1 of 1
+[DRY-RUN] BKN 110 · 6:19 4th · CHA 77
+Nolan Traore makes driving layup (Grant Nelson assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 110 · 6:19 4th · CHA 77
+Wyatt Fricks shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 111 · 6:19 4th · CHA 77
+Nolan Traore makes free throw 1 of 1
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820634 sent_ids=404 scoring_texts=89
+== poll 138: revealed 414/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820635: Danny Wolf personal foul
+  401901820638: Danny Wolf defensive rebound
+[DRY-RUN] BKN 111 · 6:12 4th · CHA 77
+Danny Wolf personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 111 · 5:59 4th · CHA 77
+Hannes Steinbach misses 7-foot two point shot · Danny Wolf defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820638 sent_ids=407 scoring_texts=89
+== poll 139: revealed 417/435 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401901820640: Hornets defensive team rebound
+[DRY-RUN] BKN 111 · 5:50 4th · CHA 77
+Josh Minott misses 25-foot three point pullup jump shot · Hornets defensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820640 sent_ids=409 scoring_texts=89
+== poll 140: revealed 420/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820643: Tyler Bilodeau defensive rebound
+  401901820644: Michael Ajayi shooting foul
+  401901820646: Nolan Traore makes free throw 1 of 2
+[DRY-RUN] BKN 111 · 5:36 4th · CHA 77
+Michael Ajayi misses driving layup · Tyler Bilodeau defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 111 · 5:28 4th · CHA 77
+Michael Ajayi shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 112 · 5:28 4th · CHA 77
+Nolan Traore makes free throw 1 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820646 sent_ids=413 scoring_texts=90
+== poll 141: revealed 423/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820647: Nolan Traore makes free throw 2 of 2
+  401901820649: Jarkel Joiner enters the game for Pat Connaughton
+  401901820650: Tidjane Salaun makes driving layup (Jarkel Joiner assists)
+[DRY-RUN] BKN 113 · 5:28 4th · CHA 77
+Nolan Traore makes free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 113 · 5:28 4th · CHA 77
+Jarkel Joiner enters the game for Pat Connaughton
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 113 · 5:12 4th · CHA 79
+Tidjane Salaun makes driving layup (Jarkel Joiner assists)
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820650 sent_ids=416 scoring_texts=92
+== poll 142: revealed 426/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820651: Nolan Traore shooting foul
+  401901820653: Tidjane Salaun makes free throw 1 of 1
+[DRY-RUN] BKN 113 · 5:12 4th · CHA 79
+Nolan Traore shooting foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 113 · 5:12 4th · CHA 80
+Tidjane Salaun makes free throw 1 of 1
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820653 sent_ids=418 scoring_texts=93
+== poll 143: revealed 429/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820657: Hannes Steinbach defensive rebound
+  401901820659: Nolan Traore defensive rebound
+[DRY-RUN] BKN 113 · 4:51 4th · CHA 80
+Grant Nelson misses 4-foot pullup jump shot · Hannes Steinbach defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 113 · 4:39 4th · CHA 80
+Wyatt Fricks misses 4-foot jumper · Nolan Traore defensive rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820659 sent_ids=422 scoring_texts=93
+== poll 144: revealed 432/435 ==
+[DRY-RUN] 2 new play(s) for game 999
+  401901820660: Wyatt Fricks personal foul
+  401901820663: Nets offensive team rebound
+[DRY-RUN] BKN 113 · 4:32 4th · CHA 80
+Wyatt Fricks personal foul
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 113 · 4:32 4th · CHA 80
+Danny Wolf misses free throw 1 of 2 · Nets offensive team rebound
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820663 sent_ids=425 scoring_texts=93
+== poll 145: revealed 435/435 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401901820664: misses free throw 2 of 2
+  401901820666: PJ Hall enters the game for Michael Ajayi
+  401901820668: Drake Powell enters the game for Nolan Traore
+[DRY-RUN] BKN 113 · 4:32 4th · CHA 80
+misses free throw 2 of 2
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 113 · 4:32 4th · CHA 80
+PJ Hall enters the game for Michael Ajayi
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+[DRY-RUN] BKN 113 · 4:32 4th · CHA 80
+Drake Powell enters the game for Nolan Traore
+Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
+-> returned False; last_play_id=401901820668 sent_ids=428 scoring_texts=93

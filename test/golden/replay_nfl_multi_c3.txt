@@ -1,0 +1,35 @@
+== poll 1: revealed 3/8 ==
+[DRY-RUN] 1 new play(s) for game 999
+  40187297985: (Shotgun) M.Penix pass short left to A.Hooper to ATL 41 for 9 yards (J.Sanker).
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+1st & 10 · (Shotgun) M.Penix pass short left to A.Hooper to ATL 41 for 9 yards (J.Sanker). · 2nd & 1
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-> returned False; last_play_id=40187297985 sent_ids=0 scoring_texts=0
+== poll 2: revealed 6/8 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401872979110: Bi.Robinson left end for 59 yards, TOUCHDOWN. N.Folk extra point is GOOD, Center-L.McCullough, Holder-J.Bailey.
+  4018729791711: (7:52) (Shotgun) M.Penix pass deep middle to D.London to NO 49 for 37 yards (J.Reid).
+Penalty on NO-K.McKinstry, Illegal Contact, declined.
+  4018729791754: Bi.Robinson left end to NO 38 for 11 yards (J.Blackmon; C.Wooden).
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+2nd & 1 · Bi.Robinson left end for 59 yards, TOUCHDOWN. N.Folk extra point is GOOD, Center-L.McCullough, Holder-J.Bailey.
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+1st & 10 · (7:52) (Shotgun) M.Penix pass deep middle to D.London to NO 49 for 37 yards (J.Reid).
+Penalty on NO-K.McKinstry, Illegal Contact, declined. · 1st & 10
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+1st & 10 · Bi.Robinson left end to NO 38 for 11 yards (J.Blackmon; C.Wooden). · 1st & 10
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-> returned False; last_play_id=4018729791754 sent_ids=0 scoring_texts=1
+== poll 3: revealed 8/8 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4018729791776: (Shotgun) Bi.Robinson up the middle to NO 30 for 8 yards (J.Blackmon).
+  4018729791798: Br.Robinson up the middle to NO 25 for 5 yards (D.Stutsman).
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+1st & 10 · (Shotgun) Bi.Robinson up the middle to NO 30 for 8 yards (J.Blackmon). · 2nd & 2
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+2nd & 2 · Br.Robinson up the middle to NO 25 for 5 yards (D.Stutsman). · 1st & 10
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-> returned False; last_play_id=4018729791798 sent_ids=0 scoring_texts=1

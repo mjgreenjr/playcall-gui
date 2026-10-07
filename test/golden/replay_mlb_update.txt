@@ -1,0 +1,16 @@
+== poll 1: revealed 573/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151704990057: Yastrzemski grounded out to shortstop.
+[DRY-RUN] LAD 3 · Bot 9 · 3 outs · ATL 1
+Yastrzemski grounded out to shortstop.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151704990057 sent_ids=0 scoring_texts=3
+== poll 2: revealed 573/573, scoring play 4019080150603990057 text changed ==
+[DRY-RUN] 0 new play(s) for game 999
+[DRY-RUN] LAD 2 · Top 4 · 1 out, 0 on · ATL 0
+E. Hernández homered to left (406 feet), Pages scored. (extra point is good)
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151704990057 sent_ids=0 scoring_texts=3
+== poll 3: revealed 573/573, text unchanged ==
+[DRY-RUN] 0 new play(s) for game 999
+-> returned False; last_play_id=4019080151704990057 sent_ids=0 scoring_texts=3

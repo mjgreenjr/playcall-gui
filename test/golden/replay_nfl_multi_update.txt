@@ -1,0 +1,16 @@
+== poll 1: revealed 8/8 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4018729791798: Br.Robinson up the middle to NO 25 for 5 yards (D.Stutsman).
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+2nd & 2 · Br.Robinson up the middle to NO 25 for 5 yards (D.Stutsman). · 1st & 10
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-> returned False; last_play_id=4018729791798 sent_ids=0 scoring_texts=1
+== poll 2: revealed 8/8, scoring play 401872979110 text changed ==
+[DRY-RUN] 0 new play(s) for game 999
+[DRY-RUN] ATL 24 · 3:07 2nd · NO 7
+2nd & 1 · Bi.Robinson left end for 59 yards, TOUCHDOWN. N.Folk extra point is GOOD, Center-L.McCullough, Holder-J.Bailey. (extra point is good)
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-> returned False; last_play_id=4018729791798 sent_ids=0 scoring_texts=1
+== poll 3: revealed 8/8, text unchanged ==
+[DRY-RUN] 0 new play(s) for game 999
+-> returned False; last_play_id=4018729791798 sent_ids=0 scoring_texts=1

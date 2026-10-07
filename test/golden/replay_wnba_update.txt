@@ -1,0 +1,16 @@
+== poll 1: revealed 359/359 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401918296501: End of Game
+[DRY-RUN] LV 60 · 0.0 4th · GS 71
+End of Game
+Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
+-> returned False; last_play_id=401918296501 sent_ids=359 scoring_texts=70
+== poll 2: revealed 359/359, scoring play 40191829620 text changed ==
+[DRY-RUN] 0 new play(s) for game 999
+[DRY-RUN] LV 3 · 8:27 1st · GS 0
+Chelsea Gray makes 24-foot three point jumper (Jewell Loyd assists) (extra point is good)
+Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
+-> returned False; last_play_id=401918296501 sent_ids=359 scoring_texts=70
+== poll 3: revealed 359/359, text unchanged ==
+[DRY-RUN] 0 new play(s) for game 999
+-> returned False; last_play_id=401918296501 sent_ids=359 scoring_texts=70

@@ -1,0 +1,47 @@
+== poll 1: revealed 3/10 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401872964100: (Shotgun) Q.Judkins right guard to CLV 23 for 2 yards (P.Queen).
+[DRY-RUN] PIT 24 · CLE 27
+2nd & 5 · (Shotgun) Q.Judkins right guard to CLV 23 for 2 yards (P.Queen). · 3rd & 3
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-> returned False; last_play_id=401872964100 sent_ids=0 scoring_texts=0
+== poll 2: revealed 6/10 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401872964122: (Shotgun) D.Watson pass short left to I.Bond to CLV 25 for 2 yards (J.Ramsey) [T.Watt].
+  401872964147: C.Bojorquez punts 68 yards to PIT 7, Center-R.Sunahara. K.Wetjen pushed ob at PIT 22 for 15 yards (B.Whiteheart).
+  401872964178: J.Warren left tackle to PIT 26 for 4 yards (T.Campbell).
+[DRY-RUN] PIT 24 · CLE 27
+3rd & 3 · (Shotgun) D.Watson pass short left to I.Bond to CLV 25 for 2 yards (J.Ramsey) [T.Watt]. · 4th & 1
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+[DRY-RUN] PIT 24 · CLE 27
+4th & 1 · C.Bojorquez punts 68 yards to PIT 7, Center-R.Sunahara. K.Wetjen pushed ob at PIT 22 for 15 yards (B.Whiteheart). · 1st & 10
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+[DRY-RUN] PIT 24 · CLE 27
+1st & 10 · J.Warren left tackle to PIT 26 for 4 yards (T.Campbell). · 2nd & 6
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-> returned False; last_play_id=401872964178 sent_ids=0 scoring_texts=0
+== poll 3: revealed 9/10 ==
+[DRY-RUN] 3 new play(s) for game 999
+  401872964200: (Shotgun) A.Rodgers pass incomplete deep right to D.Metcalf.
+  401872964223: (Shotgun) PENALTY on PIT-M.Pittman, False Start, 5 yards, enforced at PIT 26 - No Play.
+  401872964247: (Shotgun) A.Rodgers pass short right to D.Metcalf to PIT 36 for 15 yards (R.Hickman).
+[DRY-RUN] PIT 24 · CLE 27
+2nd & 6 · (Shotgun) A.Rodgers pass incomplete deep right to D.Metcalf. · 3rd & 6
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+[DRY-RUN] PIT 24 · CLE 27
+3rd & 6 · (Shotgun) PENALTY on PIT-M.Pittman, False Start, 5 yards, enforced at PIT 26 - No Play. · 3rd & 11
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+[DRY-RUN] PIT 24 · CLE 27
+3rd & 11 · (Shotgun) A.Rodgers pass short right to D.Metcalf to PIT 36 for 15 yards (R.Hickman). · 1st & 10
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-> returned False; last_play_id=401872964247 sent_ids=0 scoring_texts=0
+== poll 4: revealed 10/10 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401872964272: J.Warren left guard to PIT 37 for 1 yard (C.Schwesinger).
+[DRY-RUN] PIT 24 · CLE 27
+1st & 10 · J.Warren left guard to PIT 37 for 1 yard (C.Schwesinger). · 2nd & 9
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+[DRY-RUN] PIT 24 · Final · CLE 27
+Game over
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+-> returned True; last_play_id=401872964272 sent_ids=0 scoring_texts=0

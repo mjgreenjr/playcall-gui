@@ -1,0 +1,7 @@
+== poll 1: revealed 2/2 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401628456782: T.Henderson run for 6 yards, TOUCHDOWN.
+[DRY-RUN] MICH 24 · 5:14 4th · OSU 31
+1st & 6 · T.Henderson run for 6 yards, TOUCHDOWN.
+Exec: xdg-open https://www.espn.com/college-football/game/_/gameId/999
+-> returned False; last_play_id=401628456782 sent_ids=0 scoring_texts=1

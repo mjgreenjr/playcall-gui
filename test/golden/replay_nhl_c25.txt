@@ -1,0 +1,437 @@
+== poll 1: revealed 25/269 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401892451000000130: Icing
+[DRY-RUN] UTA 1 · 16:29 1st · NJ 0
+Icing
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000000130 sent_ids=23 scoring_texts=1
+== poll 2: revealed 50/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000002020: Giveaway by Nate Schmidt
+  401892451000001850: Timo Meier Slap Shot saved by Karel Vejmelka
+  401892451000000160: Goalie Stopped
+  401892451000001860: Barrett Hayton faceoff won against Evan Rodrigues
+  401892451000001900: Anthony Mantha Snap Shot saved by Karel Vejmelka
+  401892451000001920: Dougie Hamilton Slap Shot High and Wide Right
+  401892451000000170: Puck in Netting
+  401892451000001930: Vincent Trocheck faceoff won against Jack Hughes
+  401892451000002050: Takeaway by Luke Hughes
+  401892451000001990: Luke Hughes shot blocked by Jack McBain
+[DRY-RUN] UTA 1 · 14:47 1st · NJ 0 PP
+Giveaway by Nate Schmidt
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 14:38 1st · NJ 0 PP
+Timo Meier Slap Shot saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 14:36 1st · NJ 0 PP
+Goalie Stopped
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 14:36 1st · NJ 0 PP
+Barrett Hayton faceoff won against Evan Rodrigues
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 14:15 1st · NJ 0 PP
+Anthony Mantha Snap Shot saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 14:04 1st · NJ 0 PP
+Dougie Hamilton Slap Shot High and Wide Right
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 14:02 1st · NJ 0 PP
+Puck in Netting
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 14:02 1st · NJ 0 PP
+Vincent Trocheck faceoff won against Jack Hughes
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 13:57 1st · NJ 0 PP
+Takeaway by Luke Hughes
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 13:47 1st · NJ 0
+Luke Hughes shot blocked by Jack McBain
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000001990 sent_ids=47 scoring_texts=1
+== poll 3: revealed 75/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000000210: Puck in Benches
+  401892451000002270: Nico Hischier faceoff won against Nick Schmaltz
+  401892451000002320: Clayton Keller Slap Shot saved by Jake Allen
+  401892451000002330: Logan Cooley Tip-In High and Wide Right
+  401892451000000220: Puck in Netting
+  401892451000002340: Vincent Trocheck faceoff won against Cody Glass
+  401892451000002390: Vincent Trocheck shot blocked by Brett Pesce
+  401892451000002400: Michael Carcone Snap Shot saved by Jake Allen
+  401892451000002590: Giveaway by Barrett Hayton
+  401892451000002610: Giveaway by Brenden Dillon
+[DRY-RUN] UTA 1 PP · 12:35 1st · NJ 0
+Puck in Benches
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 PP · 12:35 1st · NJ 0
+Nico Hischier faceoff won against Nick Schmaltz
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 PP · 11:26 1st · NJ 0
+Clayton Keller Slap Shot saved by Jake Allen
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 PP · 11:21 1st · NJ 0
+Logan Cooley Tip-In High and Wide Right
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 PP · 11:18 1st · NJ 0
+Puck in Netting
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 PP · 11:18 1st · NJ 0
+Vincent Trocheck faceoff won against Cody Glass
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 PP · 11:11 1st · NJ 0
+Vincent Trocheck shot blocked by Brett Pesce
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 PP · 11:04 1st · NJ 0
+Michael Carcone Snap Shot saved by Jake Allen
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 10:14 1st · NJ 0
+Giveaway by Barrett Hayton
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 10:10 1st · NJ 0
+Giveaway by Brenden Dillon
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000002610 sent_ids=69 scoring_texts=1
+== poll 4: revealed 100/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000002900: Lawson Crouse Hooking against Luke Evangelista
+  401892451000002870: Nico Hischier faceoff won against Kevin Stenlund
+  401892451000002930: Luke Evangelista Goal (1) Tip-In, assists: Jack Hughes (1), Jesper Bratt (2)
+  401892451000002940: Nick Schmaltz faceoff won against Nico Hischier
+  401892451000003000: Jack Hughes Wrist Shot saved by Karel Vejmelka
+  401892451000003960: Giveaway by Nate Schmidt
+  401892451000003580: Timo Meier Tip-In saved by Karel Vejmelka
+  401892451000004060: Giveaway by Logan Cooley
+  401892451000000260: Icing
+  401892451000003720: Cody Glass faceoff won against Logan Cooley
+[DRY-RUN] UTA 1 · 7:55 1st · NJ 0 PP
+Lawson Crouse Hooking against Luke Evangelista · 2 min Minor
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 7:55 1st · NJ 0 PP
+Nico Hischier faceoff won against Kevin Stenlund
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 7:37 1st · NJ 1 PP
+Luke Evangelista Goal (1) Tip-In, assists: Jack Hughes (1), Jesper Bratt (2)
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 7:37 1st · NJ 1 PP
+Nick Schmaltz faceoff won against Nico Hischier
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 7:19 1st · NJ 1 PP
+Jack Hughes Wrist Shot saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 6:35 1st · NJ 1 PP
+Giveaway by Nate Schmidt
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 6:34 1st · NJ 1 PP
+Timo Meier Tip-In saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 5:34 1st · NJ 1
+Giveaway by Logan Cooley
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 5:26 1st · NJ 1
+Icing
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 5:26 1st · NJ 1
+Cody Glass faceoff won against Logan Cooley
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000003720 sent_ids=89 scoring_texts=2
+== poll 5: revealed 125/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000000300: Off-side
+  401892451000004340: Nico Hischier faceoff won against Logan Cooley
+  401892451000004500: Giveaway by Logan Cooley
+  401892451000004570: Giveaway by Luke Evangelista
+  401892451000004410: John Marino shot blocked by Timo Meier
+  401892451000004530: Mikhail Sergachev shot blocked by Jack Hughes
+  401892451000005010: Kevin Stenlund Snap Shot Wide Left
+  401892451000004600: Barrett Hayton faceoff won against Cody Glass
+  401892451000004680: Giveaway by Dougie Hamilton
+  401892451000004620: Barrett Hayton Backhand saved by Jake Allen
+[DRY-RUN] UTA 1 · 2:09 1st · NJ 1
+Off-side
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 2:09 1st · NJ 1
+Nico Hischier faceoff won against Logan Cooley
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 1:46 1st · NJ 1
+Giveaway by Logan Cooley
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 1:26 1st · NJ 1
+Giveaway by Luke Evangelista
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 1:20 1st · NJ 1
+John Marino shot blocked by Timo Meier
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 0:07 1st · NJ 1
+Mikhail Sergachev shot blocked by Jack Hughes
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 0:04 1st · NJ 1
+Kevin Stenlund Snap Shot Wide Left
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 20:00 2nd · NJ 1
+Barrett Hayton faceoff won against Cody Glass
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 19:46 2nd · NJ 1
+Giveaway by Dougie Hamilton
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 1 · 19:36 2nd · NJ 1
+Barrett Hayton Backhand saved by Jake Allen
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000004620 sent_ids=110 scoring_texts=2
+== poll 6: revealed 150/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000004980: Andrew Peeke shot blocked by Nico Hischier
+  401892451000005740: Giveaway by Dougie Hamilton
+  401892451000005770: Giveaway by Anders Lee
+  401892451000005850: Giveaway by Jack McBain
+  401892451000005580: Luke Hughes Snap Shot saved by Karel Vejmelka
+  401892451000005590: Brett Pesce shot blocked by MacKenzie Weegar
+  401892451000005620: MacKenzie Weegar Wrist Shot saved by Jake Allen
+  401892451000005630: Jack McBain shot blocked by Brett Pesce
+  401892451000005680: Cody Glass Snap Shot Above Crossbar
+  401892451000005720: Nate Schmidt Snap Shot saved by Jake Allen
+[DRY-RUN] UTA 2 · 17:11 2nd · NJ 1
+Andrew Peeke shot blocked by Nico Hischier
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 17:01 2nd · NJ 1
+Giveaway by Dougie Hamilton
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 16:56 2nd · NJ 1
+Giveaway by Anders Lee
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 16:28 2nd · NJ 1
+Giveaway by Jack McBain
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 16:22 2nd · NJ 1
+Luke Hughes Snap Shot saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 16:18 2nd · NJ 1
+Brett Pesce shot blocked by MacKenzie Weegar
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 16:03 2nd · NJ 1
+MacKenzie Weegar Wrist Shot saved by Jake Allen
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 15:50 2nd · NJ 1
+Jack McBain shot blocked by Brett Pesce
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 15:31 2nd · NJ 1
+Cody Glass Snap Shot Above Crossbar
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 15:18 2nd · NJ 1
+Nate Schmidt Snap Shot saved by Jake Allen
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000005720 sent_ids=131 scoring_texts=3
+== poll 7: revealed 175/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000000410: Icing
+  401892451000006100: Nico Hischier faceoff won against Logan Cooley
+  401892451000000420: Icing
+  401892451000006170: Nico Hischier faceoff won against Kevin Stenlund
+  401892451000000430: Icing
+  401892451000006300: Vincent Trocheck faceoff won against Evan Rodrigues
+  401892451000000440: Puck Frozen - Goalie
+  401892451000006340: Barrett Hayton faceoff won against Evan Rodrigues
+  401892451000006540: Giveaway by Arseny Gritsyuk
+  401892451000006580: Giveaway by Lawson Crouse
+[DRY-RUN] UTA 2 · 13:02 2nd · NJ 2
+Icing
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 13:02 2nd · NJ 2
+Nico Hischier faceoff won against Logan Cooley
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 12:39 2nd · NJ 2
+Icing
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 12:39 2nd · NJ 2
+Nico Hischier faceoff won against Kevin Stenlund
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 11:35 2nd · NJ 2
+Icing
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 11:35 2nd · NJ 2
+Vincent Trocheck faceoff won against Evan Rodrigues
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 11:30 2nd · NJ 2
+Puck Frozen - Goalie
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 11:30 2nd · NJ 2
+Barrett Hayton faceoff won against Evan Rodrigues
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 11:16 2nd · NJ 2
+Giveaway by Arseny Gritsyuk
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 11:14 2nd · NJ 2
+Giveaway by Lawson Crouse
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000006580 sent_ids=153 scoring_texts=4
+== poll 8: revealed 200/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000006720: Timo Meier Tripping against John Marino
+  401892451000003080: TV Timeout
+  401892451000006660: Logan Cooley faceoff won against Cody Glass
+  401892451000006790: Dylan Guenther Slap Shot High and Wide Left
+  401892451000006920: Giveaway by Logan Cooley
+  401892451000006830: Nick Schmaltz Goal (5) Wrist Shot, assists: Dylan Guenther (3), Mikhail Sergachev (5)
+  401892451000006840: Jack Hughes faceoff won against Kevin Stenlund
+  401892451000006910: Anthony Mantha Tip-In Wide Right
+  401892451000007120: Giveaway by Anthony Mantha
+  401892451000000480: Off-side
+[DRY-RUN] UTA 2 · 9:10 2nd · NJ 2
+Timo Meier Tripping against John Marino · 2 min Minor
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 · 9:10 2nd · NJ 2
+TV Timeout
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 PP · 9:10 2nd · NJ 2
+Logan Cooley faceoff won against Cody Glass
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 PP · 9:01 2nd · NJ 2
+Dylan Guenther Slap Shot High and Wide Left
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 2 PP · 8:38 2nd · NJ 2
+Giveaway by Logan Cooley
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 PP · 7:55 2nd · NJ 2
+Nick Schmaltz Goal (5) Wrist Shot, assists: Dylan Guenther (3), Mikhail Sergachev (5)
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 7:55 2nd · NJ 2
+Jack Hughes faceoff won against Kevin Stenlund
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 7:14 2nd · NJ 2
+Anthony Mantha Tip-In Wide Right
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 6:57 2nd · NJ 2
+Giveaway by Anthony Mantha
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 6:51 2nd · NJ 2
+Off-side
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000000480 sent_ids=174 scoring_texts=5
+== poll 9: revealed 225/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000003010: Off-side
+  401892451000007270: Logan Cooley faceoff won against Nico Hischier
+  401892451000007350: MacKenzie Weegar Slashing against Nico Hischier
+  401892451000007310: Kevin Stenlund faceoff won against Nico Hischier
+  401892451000007380: Luke Evangelista shot blocked by Andrew Peeke
+  401892451000007390: Luke Hughes Slap Shot saved by Karel Vejmelka
+  401892451000007450: Luke Hughes Snap Shot saved by Karel Vejmelka
+  401892451000007650: Giveaway by Jack Hughes
+  401892451000007560: Timo Meier Snap Shot saved by Karel Vejmelka
+  401892451000007580: Evan Rodrigues shot blocked by Vincent Trocheck
+[DRY-RUN] UTA 3 · 4:22 2nd · NJ 2
+Off-side
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 4:22 2nd · NJ 2
+Logan Cooley faceoff won against Nico Hischier
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 4:01 2nd · NJ 2
+MacKenzie Weegar Slashing against Nico Hischier · 2 min Minor
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 4:01 2nd · NJ 2 PP
+Kevin Stenlund faceoff won against Nico Hischier
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 3:47 2nd · NJ 2 PP
+Luke Evangelista shot blocked by Andrew Peeke
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 3:34 2nd · NJ 2 PP
+Luke Hughes Slap Shot saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 3:13 2nd · NJ 2 PP
+Luke Hughes Snap Shot saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 2:45 2nd · NJ 2 PP
+Giveaway by Jack Hughes
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 2:03 2nd · NJ 2 PP
+Timo Meier Snap Shot saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 3 · 1:58 2nd · NJ 2
+Evan Rodrigues shot blocked by Vincent Trocheck
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000007580 sent_ids=199 scoring_texts=5
+== poll 10: revealed 250/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000003030: Goalie Stopped
+  401892451000007760: Vincent Trocheck faceoff won against Nico Hischier
+  401892451000003040: On-Ice Official
+  401892451000007820: Vincent Trocheck faceoff won against Nico Hischier
+  401892451000007870: Timo Meier Wrist Shot saved by Karel Vejmelka
+  401892451000007890: Nate Schmidt shot blocked by Vincent Trocheck
+  401892451000007930: Nico Hischier faceoff won against Barrett Hayton
+  401892451000003110: Off-side
+  401892451000007950: Jack Hughes faceoff won against Vincent Trocheck
+  401892451000001090: Clayton Keller Slap Shot Wide Right
+[DRY-RUN] UTA 4 · 0:35 2nd · NJ 2
+Goalie Stopped
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 0:35 2nd · NJ 2
+Vincent Trocheck faceoff won against Nico Hischier
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 0:29 2nd · NJ 2
+On-Ice Official
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 0:29 2nd · NJ 2
+Vincent Trocheck faceoff won against Nico Hischier
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 0:14 2nd · NJ 2
+Timo Meier Wrist Shot saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 0:02 2nd · NJ 2
+Nate Schmidt shot blocked by Vincent Trocheck
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 20:00 3rd · NJ 2
+Nico Hischier faceoff won against Barrett Hayton
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 19:46 3rd · NJ 2
+Off-side
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 19:46 3rd · NJ 2
+Jack Hughes faceoff won against Vincent Trocheck
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 19:19 3rd · NJ 2
+Clayton Keller Slap Shot Wide Right
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000001090 sent_ids=220 scoring_texts=6
+== poll 11: revealed 269/269 ==
+[DRY-RUN] 10 new play(s) for game 999
+  401892451000008120: Amadeus Lombardi Backhand saved by Karel Vejmelka
+  401892451000008130: Luke Hughes shot blocked by MacKenzie Weegar
+  401892451000008330: Giveaway by Nico Hischier
+  401892451000008230: Declan Chisholm Wrist Shot Wide Right
+  401892451000008270: Timo Meier shot blocked by Andrew Peeke
+  401892451000008280: Jack Hughes shot blocked by MacKenzie Weegar
+  401892451000008420: Giveaway by Jack Hughes
+  401892451000008380: Jack Hughes Wrist Shot saved by Karel Vejmelka
+  401892451000003140: Goalie Stopped
+  401892451000008390: Kevin Stenlund faceoff won against Jack Hughes
+[DRY-RUN] UTA 4 · 18:08 3rd · NJ 2
+Amadeus Lombardi Backhand saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 18:05 3rd · NJ 2
+Luke Hughes shot blocked by MacKenzie Weegar
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 17:36 3rd · NJ 2
+Giveaway by Nico Hischier
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 17:29 3rd · NJ 2
+Declan Chisholm Wrist Shot Wide Right
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 17:06 3rd · NJ 2
+Timo Meier shot blocked by Andrew Peeke
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 17:04 3rd · NJ 2
+Jack Hughes shot blocked by MacKenzie Weegar
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 16:51 3rd · NJ 2
+Giveaway by Jack Hughes
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 16:34 3rd · NJ 2
+Jack Hughes Wrist Shot saved by Karel Vejmelka
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 16:31 3rd · NJ 2
+Goalie Stopped
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+[DRY-RUN] UTA 4 · 16:31 3rd · NJ 2
+Kevin Stenlund faceoff won against Jack Hughes
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000008390 sent_ids=238 scoring_texts=6

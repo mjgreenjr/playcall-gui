@@ -1,0 +1,8 @@
+[DRY-RUN] 1 new play(s) for game 999
+  401872964272: J.Warren left guard to PIT 37 for 1 yard (C.Schwesinger).
+[DRY-RUN] PIT 24 · CLE 27
+1st & 10 · J.Warren left guard to PIT 37 for 1 yard (C.Schwesinger). · 2nd & 9
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999
+[DRY-RUN] PIT 24 · Final · CLE 27
+Game over
+Exec: xdg-open https://www.espn.com/nfl/game/_/gameId/999

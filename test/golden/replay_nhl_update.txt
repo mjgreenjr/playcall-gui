@@ -1,0 +1,16 @@
+== poll 1: revealed 269/269 ==
+[DRY-RUN] 1 new play(s) for game 999
+  401892451000008390: Kevin Stenlund faceoff won against Jack Hughes
+[DRY-RUN] UTA 4 · 16:31 3rd · NJ 2
+Kevin Stenlund faceoff won against Jack Hughes
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000008390 sent_ids=238 scoring_texts=6
+== poll 2: revealed 269/269, scoring play 401892451000000760 text changed ==
+[DRY-RUN] 0 new play(s) for game 999
+[DRY-RUN] UTA 1 PP · 18:03 1st · NJ 0
+Clayton Keller Goal (1) Slap Shot, assists: Mikhail Sergachev (3), Logan Cooley (4) (extra point is good)
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999
+-> returned False; last_play_id=401892451000008390 sent_ids=238 scoring_texts=6
+== poll 3: revealed 269/269, text unchanged ==
+[DRY-RUN] 0 new play(s) for game 999
+-> returned False; last_play_id=401892451000008390 sent_ids=238 scoring_texts=6

@@ -1,0 +1,5 @@
+[DRY-RUN] 1 new play(s) for game 999
+  401892451000008390: Kevin Stenlund faceoff won against Jack Hughes
+[DRY-RUN] UTA 4 · 16:31 3rd · NJ 2
+Kevin Stenlund faceoff won against Jack Hughes
+Exec: xdg-open https://www.espn.com/nhl/game/_/gameId/999

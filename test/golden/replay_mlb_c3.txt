@@ -1,0 +1,2184 @@
+== poll 1: revealed 3/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150001020036: Pitch 1 : Strike 1 Looking
+[DRY-RUN] LAD 0 · Top 1 · 0-1, 0 outs, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150001020036 sent_ids=0 scoring_texts=0
+== poll 2: revealed 6/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150001030005: Pitch 2 : Ball 1
+  4019080150001040036: Pitch 3 : Strike 2 Looking
+  4019080150001050005: Pitch 4 : Ball 2
+[DRY-RUN] LAD 0 · Top 1 · 1-1, 0 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 1-2, 0 outs, 0 on · ATL 0
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 2-2, 0 outs, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150001050005 sent_ids=0 scoring_texts=0
+== poll 3: revealed 9/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150001060021: Pitch 5 : Strike 2 Foul
+  4019080150001070005: Pitch 6 : Ball 3
+[DRY-RUN] LAD 0 · Top 1 · 2-2, 0 outs, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 3-2, 0 outs, 0 on · ATL 0
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150001070005 sent_ids=0 scoring_texts=0
+== poll 4: revealed 12/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150001990057: Betts reached on infield single to first.
+  4019080150002010001: Chris Sale pitches to Freddie Freeman
+[DRY-RUN] LAD 0 · Top 1 · 0 outs, 1 on · ATL 0
+Betts reached on infield single to first.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 0-0, 0 outs, 1 on · ATL 0
+Chris Sale pitches to Freddie Freeman
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150002010001 sent_ids=0 scoring_texts=0
+== poll 5: revealed 15/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150002020021: Pitch 1 : Strike 1 Foul
+  4019080150002030037: Pitch 2 : Strike 2 Swinging
+  4019080150002040005: Pitch 3 : Ball 1
+[DRY-RUN] LAD 0 · Top 1 · 0-1, 0 outs, 1 on · ATL 0
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 0-2, 0 outs, 1 on · ATL 0
+Strike 2 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 1-2, 0 outs, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150002040005 sent_ids=0 scoring_texts=0
+== poll 6: revealed 18/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150002990057: Freeman struck out swinging.
+[DRY-RUN] LAD 0 · Top 1 · 1 out, 1 on · ATL 0
+Freeman struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150002990057 sent_ids=0 scoring_texts=0
+== poll 7: revealed 21/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150003010001: Chris Sale pitches to Teoscar Hernandez
+  4019080150003020036: Pitch 1 : Strike 1 Looking
+  4019080150003030005: Pitch 2 : Ball 1
+[DRY-RUN] LAD 0 · Top 1 · 0-0, 1 out, 1 on · ATL 0
+Chris Sale pitches to Teoscar Hernandez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 0-1, 1 out, 1 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 1-1, 1 out, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150003030005 sent_ids=0 scoring_texts=0
+== poll 8: revealed 24/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150003040005: Pitch 3 : Ball 2
+  4019080150003990057: T. Hernández safe at first on fielding error by shortstop Kim, Betts to second.
+[DRY-RUN] LAD 0 · Top 1 · 2-1, 1 out, 1 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 1 out, 2 on · ATL 0
+T. Hernández safe at first on fielding error by shortstop Kim, Betts to second.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150003990057 sent_ids=0 scoring_texts=0
+== poll 9: revealed 27/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150004010001: Chris Sale pitches to Will Smith
+  4019080150004020005: Pitch 1 : Ball 1
+[DRY-RUN] LAD 0 · Top 1 · 0-0, 1 out, 2 on · ATL 0
+Chris Sale pitches to Will Smith
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 1-0, 1 out, 2 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150004020005 sent_ids=0 scoring_texts=0
+== poll 10: revealed 30/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150004030036: Pitch 2 : Strike 1 Looking
+  4019080150004040036: Pitch 3 : Strike 2 Looking
+[DRY-RUN] LAD 0 · Top 1 · 1-1, 1 out, 2 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 1-2, 1 out, 2 on · ATL 0
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150004040036 sent_ids=0 scoring_texts=0
+== poll 11: revealed 33/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150004990057: Smith struck out swinging.
+  4019080150005010001: Chris Sale pitches to Shohei Ohtani
+[DRY-RUN] LAD 0 · Top 1 · 2 outs, 2 on · ATL 0
+Smith struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 0-0, 2 outs, 2 on · ATL 0
+Chris Sale pitches to Shohei Ohtani
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150005010001 sent_ids=0 scoring_texts=0
+== poll 12: revealed 36/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150005020037: Pitch 1 : Strike 1 Swinging
+  4019080150005030005: Pitch 2 : Ball 1
+  4019080150005040036: Pitch 3 : Strike 2 Looking
+[DRY-RUN] LAD 0 · Top 1 · 0-1, 2 outs, 2 on · ATL 0
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 1-1, 2 outs, 2 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 1-2, 2 outs, 2 on · ATL 0
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150005040036 sent_ids=0 scoring_texts=0
+== poll 13: revealed 39/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150005050005: Pitch 4 : Ball 2
+  4019080150005990057: Ohtani struck out swinging.
+[DRY-RUN] LAD 0 · Top 1 · 2-2, 2 outs, 2 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 1 · 3 outs · ATL 0
+Ohtani struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150005990057 sent_ids=0 scoring_texts=0
+== poll 14: revealed 42/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150099990058: Middle of the 1st inning
+[DRY-RUN] LAD 0 · Bot 1 · 0 outs · ATL 0
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150099990058 sent_ids=0 scoring_texts=0
+== poll 15: revealed 45/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150101010001: Yoshinobu Yamamoto pitches to Drake Baldwin
+  4019080150101020037: Pitch 1 : Strike 1 Swinging
+  4019080150101030005: Pitch 2 : Ball 1
+[DRY-RUN] LAD 0 · Bot 1 · 0-0, 0 outs, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Drake Baldwin
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 0-1, 0 outs, 0 on · ATL 0
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 1-1, 0 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150101030005 sent_ids=0 scoring_texts=0
+== poll 16: revealed 48/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150101040005: Pitch 3 : Ball 2
+  4019080150101050005: Pitch 4 : Ball 3
+  4019080150101060036: Pitch 5 : Strike 2 Looking
+[DRY-RUN] LAD 0 · Bot 1 · 2-1, 0 outs, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 3-1, 0 outs, 0 on · ATL 0
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 3-2, 0 outs, 0 on · ATL 0
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150101060036 sent_ids=0 scoring_texts=0
+== poll 17: revealed 51/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150101990057: Baldwin struck out swinging.
+[DRY-RUN] LAD 0 · Bot 1 · 1 out, 0 on · ATL 0
+Baldwin struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150101990057 sent_ids=0 scoring_texts=0
+== poll 18: revealed 54/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150102010001: Yoshinobu Yamamoto pitches to Ronald Acuna Jr.
+  4019080150102020005: Pitch 1 : Ball 1
+  4019080150102030037: Pitch 2 : Strike 1 Swinging
+[DRY-RUN] LAD 0 · Bot 1 · 0-0, 1 out, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Ronald Acuna Jr.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 1-0, 1 out, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 1-1, 1 out, 0 on · ATL 0
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150102030037 sent_ids=0 scoring_texts=0
+== poll 19: revealed 57/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150102040005: Pitch 3 : Ball 2
+  4019080150102050037: Pitch 4 : Strike 2 Swinging
+[DRY-RUN] LAD 0 · Bot 1 · 2-1, 1 out, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 2-2, 1 out, 0 on · ATL 0
+Strike 2 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150102050037 sent_ids=0 scoring_texts=0
+== poll 20: revealed 60/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150102990057: Acuña Jr. struck out looking. Atlanta Braves challenged: call on the field was upheld.
+  4019080150103010001: Yoshinobu Yamamoto pitches to Matt Olson
+[DRY-RUN] LAD 0 · Bot 1 · 2 outs, 0 on · ATL 0
+Acuña Jr. struck out looking. Atlanta Braves challenged: call on the field was upheld.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 0-0, 2 outs, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Matt Olson
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150103010001 sent_ids=0 scoring_texts=0
+== poll 21: revealed 63/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150103020036: Pitch 1 : Strike 1 Looking
+  4019080150103030036: Pitch 2 : Strike 2 Looking
+  4019080150103040005: Pitch 3 : Ball 1
+[DRY-RUN] LAD 0 · Bot 1 · 0-1, 2 outs, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 0-2, 2 outs, 0 on · ATL 0
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 1 · 1-2, 2 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150103040005 sent_ids=0 scoring_texts=0
+== poll 22: revealed 66/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150103990057: Olson grounded out to second.
+[DRY-RUN] LAD 0 · Bot 1 · 3 outs · ATL 0
+Olson grounded out to second.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150103990057 sent_ids=0 scoring_texts=0
+== poll 23: revealed 69/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150199990058: End of the 1st inning
+  4019080150201010001: Chris Sale pitches to Miguel Rojas
+[DRY-RUN] LAD 0 · Top 2 · 0 outs · ATL 0
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 0-0, 0 outs, 0 on · ATL 0
+Chris Sale pitches to Miguel Rojas
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150201010001 sent_ids=0 scoring_texts=0
+== poll 24: revealed 72/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150201020005: Pitch 1 : Ball 1
+  4019080150201030005: Pitch 2 : Ball 2
+  4019080150201040021: Pitch 3 : Strike 1 Foul
+[DRY-RUN] LAD 0 · Top 2 · 1-0, 0 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 2-0, 0 outs, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 2-1, 0 outs, 0 on · ATL 0
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150201040021 sent_ids=0 scoring_texts=0
+== poll 25: revealed 75/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150201050021: Pitch 4 : Strike 2 Foul
+  4019080150201060021: Pitch 5 : Strike 2 Foul
+[DRY-RUN] LAD 0 · Top 2 · 2-2, 0 outs, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 2-2, 0 outs, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150201060021 sent_ids=0 scoring_texts=0
+== poll 26: revealed 78/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150201990057: Rojas struck out swinging.
+  4019080150202010001: Chris Sale pitches to Andy Pages
+[DRY-RUN] LAD 0 · Top 2 · 1 out, 0 on · ATL 0
+Rojas struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 0-0, 1 out, 0 on · ATL 0
+Chris Sale pitches to Andy Pages
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150202010001 sent_ids=0 scoring_texts=0
+== poll 27: revealed 81/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150202020005: Pitch 1 : Ball 1
+  4019080150202030036: Pitch 2 : Strike 1 Looking
+  4019080150202040036: Pitch 3 : Strike 2 Looking
+[DRY-RUN] LAD 0 · Top 2 · 1-0, 1 out, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 1-1, 1 out, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 1-2, 1 out, 0 on · ATL 0
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150202040036 sent_ids=0 scoring_texts=0
+== poll 28: revealed 84/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150202050005: Pitch 4 : Ball 2
+  4019080150202990057: Pages struck out swinging.
+[DRY-RUN] LAD 0 · Top 2 · 2-2, 1 out, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 2 outs, 0 on · ATL 0
+Pages struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150202990057 sent_ids=0 scoring_texts=0
+== poll 29: revealed 87/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150203010001: Chris Sale pitches to Kyle Tucker
+[DRY-RUN] LAD 0 · Top 2 · 0-0, 2 outs, 0 on · ATL 0
+Chris Sale pitches to Kyle Tucker
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150203010001 sent_ids=0 scoring_texts=0
+== poll 30: revealed 90/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150203990057: Tucker singled to left.
+  4019080150204010001: Chris Sale pitches to Enrique Hernandez
+[DRY-RUN] LAD 0 · Top 2 · 2 outs, 1 on · ATL 0
+Tucker singled to left.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 0-0, 2 outs, 1 on · ATL 0
+Chris Sale pitches to Enrique Hernandez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150204010001 sent_ids=0 scoring_texts=0
+== poll 31: revealed 93/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150204020005: Pitch 1 : Ball 1
+  4019080150204030021: Pitch 2 : Strike 1 Foul
+  4019080150204040005: Pitch 3 : Ball 2
+[DRY-RUN] LAD 0 · Top 2 · 1-0, 2 outs, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 1-1, 2 outs, 1 on · ATL 0
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 2-1, 2 outs, 1 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150204040005 sent_ids=0 scoring_texts=0
+== poll 32: revealed 96/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150204040298: Tucker stole second.
+  4019080150204050021: Pitch 4 : Strike 2 Foul
+[DRY-RUN] LAD 0 · Top 2 · 2 outs, 1 on · ATL 0
+Tucker stole second.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 2-2, 2 outs, 1 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150204050021 sent_ids=0 scoring_texts=0
+== poll 33: revealed 99/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150204060021: Pitch 5 : Strike 2 Foul
+  4019080150204990057: E. Hernández struck out swinging.
+[DRY-RUN] LAD 0 · Top 2 · 2-2, 2 outs, 1 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 2 · 3 outs · ATL 0
+E. Hernández struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150204990057 sent_ids=0 scoring_texts=0
+== poll 34: revealed 102/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150299990058: Middle of the 2nd inning
+[DRY-RUN] LAD 0 · Bot 2 · 0 outs · ATL 0
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150299990058 sent_ids=0 scoring_texts=0
+== poll 35: revealed 105/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150301010001: Yoshinobu Yamamoto pitches to Ozzie Albies
+  4019080150301020036: Pitch 1 : Strike 1 Looking
+  4019080150301030005: Pitch 2 : Ball 1
+[DRY-RUN] LAD 0 · Bot 2 · 0-0, 0 outs, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Ozzie Albies
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 0-1, 0 outs, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 1-1, 0 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150301030005 sent_ids=0 scoring_texts=0
+== poll 36: revealed 108/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150301040037: Pitch 3 : Strike 2 Swinging
+  4019080150301990057: Albies struck out swinging.
+[DRY-RUN] LAD 0 · Bot 2 · 1-2, 0 outs, 0 on · ATL 0
+Strike 2 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 1 out, 0 on · ATL 0
+Albies struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150301990057 sent_ids=0 scoring_texts=0
+== poll 37: revealed 111/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150302010001: Yoshinobu Yamamoto pitches to Michael Harris II
+  4019080150302020005: Pitch 1 : Ball 1
+[DRY-RUN] LAD 0 · Bot 2 · 0-0, 1 out, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Michael Harris II
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 1-0, 1 out, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150302020005 sent_ids=0 scoring_texts=0
+== poll 38: revealed 114/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150302030036: Pitch 2 : Strike 1 Looking
+  4019080150302990057: Harris II reached on bunt single to pitcher.
+[DRY-RUN] LAD 0 · Bot 2 · 1-1, 1 out, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 1 out, 1 on · ATL 0
+Harris II reached on bunt single to pitcher.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150302990057 sent_ids=0 scoring_texts=0
+== poll 39: revealed 117/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150303010001: Yoshinobu Yamamoto pitches to Mauricio Dubon
+  4019080150303020036: Pitch 1 : Strike 1 Looking
+[DRY-RUN] LAD 0 · Bot 2 · 0-0, 1 out, 1 on · ATL 0
+Yoshinobu Yamamoto pitches to Mauricio Dubon
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 0-1, 1 out, 1 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150303020036 sent_ids=0 scoring_texts=0
+== poll 40: revealed 120/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150303030021: Pitch 2 : Strike 2 Foul
+  4019080150303040005: Pitch 3 : Ball 1
+  4019080150303050005: Pitch 4 : Ball 2
+[DRY-RUN] LAD 0 · Bot 2 · 0-2, 1 out, 1 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 1-2, 1 out, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 2-2, 1 out, 1 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150303050005 sent_ids=0 scoring_texts=0
+== poll 41: revealed 123/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150303990057: Dubón flied out to center.
+[DRY-RUN] LAD 0 · Bot 2 · 2 outs, 1 on · ATL 0
+Dubón flied out to center.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150303990057 sent_ids=0 scoring_texts=0
+== poll 42: revealed 126/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150304010001: Yoshinobu Yamamoto pitches to Lane Thomas
+  4019080150304020005: Pitch 1 : Ball 1
+  4019080150304030036: Pitch 2 : Strike 1 Looking
+[DRY-RUN] LAD 0 · Bot 2 · 0-0, 2 outs, 1 on · ATL 0
+Yoshinobu Yamamoto pitches to Lane Thomas
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 1-0, 2 outs, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 1-1, 2 outs, 1 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150304030036 sent_ids=0 scoring_texts=0
+== poll 43: revealed 129/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150304040021: Pitch 3 : Strike 2 Foul
+  4019080150304050005: Pitch 4 : Ball 2
+[DRY-RUN] LAD 0 · Bot 2 · 1-2, 2 outs, 1 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 2 · 2-2, 2 outs, 1 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150304050005 sent_ids=0 scoring_texts=0
+== poll 44: revealed 132/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150304990057: Thomas struck out swinging.
+  4019080150399990058: End of the 2nd inning
+[DRY-RUN] LAD 0 · Bot 2 · 3 outs · ATL 0
+Thomas struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 0 outs · ATL 0
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150399990058 sent_ids=0 scoring_texts=0
+== poll 45: revealed 135/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150401010001: Chris Sale pitches to Mookie Betts
+  4019080150401020036: Pitch 1 : Strike 1 Looking
+[DRY-RUN] LAD 0 · Top 3 · 0-0, 0 outs, 0 on · ATL 0
+Chris Sale pitches to Mookie Betts
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 0-1, 0 outs, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150401020036 sent_ids=0 scoring_texts=0
+== poll 46: revealed 138/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150401030005: Pitch 2 : Ball 1
+  4019080150401040021: Pitch 3 : Strike 2 Foul
+  4019080150401050005: Pitch 4 : Ball 2
+[DRY-RUN] LAD 0 · Top 3 · 1-1, 0 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 1-2, 0 outs, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 2-2, 0 outs, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150401050005 sent_ids=0 scoring_texts=0
+== poll 47: revealed 141/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150401990057: Betts singled to left.
+[DRY-RUN] LAD 0 · Top 3 · 0 outs, 1 on · ATL 0
+Betts singled to left.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150401990057 sent_ids=0 scoring_texts=0
+== poll 48: revealed 144/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150402010001: Chris Sale pitches to Freddie Freeman
+  4019080150402020021: Pitch 1 : Strike 1 Foul
+  4019080150402030005: Pitch 2 : Ball 1
+[DRY-RUN] LAD 0 · Top 3 · 0-0, 0 outs, 1 on · ATL 0
+Chris Sale pitches to Freddie Freeman
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 0-1, 0 outs, 1 on · ATL 0
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 1-1, 0 outs, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150402030005 sent_ids=0 scoring_texts=0
+== poll 49: revealed 147/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150402040036: Pitch 3 : Strike 2 Looking
+  4019080150402990057: Freeman flied out to left.
+[DRY-RUN] LAD 0 · Top 3 · 1-2, 0 outs, 1 on · ATL 0
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 1 out, 1 on · ATL 0
+Freeman flied out to left.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150402990057 sent_ids=0 scoring_texts=0
+== poll 50: revealed 150/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150403010001: Chris Sale pitches to Teoscar Hernandez
+  4019080150403020036: Pitch 1 : Strike 1 Looking
+[DRY-RUN] LAD 0 · Top 3 · 0-0, 1 out, 1 on · ATL 0
+Chris Sale pitches to Teoscar Hernandez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 0-1, 1 out, 1 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150403020036 sent_ids=0 scoring_texts=0
+== poll 51: revealed 153/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150403030005: Pitch 2 : Ball 1
+  4019080150403040005: Pitch 3 : Ball 2
+[DRY-RUN] LAD 0 · Top 3 · 1-1, 1 out, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 2-1, 1 out, 1 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150403040005 sent_ids=0 scoring_texts=0
+== poll 52: revealed 156/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150403990057: T. Hernández flied out to right.
+  4019080150404010001: Chris Sale pitches to Will Smith
+[DRY-RUN] LAD 0 · Top 3 · 2 outs, 1 on · ATL 0
+T. Hernández flied out to right.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 0-0, 2 outs, 1 on · ATL 0
+Chris Sale pitches to Will Smith
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150404010001 sent_ids=0 scoring_texts=0
+== poll 53: revealed 159/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150404020036: Pitch 1 : Strike 1 Looking
+  4019080150404030005: Pitch 2 : Ball 1
+[DRY-RUN] LAD 0 · Top 3 · 0-1, 2 outs, 1 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 1-1, 2 outs, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150404030005 sent_ids=0 scoring_texts=0
+== poll 54: revealed 162/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150404990057: Smith singled to left, Betts to third.
+  4019080150405010001: Chris Sale pitches to Shohei Ohtani
+[DRY-RUN] LAD 0 · Top 3 · 2 outs, 2 on · ATL 0
+Smith singled to left, Betts to third.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 0-0, 2 outs, 2 on · ATL 0
+Chris Sale pitches to Shohei Ohtani
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150405010001 sent_ids=0 scoring_texts=0
+== poll 55: revealed 165/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150405020036: Pitch 1 : Strike 1 Looking
+  4019080150405030005: Pitch 2 : Ball 1
+  4019080150405040021: Pitch 3 : Strike 2 Foul
+[DRY-RUN] LAD 0 · Top 3 · 0-1, 2 outs, 2 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 1-1, 2 outs, 2 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 1-2, 2 outs, 2 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150405040021 sent_ids=0 scoring_texts=0
+== poll 56: revealed 168/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150405990057: Ohtani reached first base on catcher's interference, Smith to second.
+  4019080150406010001: Chris Sale pitches to Miguel Rojas
+[DRY-RUN] LAD 0 · Top 3 · 2 outs, 3 on · ATL 0
+Ohtani reached first base on catcher's interference, Smith to second.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 3 · 0-0, 2 outs, 3 on · ATL 0
+Chris Sale pitches to Miguel Rojas
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150406010001 sent_ids=0 scoring_texts=0
+== poll 57: revealed 171/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150406990057: Rojas lined out to right.
+[DRY-RUN] LAD 0 · Top 3 · 3 outs · ATL 0
+Rojas lined out to right.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150406990057 sent_ids=0 scoring_texts=0
+== poll 58: revealed 174/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150499990058: Middle of the 3rd inning
+  4019080150501010001: Yoshinobu Yamamoto pitches to Austin Riley
+[DRY-RUN] LAD 0 · Bot 3 · 0 outs · ATL 0
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 3 · 0-0, 0 outs, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Austin Riley
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150501010001 sent_ids=0 scoring_texts=0
+== poll 59: revealed 177/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150501020005: Pitch 1 : Ball 1
+  4019080150501030036: Pitch 2 : Strike 1 Looking
+  4019080150501040005: Pitch 3 : Ball 2
+[DRY-RUN] LAD 0 · Bot 3 · 1-0, 0 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 3 · 1-1, 0 outs, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 3 · 2-1, 0 outs, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150501040005 sent_ids=0 scoring_texts=0
+== poll 60: revealed 180/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150501050021: Pitch 4 : Strike 2 Foul
+  4019080150501990057: Riley struck out swinging.
+[DRY-RUN] LAD 0 · Bot 3 · 2-2, 0 outs, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 3 · 1 out, 0 on · ATL 0
+Riley struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150501990057 sent_ids=0 scoring_texts=0
+== poll 61: revealed 183/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150502010001: Yoshinobu Yamamoto pitches to Ha-Seong Kim
+[DRY-RUN] LAD 0 · Bot 3 · 0-0, 1 out, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Ha-Seong Kim
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150502010001 sent_ids=0 scoring_texts=0
+== poll 62: revealed 186/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150502990057: Kim flied out to left.
+  4019080150503010001: Yoshinobu Yamamoto pitches to Drake Baldwin
+[DRY-RUN] LAD 0 · Bot 3 · 2 outs, 0 on · ATL 0
+Kim flied out to left.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 3 · 0-0, 2 outs, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Drake Baldwin
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150503010001 sent_ids=0 scoring_texts=0
+== poll 63: revealed 189/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150503020036: Pitch 1 : Strike 1 Looking
+  4019080150503030005: Pitch 2 : Ball 1
+  4019080150503040021: Pitch 3 : Strike 2 Foul
+[DRY-RUN] LAD 0 · Bot 3 · 0-1, 2 outs, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 3 · 1-1, 2 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 3 · 1-2, 2 outs, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150503040021 sent_ids=0 scoring_texts=0
+== poll 64: revealed 192/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150503050005: Pitch 4 : Ball 2
+  4019080150503060005: Pitch 5 : Ball 3
+[DRY-RUN] LAD 0 · Bot 3 · 2-2, 2 outs, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Bot 3 · 3-2, 2 outs, 0 on · ATL 0
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150503060005 sent_ids=0 scoring_texts=0
+== poll 65: revealed 195/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150503990057: Baldwin struck out swinging.
+  4019080150599990058: End of the 3rd inning
+[DRY-RUN] LAD 0 · Bot 3 · 3 outs · ATL 0
+Baldwin struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 4 · 0 outs · ATL 0
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150599990058 sent_ids=0 scoring_texts=0
+== poll 66: revealed 198/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150601010001: Chris Sale pitches to Andy Pages
+  4019080150601020005: Pitch 1 : Ball 1
+[DRY-RUN] LAD 0 · Top 4 · 0-0, 0 outs, 0 on · ATL 0
+Chris Sale pitches to Andy Pages
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 4 · 1-0, 0 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150601020005 sent_ids=0 scoring_texts=0
+== poll 67: revealed 201/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150601990057: Pages singled to left.
+[DRY-RUN] LAD 0 · Top 4 · 0 outs, 1 on · ATL 0
+Pages singled to left.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150601990057 sent_ids=0 scoring_texts=0
+== poll 68: revealed 204/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150602010001: Chris Sale pitches to Kyle Tucker
+  4019080150602020021: Pitch 1 : Strike 1 Foul
+  4019080150602030021: Pitch 2 : Strike 2 Foul
+[DRY-RUN] LAD 0 · Top 4 · 0-0, 0 outs, 1 on · ATL 0
+Chris Sale pitches to Kyle Tucker
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 4 · 0-1, 0 outs, 1 on · ATL 0
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 4 · 0-2, 0 outs, 1 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150602030021 sent_ids=0 scoring_texts=0
+== poll 69: revealed 207/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150602040005: Pitch 3 : Ball 1
+  4019080150602990057: Tucker lined out to second.
+[DRY-RUN] LAD 0 · Top 4 · 1-2, 0 outs, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 4 · 1 out, 1 on · ATL 0
+Tucker lined out to second.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150602990057 sent_ids=0 scoring_texts=0
+== poll 70: revealed 210/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150603010001: Chris Sale pitches to Enrique Hernandez
+  4019080150603020005: Pitch 1 : Ball 1
+[DRY-RUN] LAD 2 · Top 4 · 0-0, 1 out, 1 on · ATL 0
+Chris Sale pitches to Enrique Hernandez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 0 · Top 4 · 1-0, 1 out, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150603020005 sent_ids=0 scoring_texts=0
+== poll 71: revealed 213/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150603990057: E. Hernández homered to left (406 feet), Pages scored.
+[DRY-RUN] LAD 2 · Top 4 · 1 out, 0 on · ATL 0
+E. Hernández homered to left (406 feet), Pages scored.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150603990057 sent_ids=0 scoring_texts=1
+== poll 72: revealed 216/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150604010001: Chris Sale pitches to Mookie Betts
+  4019080150604020005: Pitch 1 : Ball 1
+  4019080150604030036: Pitch 2 : Strike 1 Looking
+[DRY-RUN] LAD 2 · Top 4 · 0-0, 1 out, 0 on · ATL 0
+Chris Sale pitches to Mookie Betts
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 2 · Top 4 · 1-0, 1 out, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 2 · Top 4 · 1-1, 1 out, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150604030036 sent_ids=0 scoring_texts=1
+== poll 73: revealed 219/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150604040021: Pitch 3 : Strike 2 Foul
+  4019080150604050021: Pitch 4 : Strike 2 Foul
+  4019080150604060005: Pitch 5 : Ball 2
+[DRY-RUN] LAD 2 · Top 4 · 1-2, 1 out, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 2 · Top 4 · 1-2, 1 out, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 2 · Top 4 · 2-2, 1 out, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150604060005 sent_ids=0 scoring_texts=1
+== poll 74: revealed 222/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150604990057: Betts grounded out to third.
+[DRY-RUN] LAD 2 · Top 4 · 2 outs, 0 on · ATL 0
+Betts grounded out to third.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150604990057 sent_ids=0 scoring_texts=1
+== poll 75: revealed 225/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150605010001: Chris Sale pitches to Freddie Freeman
+  4019080150605020037: Pitch 1 : Strike 1 Swinging
+[DRY-RUN] LAD 3 · Top 4 · 0-0, 2 outs, 0 on · ATL 0
+Chris Sale pitches to Freddie Freeman
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 2 · Top 4 · 0-1, 2 outs, 0 on · ATL 0
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150605020037 sent_ids=0 scoring_texts=1
+== poll 76: revealed 228/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150605990057: Freeman homered to right center (399 feet).
+  4019080150606010001: Chris Sale pitches to Teoscar Hernandez
+[DRY-RUN] LAD 3 · Top 4 · 2 outs, 0 on · ATL 0
+Freeman homered to right center (399 feet).
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 4 · 0-0, 2 outs, 0 on · ATL 0
+Chris Sale pitches to Teoscar Hernandez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150606010001 sent_ids=0 scoring_texts=2
+== poll 77: revealed 231/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150606020036: Pitch 1 : Strike 1 Looking
+  4019080150606990057: T. Hernández flied out to left.
+[DRY-RUN] LAD 3 · Top 4 · 0-1, 2 outs, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 4 · 3 outs · ATL 0
+T. Hernández flied out to left.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150606990057 sent_ids=0 scoring_texts=2
+== poll 78: revealed 234/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150699990058: Middle of the 4th inning
+[DRY-RUN] LAD 3 · Bot 4 · 0 outs · ATL 0
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150699990058 sent_ids=0 scoring_texts=2
+== poll 79: revealed 237/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150701010001: Yoshinobu Yamamoto pitches to Ronald Acuna Jr.
+  4019080150701990057: Acuña Jr. grounded out to shortstop.
+[DRY-RUN] LAD 3 · Bot 4 · 0-0, 0 outs, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Ronald Acuna Jr.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 4 · 1 out, 0 on · ATL 0
+Acuña Jr. grounded out to shortstop.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150701990057 sent_ids=0 scoring_texts=2
+== poll 80: revealed 240/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150702010001: Yoshinobu Yamamoto pitches to Matt Olson
+  4019080150702020036: Pitch 1 : Strike 1 Looking
+[DRY-RUN] LAD 3 · Bot 4 · 0-0, 1 out, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Matt Olson
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 4 · 0-1, 1 out, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150702020036 sent_ids=0 scoring_texts=2
+== poll 81: revealed 243/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150702990057: Olson singled to right.
+[DRY-RUN] LAD 3 · Bot 4 · 1 out, 1 on · ATL 0
+Olson singled to right.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150702990057 sent_ids=0 scoring_texts=2
+== poll 82: revealed 246/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150703010001: Yoshinobu Yamamoto pitches to Ozzie Albies
+  4019080150703020036: Pitch 1 : Strike 1 Looking
+  4019080150703030021: Pitch 2 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Bot 4 · 0-0, 1 out, 1 on · ATL 0
+Yoshinobu Yamamoto pitches to Ozzie Albies
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 4 · 0-1, 1 out, 1 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 4 · 0-2, 1 out, 1 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150703030021 sent_ids=0 scoring_texts=2
+== poll 83: revealed 249/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150703040021: Pitch 3 : Strike 2 Foul
+  4019080150703990057: Albies struck out swinging.
+[DRY-RUN] LAD 3 · Bot 4 · 0-2, 1 out, 1 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 4 · 2 outs, 1 on · ATL 0
+Albies struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150703990057 sent_ids=0 scoring_texts=2
+== poll 84: revealed 252/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150704010001: Yoshinobu Yamamoto pitches to Michael Harris II
+  4019080150704020037: Pitch 1 : Strike 1 Swinging
+[DRY-RUN] LAD 3 · Bot 4 · 0-0, 2 outs, 1 on · ATL 0
+Yoshinobu Yamamoto pitches to Michael Harris II
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 4 · 0-1, 2 outs, 1 on · ATL 0
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150704020037 sent_ids=0 scoring_texts=2
+== poll 85: revealed 255/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150704030005: Pitch 2 : Ball 1
+  4019080150704040005: Pitch 3 : Ball 2
+  4019080150704050021: Pitch 4 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Bot 4 · 1-1, 2 outs, 1 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 4 · 2-1, 2 outs, 1 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 4 · 2-2, 2 outs, 1 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150704050021 sent_ids=0 scoring_texts=2
+== poll 86: revealed 258/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150704060005: Pitch 5 : Ball 3
+  4019080150704990057: Harris II grounded out to third.
+[DRY-RUN] LAD 3 · Bot 4 · 3-2, 2 outs, 1 on · ATL 0
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 4 · 3 outs · ATL 0
+Harris II grounded out to third.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150704990057 sent_ids=0 scoring_texts=2
+== poll 87: revealed 261/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150799990058: End of the 4th inning
+[DRY-RUN] LAD 3 · Top 5 · 0 outs · ATL 0
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150799990058 sent_ids=0 scoring_texts=2
+== poll 88: revealed 264/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150801010001: Chris Sale pitches to Will Smith
+  4019080150801020036: Pitch 1 : Strike 1 Looking
+  4019080150801030005: Pitch 2 : Ball 1
+[DRY-RUN] LAD 3 · Top 5 · 0-0, 0 outs, 0 on · ATL 0
+Chris Sale pitches to Will Smith
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 0-1, 0 outs, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 1-1, 0 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150801030005 sent_ids=0 scoring_texts=2
+== poll 89: revealed 267/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150801040021: Pitch 3 : Strike 2 Foul
+  4019080150801050021: Pitch 4 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Top 5 · 1-2, 0 outs, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 1-2, 0 outs, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150801050021 sent_ids=0 scoring_texts=2
+== poll 90: revealed 270/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150801990057: Smith struck out swinging.
+  4019080150802010001: Chris Sale pitches to Shohei Ohtani
+[DRY-RUN] LAD 3 · Top 5 · 1 out, 0 on · ATL 0
+Smith struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 0-0, 1 out, 0 on · ATL 0
+Chris Sale pitches to Shohei Ohtani
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150802010001 sent_ids=0 scoring_texts=2
+== poll 91: revealed 273/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150802020005: Pitch 1 : Ball 1
+  4019080150802030005: Pitch 2 : Ball 2
+  4019080150802040005: Pitch 3 : Ball 3
+[DRY-RUN] LAD 3 · Top 5 · 1-0, 1 out, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 2-0, 1 out, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 3-0, 1 out, 0 on · ATL 0
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150802040005 sent_ids=0 scoring_texts=2
+== poll 92: revealed 276/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150802050092: Pitch 4 : Strike 1 Looking
+  4019080150802990057: Ohtani flied out to left.
+[DRY-RUN] LAD 3 · Top 5 · 3-1, 1 out, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 2 outs, 0 on · ATL 0
+Ohtani flied out to left.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150802990057 sent_ids=0 scoring_texts=2
+== poll 93: revealed 279/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150803010001: Chris Sale pitches to Miguel Rojas
+  4019080150803020036: Pitch 1 : Strike 1 Looking
+[DRY-RUN] LAD 3 · Top 5 · 0-0, 2 outs, 0 on · ATL 0
+Chris Sale pitches to Miguel Rojas
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 0-1, 2 outs, 0 on · ATL 0
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150803020036 sent_ids=0 scoring_texts=2
+== poll 94: revealed 282/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150803030021: Pitch 2 : Strike 2 Foul
+  4019080150803040005: Pitch 3 : Ball 1
+  4019080150803050005: Pitch 4 : Ball 2
+[DRY-RUN] LAD 3 · Top 5 · 0-2, 2 outs, 0 on · ATL 0
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 1-2, 2 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 5 · 2-2, 2 outs, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150803050005 sent_ids=0 scoring_texts=2
+== poll 95: revealed 285/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150803990057: Rojas grounded out to shortstop.
+[DRY-RUN] LAD 3 · Top 5 · 3 outs · ATL 0
+Rojas grounded out to shortstop.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150803990057 sent_ids=0 scoring_texts=2
+== poll 96: revealed 288/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150899990058: Middle of the 5th inning
+  4019080150901010001: Yoshinobu Yamamoto pitches to Mauricio Dubon
+[DRY-RUN] LAD 3 · Bot 5 · 0 outs · ATL 0
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 0-0, 0 outs, 0 on · ATL 0
+Yoshinobu Yamamoto pitches to Mauricio Dubon
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150901010001 sent_ids=0 scoring_texts=2
+== poll 97: revealed 291/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150901020037: Pitch 1 : Strike 1 Swinging
+  4019080150901030005: Pitch 2 : Ball 1
+  4019080150901040005: Pitch 3 : Ball 2
+[DRY-RUN] LAD 3 · Bot 5 · 0-1, 0 outs, 0 on · ATL 0
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 1-1, 0 outs, 0 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 2-1, 0 outs, 0 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150901040005 sent_ids=0 scoring_texts=2
+== poll 98: revealed 294/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150901050036: Pitch 4 : Strike 2 Looking
+  4019080150901990057: Dubón singled to left.
+[DRY-RUN] LAD 3 · Bot 5 · 2-2, 0 outs, 0 on · ATL 0
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 0 outs, 1 on · ATL 0
+Dubón singled to left.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150901990057 sent_ids=0 scoring_texts=2
+== poll 99: revealed 297/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150902010001: Yoshinobu Yamamoto pitches to Lane Thomas
+[DRY-RUN] LAD 3 · Bot 5 · 0-0, 0 outs, 1 on · ATL 0
+Yoshinobu Yamamoto pitches to Lane Thomas
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150902010001 sent_ids=0 scoring_texts=2
+== poll 100: revealed 300/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150902990057: Thomas singled to left, Dubón to second.
+  4019080150903010001: Yoshinobu Yamamoto pitches to Austin Riley
+[DRY-RUN] LAD 3 · Bot 5 · 0 outs, 2 on · ATL 0
+Thomas singled to left, Dubón to second.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 0-0, 0 outs, 2 on · ATL 0
+Yoshinobu Yamamoto pitches to Austin Riley
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150903010001 sent_ids=0 scoring_texts=2
+== poll 101: revealed 303/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150903020005: Pitch 1 : Ball 1
+  4019080150903990057: Riley popped out to second.
+[DRY-RUN] LAD 3 · Bot 5 · 1-0, 0 outs, 2 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 1 out, 2 on · ATL 0
+Riley popped out to second.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150903990057 sent_ids=0 scoring_texts=2
+== poll 102: revealed 306/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150904001057: Tellez hit for Kim
+  4019080150904010001: Yoshinobu Yamamoto pitches to Rowdy Tellez
+[DRY-RUN] LAD 3 · Bot 5 · 1 out, 2 on · ATL 0
+Tellez hit for Kim
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 0-0, 1 out, 2 on · ATL 0
+Yoshinobu Yamamoto pitches to Rowdy Tellez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150904010001 sent_ids=0 scoring_texts=2
+== poll 103: revealed 309/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150904020005: Pitch 1 : Ball 1
+  4019080150904030005: Pitch 2 : Ball 2
+  4019080150904040005: Pitch 3 : Ball 3
+[DRY-RUN] LAD 3 · Bot 5 · 1-0, 1 out, 2 on · ATL 0
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 2-0, 1 out, 2 on · ATL 0
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 3-0, 1 out, 2 on · ATL 0
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150904040005 sent_ids=0 scoring_texts=2
+== poll 104: revealed 312/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150904990057: Tellez walked, Thomas to second, Dubón to third.
+[DRY-RUN] LAD 3 · Bot 5 · 1 out, 3 on · ATL 0
+Tellez walked, Thomas to second, Dubón to third.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150904990057 sent_ids=0 scoring_texts=2
+== poll 105: revealed 315/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150905001057: Hicklen ran for Tellez
+  4019080150905010001: Yoshinobu Yamamoto pitches to Drake Baldwin
+[DRY-RUN] LAD 3 · Bot 5 · 1 out, 3 on · ATL 0
+Hicklen ran for Tellez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 0-0, 1 out, 3 on · ATL 1
+Yoshinobu Yamamoto pitches to Drake Baldwin
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150905010001 sent_ids=0 scoring_texts=2
+== poll 106: revealed 318/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150905990057: Baldwin grounded out to first, Dubón scored, Hicklen to second, Thomas to third.
+  4019080150906010001: Yoshinobu Yamamoto pitches to Ronald Acuna Jr.
+[DRY-RUN] LAD 3 · Bot 5 · 2 outs, 2 on · ATL 1
+Baldwin grounded out to first, Dubón scored, Hicklen to second, Thomas to third.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 0-0, 2 outs, 2 on · ATL 1
+Yoshinobu Yamamoto pitches to Ronald Acuna Jr.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150906010001 sent_ids=0 scoring_texts=3
+== poll 107: revealed 321/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080150906020005: Pitch 1 : Ball 1
+  4019080150906030036: Pitch 2 : Strike 1 Looking
+  4019080150906040005: Pitch 3 : Ball 2
+[DRY-RUN] LAD 3 · Bot 5 · 1-0, 2 outs, 2 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 1-1, 2 outs, 2 on · ATL 1
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 2-1, 2 outs, 2 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150906040005 sent_ids=0 scoring_texts=3
+== poll 108: revealed 324/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080150906050005: Pitch 4 : Ball 3
+  4019080150906990057: Acuña Jr. grounded out to second.
+[DRY-RUN] LAD 3 · Bot 5 · 3-1, 2 outs, 2 on · ATL 1
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 5 · 3 outs · ATL 1
+Acuña Jr. grounded out to second.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150906990057 sent_ids=0 scoring_texts=3
+== poll 109: revealed 327/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080150999990058: End of the 5th inning
+[DRY-RUN] LAD 3 · Top 6 · 0 outs · ATL 1
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080150999990058 sent_ids=0 scoring_texts=3
+== poll 110: revealed 330/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151001001157: Dodd relieved Sale
+[DRY-RUN] LAD 3 · Top 6 · 0 outs, 0 on · ATL 1
+Dodd relieved Sale
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151001001157 sent_ids=0 scoring_texts=3
+== poll 111: revealed 333/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151001010001: Dylan Dodd pitches to Andy Pages
+  4019080151001020037: Pitch 1 : Strike 1 Swinging
+[DRY-RUN] LAD 3 · Top 6 · 0-0, 0 outs, 0 on · ATL 1
+Dylan Dodd pitches to Andy Pages
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 0-1, 0 outs, 0 on · ATL 1
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151001020037 sent_ids=0 scoring_texts=3
+== poll 112: revealed 336/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151001990057: Pages singled to center.
+  4019080151002010001: Dylan Dodd pitches to Kyle Tucker
+[DRY-RUN] LAD 3 · Top 6 · 0 outs, 1 on · ATL 1
+Pages singled to center.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 0-0, 0 outs, 1 on · ATL 1
+Dylan Dodd pitches to Kyle Tucker
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151002010001 sent_ids=0 scoring_texts=3
+== poll 113: revealed 339/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151002020037: Pitch 1 : Strike 1 Swinging
+  4019080151002030037: Pitch 2 : Strike 2 Swinging
+  4019080151002040005: Pitch 3 : Ball 1
+[DRY-RUN] LAD 3 · Top 6 · 0-1, 0 outs, 1 on · ATL 1
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 0-2, 0 outs, 1 on · ATL 1
+Strike 2 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 1-2, 0 outs, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151002040005 sent_ids=0 scoring_texts=3
+== poll 114: revealed 342/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151002050021: Pitch 4 : Strike 2 Foul
+  4019080151002060005: Pitch 5 : Ball 2
+  4019080151002070005: Pitch 6 : Ball 3
+[DRY-RUN] LAD 3 · Top 6 · 1-2, 0 outs, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 2-2, 0 outs, 1 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 3-2, 0 outs, 1 on · ATL 1
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151002070005 sent_ids=0 scoring_texts=3
+== poll 115: revealed 345/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151002990057: Tucker struck out swinging.
+[DRY-RUN] LAD 3 · Top 6 · 1 out, 1 on · ATL 1
+Tucker struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151002990057 sent_ids=0 scoring_texts=3
+== poll 116: revealed 348/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151003010001: Dylan Dodd pitches to Enrique Hernandez
+  4019080151003020036: Pitch 1 : Strike 1 Looking
+  4019080151003030021: Pitch 2 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Top 6 · 0-0, 1 out, 1 on · ATL 1
+Dylan Dodd pitches to Enrique Hernandez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 0-1, 1 out, 1 on · ATL 1
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 0-2, 1 out, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151003030021 sent_ids=0 scoring_texts=3
+== poll 117: revealed 351/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151003040005: Pitch 3 : Ball 1
+  4019080151003050005: Pitch 4 : Ball 2
+[DRY-RUN] LAD 3 · Top 6 · 1-2, 1 out, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 2-2, 1 out, 1 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151003050005 sent_ids=0 scoring_texts=3
+== poll 118: revealed 354/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151003990057: E. Hernández struck out swinging.
+  4019080151004010001: Dylan Dodd pitches to Mookie Betts
+[DRY-RUN] LAD 3 · Top 6 · 2 outs, 1 on · ATL 1
+E. Hernández struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 0-0, 2 outs, 1 on · ATL 1
+Dylan Dodd pitches to Mookie Betts
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151004010001 sent_ids=0 scoring_texts=3
+== poll 119: revealed 357/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151004020005: Pitch 1 : Ball 1
+  4019080151004030021: Pitch 2 : Strike 1 Foul
+[DRY-RUN] LAD 3 · Top 6 · 1-0, 2 outs, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 6 · 1-1, 2 outs, 1 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151004030021 sent_ids=0 scoring_texts=3
+== poll 120: revealed 360/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151004990057: Betts flied out to center.
+  4019080151099990058: Middle of the 6th inning
+[DRY-RUN] LAD 3 · Top 6 · 3 outs · ATL 1
+Betts flied out to center.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 6 · 0 outs · ATL 1
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151099990058 sent_ids=0 scoring_texts=3
+== poll 121: revealed 363/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151101010001: Yoshinobu Yamamoto pitches to Matt Olson
+  4019080151101020037: Pitch 1 : Strike 1 Swinging
+[DRY-RUN] LAD 3 · Bot 6 · 0-0, 0 outs, 0 on · ATL 1
+Yoshinobu Yamamoto pitches to Matt Olson
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 6 · 0-1, 0 outs, 0 on · ATL 1
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151101020037 sent_ids=0 scoring_texts=3
+== poll 122: revealed 366/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151101030005: Pitch 2 : Ball 1
+  4019080151101040005: Pitch 3 : Ball 2
+  4019080151101050005: Pitch 4 : Ball 3
+[DRY-RUN] LAD 3 · Bot 6 · 1-1, 0 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 6 · 2-1, 0 outs, 0 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 6 · 3-1, 0 outs, 0 on · ATL 1
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151101050005 sent_ids=0 scoring_texts=3
+== poll 123: revealed 369/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151101060021: Pitch 5 : Strike 2 Foul
+  4019080151101990057: Olson struck out looking.
+[DRY-RUN] LAD 3 · Bot 6 · 3-2, 0 outs, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 6 · 1 out, 0 on · ATL 1
+Olson struck out looking.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151101990057 sent_ids=0 scoring_texts=3
+== poll 124: revealed 372/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151102010001: Yoshinobu Yamamoto pitches to Ozzie Albies
+  4019080151102020005: Pitch 1 : Ball 1
+[DRY-RUN] LAD 3 · Bot 6 · 0-0, 1 out, 0 on · ATL 1
+Yoshinobu Yamamoto pitches to Ozzie Albies
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 6 · 1-0, 1 out, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151102020005 sent_ids=0 scoring_texts=3
+== poll 125: revealed 375/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151102990057: Albies flied out to center.
+[DRY-RUN] LAD 3 · Bot 6 · 2 outs, 0 on · ATL 1
+Albies flied out to center.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151102990057 sent_ids=0 scoring_texts=3
+== poll 126: revealed 378/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151103010001: Yoshinobu Yamamoto pitches to Michael Harris II
+  4019080151103020021: Pitch 1 : Strike 1 Foul
+  4019080151103030005: Pitch 2 : Ball 1
+[DRY-RUN] LAD 3 · Bot 6 · 0-0, 2 outs, 0 on · ATL 1
+Yoshinobu Yamamoto pitches to Michael Harris II
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 6 · 0-1, 2 outs, 0 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 6 · 1-1, 2 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151103030005 sent_ids=0 scoring_texts=3
+== poll 127: revealed 381/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151103040037: Pitch 3 : Strike 2 Swinging
+  4019080151103990057: Harris II grounded out to third.
+[DRY-RUN] LAD 3 · Bot 6 · 1-2, 2 outs, 0 on · ATL 1
+Strike 2 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 6 · 3 outs · ATL 1
+Harris II grounded out to third.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151103990057 sent_ids=0 scoring_texts=3
+== poll 128: revealed 384/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151199990058: End of the 6th inning
+[DRY-RUN] LAD 3 · Top 7 · 0 outs · ATL 1
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151199990058 sent_ids=0 scoring_texts=3
+== poll 129: revealed 387/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151201001157: Lee relieved Dodd
+  4019080151201010001: Dylan Lee pitches to Freddie Freeman
+  4019080151201020036: Pitch 1 : Strike 1 Looking
+[DRY-RUN] LAD 3 · Top 7 · 0 outs, 0 on · ATL 1
+Lee relieved Dodd
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 7 · 0-0, 0 outs, 0 on · ATL 1
+Dylan Lee pitches to Freddie Freeman
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 7 · 0-1, 0 outs, 0 on · ATL 1
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151201020036 sent_ids=0 scoring_texts=3
+== poll 130: revealed 390/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151201030021: Pitch 2 : Strike 2 Foul
+  4019080151201990057: Freeman flied out to center.
+[DRY-RUN] LAD 3 · Top 7 · 0-2, 0 outs, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 7 · 1 out, 0 on · ATL 1
+Freeman flied out to center.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151201990057 sent_ids=0 scoring_texts=3
+== poll 131: revealed 393/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151202010001: Dylan Lee pitches to Teoscar Hernandez
+[DRY-RUN] LAD 3 · Top 7 · 0-0, 1 out, 0 on · ATL 1
+Dylan Lee pitches to Teoscar Hernandez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151202010001 sent_ids=0 scoring_texts=3
+== poll 132: revealed 396/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151202990057: T. Hernández grounded out to shortstop.
+  4019080151203010001: Dylan Lee pitches to Will Smith
+[DRY-RUN] LAD 3 · Top 7 · 2 outs, 0 on · ATL 1
+T. Hernández grounded out to shortstop.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 7 · 0-0, 2 outs, 0 on · ATL 1
+Dylan Lee pitches to Will Smith
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151203010001 sent_ids=0 scoring_texts=3
+== poll 133: revealed 399/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151203020036: Pitch 1 : Strike 1 Looking
+  4019080151203030036: Pitch 2 : Strike 2 Looking
+  4019080151203040005: Pitch 3 : Ball 1
+[DRY-RUN] LAD 3 · Top 7 · 0-1, 2 outs, 0 on · ATL 1
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 7 · 0-2, 2 outs, 0 on · ATL 1
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 7 · 1-2, 2 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151203040005 sent_ids=0 scoring_texts=3
+== poll 134: revealed 402/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151203050005: Pitch 4 : Ball 2
+  4019080151203990057: Smith struck out swinging.
+[DRY-RUN] LAD 3 · Top 7 · 2-2, 2 outs, 0 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 7 · 3 outs · ATL 1
+Smith struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151203990057 sent_ids=0 scoring_texts=3
+== poll 135: revealed 405/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151299990058: Middle of the 7th inning
+[DRY-RUN] LAD 3 · Bot 7 · 0 outs · ATL 1
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151299990058 sent_ids=0 scoring_texts=3
+== poll 136: revealed 408/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151301010001: Yoshinobu Yamamoto pitches to Mauricio Dubon
+  4019080151301020021: Pitch 1 : Strike 1 Foul
+  4019080151301030021: Pitch 2 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Bot 7 · 0-0, 0 outs, 0 on · ATL 1
+Yoshinobu Yamamoto pitches to Mauricio Dubon
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 7 · 0-1, 0 outs, 0 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 7 · 0-2, 0 outs, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151301030021 sent_ids=0 scoring_texts=3
+== poll 137: revealed 411/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151301990057: Dubón fouled out to first.
+[DRY-RUN] LAD 3 · Bot 7 · 1 out, 0 on · ATL 1
+Dubón fouled out to first.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151301990057 sent_ids=0 scoring_texts=3
+== poll 138: revealed 414/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151302010001: Yoshinobu Yamamoto pitches to Lane Thomas
+  4019080151302020021: Pitch 1 : Strike 1 Foul
+  4019080151302030036: Pitch 2 : Strike 2 Looking
+[DRY-RUN] LAD 3 · Bot 7 · 0-0, 1 out, 0 on · ATL 1
+Yoshinobu Yamamoto pitches to Lane Thomas
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 7 · 0-1, 1 out, 0 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 7 · 0-2, 1 out, 0 on · ATL 1
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151302030036 sent_ids=0 scoring_texts=3
+== poll 139: revealed 417/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151302040021: Pitch 3 : Strike 2 Foul
+  4019080151302990057: Thomas struck out swinging.
+[DRY-RUN] LAD 3 · Bot 7 · 0-2, 1 out, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 7 · 2 outs, 0 on · ATL 1
+Thomas struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151302990057 sent_ids=0 scoring_texts=3
+== poll 140: revealed 420/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151303010001: Yoshinobu Yamamoto pitches to Austin Riley
+  4019080151303020037: Pitch 1 : Strike 1 Swinging
+[DRY-RUN] LAD 3 · Bot 7 · 0-0, 2 outs, 0 on · ATL 1
+Yoshinobu Yamamoto pitches to Austin Riley
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 7 · 0-1, 2 outs, 0 on · ATL 1
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151303020037 sent_ids=0 scoring_texts=3
+== poll 141: revealed 423/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151303030021: Pitch 2 : Strike 2 Foul
+  4019080151303040005: Pitch 3 : Ball 1
+[DRY-RUN] LAD 3 · Bot 7 · 0-2, 2 outs, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 7 · 1-2, 2 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151303040005 sent_ids=0 scoring_texts=3
+== poll 142: revealed 426/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151303990057: Riley struck out swinging.
+  4019080151399990058: End of the 7th inning
+[DRY-RUN] LAD 3 · Bot 7 · 3 outs · ATL 1
+Riley struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 0 outs · ATL 1
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151399990058 sent_ids=0 scoring_texts=3
+== poll 143: revealed 429/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151401001157: Suter relieved Lee
+  4019080151401010001: Brent Suter pitches to Shohei Ohtani
+[DRY-RUN] LAD 3 · Top 8 · 0 outs, 0 on · ATL 1
+Suter relieved Lee
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 0-0, 0 outs, 0 on · ATL 1
+Brent Suter pitches to Shohei Ohtani
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151401010001 sent_ids=0 scoring_texts=3
+== poll 144: revealed 432/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151401020005: Pitch 1 : Ball 1
+  4019080151401030005: Pitch 2 : Ball 2
+  4019080151401040021: Pitch 3 : Strike 1 Foul
+[DRY-RUN] LAD 3 · Top 8 · 1-0, 0 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 2-0, 0 outs, 0 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 2-1, 0 outs, 0 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151401040021 sent_ids=0 scoring_texts=3
+== poll 145: revealed 435/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151401050036: Pitch 4 : Strike 2 Looking
+  4019080151401060005: Pitch 5 : Ball 3
+  4019080151401070021: Pitch 6 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Top 8 · 2-2, 0 outs, 0 on · ATL 1
+Strike 2 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 3-2, 0 outs, 0 on · ATL 1
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 3-2, 0 outs, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151401070021 sent_ids=0 scoring_texts=3
+== poll 146: revealed 438/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151401990057: Ohtani walked.
+[DRY-RUN] LAD 3 · Top 8 · 0 outs, 1 on · ATL 1
+Ohtani walked.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151401990057 sent_ids=0 scoring_texts=3
+== poll 147: revealed 441/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151402000757: Edman hit for Rojas
+  4019080151402010001: Brent Suter pitches to Tommy Edman
+  4019080151402020005: Pitch 1 : Ball 1
+[DRY-RUN] LAD 3 · Top 8 · 0 outs, 1 on · ATL 1
+Edman hit for Rojas
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 0-0, 0 outs, 1 on · ATL 1
+Brent Suter pitches to Tommy Edman
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 1-0, 0 outs, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151402020005 sent_ids=0 scoring_texts=3
+== poll 148: revealed 444/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151402030021: Pitch 2 : Strike 1 Foul
+  4019080151402990057: Edman popped out to first.
+[DRY-RUN] LAD 3 · Top 8 · 1-1, 0 outs, 1 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 1 out, 1 on · ATL 1
+Edman popped out to first.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151402990057 sent_ids=0 scoring_texts=3
+== poll 149: revealed 447/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151403010001: Brent Suter pitches to Andy Pages
+  4019080151403020005: Pitch 1 : Ball 1
+[DRY-RUN] LAD 3 · Top 8 · 0-0, 1 out, 1 on · ATL 1
+Brent Suter pitches to Andy Pages
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 1-0, 1 out, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151403020005 sent_ids=0 scoring_texts=3
+== poll 150: revealed 450/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151403030036: Pitch 2 : Strike 1 Looking
+  4019080151403040005: Pitch 3 : Ball 2
+  4019080151403050037: Pitch 4 : Strike 2 Swinging
+[DRY-RUN] LAD 3 · Top 8 · 1-1, 1 out, 1 on · ATL 1
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 2-1, 1 out, 1 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 2-2, 1 out, 1 on · ATL 1
+Strike 2 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151403050037 sent_ids=0 scoring_texts=3
+== poll 151: revealed 453/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151403990057: Pages grounded into fielder's choice to third, Ohtani out at second.
+[DRY-RUN] LAD 3 · Top 8 · 2 outs, 1 on · ATL 1
+Pages grounded into fielder's choice to third, Ohtani out at second.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151403990057 sent_ids=0 scoring_texts=3
+== poll 152: revealed 456/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151404010001: Brent Suter pitches to Kyle Tucker
+  4019080151404020021: Pitch 1 : Strike 1 Foul
+  4019080151404030037: Pitch 2 : Strike 2 Swinging
+[DRY-RUN] LAD 3 · Top 8 · 0-0, 2 outs, 1 on · ATL 1
+Brent Suter pitches to Kyle Tucker
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 0-1, 2 outs, 1 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 0-2, 2 outs, 1 on · ATL 1
+Strike 2 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151404030037 sent_ids=0 scoring_texts=3
+== poll 153: revealed 459/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151404040021: Pitch 3 : Strike 2 Foul
+  4019080151404050005: Pitch 4 : Ball 1
+  4019080151404060005: Pitch 5 : Ball 2
+[DRY-RUN] LAD 3 · Top 8 · 0-2, 2 outs, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 1-2, 2 outs, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 8 · 2-2, 2 outs, 1 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151404060005 sent_ids=0 scoring_texts=3
+== poll 154: revealed 462/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151404990057: Tucker fouled out to third.
+[DRY-RUN] LAD 3 · Top 8 · 3 outs · ATL 1
+Tucker fouled out to third.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151404990057 sent_ids=0 scoring_texts=3
+== poll 155: revealed 465/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151499990058: Middle of the 8th inning
+[DRY-RUN] LAD 3 · Bot 8 · 0 outs · ATL 1
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151499990058 sent_ids=0 scoring_texts=3
+== poll 156: revealed 468/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151501001157: Scott relieved Yamamoto
+  4019080151501010001: Tanner Scott pitches to Brewer Hicklen
+  4019080151501020021: Pitch 1 : Strike 1 Foul
+[DRY-RUN] LAD 3 · Bot 8 · 0 outs, 0 on · ATL 1
+Scott relieved Yamamoto
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 0-0, 0 outs, 0 on · ATL 1
+Tanner Scott pitches to Brewer Hicklen
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 0-1, 0 outs, 0 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151501020021 sent_ids=0 scoring_texts=3
+== poll 157: revealed 471/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151501030037: Pitch 2 : Strike 2 Swinging
+  4019080151501040021: Pitch 3 : Strike 2 Foul
+  4019080151501050005: Pitch 4 : Ball 1
+[DRY-RUN] LAD 3 · Bot 8 · 0-2, 0 outs, 0 on · ATL 1
+Strike 2 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 0-2, 0 outs, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 1-2, 0 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151501050005 sent_ids=0 scoring_texts=3
+== poll 158: revealed 474/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151501060021: Pitch 5 : Strike 2 Foul
+  4019080151501990057: Hicklen struck out swinging.
+[DRY-RUN] LAD 3 · Bot 8 · 1-2, 0 outs, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 1 out, 0 on · ATL 1
+Hicklen struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151501990057 sent_ids=0 scoring_texts=3
+== poll 159: revealed 477/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151502010001: Tanner Scott pitches to Drake Baldwin
+  4019080151502020021: Pitch 1 : Strike 1 Foul
+[DRY-RUN] LAD 3 · Bot 8 · 0-0, 1 out, 0 on · ATL 1
+Tanner Scott pitches to Drake Baldwin
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 0-1, 1 out, 0 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151502020021 sent_ids=0 scoring_texts=3
+== poll 160: revealed 480/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151502990057: Baldwin grounded out to shortstop.
+[DRY-RUN] LAD 3 · Bot 8 · 2 outs, 0 on · ATL 1
+Baldwin grounded out to shortstop.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151502990057 sent_ids=0 scoring_texts=3
+== poll 161: revealed 483/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151503010001: Tanner Scott pitches to Ronald Acuna Jr.
+  4019080151503020036: Pitch 1 : Strike 1 Looking
+  4019080151503030005: Pitch 2 : Ball 1
+[DRY-RUN] LAD 3 · Bot 8 · 0-0, 2 outs, 0 on · ATL 1
+Tanner Scott pitches to Ronald Acuna Jr.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 0-1, 2 outs, 0 on · ATL 1
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 1-1, 2 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151503030005 sent_ids=0 scoring_texts=3
+== poll 162: revealed 486/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151503040005: Pitch 3 : Ball 2
+  4019080151503050005: Pitch 4 : Ball 3
+[DRY-RUN] LAD 3 · Bot 8 · 2-1, 2 outs, 0 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 3-1, 2 outs, 0 on · ATL 1
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151503050005 sent_ids=0 scoring_texts=3
+== poll 163: revealed 489/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151503990057: Acuña Jr. walked.
+  4019080151504010001: Tanner Scott pitches to Matt Olson
+[DRY-RUN] LAD 3 · Bot 8 · 2 outs, 1 on · ATL 1
+Acuña Jr. walked.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 0-0, 2 outs, 1 on · ATL 1
+Tanner Scott pitches to Matt Olson
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151504010001 sent_ids=0 scoring_texts=3
+== poll 164: revealed 492/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151504020021: Pitch 1 : Strike 1 Foul
+  4019080151504030005: Pitch 2 : Ball 1
+  4019080151504040021: Pitch 3 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Bot 8 · 0-1, 2 outs, 1 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 1-1, 2 outs, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 1-2, 2 outs, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151504040021 sent_ids=0 scoring_texts=3
+== poll 165: revealed 495/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151504050005: Pitch 4 : Ball 2
+  4019080151504060021: Pitch 5 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Bot 8 · 2-2, 2 outs, 1 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 8 · 2-2, 2 outs, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151504060021 sent_ids=0 scoring_texts=3
+== poll 166: revealed 498/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151504990057: Olson struck out swinging.
+  4019080151599990058: End of the 8th inning
+[DRY-RUN] LAD 3 · Bot 8 · 3 outs · ATL 1
+Olson struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 0 outs · ATL 1
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151599990058 sent_ids=0 scoring_texts=3
+== poll 167: revealed 501/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151601001157: Iglesias relieved Suter
+  4019080151601010001: Raisel Iglesias pitches to Enrique Hernandez
+[DRY-RUN] LAD 3 · Top 9 · 0 outs, 0 on · ATL 1
+Iglesias relieved Suter
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 0-0, 0 outs, 0 on · ATL 1
+Raisel Iglesias pitches to Enrique Hernandez
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151601010001 sent_ids=0 scoring_texts=3
+== poll 168: revealed 504/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151601020005: Pitch 1 : Ball 1
+  4019080151601030005: Pitch 2 : Ball 2
+  4019080151601040005: Pitch 3 : Ball 3
+[DRY-RUN] LAD 3 · Top 9 · 1-0, 0 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 2-0, 0 outs, 0 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 3-0, 0 outs, 0 on · ATL 1
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151601040005 sent_ids=0 scoring_texts=3
+== poll 169: revealed 507/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151601050036: Pitch 4 : Strike 1 Looking
+  4019080151601990057: E. Hernández popped out to shortstop.
+[DRY-RUN] LAD 3 · Top 9 · 3-1, 0 outs, 0 on · ATL 1
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 1 out, 0 on · ATL 1
+E. Hernández popped out to shortstop.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151601990057 sent_ids=0 scoring_texts=3
+== poll 170: revealed 510/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151602010001: Raisel Iglesias pitches to Mookie Betts
+  4019080151602020005: Pitch 1 : Ball 1
+[DRY-RUN] LAD 3 · Top 9 · 0-0, 1 out, 0 on · ATL 1
+Raisel Iglesias pitches to Mookie Betts
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 1-0, 1 out, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151602020005 sent_ids=0 scoring_texts=3
+== poll 171: revealed 513/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151602030037: Pitch 2 : Strike 1 Swinging
+  4019080151602040021: Pitch 3 : Strike 2 Foul
+  4019080151602050021: Pitch 4 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Top 9 · 1-1, 1 out, 0 on · ATL 1
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 1-2, 1 out, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 1-2, 1 out, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151602050021 sent_ids=0 scoring_texts=3
+== poll 172: revealed 516/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151602060021: Pitch 5 : Strike 2 Foul
+  4019080151602070005: Pitch 6 : Ball 2
+  4019080151602080021: Pitch 7 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Top 9 · 1-2, 1 out, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 2-2, 1 out, 0 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 2-2, 1 out, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151602080021 sent_ids=0 scoring_texts=3
+== poll 173: revealed 519/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151602990057: Betts struck out swinging.
+[DRY-RUN] LAD 3 · Top 9 · 2 outs, 0 on · ATL 1
+Betts struck out swinging.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151602990057 sent_ids=0 scoring_texts=3
+== poll 174: revealed 522/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151603010001: Raisel Iglesias pitches to Freddie Freeman
+  4019080151603020005: Pitch 1 : Ball 1
+  4019080151603030005: Pitch 2 : Ball 2
+[DRY-RUN] LAD 3 · Top 9 · 0-0, 2 outs, 0 on · ATL 1
+Raisel Iglesias pitches to Freddie Freeman
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 1-0, 2 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 2-0, 2 outs, 0 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151603030005 sent_ids=0 scoring_texts=3
+== poll 175: revealed 525/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151603040005: Pitch 3 : Ball 3
+  4019080151603050036: Pitch 4 : Strike 1 Looking
+  4019080151603060021: Pitch 5 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Top 9 · 3-0, 2 outs, 0 on · ATL 1
+Ball 3
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 3-1, 2 outs, 0 on · ATL 1
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 3-2, 2 outs, 0 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151603060021 sent_ids=0 scoring_texts=3
+== poll 176: revealed 528/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151603990057: Freeman walked.
+[DRY-RUN] LAD 3 · Top 9 · 2 outs, 1 on · ATL 1
+Freeman walked.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151603990057 sent_ids=0 scoring_texts=3
+== poll 177: revealed 531/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151604000457: Muncy hit for T. Hernández
+  4019080151604010001: Raisel Iglesias pitches to Max Muncy
+  4019080151604020036: Pitch 1 : Strike 1 Looking
+[DRY-RUN] LAD 3 · Top 9 · 2 outs, 1 on · ATL 1
+Muncy hit for T. Hernández
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 0-0, 2 outs, 1 on · ATL 1
+Raisel Iglesias pitches to Max Muncy
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 0-1, 2 outs, 1 on · ATL 1
+Strike 1 Looking
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151604020036 sent_ids=0 scoring_texts=3
+== poll 178: revealed 534/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151604030021: Pitch 2 : Strike 2 Foul
+  4019080151604990057: Muncy struck out looking.
+[DRY-RUN] LAD 3 · Top 9 · 0-2, 2 outs, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Top 9 · 3 outs · ATL 1
+Muncy struck out looking.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151604990057 sent_ids=0 scoring_texts=3
+== poll 179: revealed 537/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151699990058: Middle of the 9th inning
+[DRY-RUN] LAD 3 · Bot 9 · 0 outs · ATL 1
+Side retired
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151699990058 sent_ids=0 scoring_texts=3
+== poll 180: revealed 540/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151701001157: Díaz relieved Scott
+[DRY-RUN] LAD 3 · Bot 9 · 0 outs, 0 on · ATL 1
+Díaz relieved Scott
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151701001157 sent_ids=0 scoring_texts=3
+== poll 181: revealed 543/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151701010001: Edwin Diaz pitches to Ozzie Albies
+  4019080151701020005: Pitch 1 : Ball 1
+  4019080151701030037: Pitch 2 : Strike 1 Swinging
+[DRY-RUN] LAD 3 · Bot 9 · 0-0, 0 outs, 0 on · ATL 1
+Edwin Diaz pitches to Ozzie Albies
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 1-0, 0 outs, 0 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 1-1, 0 outs, 0 on · ATL 1
+Strike 1 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151701030037 sent_ids=0 scoring_texts=3
+== poll 182: revealed 546/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151701040005: Pitch 3 : Ball 2
+  4019080151701990057: Albies doubled to center.
+[DRY-RUN] LAD 3 · Bot 9 · 2-1, 0 outs, 0 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 0 outs, 1 on · ATL 1
+Albies doubled to center.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151701990057 sent_ids=0 scoring_texts=3
+== poll 183: revealed 549/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151702010001: Edwin Diaz pitches to Michael Harris II
+  4019080151702020021: Pitch 1 : Strike 1 Foul
+[DRY-RUN] LAD 3 · Bot 9 · 0-0, 0 outs, 1 on · ATL 1
+Edwin Diaz pitches to Michael Harris II
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 0-1, 0 outs, 1 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151702020021 sent_ids=0 scoring_texts=3
+== poll 184: revealed 552/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151702030037: Pitch 2 : Strike 2 Swinging
+  4019080151702040021: Pitch 3 : Strike 2 Foul
+  4019080151702050021: Pitch 4 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Bot 9 · 0-2, 0 outs, 1 on · ATL 1
+Strike 2 Swinging
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 0-2, 0 outs, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 0-2, 0 outs, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151702050021 sent_ids=0 scoring_texts=3
+== poll 185: revealed 555/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151702060005: Pitch 5 : Ball 1
+  4019080151702070021: Pitch 6 : Strike 2 Foul
+  4019080151702080021: Pitch 7 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Bot 9 · 1-2, 0 outs, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 1-2, 0 outs, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 1-2, 0 outs, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151702080021 sent_ids=0 scoring_texts=3
+== poll 186: revealed 558/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151702990057: Harris II grounded out to second, Albies to third.
+[DRY-RUN] LAD 3 · Bot 9 · 1 out, 1 on · ATL 1
+Harris II grounded out to second, Albies to third.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151702990057 sent_ids=0 scoring_texts=3
+== poll 187: revealed 561/573 ==
+[DRY-RUN] 3 new play(s) for game 999
+  4019080151703010001: Edwin Diaz pitches to Mauricio Dubon
+  4019080151703020005: Pitch 1 : Ball 1
+  4019080151703030021: Pitch 2 : Strike 1 Foul
+[DRY-RUN] LAD 3 · Bot 9 · 0-0, 1 out, 1 on · ATL 1
+Edwin Diaz pitches to Mauricio Dubon
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 1-0, 1 out, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 1-1, 1 out, 1 on · ATL 1
+Strike 1 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151703030021 sent_ids=0 scoring_texts=3
+== poll 188: revealed 564/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151703040005: Pitch 3 : Ball 2
+  4019080151703050021: Pitch 4 : Strike 2 Foul
+[DRY-RUN] LAD 3 · Bot 9 · 2-1, 1 out, 1 on · ATL 1
+Ball 2
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 2-2, 1 out, 1 on · ATL 1
+Strike 2 Foul
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151703050021 sent_ids=0 scoring_texts=3
+== poll 189: revealed 567/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151703990057: Dubón fouled out to right.
+  4019080151704000857: Yastrzemski hit for Thomas
+[DRY-RUN] LAD 3 · Bot 9 · 2 outs, 1 on · ATL 1
+Dubón fouled out to right.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 2 outs, 1 on · ATL 1
+Yastrzemski hit for Thomas
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151704000857 sent_ids=0 scoring_texts=3
+== poll 190: revealed 570/573 ==
+[DRY-RUN] 2 new play(s) for game 999
+  4019080151704010001: Edwin Diaz pitches to Mike Yastrzemski
+  4019080151704020005: Pitch 1 : Ball 1
+[DRY-RUN] LAD 3 · Bot 9 · 0-0, 2 outs, 1 on · ATL 1
+Edwin Diaz pitches to Mike Yastrzemski
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Bot 9 · 1-0, 2 outs, 1 on · ATL 1
+Ball 1
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned False; last_play_id=4019080151704020005 sent_ids=0 scoring_texts=3
+== poll 191: revealed 573/573 ==
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151704990057: Yastrzemski grounded out to shortstop.
+[DRY-RUN] LAD 3 · Bot 9 · 3 outs · ATL 1
+Yastrzemski grounded out to shortstop.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Final · ATL 1
+Game over
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+-> returned True; last_play_id=4019080151704990057 sent_ids=0 scoring_texts=3

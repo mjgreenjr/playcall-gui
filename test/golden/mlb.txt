@@ -1,0 +1,8 @@
+[DRY-RUN] 1 new play(s) for game 999
+  4019080151704990057: Yastrzemski grounded out to shortstop.
+[DRY-RUN] LAD 3 · Bot 9 · 3 outs · ATL 1
+Yastrzemski grounded out to shortstop.
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
+[DRY-RUN] LAD 3 · Final · ATL 1
+Game over
+Exec: xdg-open https://www.espn.com/mlb/game/_/gameId/999
