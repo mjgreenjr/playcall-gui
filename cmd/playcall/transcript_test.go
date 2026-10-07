@@ -19,6 +19,8 @@ type transcript struct {
 	stderr      string
 	logs        []string
 	configAfter string // "" if the transcript has none
+	state       string // "" or "(none)": no state file at the start
+	stateAfter  string // "" if the transcript has none; "(none)": no file
 	exit        int
 }
 
@@ -37,10 +39,13 @@ func parseTranscript(t *testing.T, path string) transcript {
 			if err := json.Unmarshal([]byte(strings.TrimPrefix(line, "args: ")), &tr.args); err != nil {
 				t.Fatalf("%s: args: %v", path, err)
 			}
+		case strings.HasPrefix(line, "state: ") && section == "":
+			tr.state = strings.TrimPrefix(line, "state: ")
 		case strings.HasPrefix(line, "config: ") && section == "":
 			tr.config = strings.TrimPrefix(line, "config: ")
 		case line == "-- requests --", line == "-- stdout --", line == "-- stderr --",
-			line == "-- log (INFO and above) --", line == "-- config after (parsed, sorted) --":
+			line == "-- log (INFO and above) --", line == "-- config after (parsed, sorted) --",
+			line == "-- state after (parsed, sorted) --":
 			section = line
 		case strings.HasPrefix(line, "-- exit ") && strings.HasSuffix(line, " --"):
 			n, err := strconv.Atoi(strings.TrimSuffix(strings.TrimPrefix(line, "-- exit "), " --"))
@@ -72,6 +77,7 @@ func parseTranscript(t *testing.T, path string) transcript {
 	tr.stderr = text("-- stderr --")
 	tr.logs = list("-- log (INFO and above) --")
 	tr.configAfter = text("-- config after (parsed, sorted) --")
+	tr.stateAfter = strings.Join(lines["-- state after (parsed, sorted) --"], "\n")
 	return tr
 }
 
@@ -115,6 +121,16 @@ func TestCommandTranscripts(t *testing.T) {
 				t.Fatal(err)
 			}
 
+			stateFile := filepath.Join(h.home, ".cache", "playcall", "state.json")
+			if tr.state != "" && tr.state != "(none)" {
+				if err := os.MkdirAll(filepath.Dir(stateFile), 0o755); err != nil {
+					t.Fatal(err)
+				}
+				if err := os.WriteFile(stateFile, []byte(tr.state), 0o644); err != nil {
+					t.Fatal(err)
+				}
+			}
+
 			// Transcripts name mock files relative to the repo root.
 			args := append([]string(nil), tr.args...)
 			for i, a := range args {
@@ -133,14 +149,41 @@ func TestCommandTranscripts(t *testing.T) {
 			if got := strings.TrimRight(h.stderr.String(), "\n"); got != tr.stderr {
 				t.Errorf("stderr:\n%s\nwant:\n%s", got, tr.stderr)
 			}
-			if !reflect.DeepEqual(h.logs, tr.logs) {
-				t.Errorf("log:\n%q\nwant:\n%q", h.logs, tr.logs)
+			// The transcripts use Python's level name WARNING; slog says WARN.
+			var wantLogs []string
+			for _, l := range tr.logs {
+				wantLogs = append(wantLogs, strings.Replace(l, "WARNING ", "WARN ", 1))
+			}
+			if !reflect.DeepEqual(h.logs, wantLogs) {
+				t.Errorf("log:\n%q\nwant:\n%q", h.logs, wantLogs)
 			}
 			if !reflect.DeepEqual(h.src.requests, want) {
 				t.Errorf("requests:\n%q\nwant:\n%q", h.src.requests, want)
 			}
 			if len(h.runner.calls) != 0 {
 				t.Errorf("ran %v", h.runner.calls)
+			}
+			if tr.stateAfter != "" {
+				b, err := os.ReadFile(stateFile)
+				if tr.stateAfter == "(none)" {
+					if err == nil {
+						t.Errorf("state file left behind: %s", b)
+					}
+				} else {
+					if err != nil {
+						t.Fatal(err)
+					}
+					var gotState, wantState any
+					if err := json.Unmarshal(b, &gotState); err != nil {
+						t.Fatal(err)
+					}
+					if err := json.Unmarshal([]byte(tr.stateAfter), &wantState); err != nil {
+						t.Fatal(err)
+					}
+					if !reflect.DeepEqual(gotState, wantState) {
+						t.Errorf("state after:\n%s\nwant:\n%s", b, tr.stateAfter)
+					}
+				}
 			}
 			if tr.configAfter != "" {
 				b, err := os.ReadFile(filepath.Join(cfgDir, "config.json"))

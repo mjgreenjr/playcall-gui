@@ -143,7 +143,7 @@ func (s *StateStore) Save(st *State) error {
 	if st.LastPlayID != nil {
 		last = strconv.FormatInt(int64(*st.LastPlayID), 10)
 	}
-	slog.Info("State saved", "game", st.GameID, "last_play", last)
+	slog.Info(fmt.Sprintf("State saved: game %s, last play %s", st.GameID, last))
 	return nil
 }
 
