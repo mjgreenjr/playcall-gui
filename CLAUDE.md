@@ -149,6 +149,14 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
 - If the command fails, `Send` returns an error so the play is retried.
 - `--test-notify` sends one sample toast (title "Test", body "playcall is working") and exits.
 
+### Adaptive routing: UI vs toast (planned)
+- When the Fyne GUI is running, each play event goes to the in-app UI if our window is visible, otherwise to `ToastSink` (system toast). Never both.
+- Wayland does not tell clients which workspace they are on and Fyne has no workspace-visibility API, so detect visibility through Hyprland at event time (polling per play is cheap; do not use the Hyprland event socket):
+  1. `hyprctl clients -j`: find our window by PID (`os.Getpid()` matches the client's `pid`; more robust than class/title), read `workspace.id`, `mapped`, `hidden`.
+  2. `hyprctl monitors -j`: collect every monitor's `activeWorkspace.id` (each monitor has its own active workspace).
+  3. Visible = our workspace id is in the active set AND `mapped` AND NOT `hidden`. A `special:` (scratchpad) workspace counts as hidden.
+- Fallback: if `hyprctl` is unavailable, send the toast. Keep this behind the OS-specific notifier interface with the rest of the Linux notification code.
+
 ## Commands
 `./playcall` (built with `go build -o playcall ./cmd/playcall`). Flags (`--dry-run`, `--once`, `--interval`, `--mock`, `--sport`) work before or after the subcommand. Go's `flag` stops at the first positional argument, so use a `FlagSet` per subcommand and handle positionals yourself.
 
