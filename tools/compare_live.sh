@@ -39,7 +39,7 @@ for side in python go; do
 done
 
 cd "$ROOT"
-HOME="$OUT/home-python" python3 -B reference/playcall.py resume --dry-run --interval 5 "${EXTRA[@]}" > "$OUT/python.out" 2>&1 &
+HOME="$OUT/home-python" python3 -u -B reference/playcall.py resume --dry-run --interval 5 "${EXTRA[@]}" > "$OUT/python.out" 2>&1 &
 PY=$!
 HOME="$OUT/home-go" "$OUT/playcall-go" resume --dry-run --interval 5 "${EXTRA[@]}" > "$OUT/go.out" 2>&1 &
 GO=$!
