@@ -159,30 +159,44 @@ func (s *shell) showPicker(sport string) {
 		s.follow(sport, g.ID, liveFetcher(sport, g.ID), s.liveInterval(), true)
 		s.win.SetTitle(fmt.Sprintf("playcall - %s: %s", sportLabel(sport), matchup(g)))
 	})
-	p.onSettings = s.showSettings
+	p.onSettings = s.settingsFromPicker
 	p.logos = s.logos
 	s.pickerView = p
 	s.win.SetContent(p.content)
 	p.load()
 }
 
-// showSettings opens the settings screen over the picker. Back returns to the
-// same picker, which reloads in case the favorites or default group changed.
-func (s *shell) showSettings() {
-	sport := s.pickerView.currentSport()
+// openSettings shows the settings screen in place of whatever is on screen;
+// back puts that screen back. The sport is the one the favorites page opens on.
+func (s *shell) openSettings(sport string, back func()) {
 	v := newSettings(settingsEnv{
 		ctx:     s.root,
 		fetcher: s.fetcher,
 		cfg:     func() core.Config { return s.cfg },
 		update:  s.update,
 		logos:   s.logos,
-		back: func() {
-			s.win.SetContent(s.pickerView.content)
-			s.pickerView.refresh()
-		},
+		back:    back,
 	}, sport)
 	s.settings = v
 	s.win.SetContent(v.content)
+}
+
+// settingsFromPicker: Back returns to the same picker, which reloads in case
+// the favorites or default group changed.
+func (s *shell) settingsFromPicker() {
+	s.openSettings(s.pickerView.currentSport(), func() {
+		s.win.SetContent(s.pickerView.content)
+		s.pickerView.refresh()
+	})
+}
+
+// settingsFromGame: the game keeps polling while settings are open, so Back
+// returns to a current view, with its rows recolored if the highlight changed.
+func (s *shell) settingsFromGame(sport string, view *ui) {
+	s.openSettings(sport, func() {
+		view.setHighlight(s.highlight)
+		s.win.SetContent(view.content)
+	})
 }
 
 // groupPrefs reads and writes each sport's remembered group in config.json.
@@ -230,6 +244,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 	}
 	view := newUI(every, onBack, s.highlight, s.logos)
 	s.gameView = view
+	view.onSettings = func() { s.settingsFromGame(sport, view) }
 	sink := guiSink{view}
 	state := &core.State{GameID: gameID, Sport: sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, sink, fetch)

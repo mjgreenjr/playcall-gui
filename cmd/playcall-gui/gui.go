@@ -20,7 +20,9 @@ import (
 // has scrolled away from the top.
 type ui struct {
 	interval time.Duration
-	hl       highlight // color of urgent plays
+	// onSettings opens the settings screen; the gear is inert while nil.
+	onSettings func()
+	hl         highlight // color of urgent plays
 
 	model  Model
 	status core.GameStatus
@@ -65,10 +67,16 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	u.series.Hide() // shown only when there is something to say
 	u.stale.Hide()
 
-	var back fyne.CanvasObject = layout.NewSpacer()
+	// Top row: "Games" back to the picker (when there is one) and the settings gear.
+	gear := widget.NewButtonWithIcon("", theme.SettingsIcon(), func() {
+		if u.onSettings != nil {
+			u.onSettings()
+		}
+	})
+	back := container.NewHBox(layout.NewSpacer(), gear)
 	if onBack != nil {
 		b := widget.NewButtonWithIcon("Games", theme.NavigateBackIcon(), onBack)
-		back = container.NewHBox(b, layout.NewSpacer())
+		back = container.NewHBox(b, layout.NewSpacer(), gear)
 	}
 	header := container.NewVBox(
 		back,
@@ -109,6 +117,19 @@ func (u *ui) themeChanged() {
 	}
 	u.awayBadge.refresh(u.logos)
 	u.homeBadge.refresh(u.logos)
+}
+
+// setHighlight changes the color of urgent plays, redrawing the rows already
+// shown (they were colored when they were added). The scroll position stays.
+func (u *ui) setHighlight(h highlight) {
+	if h == u.hl {
+		return
+	}
+	u.hl = h
+	for i, r := range u.model.Rows {
+		u.rows.Objects[i] = newRow(r, h)
+	}
+	u.rows.Refresh()
 }
 
 func (u *ui) clearUnseen() {

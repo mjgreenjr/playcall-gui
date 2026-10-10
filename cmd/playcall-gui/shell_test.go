@@ -5,8 +5,12 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/test"
+	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
 
 	"playcall/internal/core"
 	"playcall/internal/espn"
@@ -83,5 +87,101 @@ func TestShellSettingsRoundTrip(t *testing.T) {
 		if g.Away != "DAL" && g.Home != "DAL" {
 			t.Errorf("non-favorite game shown: %s", matchup(g))
 		}
+	}
+}
+
+// rowText finds the RichText of a play row built by newRow.
+func rowText(row fyne.CanvasObject) *widget.RichText {
+	return row.(*fyne.Container).Objects[0].(*widget.RichText)
+}
+
+func segmentColor(row fyne.CanvasObject) fyne.ThemeColorName {
+	return rowText(row).Segments[0].(*widget.TextSegment).Style.ColorName
+}
+
+func TestGameViewGearAndHighlightRecolor(t *testing.T) {
+	test.NewApp()
+	u := newUI(10*time.Second, nil, highlightByKey("blue"), nil)
+	opened := 0
+	u.onSettings = func() { opened++ }
+	// The gear is in the header, not only on the picker.
+	var gear *widget.Button
+	var find func(o fyne.CanvasObject)
+	find = func(o fyne.CanvasObject) {
+		switch w := o.(type) {
+		case *widget.Button:
+			if w.Icon == theme.SettingsIcon() {
+				gear = w
+			}
+		case *fyne.Container:
+			for _, c := range w.Objects {
+				find(c)
+			}
+		}
+	}
+	find(u.content)
+	if gear == nil {
+		t.Fatal("no settings gear in the game view")
+	}
+	test.Tap(gear)
+	if opened != 1 {
+		t.Errorf("gear opened settings %d times", opened)
+	}
+
+	u.addEvent(core.Event{PlayID: "1", Kind: core.KindPlay, Body: "TOUCHDOWN", Urgent: true})
+	u.addEvent(core.Event{PlayID: "2", Kind: core.KindPlay, Body: "rush for 2"})
+	if segmentColor(u.rows.Objects[1]) != theme.ColorNamePrimary { // the TD, now second
+		t.Fatalf("urgent play color %v", segmentColor(u.rows.Objects[1]))
+	}
+	u.setHighlight(highlightByKey("green"))
+	if segmentColor(u.rows.Objects[1]) != theme.ColorNameSuccess {
+		t.Errorf("after recolor: %v", segmentColor(u.rows.Objects[1]))
+	}
+	if segmentColor(u.rows.Objects[0]) != theme.ColorNameForeground {
+		t.Errorf("a normal play changed color: %v", segmentColor(u.rows.Objects[0]))
+	}
+	// A play arriving afterwards uses the new color too.
+	u.addEvent(core.Event{PlayID: "3", Kind: core.KindPlay, Body: "FIELD GOAL", Urgent: true})
+	if segmentColor(u.rows.Objects[0]) != theme.ColorNameSuccess || len(u.rows.Objects) != 3 {
+		t.Errorf("new row color %v, %d rows", segmentColor(u.rows.Objects[0]), len(u.rows.Objects))
+	}
+}
+
+func TestShellSettingsFromAGameReturnsToTheGame(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+	s := &shell{root: context.Background(), fetcher: urlFetcher{t}}
+	s.loadConfig()
+	s.app = test.NewApp()
+	s.win = s.app.NewWindow("playcall")
+
+	// A game on screen, as follow() leaves it (without its polling goroutine).
+	view := newUI(10*time.Second, nil, s.highlight, nil)
+	s.gameView = view
+	view.onSettings = func() { s.settingsFromGame("nfl", view) }
+	s.win.SetContent(view.content)
+	view.addEvent(core.Event{PlayID: "1", Kind: core.KindPlay, Body: "TOUCHDOWN", Urgent: true})
+
+	view.onSettings()
+	if s.settings == nil || s.win.Content() != s.settings.content {
+		t.Fatal("settings not shown over the game")
+	}
+	// The game is still there, and still receives plays while settings are open.
+	view.addEvent(core.Event{PlayID: "2", Kind: core.KindPlay, Body: "rush for 2"})
+	if len(view.model.Rows) != 2 {
+		t.Errorf("game stopped updating: %d rows", len(view.model.Rows))
+	}
+
+	s.settings.color.SetSelected("Red")
+	s.settings.env.back()
+	if s.win.Content() != view.content {
+		t.Fatal("Back did not return to the game")
+	}
+	if view.hl.key != "red" || segmentColor(view.rows.Objects[1]) != theme.ColorNameError {
+		t.Errorf("game not recolored: %v / %v", view.hl, segmentColor(view.rows.Objects[1]))
+	}
+	paths, _ := core.DefaultPaths()
+	if saved, err := core.LoadConfig(paths); err != nil || saved.HighlightColor() != "red" {
+		t.Errorf("saved %q, %v", saved.HighlightColor(), err)
 	}
 }
