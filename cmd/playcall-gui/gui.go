@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"image/color"
 	"strings"
 	"time"
 
@@ -100,8 +101,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		// last thing on the line.
 		// Each team's record sits centered under its abbreviation.
 		container.NewBorder(nil, nil,
-			container.NewHBox(u.awayBall, u.awayBadge.box, container.NewVBox(u.away, u.awayRecord), container.NewVBox(u.awayScore)),
-			container.NewHBox(u.homeBadge.box, container.NewVBox(u.home, u.homeRecord), container.NewVBox(u.homeScore), u.homeBall),
+			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(u.away, u.awayRecord), container.NewVBox(u.awayScore)),
+			container.NewHBox(container.NewVBox(u.homeBadge.box), container.NewVBox(u.home, u.homeRecord), container.NewVBox(u.homeScore), ballSlot(u.homeBall)),
 			container.NewCenter(container.NewVBox(u.statusText, u.situation))),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
@@ -124,6 +125,14 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 
 	u.content = container.NewBorder(container.NewVBox(header, u.newBtn), nil, nil, nil, u.scroll)
 	return u
+}
+
+// ballSlot puts the ball at the top of its column, vertically centered on a
+// logo-high slot, so it lines up with the logo and the abbreviation.
+func ballSlot(ball *canvas.Image) fyne.CanvasObject {
+	slot := canvas.NewRectangle(color.Transparent)
+	slot.SetMinSize(fyne.NewSize(badgeBall, badgeLogo))
+	return container.NewVBox(container.NewStack(slot, container.NewCenter(ball)))
 }
 
 // themeChanged restyles what was colored when it was built: the scores'

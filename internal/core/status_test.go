@@ -459,3 +459,34 @@ func TestStatusPreseason(t *testing.T) {
 		t.Error("season type 1 is the preseason")
 	}
 }
+
+func TestFootballPeriodBreak(t *testing.T) {
+	endPeriod := espn.Data{"type": espn.Data{"text": "End Period"}, "period": espn.Data{"number": json.Number("3")}}
+	snap := espn.Data{"type": espn.Data{"text": "Rush"}, "period": espn.Data{"number": json.Number("3")}}
+	feed := func(statusPeriod string, finished bool, plays ...espn.Data) *Feed {
+		return &Feed{
+			Data:     espn.Data{"status": espn.Data{"period": json.Number(statusPeriod)}},
+			Plays:    plays,
+			Finished: finished,
+		}
+	}
+	cases := []struct {
+		name  string
+		sport string
+		f     *Feed
+		want  bool
+	}{
+		{"end of the 3rd, ESPN still on 3", "cfb", feed("3", false, snap, endPeriod), true},
+		{"nfl too", "nfl", feed("3", false, snap, endPeriod), true},
+		{"ESPN already on the 4th", "cfb", feed("4", false, snap, endPeriod), false},
+		{"a snap after it", "cfb", feed("3", false, endPeriod, snap), false},
+		{"final", "cfb", feed("3", true, snap, endPeriod), false},
+		{"basketball has its own status", "nba", feed("3", false, snap, endPeriod), false},
+		{"no plays", "cfb", feed("3", false), false},
+	}
+	for _, c := range cases {
+		if got := footballPeriodBreak(c.sport, c.f); got != c.want {
+			t.Errorf("%s: %v, want %v", c.name, got, c.want)
+		}
+	}
+}

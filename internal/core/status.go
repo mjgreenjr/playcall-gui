@@ -211,6 +211,10 @@ func (p *Poller) publishStatus(f *Feed) {
 			period = nbaPeriod(espn.Data{"period": espn.Data{"number": n, "displayValue": f.Period}}, br.regulation)
 		}
 	}
+	detail := espn.Str(st["shortDetail"])
+	if footballPeriodBreak(p.Sport, f) && espn.Str(st["name"]) != "STATUS_END_PERIOD" {
+		detail = "End of " + period // ESPN's own says "15:00 - 3rd"
+	}
 	awayCounts, homeCounts := basketballCounts(p.Sport, f)
 	homeComp, awayComp := espn.Teams(espn.Competition(f.Data))
 	series := f.Series
@@ -227,9 +231,9 @@ func (p *Poller) publishStatus(f *Feed) {
 		Period:     period,
 		AwayCounts: awayCounts,
 		HomeCounts: homeCounts,
-		Detail:     espn.Str(st["shortDetail"]),
+		Detail:     detail,
 		Halftime:   espn.Str(st["name"]) == "STATUS_HALFTIME",
-		Break:      espn.Str(st["name"]) == "STATUS_END_PERIOD",
+		Break:      espn.Str(st["name"]) == "STATUS_END_PERIOD" || footballPeriodBreak(p.Sport, f),
 		Final:      f.Finished,
 		Series:     series,
 		Preseason:  espn.SeasonType(f.Data) == "1",
@@ -239,6 +243,24 @@ func (p *Poller) publishStatus(f *Feed) {
 		Situation:  situation(p.Sport, f),
 		UpdatedAt:  p.now(),
 	})
+}
+
+// footballPeriodBreak is true between quarters in football. ESPN does not use
+// its end-of-period status there: it resets the clock to 15:00 while the
+// period is still the old one, so the header would say "15:00 3rd". The "End
+// Period" play for the current period is the sign of the break. It ends with
+// the next snap, or when ESPN moves on to the next period.
+func footballPeriodBreak(sport string, f *Feed) bool {
+	if (sport != "nfl" && sport != "cfb") || len(f.Plays) == 0 || f.Finished {
+		return false
+	}
+	last := f.Plays[len(f.Plays)-1]
+	if !strings.EqualFold(playType(last), "End Period") {
+		return false
+	}
+	period, ok := espn.Int64(espn.Status(f.Data)["period"])
+	playPeriod, okPlay := espn.Int64(espn.Map(last["period"])["number"])
+	return ok && okPlay && period == playPeriod
 }
 
 // possession finds the side on offence from the game feed.
