@@ -22,7 +22,10 @@ type GameStatus struct {
 	Detail string
 	// Halftime is true for the whole break, not just the end-of-half play.
 	Halftime bool
-	Final    bool
+	// Break is true between periods ("End of 3rd"), when ESPN's clock sits at
+	// zero until the next one starts; Detail then says what to show.
+	Break bool
+	Final bool
 	// Series is the postseason standing without parentheses, or "".
 	Series string
 	// Situation is football's down, distance and spot after the last play
@@ -70,6 +73,7 @@ func (p *Poller) publishStatus(f *Feed) {
 		Period:     f.Period,
 		Detail:     espn.Str(st["shortDetail"]),
 		Halftime:   espn.Str(st["name"]) == "STATUS_HALFTIME",
+		Break:      espn.Str(st["name"]) == "STATUS_END_PERIOD",
 		Final:      f.Finished,
 		Series:     series,
 		Possession: possession(p.Sport, f),

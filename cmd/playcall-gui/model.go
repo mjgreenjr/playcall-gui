@@ -57,6 +57,8 @@ func statusLine(s core.GameStatus) string {
 		return "Final"
 	case s.Halftime:
 		return "Halftime"
+	case s.Break:
+		return s.Detail // "End of 3rd", not a clock stuck at 0.0
 	case s.State == "pre":
 		return s.Detail
 	}

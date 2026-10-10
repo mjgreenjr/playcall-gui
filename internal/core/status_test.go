@@ -207,3 +207,23 @@ func TestSituation(t *testing.T) {
 		t.Errorf("halftime: %q", got)
 	}
 }
+
+func TestStatusPeriodBreak(t *testing.T) {
+	data := loadFixture(t, "playbyplay_multi_plays.json")
+	typ := espn.Map(espn.Status(data)["type"])
+	typ["name"] = "STATUS_END_PERIOD"
+	typ["state"] = "in"
+	typ["shortDetail"] = "End of 3rd"
+	var got GameStatus
+	poller, err := NewPoller(&State{GameID: "999", Sport: "nba"}, &recordSink{}, func(context.Context) (espn.Data, error) { return data, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	poller.StatusSink = StatusFunc(func(s GameStatus) { got = s })
+	if _, err := poller.Poll(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if !got.Break || got.Halftime || got.Final || got.Detail != "End of 3rd" {
+		t.Errorf("status: %+v", got)
+	}
+}
