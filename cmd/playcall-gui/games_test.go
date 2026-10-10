@@ -45,9 +45,13 @@ func TestGameLines(t *testing.T) {
 	if got := gameDetail(live, now); got != "7-10  0:12 - 2nd" {
 		t.Errorf("live detail %q", got)
 	}
-	pre := espn.Game{State: "pre", AwayScore: "0", HomeScore: "0", Status: "10/10 - 8:00 PM EDT"}
-	if got := gameDetail(pre, now); got != "10/10 - 8:00 PM EDT" {
+	pre := espn.Game{State: "pre", AwayScore: "0", HomeScore: "0", Status: "10/11 - 1:00 PM EDT", Date: "2026-10-11T17:00Z"}
+	if got := gameDetail(pre, now); got != "Sun 10/11 - 1:00 PM EDT" {
 		t.Errorf("pre detail %q", got)
+	}
+	pre.Status = "Postponed"
+	if got := gameDetail(pre, now); got != "Postponed" {
+		t.Errorf("pre without a date %q", got)
 	}
 	final := espn.Game{State: "post", AwayScore: "27", HomeScore: "24", Status: "Final", Date: "2026-10-10T01:00Z"}
 	if got := gameDetail(final, now); got != "Fri 10/9  27-24  Final" {

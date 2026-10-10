@@ -38,10 +38,16 @@ func matchup(g espn.Game) string {
 // has started, with ESPN's status ("5:12 - 1st", "Final", "10/9 - 9:00 PM EDT").
 // A finished game that started on an earlier local day than now gets its date
 // in front ("Fri 10/9  27-24  Final"), so last night's game is not mistaken for
-// today's.
+// today's. An upcoming game gets the weekday in front of ESPN's own date
+// ("Sun 10/11 - 1:00 PM EDT").
 func gameDetail(g espn.Game, now time.Time) string {
 	if g.State == "pre" {
-		return g.Status
+		// ESPN's status carries the date ("10/11 - 1:00 PM EDT"); add the weekday.
+		start, err := time.Parse("2006-01-02T15:04Z", g.Date)
+		if err != nil || g.Status == "" || g.Status[0] < '0' || g.Status[0] > '9' {
+			return g.Status
+		}
+		return start.In(now.Location()).Weekday().String()[:3] + " " + g.Status
 	}
 	detail := fmt.Sprintf("%s-%s  %s", g.AwayScore, g.HomeScore, g.Status)
 	if g.State != "post" {
