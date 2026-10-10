@@ -344,3 +344,24 @@ func TestTeamCountsBonusStates(t *testing.T) {
 		t.Error("no data should be nil")
 	}
 }
+
+func TestFourthQuarterTimeoutCap(t *testing.T) {
+	comp := func(used string) espn.Data { return espn.Data{"timeoutsUsed": json.Number(used)} }
+	for _, c := range []struct {
+		left, slots int
+		used        string
+		want        int
+	}{
+		{6, 7, "0", 4}, // six left, but only four may be used in the 4th
+		{6, 7, "1", 3}, // one used already this quarter
+		{3, 7, "0", 3}, // fewer left than the cap
+		{3, 7, "4", 0}, // used the quarter's four
+	} {
+		tc := &TeamCounts{Timeouts: c.left, TimeoutSlots: c.slots}
+		capTimeouts(tc, comp(c.used))
+		if tc.Timeouts != c.want || tc.TimeoutSlots != c.slots {
+			t.Errorf("left %d used %s: got %+v, want %d left of %d", c.left, c.used, *tc, c.want, c.slots)
+		}
+	}
+	capTimeouts(nil, nil) // no counts: nothing to cap
+}

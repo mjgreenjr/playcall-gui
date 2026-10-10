@@ -70,7 +70,28 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 		return nil, nil
 	}
 	h, a := espn.Teams(espn.Competition(f.Data))
-	return teamCounts(a, f.Plays), teamCounts(h, f.Plays)
+	away, home = teamCounts(a, f.Plays), teamCounts(h, f.Plays)
+	// NBA and WNBA: 7 a game, but no more than 4 in the 4th quarter. ESPN may
+	// or may not already apply that to timeoutsRemaining, so cap it here.
+	if period, _ := espn.Int64(espn.Status(f.Data)["period"]); period == 4 && sport != "cbb" {
+		capTimeouts(away, a)
+		capTimeouts(home, h)
+	}
+	return away, home
+}
+
+// fourthQuarterTimeouts is the most timeouts a team may use in the 4th quarter.
+const fourthQuarterTimeouts = 4
+
+// capTimeouts lowers the timeouts a team can still use to what the 4th-quarter
+// limit allows, given what it used so far in the period (ESPN's timeoutsUsed
+// is per period). The team's starting total is left alone.
+func capTimeouts(c *TeamCounts, competitor espn.Data) {
+	if c == nil {
+		return
+	}
+	used, _ := espn.Int64(competitor["timeoutsUsed"])
+	c.Timeouts = min(c.Timeouts, max(fourthQuarterTimeouts-int(used), 0))
 }
 
 // timeoutsTaken counts the timeout plays that belong to a team. A timeout
