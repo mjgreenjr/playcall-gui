@@ -30,6 +30,7 @@ func (r footballPlays) Message(p espn.Data) Message {
 	if isTimeout(p) {
 		body = footballTimeoutBody(f.Plays, p, text)
 	}
+	body = completeSpots(body, spotNames(f.Data))
 	if footballHalftime(p) {
 		// The end-of-half play stands in for the break: "Halftime" replaces
 		// the clock, and its down and distance (the next possession) is dropped.
@@ -309,4 +310,36 @@ func footballOvertime(sport, clock, period string, data espn.Data) (string, stri
 		clock = ""
 	}
 	return clock, period
+}
+
+// spotNames maps ESPN's six-character spot names to the full ones: it writes
+// "Maryla22" for Maryland's 22 and "OhioSt19" for Ohio State's 19 (the name
+// without spaces, cut at six characters).
+func spotNames(data espn.Data) map[string]string {
+	names := map[string]string{}
+	home, away := espn.Teams(espn.Competition(data))
+	for _, c := range []espn.Data{home, away} {
+		name := espn.Str(espn.Map(c["team"])["location"])
+		if compact := strings.ReplaceAll(name, " ", ""); len(compact) > 6 {
+			names[compact[:6]] = name
+		}
+	}
+	return names
+}
+
+var spotName = regexp.MustCompile(`\b([A-Z][A-Za-z&]{5}) (\d|end zone)`)
+
+// completeSpots writes the full team name in a spot already split by endZone
+// ("Maryla 22" as "Maryland 22"). Only names of the game's two teams are known.
+func completeSpots(text string, names map[string]string) string {
+	if len(names) == 0 {
+		return text
+	}
+	return spotName.ReplaceAllStringFunc(text, func(m string) string {
+		sub := spotName.FindStringSubmatch(m)
+		if full, ok := names[sub[1]]; ok {
+			return full + " " + sub[2]
+		}
+		return m
+	})
 }

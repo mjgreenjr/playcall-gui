@@ -354,3 +354,25 @@ func TestFootballYardLineSpaced(t *testing.T) {
 		}
 	}
 }
+
+func TestCompleteSpots(t *testing.T) {
+	team := func(loc string) map[string]any {
+		return map[string]any{"team": map[string]any{"location": loc}}
+	}
+	data := espn.Data{"competitions": []any{map[string]any{"competitors": []any{
+		map[string]any{"homeAway": "home", "team": team("Maryland")["team"]},
+		map[string]any{"homeAway": "away", "team": team("Ohio State")["team"]},
+	}}}}
+	names := spotNames(data)
+	for in, want := range map[string]string{
+		"punt to the Maryla 22 return":   "punt to the Maryland 22 return",
+		"pass to the OhioSt 19 (tackle)": "pass to the Ohio State 19 (tackle)",
+		"rush to the Maryla end zone":    "rush to the Maryland end zone",
+		"pass to the Mizzou 37 (tackle)": "pass to the Mizzou 37 (tackle)",
+		"Maryla is not a spot":           "Maryla is not a spot",
+	} {
+		if got := completeSpots(in, names); got != want {
+			t.Errorf("%q: got %q, want %q", in, got, want)
+		}
+	}
+}
