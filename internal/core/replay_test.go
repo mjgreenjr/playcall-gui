@@ -3,7 +3,6 @@ package core
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -39,68 +38,21 @@ func readGolden(t *testing.T, name string) string {
 	return string(b)
 }
 
-// deepCopy copies decoded ESPN JSON (numbers stay json.Number).
 func deepCopy(t *testing.T, d espn.Data) espn.Data {
 	t.Helper()
-	b, err := json.Marshal(d)
-	if err != nil {
-		t.Fatal(err)
-	}
-	c, err := espn.Decode(b)
+	c, err := espn.Copy(d)
 	if err != nil {
 		t.Fatal(err)
 	}
 	return c
 }
 
-// playHolders returns the objects holding a "plays" list, in the order
-// ExtractPlays reads them (golden.py's play_lists).
-func playHolders(d espn.Data) []espn.Data {
-	var hs []espn.Data
-	add := func(m espn.Data) {
-		if _, ok := m["plays"].([]any); ok {
-			hs = append(hs, m)
-		}
-	}
-	add(d)
-	gp := espn.Map(d["gamepackageJSON"])
-	add(espn.Map(gp["playback"]))
-	drives := d["drives"]
-	if !espn.Truthy(drives) {
-		drives = gp["drives"]
-	}
-	var list []any
-	if m, ok := drives.(map[string]any); ok {
-		list = append(list, espn.List(m["previous"])...)
-		if espn.Truthy(m["current"]) {
-			list = append(list, m["current"])
-		}
-	} else if l, ok := drives.([]any); ok {
-		list = l
-	}
-	for _, dr := range list {
-		add(espn.Map(dr))
-	}
-	return hs
-}
-
 // reveal is a copy of d with only the first k plays, and not final unless finalNow.
 func reveal(t *testing.T, d espn.Data, k int, finalNow bool) espn.Data {
-	c := deepCopy(t, d)
-	remaining := k
-	for _, h := range playHolders(c) {
-		l := h["plays"].([]any)
-		keep := min(len(l), remaining)
-		h["plays"] = l[:keep]
-		remaining -= keep
-	}
-	if !finalNow && espn.IsFinal(c) {
-		status := espn.Status(c)
-		typ := espn.Map(status["type"])
-		typ["name"] = "STATUS_IN_PROGRESS"
-		typ["shortDetail"] = "In Progress"
-		typ["state"] = "in"
-		status["type"] = typ
+	t.Helper()
+	c, err := espn.Reveal(d, k, finalNow)
+	if err != nil {
+		t.Fatal(err)
 	}
 	return c
 }
@@ -130,7 +82,7 @@ func updatePolls(t *testing.T, d espn.Data) []replayPoll {
 	n := len(espn.ExtractPlays(d))
 	full := reveal(t, d, n, false)
 	changed := deepCopy(t, full)
-	for _, h := range playHolders(changed) {
+	for _, h := range espn.PlayHolders(changed) {
 		for _, v := range h["plays"].([]any) {
 			p := espn.Map(v)
 			if espn.Truthy(p["scoringPlay"]) {
