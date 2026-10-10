@@ -8,6 +8,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
@@ -36,7 +37,7 @@ type ui struct {
 	content fyne.CanvasObject
 }
 
-func newUI(interval time.Duration) *ui {
+func newUI(interval time.Duration, onBack func()) *ui {
 	u := &ui{interval: interval}
 	big := func() *canvas.Text {
 		t := canvas.NewText("", theme.Color(theme.ColorNameForeground))
@@ -51,7 +52,13 @@ func newUI(interval time.Duration) *ui {
 	u.stale = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{})
 	u.stale.Importance = widget.WarningImportance
 
+	var back fyne.CanvasObject = layout.NewSpacer()
+	if onBack != nil {
+		b := widget.NewButtonWithIcon("Games", theme.NavigateBackIcon(), onBack)
+		back = container.NewHBox(b, layout.NewSpacer())
+	}
 	header := container.NewVBox(
+		back,
 		container.NewGridWithColumns(2, u.away, u.home),
 		u.statusText, u.series, u.stale,
 		widget.NewSeparator(),
@@ -92,6 +99,13 @@ func (u *ui) setStatus(s core.GameStatus) {
 		u.series.SetText("")
 	}
 	u.refreshStale()
+}
+
+// setError shows a problem where the status goes.
+func (u *ui) setError(msg string) {
+	u.statusText.SetText(msg)
+	u.statusText.Importance = widget.DangerImportance
+	u.statusText.Refresh()
 }
 
 func (u *ui) refreshStale() {
