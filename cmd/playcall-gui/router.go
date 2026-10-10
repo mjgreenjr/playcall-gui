@@ -26,9 +26,10 @@ type routerSink struct {
 }
 
 func (r routerSink) Send(ctx context.Context, e core.Event) error {
-	// A corrected play only fixes the row already in the list; a toast is not
-	// a record, so there is nothing to correct there.
-	if e.Kind == core.KindUpdate {
+	// A corrected foul or substitution only fixes the row already in the list;
+	// a toast is not a record, so there is nothing to correct there. A
+	// corrected scoring play is news and is toasted again.
+	if e.Revision {
 		return r.win.Send(ctx, e)
 	}
 	vis, err := r.Visible(ctx)

@@ -680,7 +680,7 @@ func TestRevisedFoulIsResent(t *testing.T) {
 	}
 	feed = edited
 	poll()
-	if len(sink.events) != 2 || sink.events[1].Kind != KindUpdate || sink.events[1].PlayID != id ||
+	if len(sink.events) != 2 || sink.events[1].Kind != KindUpdate || !sink.events[1].Revision || sink.events[1].PlayID != id ||
 		!strings.Contains(sink.events[1].Body, "Edited name personal foul") {
 		t.Fatalf("after the edit: %+v", sink.events)
 	}

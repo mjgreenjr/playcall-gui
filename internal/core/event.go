@@ -42,7 +42,11 @@ type Event struct {
 	Period     string
 	PlayText   string
 	Sport      string
-	Series     string // postseason series standing without parentheses, or ""
+	// Revision marks an update to a non-scoring play (a foul, a substitution,
+	// a penalty): it corrects a row already shown, and a sink with no list
+	// to correct (a toast) should skip it. Scoring updates are not revisions.
+	Revision bool
+	Series   string // postseason series standing without parentheses, or ""
 	// Possession is the side on offence when the event was sent: "away",
 	// "home", or "" when unknown or the sport has no such notion.
 	Possession string

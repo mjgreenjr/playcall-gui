@@ -68,11 +68,15 @@ func TestRouterSink(t *testing.T) {
 		{"unknown", false, errors.New("x"), nil, 1, false},
 		{"toast fails", false, nil, errors.New("boom"), 1, true},
 	}
-	// An update never makes a toast, wherever the window is.
+	// A revision never makes a toast, wherever the window is; a scoring update does.
 	upd := routerSink{win: &countSink{}, toast: &countSink{}, Visible: func(context.Context) (bool, error) { return false, nil }}
-	if err := upd.Send(context.Background(), core.Event{Kind: core.KindUpdate}); err != nil ||
+	if err := upd.Send(context.Background(), core.Event{Kind: core.KindUpdate, Revision: true}); err != nil ||
 		upd.toast.(*countSink).n != 0 || upd.win.(*countSink).n != 1 {
 		t.Errorf("update: toasts=%d window=%d err=%v", upd.toast.(*countSink).n, upd.win.(*countSink).n, err)
+	}
+	scoring := routerSink{win: &countSink{}, toast: &countSink{}, Visible: func(context.Context) (bool, error) { return false, nil }}
+	if err := scoring.Send(context.Background(), core.Event{Kind: core.KindUpdate}); err != nil || scoring.toast.(*countSink).n != 1 {
+		t.Errorf("scoring update: toasts=%d err=%v", scoring.toast.(*countSink).n, err)
 	}
 	for _, c := range cases {
 		toast := &countSink{err: c.toastErr}
