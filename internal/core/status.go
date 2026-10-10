@@ -138,9 +138,23 @@ func situation(sport string, f *Feed) string {
 	if (sport != "nfl" && sport != "cfb") || !inPlay(f) || len(f.Plays) == 0 {
 		return ""
 	}
-	end := espn.Map(f.Plays[len(f.Plays)-1]["end"])
+	last := f.Plays[len(f.Plays)-1]
+	end := espn.Map(last["end"])
 	if text := espn.Str(end["downDistanceText"]); text != "" {
 		return text
 	}
-	return espn.Str(end["shortDownDistanceText"])
+	if text := espn.Str(end["shortDownDistanceText"]); text != "" {
+		return text
+	}
+	// A timeout changes nothing on the field and has no "after" of its own,
+	// so the situation is the one it started from. Other plays without one
+	// (a kickoff, a score) really have none, and the header shows nothing.
+	if strings.Contains(strings.ToLower(espn.Str(espn.Map(last["type"])["text"])), "timeout") {
+		start := espn.Map(last["start"])
+		if text := espn.Str(start["downDistanceText"]); text != "" {
+			return text
+		}
+		return espn.Str(start["shortDownDistanceText"])
+	}
+	return ""
 }

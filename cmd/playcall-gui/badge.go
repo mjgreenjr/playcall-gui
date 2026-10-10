@@ -3,36 +3,23 @@ package main
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
-	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/layout"
 )
 
 const (
 	badgeLogo = 48 // header logo, in points
-	badgeBall = 22 // possession ball on its corner
+	badgeBall = 26 // possession ball at the outer edge of the header
 )
 
-// badge is a team's logo with the possession ball on its lower right corner.
-// The logo slot keeps its size while the image loads (or never does), so the
-// header does not jump around.
+// badge is a team's logo in the header. The slot keeps its size while the
+// image loads (or never does), so the header does not jump around.
 type badge struct {
-	box  fyne.CanvasObject
 	logo *canvas.Image
-	ball *canvas.Image
 	url  string // the logo this badge is showing or waiting for
 }
 
 func newBadge() *badge {
-	b := &badge{
-		logo: &canvas.Image{FillMode: canvas.ImageFillContain},
-		ball: canvas.NewImageFromResource(footballRes),
-	}
+	b := &badge{logo: &canvas.Image{FillMode: canvas.ImageFillContain}}
 	b.logo.SetMinSize(fyne.NewSize(badgeLogo, badgeLogo))
-	b.ball.FillMode = canvas.ImageFillContain
-	b.ball.SetMinSize(fyne.NewSize(badgeBall, badgeBall))
-	b.ball.Translucency = 1 // invisible until this team has the ball
-	corner := container.NewVBox(layout.NewSpacer(), container.NewHBox(layout.NewSpacer(), b.ball))
-	b.box = container.NewStack(b.logo, corner)
 	return b
 }
 
@@ -53,15 +40,25 @@ func (b *badge) setLogo(cache *logoCache, url string) {
 	})
 }
 
-// setBall shows the ball (of resource res) on the logo, or hides it.
-func (b *badge) setBall(res fyne.Resource, has bool) {
+// newBall is a possession marker: invisible, but holding its space, until
+// its team has the ball.
+func newBall() *canvas.Image {
+	img := canvas.NewImageFromResource(footballRes)
+	img.FillMode = canvas.ImageFillContain
+	img.SetMinSize(fyne.NewSize(badgeBall, badgeBall))
+	img.Translucency = 1
+	return img
+}
+
+// setBall shows the ball (of resource res) or hides it.
+func setBall(img *canvas.Image, res fyne.Resource, has bool) {
 	if res != nil {
-		b.ball.Resource = res
+		img.Resource = res
 	}
 	if has && res != nil {
-		b.ball.Translucency = 0
+		img.Translucency = 0
 	} else {
-		b.ball.Translucency = 1
+		img.Translucency = 1
 	}
-	b.ball.Refresh()
+	img.Refresh()
 }

@@ -27,6 +27,7 @@ type ui struct {
 
 	away, home           *canvas.Text
 	awayBadge, homeBadge *badge
+	awayBall, homeBall   *canvas.Image
 	logos                *logoCache
 	statusText           *widget.RichText
 	situation            *widget.RichText
@@ -52,6 +53,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	}
 	u.away, u.home = big(), big()
 	u.awayBadge, u.homeBadge = newBadge(), newBadge()
+	u.awayBall, u.homeBall = newBall(), newBall()
 	u.statusText = widget.NewRichText()
 	u.statusText.Wrapping = fyne.TextWrapWord
 	u.situation = widget.NewRichText()
@@ -70,10 +72,12 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	}
 	header := container.NewVBox(
 		back,
-		// One row: away score, the clock and situation between, home score.
+		// One row: the ball (if away has it), logo, abbreviation and score of
+		// each team with the clock and situation between; the home ball is the
+		// last thing on the line.
 		container.NewBorder(nil, nil,
-			container.NewHBox(u.awayBadge.box, u.away),
-			container.NewHBox(u.home, u.homeBadge.box),
+			container.NewHBox(u.awayBall, u.awayBadge.logo, u.away),
+			container.NewHBox(u.homeBadge.logo, u.home, u.homeBall),
 			container.NewCenter(container.NewVBox(u.statusText, u.situation))),
 		u.series, u.stale,
 		widget.NewSeparator(),
@@ -121,11 +125,11 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.refreshStale()
 }
 
-// setBalls puts the sport's ball on the logo of the team on offence.
+// setBalls puts the sport's ball at the outer edge of the team on offence.
 func (u *ui) setBalls(s core.GameStatus) {
 	res := ballFor(s.Sport)
-	u.awayBadge.setBall(res, s.Possession == "away")
-	u.homeBadge.setBall(res, s.Possession == "home")
+	setBall(u.awayBall, res, s.Possession == "away")
+	setBall(u.homeBall, res, s.Possession == "home")
 }
 
 // setError shows a problem where the status goes.

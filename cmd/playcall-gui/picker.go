@@ -28,6 +28,7 @@ type picker struct {
 	onSettings func()
 	logos      *logoCache // team logos for the rows; nil shows none
 	logoFor    map[*canvas.Image]string
+	abbrWidth  float32 // width of the abbreviation columns, so every row lines up
 
 	ctx       context.Context
 	fetcher   espn.Fetcher
@@ -117,7 +118,10 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			bold := func() *widget.Label {
 				return widget.NewLabelWithStyle("", fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
 			}
-			teams := container.NewHBox(rowLogo(), bold(), widget.NewLabel("@"), rowLogo(), bold())
+			column := func(l *widget.Label) fyne.CanvasObject {
+				return container.New(columnLayout{width: func() float32 { return p.abbrWidth }}, l)
+			}
+			teams := container.NewHBox(rowLogo(), column(bold()), widget.NewLabel("@"), rowLogo(), column(bold()))
 			return container.NewBorder(nil, nil, teams, widget.NewLabel(""), layout.NewSpacer())
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
@@ -129,9 +133,9 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			box := o.(*fyne.Container)
 			teams := box.Objects[1].(*fyne.Container).Objects
 			p.setRowLogo(teams[0].(*canvas.Image), g.AwayLogo)
-			teams[1].(*widget.Label).SetText(strings.TrimSpace(g.Away))
+			teams[1].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Away))
 			p.setRowLogo(teams[3].(*canvas.Image), g.HomeLogo)
-			teams[4].(*widget.Label).SetText(strings.TrimSpace(g.Home))
+			teams[4].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Home))
 			box.Objects[2].(*widget.Label).SetText(gameDetail(g))
 		},
 	)
@@ -164,6 +168,34 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 func (p *picker) refresh() {
 	p.setGroups()
 	p.load()
+}
+
+// columnLayout gives its one child at least the shared column width, so rows
+// of different abbreviations still line up.
+type columnLayout struct{ width func() float32 }
+
+func (c columnLayout) MinSize(objs []fyne.CanvasObject) fyne.Size {
+	m := objs[0].MinSize()
+	return fyne.NewSize(max(m.Width, c.width()), m.Height)
+}
+
+func (c columnLayout) Layout(objs []fyne.CanvasObject, size fyne.Size) {
+	objs[0].Move(fyne.NewPos(0, 0))
+	objs[0].Resize(size)
+}
+
+// widestAbbreviation is how wide the abbreviation column needs to be for
+// these games: the widest team abbreviation, in the row's bold label style.
+func widestAbbreviation(games []espn.Game) float32 {
+	var w float32
+	label := widget.NewLabelWithStyle("", fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
+	for _, g := range games {
+		for _, abbr := range []string{g.Away, g.Home} {
+			label.SetText(strings.TrimSpace(abbr))
+			w = max(w, label.MinSize().Width)
+		}
+	}
+	return w
 }
 
 // rowLogoSize is the logo size in a picker row, in points.
@@ -262,6 +294,7 @@ func (p *picker) show(games []espn.Game) {
 		}
 	}
 	p.games = orderForPicker(shown)
+	p.abbrWidth = widestAbbreviation(p.games)
 	p.list.Refresh()
 	switch {
 	case len(games) == 0 && p.group.Selected != anyGroup:

@@ -196,6 +196,18 @@ func TestSituation(t *testing.T) {
 	if got := situation("nfl", feed(false)); got != "" {
 		t.Errorf("no text: %q", got)
 	}
+	// A timeout keeps the situation it started from; a score does not.
+	last["type"] = map[string]any{"text": "Timeout"}
+	last["start"] = map[string]any{"downDistanceText": "3rd & 5 at IOWA 13"}
+	last["end"] = map[string]any{"team": map[string]any{"id": "1"}}
+	if got := situation("cfb", feed(false)); got != "3rd & 5 at IOWA 13" {
+		t.Errorf("timeout: %q", got)
+	}
+	last["type"] = map[string]any{"text": "Passing Touchdown"}
+	if got := situation("cfb", feed(false)); got != "" {
+		t.Errorf("touchdown should show no situation: %q", got)
+	}
+
 	last["end"] = map[string]any{"downDistanceText": "1st & 10 at NO 25"}
 	if got := situation("nba", feed(false)); got != "" {
 		t.Errorf("basketball: %q", got)
