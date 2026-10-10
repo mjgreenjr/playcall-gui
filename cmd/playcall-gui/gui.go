@@ -27,7 +27,8 @@ type ui struct {
 	model  Model
 	status core.GameStatus
 
-	away, home             *canvas.Text
+	away, home             *canvas.Text // abbreviations
+	awayScore, homeScore   *canvas.Text
 	awayBadge, homeBadge   *badge
 	awayBall, homeBall     *canvas.Image
 	logos                  *logoCache
@@ -56,6 +57,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		return t
 	}
 	u.away, u.home = big(), big()
+	u.awayScore, u.homeScore = big(), big()
 	u.awayBadge, u.homeBadge = newBadge(), newBadge()
 	u.awayBall, u.homeBall = newBall(), newBall()
 	u.statusText = widget.NewRichText()
@@ -92,12 +94,11 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		// One row: the ball (if away has it), logo, abbreviation and score of
 		// each team with the clock and situation between; the home ball is the
 		// last thing on the line.
+		// Each team's record sits centered under its abbreviation.
 		container.NewBorder(nil, nil,
-			container.NewHBox(u.awayBall, u.awayBadge.box, u.away),
-			container.NewHBox(u.homeBadge.box, u.home, u.homeBall),
+			container.NewHBox(u.awayBall, u.awayBadge.box, container.NewVBox(u.away, u.awayRecord), container.NewVBox(u.awayScore)),
+			container.NewHBox(u.homeBadge.box, container.NewVBox(u.home, u.homeRecord), container.NewVBox(u.homeScore), u.homeBall),
 			container.NewCenter(container.NewVBox(u.statusText, u.situation))),
-		// Each team's record, small, under its side.
-		container.NewBorder(nil, nil, u.awayRecord, u.homeRecord),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
 		u.series, u.stale,
@@ -124,7 +125,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 // themeChanged restyles what was colored when it was built: the scores'
 // text, and the logos, which come in a variant for each kind of background.
 func (u *ui) themeChanged() {
-	for _, t := range []*canvas.Text{u.away, u.home} {
+	for _, t := range []*canvas.Text{u.away, u.home, u.awayScore, u.homeScore} {
 		t.Color = theme.Color(theme.ColorNameForeground)
 		t.Refresh()
 	}
@@ -152,10 +153,12 @@ func (u *ui) clearUnseen() {
 
 func (u *ui) setStatus(s core.GameStatus) {
 	u.status = s
-	u.away.Text = fmt.Sprintf("%s  %s", s.Away.Abbr, s.Away.Score)
-	u.home.Text = fmt.Sprintf("%s  %s", s.Home.Abbr, s.Home.Score)
-	u.away.Refresh()
-	u.home.Refresh()
+	// A leading space keeps the score off the abbreviation.
+	u.away.Text, u.awayScore.Text = s.Away.Abbr, " "+s.Away.Score
+	u.home.Text, u.homeScore.Text = s.Home.Abbr, " "+s.Home.Score
+	for _, t := range []*canvas.Text{u.away, u.home, u.awayScore, u.homeScore} {
+		t.Refresh()
+	}
 	u.setStatusLine(statusLine(s), false)
 	u.setSituation(s.Situation)
 	u.awayBadge.setName(s.Away.Name)
@@ -233,7 +236,7 @@ func (u *ui) setRecords(away, home string) {
 		w     *widget.RichText
 		text  string
 		align fyne.TextAlign
-	}{{u.awayRecord, away, fyne.TextAlignLeading}, {u.homeRecord, home, fyne.TextAlignTrailing}} {
+	}{{u.awayRecord, away, fyne.TextAlignCenter}, {u.homeRecord, home, fyne.TextAlignCenter}} {
 		r.w.Segments = []widget.RichTextSegment{&widget.TextSegment{
 			Text:  r.text,
 			Style: widget.RichTextStyle{Alignment: r.align, SizeName: theme.SizeNameCaptionText},
