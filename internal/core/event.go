@@ -65,17 +65,29 @@ func (s StdoutSink) Send(_ context.Context, e Event) error {
 	return err
 }
 
-// PossessionMarker is the dot that shows who has the ball in a toast.
-const PossessionMarker = "•"
+// possessionMarker is the ball that shows who has it in a toast, by sport; a
+// plain dot for any sport without one.
+func possessionMarker(sport string) string {
+	switch sport {
+	case "nfl", "cfb":
+		return "🏈"
+	case "nba", "wnba", "cbb":
+		return "🏀"
+	case "mlb":
+		return "⚾"
+	}
+	return "•"
+}
 
-// MarkedTitle is Title with the possession marker added, for sinks that have
+// MarkedTitle is Title with the sport's ball added, for sinks that have
 // no room for a ball icon: before the away abbreviation ("• ATL 14 · ..."),
 // or after the home score ("... · NO 0 •"), like the GUI header. Title
 // itself stays unmarked so the CLI output does not change.
 func (e Event) MarkedTitle() string {
+	mark := possessionMarker(e.Sport)
 	switch e.Possession {
 	case "away":
-		return PossessionMarker + " " + e.Title
+		return mark + " " + e.Title
 	case "home":
 		i := strings.LastIndex(e.Title, " · ")
 		if i < 0 {
@@ -90,7 +102,7 @@ func (e Event) MarkedTitle() string {
 		if strings.HasPrefix(e.Title[i:], " PP") {
 			i += len(" PP")
 		}
-		return e.Title[:i] + " " + PossessionMarker + e.Title[i:]
+		return e.Title[:i] + " " + mark + e.Title[i:]
 	}
 	return e.Title
 }

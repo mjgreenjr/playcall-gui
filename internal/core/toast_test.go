@@ -28,7 +28,7 @@ func TestToastSinkArgs(t *testing.T) {
 		urgency string
 	}{{true, "normal"}, {false, "low"}} {
 		r := &recordRunner{}
-		e := Event{Title: "Bills 17, Jets 14", Body: "Mahomes 45yd TD", Urgent: c.urgent, URL: url}
+		e := Event{Sport: "nfl", Title: "Bills 17, Jets 14", Body: "Mahomes 45yd TD", Urgent: c.urgent, URL: url}
 		if err := (ToastSink{Runner: r}).Send(context.Background(), e); err != nil {
 			t.Fatal(err)
 		}
@@ -57,13 +57,13 @@ func TestExecRunnerMissingProgram(t *testing.T) {
 }
 
 func TestMarkedTitle(t *testing.T) {
-	e := Event{Title: "ATL 14 · 0:48 1st · NO 0", Home: TeamScore{Abbr: "NO", Score: "0"}}
+	e := Event{Sport: "nfl", Title: "ATL 14 · 0:48 1st · NO 0", Home: TeamScore{Abbr: "NO", Score: "0"}}
 	cases := []struct{ poss, title, want string }{
 		{"", e.Title, e.Title},
-		{"away", e.Title, "• ATL 14 · 0:48 1st · NO 0"},
-		{"home", e.Title, "ATL 14 · 0:48 1st · NO 0 •"},
-		{"home", "ATL 14 · 0:48 1st · NO 0 (ATL 2-1)", "ATL 14 · 0:48 1st · NO 0 • (ATL 2-1)"},
-		{"home", "ATL 14 · 0:48 1st · NO 3 PP", "ATL 14 · 0:48 1st · NO 3 PP •"},
+		{"away", e.Title, "🏈 ATL 14 · 0:48 1st · NO 0"},
+		{"home", e.Title, "ATL 14 · 0:48 1st · NO 0 🏈"},
+		{"home", "ATL 14 · 0:48 1st · NO 0 (ATL 2-1)", "ATL 14 · 0:48 1st · NO 0 🏈 (ATL 2-1)"},
+		{"home", "ATL 14 · 0:48 1st · NO 3 PP", "ATL 14 · 0:48 1st · NO 3 PP 🏈"},
 		{"home", "garbled", "garbled"},
 	}
 	for _, c := range cases {
@@ -74,6 +74,15 @@ func TestMarkedTitle(t *testing.T) {
 		}
 		if got := ev.MarkedTitle(); got != c.want {
 			t.Errorf("%q %q: got %q, want %q", c.poss, c.title, got, c.want)
+		}
+	}
+}
+
+func TestMarkedTitleBalls(t *testing.T) {
+	for sport, ball := range map[string]string{"cfb": "🏈", "wnba": "🏀", "mlb": "⚾", "nhl": "•"} {
+		e := Event{Sport: sport, Possession: "away", Title: "A 1 · x · B 2"}
+		if got := e.MarkedTitle(); got != ball+" A 1 · x · B 2" {
+			t.Errorf("%s: %q", sport, got)
 		}
 	}
 }
