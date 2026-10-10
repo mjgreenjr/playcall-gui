@@ -68,6 +68,13 @@ type Poller struct {
 
 	// texts is each play's text as of the last poll, to log edits.
 	texts map[string]string
+	// known is the football plays this run has seen or sent whose ids are not
+	// above last_play_id. ESPN's football ids are not always in play order (a
+	// timeout can carry a higher id than the snap that followed it), so a play
+	// with an id below last_play_id that is not known is a late one to send.
+	// In memory only; the first poll of a run takes everything at or below
+	// last_play_id as known.
+	known map[string]bool
 	// sentTexts is the text of each revisable play (see revisablePlay) as it
 	// was last sent, to re-send the play when ESPN fills in its text later.
 	// In memory only: a restart forgets it.
@@ -162,6 +169,9 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		if unseen, err = unseenPlays(plays, st.LastPlayID); err != nil {
 			return out, err
 		}
+		if _, ok := p.Rules.(footballRules); ok {
+			unseen = p.addLatePlays(plays, unseen, st.LastPlayID)
+		}
 	}
 	rules := p.Rules.Prepare(feed)
 	unseen = filterPlays(unseen, rules.Announced)
@@ -175,8 +185,10 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 	if len(skipped) > 0 {
 		slog.Debug("Skipping older plays", "count", len(skipped), "game", st.GameID)
 		id, _ := espn.PlayID(skipped[len(skipped)-1])
-		last := PlayID(id)
-		st.LastPlayID = &last
+		p.advanceLast(id)
+		for _, pl := range skipped {
+			p.markKnown(pl)
+		}
 		if track {
 			markSent(st, sent, rules, skipped)
 		}
@@ -269,8 +281,8 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		}
 		if !s.update {
 			id, _ := espn.PlayID(s.play)
-			last := PlayID(id)
-			st.LastPlayID = &last
+			p.advanceLast(id)
+			p.markKnown(s.play)
 			if track {
 				markSent(st, sent, rules, []espn.Data{s.play})
 			}
@@ -374,6 +386,69 @@ func unseenPlays(plays []espn.Data, last *PlayID) ([]espn.Data, error) {
 		out[i] = it.play
 	}
 	return out, nil
+}
+
+// advanceLast records id as the last play handled. For football it only moves
+// up: a late play with a lower id leaves it where it is. Other sports keep the
+// last id sent, whatever it is (their ids are not chronological and last_play_id
+// is only for the log).
+func (p *Poller) advanceLast(id int64) {
+	st := p.State
+	if _, football := p.Rules.(footballRules); football && st.LastPlayID != nil && id <= int64(*st.LastPlayID) {
+		return
+	}
+	last := PlayID(id)
+	st.LastPlayID = &last
+}
+
+func (p *Poller) markKnown(pl espn.Data) {
+	if p.known != nil {
+		p.known[espn.PlayKey(pl)] = true
+	}
+}
+
+// addLatePlays adds to unseen the football plays whose id is at or below
+// last_play_id but that this run has not seen: ESPN inserted them late, or
+// numbered them out of order. The result stays sorted by id.
+func (p *Poller) addLatePlays(plays, unseen []espn.Data, last *PlayID) []espn.Data {
+	if last == nil {
+		if p.known == nil {
+			p.known = map[string]bool{}
+		}
+		return unseen
+	}
+	if p.known == nil {
+		// First poll of this run: whatever is at or below last_play_id was
+		// handled before, here or in an earlier run.
+		p.known = map[string]bool{}
+		for _, pl := range plays {
+			if id, ok := espn.PlayID(pl); ok && id <= int64(*last) {
+				p.known[espn.PlayKey(pl)] = true
+			}
+		}
+		return unseen
+	}
+	have := map[string]bool{}
+	for _, pl := range unseen {
+		have[espn.PlayKey(pl)] = true
+	}
+	added := false
+	for _, pl := range plays {
+		key := espn.PlayKey(pl)
+		if id, ok := espn.PlayID(pl); ok && id <= int64(*last) && !p.known[key] && !have[key] {
+			slog.Debug("Late play", "game", p.State.GameID, "id", key, "last_play_id", int64(*last))
+			unseen = append(unseen, pl)
+			added = true
+		}
+	}
+	if added {
+		sort.SliceStable(unseen, func(i, j int) bool {
+			a, _ := espn.PlayID(unseen[i])
+			b, _ := espn.PlayID(unseen[j])
+			return a < b
+		})
+	}
+	return unseen
 }
 
 // unsentPlays returns the plays whose id is not in sent, in list order (never

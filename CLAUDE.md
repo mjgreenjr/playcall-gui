@@ -131,7 +131,7 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
 
 ## Play tracking and state
 - State file: `~/.cache/playcall/state.json` (os.UserCacheDir equivalent on Linux), same JSON format as the Python version so either binary can read it: `game_id`, `sport`, `last_play_id`, `started_at`, `scoring_texts` (play id -> last seen text for scoring plays), and for NHL, NBA, WNBA and cbb `sent_ids` (every play announced or skipped).
-- NFL, cfb and MLB compare ids as integers against `last_play_id`. NHL and the NBA-rules sports use list order and `sent_ids`.
+- NFL, cfb and MLB compare ids as integers against `last_play_id`. NFL and cfb ids are not always in play order (a timeout can carry a higher id than the snap after it), so a football play with an id below `last_play_id` that this run has not seen is a late play: it is sent once, and `last_play_id` does not move back (`Poller.known`, in memory; on the first poll of a run everything at or below `last_play_id` counts as seen, so a restart replays nothing). NHL and the NBA-rules sports use list order and `sent_ids`.
 - First poll for a game announces only the most recent play, then follows new plays.
 - After a gap (e.g. a reboot mid-game), only the newest 5 unseen plays are announced (10 for NHL and basketball); older ones are skipped.
 - `last_play_id` advances only after a play's `Send` succeeds, so a failed send is retried on the next poll. Skipped plays advance it on purpose.

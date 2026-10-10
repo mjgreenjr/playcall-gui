@@ -689,3 +689,79 @@ func TestRevisedFoulIsResent(t *testing.T) {
 		t.Errorf("edit re-sent: %d events", len(sink.events))
 	}
 }
+
+// ESPN's football ids are not always in play order: a timeout can carry a
+// higher id than the snap after it. A play that shows up with an id below
+// last_play_id is still new, and is sent once without moving last_play_id back.
+func TestFootballLatePlayWithALowerIDIsSent(t *testing.T) {
+	data := loadFixture(t, "playbyplay_multi_plays.json")
+	plays := espn.ExtractPlays(data)
+	maxID := int64(0)
+	for _, p := range plays {
+		if id, _ := espn.PlayID(p); id > maxID {
+			maxID = id
+		}
+	}
+	late := deepCopy(t, data)
+	holders := espn.PlayHolders(late)
+	clone := deepCopy(t, espn.Data(plays[0]))
+	clone["id"] = fmt.Sprint(maxID - 1)
+	clone["text"] = "The late snap"
+	holders[len(holders)-1]["plays"] = append(holders[len(holders)-1]["plays"].([]any), map[string]any(clone))
+
+	feed := data
+	sink := &recordSink{}
+	state := &State{GameID: "999", Sport: "nfl"}
+	poller, err := NewPoller(state, sink, func(context.Context) (espn.Data, error) { return feed, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	poll := func() {
+		t.Helper()
+		if _, err := poller.Poll(context.Background()); err != nil {
+			t.Fatal(err)
+		}
+	}
+	poll() // the first poll announces the newest play
+	sent := len(sink.events)
+	lastBefore := *state.LastPlayID
+	feed = late
+	poll()
+	if len(sink.events) != sent+1 || !strings.Contains(sink.events[sent].Body, "The late snap") {
+		t.Fatalf("late play not sent: %+v", sink.events[sent:])
+	}
+	if *state.LastPlayID != lastBefore {
+		t.Errorf("last_play_id moved from %d to %d", lastBefore, *state.LastPlayID)
+	}
+	poll()
+	poll()
+	if len(sink.events) != sent+1 {
+		t.Errorf("late play sent again: %d events", len(sink.events)-sent)
+	}
+}
+
+// After a restart nothing at or below last_play_id is treated as late.
+func TestFootballRestartDoesNotReplayOldPlays(t *testing.T) {
+	data := loadFixture(t, "playbyplay_multi_plays.json")
+	plays := espn.ExtractPlays(data)
+	maxID := int64(0)
+	for _, p := range plays {
+		if id, _ := espn.PlayID(p); id > maxID {
+			maxID = id
+		}
+	}
+	last := PlayID(maxID)
+	sink := &recordSink{}
+	poller, err := NewPoller(&State{GameID: "999", Sport: "nfl", LastPlayID: &last}, sink, func(context.Context) (espn.Data, error) { return data, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i := 0; i < 3; i++ {
+		if _, err := poller.Poll(context.Background()); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if len(sink.events) != 0 {
+		t.Errorf("resumed game replayed %d plays", len(sink.events))
+	}
+}
