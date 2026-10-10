@@ -245,7 +245,8 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 	view := newUI(every, onBack, s.highlight, s.logos)
 	s.gameView = view
 	view.onSettings = func() { s.settingsFromGame(sport, view) }
-	sink := guiSink{view}
+	win := guiSink{view}
+	sink := routerSink{win: win, toast: core.ToastSink{Runner: core.ExecRunner{}}, Visible: windowVisible}
 	state := &core.State{GameID: gameID, Sport: sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, sink, fetch)
 	if err != nil {
@@ -254,7 +255,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 		s.win.SetContent(view.content)
 		return
 	}
-	poller.StatusSink = sink
+	poller.StatusSink = win
 
 	s.win.SetTitle(fmt.Sprintf("playcall - %s %s", sportLabel(sport), gameID))
 	s.win.SetContent(view.content)
