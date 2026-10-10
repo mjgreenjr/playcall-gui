@@ -73,14 +73,31 @@ func groupID(sport, name string) string {
 	return ""
 }
 
-// levelNote says which level of the sport the scoreboard covers, where that
-// is narrower than the sport's name suggests.
-func levelNote(sport string) string {
-	switch sport {
-	case "cfb":
-		return "FBS only: games with at least one FBS team. FCS and lower levels are not listed."
-	case "cbb":
-		return "Division I only: games with at least one Division I team. Other levels are not listed."
+// sportLabels are the names the window shows for each sport key.
+var sportLabels = map[string]string{
+	"nfl":  "NFL Football",
+	"nba":  "NBA Basketball",
+	"mlb":  "MLB Baseball",
+	"nhl":  "NHL Hockey",
+	"cfb":  "FBS College Football",
+	"cbb":  "Men's College Basketball",
+	"wnba": "WNBA Basketball",
+}
+
+// sportLabel is the display name for a sport key (the key itself if unknown).
+func sportLabel(sport string) string {
+	if l, ok := sportLabels[sport]; ok {
+		return l
+	}
+	return sport
+}
+
+// sportFromLabel is the sport key for a display name ("" if unknown).
+func sportFromLabel(label string) string {
+	for key, l := range sportLabels {
+		if l == label {
+			return key
+		}
 	}
 	return ""
 }

@@ -91,7 +91,7 @@ func TestPickerEmptyScoreboard(t *testing.T) {
 	p := newPicker(context.Background(), fixtureFetcher{scoreboard(t, "scoreboard_empty.json")},
 		nil, groupPrefs{}, "nfl", func(string, espn.Game) {})
 	p.load()
-	waitFor(t, "status", func() bool { return p.status.Text == "No NFL games on the scoreboard." })
+	waitFor(t, "status", func() bool { return p.status.Text == "No NFL Football games on the scoreboard." })
 }
 
 type recordingFetcher struct {
@@ -166,25 +166,12 @@ func TestPickerShowsTheWholeGroupWhenNoFavoritePlays(t *testing.T) {
 	}
 }
 
-func TestPickerLevelNote(t *testing.T) {
-	test.NewApp()
-	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
-	p := newPicker(context.Background(), f, nil, groupPrefs{}, "cfb", func(string, espn.Game) {})
-	p.load()
-	waitFor(t, "cfb games", func() bool { return len(p.games) > 0 })
-	if !strings.Contains(p.note.Text, "FBS") {
-		t.Errorf("cfb note %q", p.note.Text)
-	}
-	p.sport.SetSelected("NFL")
-	waitFor(t, "nfl note cleared", func() bool { return p.note.Text == "" && len(p.games) > 0 })
-}
-
 func TestPickerSportChangeResetsGroups(t *testing.T) {
 	test.NewApp()
 	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
 	p := newPicker(context.Background(), f, nil, groupPrefs{}, "nfl", func(string, espn.Game) {})
 	p.group.SetSelected("AFC North")
-	p.sport.SetSelected("CFB")
+	p.sport.SetSelected(sportLabel("cfb"))
 	if p.group.Selected != anyGroup {
 		t.Errorf("group %q after sport change", p.group.Selected)
 	}
@@ -231,13 +218,13 @@ func TestPickerStartsOnTheRememberedGroup(t *testing.T) {
 	}
 
 	// Another sport starts on its own remembered group.
-	p.sport.SetSelected("CFB")
+	p.sport.SetSelected(sportLabel("cfb"))
 	if p.group.Selected != "Big Ten" {
 		t.Errorf("cfb group %q", p.group.Selected)
 	}
 	waitFor(t, "cfb group request", func() bool { return f.has("groups=5") })
 	// A sport with nothing remembered starts on All.
-	p.sport.SetSelected("MLB")
+	p.sport.SetSelected(sportLabel("mlb"))
 	if p.group.Selected != anyGroup {
 		t.Errorf("mlb group %q", p.group.Selected)
 	}
@@ -272,5 +259,31 @@ func TestPickerIgnoresAForgottenGroup(t *testing.T) {
 	p := newPicker(context.Background(), f, nil, prefs, "nfl", func(string, espn.Game) {})
 	if p.group.Selected != anyGroup {
 		t.Errorf("group %q", p.group.Selected)
+	}
+}
+
+func TestPickerKeepsAllGamesWhenTheGroupChanges(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	p := newPicker(context.Background(), f, map[string][]string{"nfl": {"DAL"}}, groupPrefs{}, "nfl", func(string, espn.Game) {})
+	p.load()
+	p.all.SetChecked(true)
+	p.group.SetSelected("AFC")
+	p.group.SetSelected("NFC East")
+	if !p.all.Checked || len(p.games) != 15 {
+		t.Errorf("all games checked %v, games %d", p.all.Checked, len(p.games))
+	}
+}
+
+func TestPickerShowsSportNames(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	p := newPicker(context.Background(), f, nil, groupPrefs{}, "cfb", func(string, espn.Game) {})
+	if p.sport.Selected != "FBS College Football" || p.currentSport() != "cfb" {
+		t.Errorf("selected %q / %q", p.sport.Selected, p.currentSport())
+	}
+	p.load()
+	if p.status.Text != "15 game(s)" {
+		t.Errorf("status %q", p.status.Text)
 	}
 }

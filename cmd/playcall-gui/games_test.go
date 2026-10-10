@@ -1,10 +1,10 @@
 package main
 
 import (
-	"strings"
 	"testing"
 
 	"playcall/internal/espn"
+	"playcall/internal/sports"
 )
 
 func TestOrderForPicker(t *testing.T) {
@@ -78,13 +78,20 @@ func TestGroupID(t *testing.T) {
 	}
 }
 
-func TestLevelNote(t *testing.T) {
-	if !strings.Contains(levelNote("cfb"), "FBS") || !strings.Contains(levelNote("cbb"), "Division I") {
-		t.Errorf("notes: %q / %q", levelNote("cfb"), levelNote("cbb"))
+func TestSportLabels(t *testing.T) {
+	if sportLabel("cfb") != "FBS College Football" || sportLabel("nfl") != "NFL Football" {
+		t.Errorf("labels: %q %q", sportLabel("cfb"), sportLabel("nfl"))
 	}
-	for _, s := range []string{"nfl", "nba", "mlb", "nhl", "wnba"} {
-		if levelNote(s) != "" {
-			t.Errorf("%s has a level note", s)
+	for _, key := range sports.Names {
+		l := sportLabel(key)
+		if l == key {
+			t.Errorf("%s has no label", key)
 		}
+		if sportFromLabel(l) != key {
+			t.Errorf("%s: label %q maps back to %q", key, l, sportFromLabel(l))
+		}
+	}
+	if sportFromLabel("nonsense") != "" || sportLabel("zzz") != "zzz" {
+		t.Error("unknown values should pass through empty")
 	}
 }

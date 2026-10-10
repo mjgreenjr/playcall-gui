@@ -116,7 +116,7 @@ func (s *shell) showPicker(sport string) {
 	s.win.SetTitle("playcall")
 	p := newPicker(s.root, s.fetcher, s.cfg.FavoriteTeams, s.groupPrefs(), sport, func(sport string, g espn.Game) {
 		s.follow(sport, g.ID, liveFetcher(sport, g.ID), s.liveInterval(), true)
-		s.win.SetTitle(fmt.Sprintf("playcall - %s %s", sport, matchup(g)))
+		s.win.SetTitle(fmt.Sprintf("playcall - %s: %s", sportLabel(sport), matchup(g)))
 	})
 	s.win.SetContent(p.content)
 	p.load()
@@ -169,7 +169,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 	}
 	poller.StatusSink = sink
 
-	s.win.SetTitle(fmt.Sprintf("playcall - %s %s", sport, gameID))
+	s.win.SetTitle(fmt.Sprintf("playcall - %s %s", sportLabel(sport), gameID))
 	s.win.SetContent(view.content)
 
 	go func() {

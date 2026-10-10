@@ -26,7 +26,7 @@ type ui struct {
 
 	away, home         *canvas.Text
 	awayBall, homeBall *canvas.Image
-	statusText         *widget.Label
+	statusText         *widget.RichText
 	series             *widget.Label
 	stale              *widget.Label
 
@@ -56,7 +56,8 @@ func newUI(interval time.Duration, onBack func()) *ui {
 		return img
 	}
 	u.awayBall, u.homeBall = ball(), ball()
-	u.statusText = widget.NewLabelWithStyle("waiting for ESPN...", fyne.TextAlignCenter, fyne.TextStyle{})
+	u.statusText = widget.NewRichText()
+	u.setStatusLine("waiting for ESPN...", false)
 	u.series = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Italic: true})
 	u.stale = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{})
 	u.stale.Importance = widget.WarningImportance
@@ -105,7 +106,7 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.home.Text = fmt.Sprintf("%s  %s", s.Home.Abbr, s.Home.Score)
 	u.away.Refresh()
 	u.home.Refresh()
-	u.statusText.SetText(statusLine(s))
+	u.setStatusLine(statusLine(s), false)
 	u.setBalls(s)
 	if s.Series != "" {
 		u.series.SetText("Series: " + s.Series)
@@ -134,8 +135,25 @@ func (u *ui) setBalls(s core.GameStatus) {
 
 // setError shows a problem where the status goes.
 func (u *ui) setError(msg string) {
-	u.statusText.SetText(msg)
-	u.statusText.Importance = widget.DangerImportance
+	u.setStatusLine(msg, true)
+}
+
+// setStatusLine shows the clock and period (or Halftime, Final, the start
+// time) in a subheading size, bold, centered under the scores.
+func (u *ui) setStatusLine(text string, isError bool) {
+	color := theme.ColorNameForeground
+	if isError {
+		color = theme.ColorNameError
+	}
+	u.statusText.Segments = []widget.RichTextSegment{&widget.TextSegment{
+		Text: text,
+		Style: widget.RichTextStyle{
+			Alignment: fyne.TextAlignCenter,
+			SizeName:  theme.SizeNameSubHeadingText,
+			ColorName: color,
+			TextStyle: fyne.TextStyle{Bold: true},
+		},
+	}}
 	u.statusText.Refresh()
 }
 

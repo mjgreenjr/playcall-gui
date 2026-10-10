@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"slices"
-	"strings"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -32,7 +31,6 @@ type picker struct {
 	group  *widget.Select
 	all    *widget.Check
 	status *widget.Label
-	note   *widget.Label // which level of the sport is covered
 	list   *widget.List
 
 	games       []espn.Game // what the list shows
@@ -72,7 +70,7 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 
 	names := make([]string, len(sports.Names))
 	for i, n := range sports.Names {
-		names[i] = strings.ToUpper(n)
+		names[i] = sportLabel(n)
 	}
 	p.group = widget.NewSelect([]string{anyGroup}, func(name string) {
 		if p.quiet {
@@ -83,8 +81,7 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			name = ""
 		}
 		p.prefs.save(p.currentSport(), name)
-		p.resetAll()
-		p.load()
+		p.load() // "All games" stays as the user left it
 	})
 	p.sport = widget.NewSelect(names, func(string) {
 		if p.quiet {
@@ -102,9 +99,6 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 	refresh := widget.NewButton("Refresh", p.load)
 	p.status = widget.NewLabel("")
 	p.status.Wrapping = fyne.TextWrapWord
-	p.note = widget.NewLabel("")
-	p.note.Wrapping = fyne.TextWrapWord
-	p.note.Importance = widget.LowImportance
 
 	p.list = widget.NewList(
 		func() int { return len(p.games) },
@@ -135,20 +129,19 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 		container.NewBorder(nil, nil, widget.NewLabel("Group"), nil, p.group),
 		p.all,
 		p.status,
-		p.note,
 		widget.NewSeparator(),
 	)
 	p.content = container.NewBorder(top, nil, nil, nil, p.list)
 
 	p.quiet = true
-	p.sport.SetSelected(strings.ToUpper(sport))
+	p.sport.SetSelected(sportLabel(sport))
 	p.quiet = false
 	p.setGroups()
 	p.resetAll()
 	return p
 }
 
-func (p *picker) currentSport() string { return strings.ToLower(p.sport.Selected) }
+func (p *picker) currentSport() string { return sportFromLabel(p.sport.Selected) }
 
 func (p *picker) currentGroup() string {
 	return groupID(p.currentSport(), p.group.Selected)
@@ -178,7 +171,7 @@ func (p *picker) resetAll() {
 func (p *picker) load() {
 	p.generation++
 	gen, sport, group := p.generation, p.currentSport(), p.currentGroup()
-	p.status.SetText("Loading " + strings.ToUpper(sport) + " games...")
+	p.status.SetText("Loading " + sportLabel(sport) + " games...")
 	runAsync(func() {
 		games, err := core.TodaysGames(p.ctx, p.fetcher, sport, group, time.Now())
 		fyne.Do(func() {
@@ -203,7 +196,6 @@ func (p *picker) load() {
 // scoreboard shows and the status says so. "All games" skips the narrowing.
 func (p *picker) show(games []espn.Game) {
 	sport := p.currentSport()
-	p.note.SetText(levelNote(sport))
 	favorites := p.favorites[sport]
 	shown, status := games, fmt.Sprintf("%d game(s)", len(games))
 	if len(favorites) > 0 && !p.all.Checked {
@@ -218,9 +210,9 @@ func (p *picker) show(games []espn.Game) {
 	p.list.Refresh()
 	switch {
 	case len(games) == 0 && p.group.Selected != anyGroup:
-		p.status.SetText("No " + strings.ToUpper(sport) + " " + p.group.Selected + " games on the scoreboard.")
+		p.status.SetText("No " + sportLabel(sport) + " " + p.group.Selected + " games on the scoreboard.")
 	case len(games) == 0:
-		p.status.SetText("No " + strings.ToUpper(sport) + " games on the scoreboard.")
+		p.status.SetText("No " + sportLabel(sport) + " games on the scoreboard.")
 	default:
 		p.status.SetText(status)
 	}
