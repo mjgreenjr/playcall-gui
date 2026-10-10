@@ -70,30 +70,33 @@ func ParseScoreboardEvent(event Data) (g Game, ok bool) {
 		AwayLogo:  TeamLogos(Map(away["team"])),
 		HomeLogo:  TeamLogos(Map(home["team"])),
 
-		AwayRecord: record(away, "total"),
-		HomeRecord: record(home, "total"),
-		AwayConf:   record(away, "vsconf"),
-		HomeConf:   record(home, "vsconf"),
-		AwaySeries: seriesWins(Competition(event), away),
-		HomeSeries: seriesWins(Competition(event), home),
+		AwayRecord: Record(away, "total"),
+		HomeRecord: Record(home, "total"),
+		AwayConf:   Record(away, "vsconf"),
+		HomeConf:   Record(home, "vsconf"),
+		AwaySeries: SeriesWins(Competition(event), away),
+		HomeSeries: SeriesWins(Competition(event), home),
 	}, true
 }
 
-// record is a competitor's record summary of one type ("total", "vsconf"),
-// "" if ESPN does not send it.
-func record(competitor Data, typ string) string {
-	for _, r := range List(competitor["records"]) {
-		if m := Map(r); Str(m["type"]) == typ {
-			return Str(m["summary"])
+// Record is a competitor's record summary of one type ("total", "vsconf"),
+// "" if ESPN does not send it. The scoreboard calls the list `records`, the
+// game summary `record`.
+func Record(competitor Data, typ string) string {
+	for _, key := range []string{"records", "record"} {
+		for _, r := range List(competitor[key]) {
+			if m := Map(r); Str(m["type"]) == typ {
+				return Str(m["summary"])
+			}
 		}
 	}
 	return ""
 }
 
-// seriesWins is the competitor's wins in the competition's playoff series,
+// SeriesWins is the competitor's wins in the competition's playoff series,
 // matched by team id; "" if the game is not in a playoff series. The scoreboard
 // sends `series` as one object, the summary as a list.
-func seriesWins(comp Data, competitor Data) string {
+func SeriesWins(comp Data, competitor Data) string {
 	candidates := List(comp["series"])
 	if m := Map(comp["series"]); m != nil {
 		candidates = []any{m}

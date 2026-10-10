@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"playcall/internal/core"
 	"playcall/internal/espn"
 	"playcall/internal/sports"
 )
@@ -54,6 +55,12 @@ func awayRecord(g espn.Game) string {
 
 func homeRecord(g espn.Game) string {
 	return teamRecord(g.HomeRecord, g.HomeConf, g.HomeSeries, g.AwaySeries)
+}
+
+// statusRecords are the two teams' record texts for the game page header.
+func statusRecords(s core.GameStatus) (away, home string) {
+	return teamRecord(s.AwayRecord.Overall, s.AwayRecord.Conf, s.AwayRecord.SeriesWins, s.HomeRecord.SeriesWins),
+		teamRecord(s.HomeRecord.Overall, s.HomeRecord.Conf, s.HomeRecord.SeriesWins, s.AwayRecord.SeriesWins)
 }
 
 // gameDetail is the right-hand side of a picker row: the score once the game

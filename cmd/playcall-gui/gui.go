@@ -34,6 +34,7 @@ type ui struct {
 	statusText             *widget.RichText
 	situation              *widget.RichText
 	awayCounts, homeCounts *widget.Label
+	awayRecord, homeRecord *widget.RichText
 	series                 *widget.Label
 	stale                  *widget.Label
 
@@ -67,6 +68,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	for _, l := range []*widget.Label{u.awayCounts, u.homeCounts} {
 		l.Hide() // basketball only
 	}
+	u.awayRecord, u.homeRecord = widget.NewRichText(), widget.NewRichText()
+	u.setRecords("", "")
 	u.series = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Italic: true})
 	u.stale = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{})
 	u.stale.Importance = widget.WarningImportance
@@ -93,6 +96,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 			container.NewHBox(u.awayBall, u.awayBadge.box, u.away),
 			container.NewHBox(u.homeBadge.box, u.home, u.homeBall),
 			container.NewCenter(container.NewVBox(u.statusText, u.situation))),
+		// Each team's record, small, under its side.
+		container.NewBorder(nil, nil, u.awayRecord, u.homeRecord),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
 		u.series, u.stale,
@@ -158,6 +163,7 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.awayBadge.setLogo(u.logos, s.Away.Logo)
 	u.homeBadge.setLogo(u.logos, s.Home.Logo)
 	u.setBalls(s)
+	u.setRecords(statusRecords(s))
 	u.setCounts(u.awayCounts, s.Sport, s.AwayCounts)
 	u.setCounts(u.homeCounts, s.Sport, s.HomeCounts)
 	if s.Series != "" {
@@ -219,6 +225,21 @@ func (u *ui) setSituation(text string) {
 		},
 	}}
 	u.situation.Refresh()
+}
+
+// setRecords shows each team's record under its side, in the situation's size.
+func (u *ui) setRecords(away, home string) {
+	for _, r := range []struct {
+		w     *widget.RichText
+		text  string
+		align fyne.TextAlign
+	}{{u.awayRecord, away, fyne.TextAlignLeading}, {u.homeRecord, home, fyne.TextAlignTrailing}} {
+		r.w.Segments = []widget.RichTextSegment{&widget.TextSegment{
+			Text:  r.text,
+			Style: widget.RichTextStyle{Alignment: r.align, SizeName: theme.SizeNameCaptionText},
+		}}
+		r.w.Refresh()
+	}
 }
 
 func (u *ui) refreshStale() {

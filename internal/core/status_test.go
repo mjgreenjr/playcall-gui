@@ -406,3 +406,33 @@ func TestCollegeTimeouts(t *testing.T) {
 	}
 	capCollegeTimeouts(nil, 3)
 }
+
+func TestStatusRecords(t *testing.T) {
+	data := loadFixture(t, "playbyplay_multi_plays.json")
+	comp := espn.Competition(data)
+	home, away := espn.Teams(comp)
+	away["record"] = []any{
+		map[string]any{"type": "total", "summary": "3-1"},
+		map[string]any{"type": "vsconf", "summary": "1-0"},
+	}
+	home["record"] = []any{map[string]any{"type": "total", "summary": "2-2"}}
+	comp["series"] = []any{map[string]any{"type": "playoff", "competitors": []any{
+		map[string]any{"id": away["id"], "wins": json.Number("2")},
+		map[string]any{"id": home["id"], "wins": json.Number("1")},
+	}}}
+	var got GameStatus
+	poller, err := NewPoller(&State{GameID: "999", Sport: "nfl"}, &recordSink{}, func(context.Context) (espn.Data, error) { return data, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	poller.StatusSink = StatusFunc(func(s GameStatus) { got = s })
+	if _, err := poller.Poll(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if want := (TeamRecord{Overall: "3-1", Conf: "1-0", SeriesWins: "2"}); got.AwayRecord != want {
+		t.Errorf("away %+v, want %+v", got.AwayRecord, want)
+	}
+	if want := (TeamRecord{Overall: "2-2", SeriesWins: "1"}); got.HomeRecord != want {
+		t.Errorf("home %+v, want %+v", got.HomeRecord, want)
+	}
+}

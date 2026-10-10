@@ -32,6 +32,8 @@ type GameStatus struct {
 	// ("1st & 10 at WASH 39"), "" when there is none (other sports, kickoffs,
 	// between plays, not in play).
 	Situation string
+	// AwayRecord and HomeRecord are the teams' season and series records.
+	AwayRecord, HomeRecord TeamRecord
 	// Possession is the side on offence: "away", "home", or "" when the sport
 	// has no such notion (hockey, basketball: ESPN does not say), the game is
 	// not in play (before the start, halftime, final) or ESPN does not say.
@@ -42,6 +44,25 @@ type GameStatus struct {
 	// UpdatedAt is when ESPN last answered, so a header can dim or show
 	// "updated Ns ago" while polls fail and the loop backs off.
 	UpdatedAt time.Time
+}
+
+// TeamRecord is what ESPN says about a team's season, each part "" when it
+// does not send it: Overall ("3-1"), Conf (the conference record, college
+// sports only) and SeriesWins (wins in the current playoff series, "" outside
+// one; ESPN counts completed games only).
+type TeamRecord struct {
+	Overall, Conf, SeriesWins string
+}
+
+func teamRecord(f *Feed, c espn.Data) TeamRecord {
+	if c == nil {
+		return TeamRecord{}
+	}
+	return TeamRecord{
+		Overall:    espn.Record(c, "total"),
+		Conf:       espn.Record(c, "vsconf"),
+		SeriesWins: espn.SeriesWins(espn.Competition(f.Data), c),
+	}
 }
 
 // TeamCounts is what a basketball scoreboard shows under a team's score.
@@ -189,6 +210,7 @@ func (p *Poller) publishStatus(f *Feed) {
 		}
 	}
 	awayCounts, homeCounts := basketballCounts(p.Sport, f)
+	homeComp, awayComp := espn.Teams(espn.Competition(f.Data))
 	series := f.Series
 	if f.Finished {
 		series = seriesText(f.Data, p.State.GameID, true)
@@ -208,6 +230,8 @@ func (p *Poller) publishStatus(f *Feed) {
 		Break:      espn.Str(st["name"]) == "STATUS_END_PERIOD",
 		Final:      f.Finished,
 		Series:     series,
+		AwayRecord: teamRecord(f, awayComp),
+		HomeRecord: teamRecord(f, homeComp),
 		Possession: possession(p.Sport, f),
 		Situation:  situation(p.Sport, f),
 		UpdatedAt:  p.now(),
