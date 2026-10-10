@@ -73,13 +73,41 @@ func (r basketballPlays) Message(p espn.Data) Message {
 	}
 	return Message{
 		Title:  FormatTitle(away.Abbr, away.Score, clock, period, home.Abbr, home.Score),
-		Body:   nbaBody(p, miss, bundled),
+		Body:   r.body(p, miss, bundled),
 		Urgent: urgent,
 		Home:   home,
 		Away:   away,
 		Clock:  clock,
 		Period: period,
 	}
+}
+
+// body is the play's text, plus the team when ESPN names no player: a team
+// turnover ("shot clock turnover") comes with only the committing team's id,
+// so without this the line would not say whose it was.
+func (r basketballPlays) body(p, miss espn.Data, bundled bool) string {
+	body := nbaBody(p, miss, bundled)
+	if bundled || !strings.Contains(strings.ToLower(playType(p)), "turnover") || len(espn.List(p["participants"])) > 0 {
+		return body
+	}
+	if abbr := r.teamAbbr(espn.Str(espn.Map(p["team"])["id"])); abbr != "" {
+		body += " (" + abbr + ")"
+	}
+	return body
+}
+
+// teamAbbr is the abbreviation of the game's team with this id, "" if neither.
+func (r basketballPlays) teamAbbr(id string) string {
+	if id == "" {
+		return ""
+	}
+	home, away := espn.Teams(espn.Competition(r.f.Data))
+	for _, t := range []espn.Data{home, away} {
+		if t != nil && espn.Str(t["id"]) == id {
+			return espn.TeamAbbr(t)
+		}
+	}
+	return ""
 }
 
 func playType(p espn.Data) string { return espn.Str(espn.Map(p["type"])["text"]) }

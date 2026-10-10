@@ -123,7 +123,7 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
 - Announced: every play except the silent types ("Offensive Foul Turnover", which repeats the Offensive Foul at the same second). Substitutions and timeouts are kept.
 - Miss bundling (`nbaBundles`): a missed shot or free throw (`shootingPlay` and not `scoringPlay`) goes out in one event with the rebound right after it: body "{miss text} · {rebound text}", title and urgency from the rebound. Both ids are marked sent together. A miss that is still the newest play is held back until the next poll shows what follows it, unless the game is over; a miss followed by anything other than a rebound goes out alone.
 - Title: "{Away} {n} · {clock} {period} · {Home} {n}" with the play's own scores and clock; period is 1st-4th, then OT, 2OT, ... cbb plays two halves: 1st, 2nd, then OT, 2OT.
-- Body: ESPN's text on one line (some contain a newline).
+- Body: ESPN's text on one line (some contain a newline). A turnover with no player in it ("shot clock turnover": ESPN sends only the team's id for these) gets the team's abbreviation appended: "shot clock turnover (GS)".
 - Urgency: normal for made threes (`scoringPlay` with `scoreValue` 3) and fouls (type contains "foul", not "turnover"); low otherwise, including 2-point baskets, free throws and bundled misses.
 - Catch-up limit 10. cbb is assumed to match and has not been tested against a live feed. No shot-clock tracking (ruled out).
 

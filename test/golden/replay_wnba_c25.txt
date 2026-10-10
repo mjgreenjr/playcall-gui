@@ -566,7 +566,7 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 Kalani Brown enters the game for A'ja Wilson
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 [DRY-RUN] LV 58 · 1:10 4th · GS 71 (GS 1-0)
-shot clock turnover
+shot clock turnover (GS)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296491 sent_ids=349 scoring_texts=69
 == poll 15: revealed 359/359 ==

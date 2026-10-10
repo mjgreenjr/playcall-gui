@@ -807,7 +807,7 @@ Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
 Naz Reid misses 26-foot three point jumper · Michael Porter Jr. defensive rebound
 Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
 [DRY-RUN] BKN 56 · 2:38 2nd · CHA 47
-shot clock turnover
+shot clock turnover (BKN)
 Exec: xdg-open https://www.espn.com/nba/game/_/gameId/999
 [DRY-RUN] BKN 56 · 2:18 2nd · CHA 50
 Naz Reid makes 24-foot three point jumper (Dennis Schroder assists)

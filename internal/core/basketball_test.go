@@ -335,3 +335,39 @@ func TestOnceDoesNotWriteBasketballState(t *testing.T) {
 		t.Errorf("normal poll did not write state: %v", err)
 	}
 }
+
+func TestTeamTurnoverNamesTheTeam(t *testing.T) {
+	data := espn.Data{"header": map[string]any{"competitions": []any{map[string]any{"competitors": []any{
+		map[string]any{"homeAway": "home", "id": "129689", "team": map[string]any{"abbreviation": "GS"}},
+		map[string]any{"homeAway": "away", "id": "17", "team": map[string]any{"abbreviation": "LV"}},
+	}}}}}
+	rules := basketballPlays{f: &Feed{Data: data}, regulation: 4}
+	play := func(kind, text, team string, participants []any) espn.Data {
+		return espn.Data{
+			"id": "1", "text": text, "type": map[string]any{"text": kind},
+			"team": map[string]any{"id": team}, "participants": participants,
+		}
+	}
+	player := []any{map[string]any{"athlete": map[string]any{"id": "9"}}}
+
+	cases := []struct {
+		name string
+		p    espn.Data
+		want string
+	}{
+		{"shot clock, no player", play("Shot Clock Turnover", "shot clock turnover ", "129689", nil), "shot clock turnover (GS)"},
+		{"other team", play("Shot Clock Turnover", "shot clock turnover", "17", nil), "shot clock turnover (LV)"},
+		{"empty participants list", play("Shot Clock Turnover", "shot clock turnover", "17", []any{}), "shot clock turnover (LV)"},
+		{"a player is named: untouched", play("Traveling", "Isobel Borlase traveling turnover", "17", player), "Isobel Borlase traveling turnover"},
+		{"a steal is named: untouched", play("Lost Ball Turnover", "A lost ball turnover (B steals)", "17", player), "A lost ball turnover (B steals)"},
+		{"unknown team id: untouched", play("Shot Clock Turnover", "shot clock turnover", "999", nil), "shot clock turnover"},
+		{"no team id: untouched", play("Shot Clock Turnover", "shot clock turnover", "", nil), "shot clock turnover"},
+		{"not a turnover: untouched", play("Official Timeout", "Official timeout", "17", nil), "Official timeout"},
+		{"type with a newline", play("Team\nTurnover", "team turnover", "17", nil), "team turnover (LV)"},
+	}
+	for _, c := range cases {
+		if got := rules.Message(c.p).Body; got != c.want {
+			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
+		}
+	}
+}

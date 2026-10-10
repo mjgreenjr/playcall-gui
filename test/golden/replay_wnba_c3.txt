@@ -1400,7 +1400,7 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296491: shot clock turnover
   401918296493: Kalani Brown offensive rebound
 [DRY-RUN] LV 58 · 1:10 4th · GS 71 (GS 1-0)
-shot clock turnover
+shot clock turnover (GS)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 [DRY-RUN] LV 58 · 55.4 4th · GS 71 (GS 1-0)
 Kiah Stokes blocks Kalani Brown 's 3-foot layup · Kalani Brown offensive rebound
