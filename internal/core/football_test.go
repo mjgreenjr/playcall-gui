@@ -376,3 +376,34 @@ func TestCompleteSpots(t *testing.T) {
 		}
 	}
 }
+
+func TestDropReplacedPlay(t *testing.T) {
+	play := func(id, clock, kind, text string) espn.Data {
+		return espn.Data{
+			"id": id, "text": text,
+			"type":   map[string]any{"text": kind},
+			"period": map[string]any{"number": json.Number("1")},
+			"clock":  map[string]any{"displayValue": clock},
+		}
+	}
+	last := PlayID(191)
+	p := &Poller{State: &State{GameID: "g", LastPlayID: &last}, Rules: footballRules{}, known: map[string]bool{}}
+	kick := play("162", "1:39", "Kickoff", "(01:39) #80 S.Starzyk kickoff 65 yards to the UK00 fair catch")
+	pass := play("165", "1:29", "Pass Reception", "(01:39) pass complete")
+	if got := p.dropReplaced([]espn.Data{kick, pass}, nil); len(got) != 0 {
+		t.Fatalf("first poll: %v", got)
+	}
+	// ESPN drops 162 and posts the corrected kickoff as 194.
+	fixed := play("194", "1:39", "Kickoff", "(01:39) #80 S.Starzyk kickoff 65 yards to the UK00, Touchback")
+	if got := p.dropReplaced([]espn.Data{fixed, pass}, []espn.Data{fixed}); len(got) != 0 {
+		t.Errorf("a replaced play was kept: %v", got)
+	}
+	if *p.State.LastPlayID != 194 || !p.known["194"] {
+		t.Errorf("last_play_id %d, known %v", *p.State.LastPlayID, p.known)
+	}
+	// The original is used up: the same look again is a real new play.
+	again := play("200", "1:39", "Kickoff", "(01:39) #80 S.Starzyk kickoff 65 yards to the UK00, Touchback")
+	if got := p.dropReplaced([]espn.Data{fixed, pass, again}, []espn.Data{again}); len(got) != 1 {
+		t.Errorf("a play whose twin is still there was dropped: %v", got)
+	}
+}

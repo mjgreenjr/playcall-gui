@@ -6,6 +6,7 @@ import (
 	"io"
 	"log/slog"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -80,6 +81,9 @@ type Poller struct {
 	// In memory only; the first poll of a run takes everything at or below
 	// last_play_id as known.
 	known map[string]bool
+	// signatures is what each football play looked like (period, clock, type,
+	// start of the text), to spot a play ESPN replaced with a new id.
+	signatures map[string]string
 	// sentTexts is the text of each revisable play (see revisablePlay) as it
 	// was last sent, to re-send the play when ESPN fills in its text later.
 	// In memory only: a restart forgets it.
@@ -177,6 +181,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		}
 		if _, ok := p.Rules.(footballRules); ok {
 			unseen = p.addLatePlays(plays, unseen, st.LastPlayID)
+			unseen = p.dropReplaced(plays, unseen)
 		}
 	}
 	rules := p.Rules.Prepare(feed)
@@ -407,6 +412,56 @@ func (p *Poller) advanceLast(id int64) {
 	}
 	last := PlayID(id)
 	st.LastPlayID = &last
+}
+
+// playSignature identifies a football play by when and what it was, not by id.
+func playSignature(pl espn.Data) string {
+	n, _ := espn.Int64(espn.Map(pl["period"])["number"])
+	text := []rune(espn.PlayText(pl))
+	if len(text) > 30 {
+		text = text[:30]
+	}
+	return strconv.FormatInt(n, 10) + "|" + espn.Str(espn.Map(pl["clock"])["displayValue"]) + "|" + playType(pl) + "|" + string(text)
+}
+
+// dropReplaced takes out of unseen the football plays that are an earlier play
+// again under a new id: ESPN corrects a play (a kickoff's "fair catch" became
+// "Touchback") by dropping the old id and posting the corrected play with a
+// fresh one, which would otherwise be announced a second time, long after the
+// original, out of order. They are marked as handled and not sent.
+func (p *Poller) dropReplaced(plays, unseen []espn.Data) []espn.Data {
+	if p.signatures == nil {
+		p.signatures = map[string]string{}
+	}
+	present := map[string]bool{}
+	for _, pl := range plays {
+		present[espn.PlayKey(pl)] = true
+	}
+	var kept []espn.Data
+	for _, pl := range unseen {
+		key, sig := espn.PlayKey(pl), playSignature(pl)
+		replaced := ""
+		for old, s := range p.signatures {
+			if s == sig && old != key && !present[old] {
+				replaced = old
+				break
+			}
+		}
+		if replaced == "" {
+			kept = append(kept, pl)
+			continue
+		}
+		slog.Debug("Play replaced", "game", p.State.GameID, "old", replaced, "new", key)
+		delete(p.signatures, replaced) // one replacement per original
+		p.markKnown(pl)
+		if id, ok := espn.PlayID(pl); ok {
+			p.advanceLast(id)
+		}
+	}
+	for _, pl := range plays {
+		p.signatures[espn.PlayKey(pl)] = playSignature(pl)
+	}
+	return kept
 }
 
 func (p *Poller) markKnown(pl espn.Data) {
