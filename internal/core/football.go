@@ -24,15 +24,35 @@ func (footballPlays) IDs(p espn.Data) []string { return []string{espn.PlayKey(p)
 func (r footballPlays) Message(p espn.Data) Message {
 	text := espn.PlayText(p)
 	f := r.f
+	clock, period, body := f.Clock, f.Period, footballBody(p, text)
+	if footballHalftime(p) {
+		// The end-of-half play stands in for the break: "Halftime" replaces
+		// the clock, and its down and distance (the next possession) is dropped.
+		clock, period, body = "Halftime", "", text
+	}
 	return Message{
-		Title:  FormatTitle(f.Away.Abbr, f.Away.Score, f.Clock, f.Period, f.Home.Abbr, f.Home.Score),
-		Body:   footballBody(p, text),
+		Title:  FormatTitle(f.Away.Abbr, f.Away.Score, clock, period, f.Home.Abbr, f.Home.Score),
+		Body:   body,
 		Urgent: footballUrgent(p, text),
 		Home:   f.Home,
 		Away:   f.Away,
-		Clock:  f.Clock,
-		Period: f.Period,
+		Clock:  clock,
+		Period: period,
 	}
+}
+
+// footballHalftime reports whether p ends the first half. NFL has a dedicated
+// "End of Half" type; college football uses the plain "End Period" type, so
+// the second period is the half there.
+func footballHalftime(p espn.Data) bool {
+	switch playType(p) {
+	case "End of Half":
+		return true
+	case "End Period":
+		n, _ := espn.Int64(espn.Map(p["period"])["number"])
+		return n == 2
+	}
+	return false
 }
 
 // footballBody frames the play text with the down and distance before and
