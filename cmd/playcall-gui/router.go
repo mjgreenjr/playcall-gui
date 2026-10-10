@@ -26,6 +26,11 @@ type routerSink struct {
 }
 
 func (r routerSink) Send(ctx context.Context, e core.Event) error {
+	// A corrected play only fixes the row already in the list; a toast is not
+	// a record, so there is nothing to correct there.
+	if e.Kind == core.KindUpdate {
+		return r.win.Send(ctx, e)
+	}
 	vis, err := r.Visible(ctx)
 	if err != nil {
 		slog.Debug("window visibility unknown, using toast", "err", err)

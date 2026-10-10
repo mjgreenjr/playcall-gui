@@ -609,3 +609,83 @@ func TestLogTextChanges(t *testing.T) {
 		}
 	}
 }
+
+func TestRevisablePlay(t *testing.T) {
+	typ := func(s string) espn.Data { return espn.Data{"type": map[string]any{"text": s}} }
+	for _, c := range []struct {
+		sport string
+		play  espn.Data
+		want  bool
+	}{
+		{"nba", typ("Substitution"), true},
+		{"wnba", typ("Personal Foul"), true},
+		{"nba", typ("Offensive Foul Turnover"), false},
+		{"nba", typ("Pullup Jump Shot"), false},
+		{"nhl", espn.Data{"type": map[string]any{"text": "Penalty", "penaltyMinutes": "2"}}, true},
+		{"nhl", typ("Shot"), false},
+		{"mlb", typ("Substitution"), false},
+	} {
+		if got := revisablePlay(c.sport, c.play); got != c.want {
+			t.Errorf("%s %v: got %v", c.sport, c.play["type"], got)
+		}
+	}
+}
+
+// A foul that ESPN first posts as a bare "foul" and fills in later is re-sent
+// as an update once; a shot whose description changes is not.
+func TestRevisedFoulIsResent(t *testing.T) {
+	data := loadFixture(t, "playbyplay_nba_multi_plays.json")
+	plays := espn.ExtractPlays(data)
+	foul := -1
+	for i, p := range plays {
+		if strings.Contains(strings.ToLower(playType(p)), "foul") && !strings.Contains(strings.ToLower(playType(p)), "turnover") {
+			foul = i
+			break
+		}
+	}
+	if foul < 0 {
+		t.Fatal("no foul in the fixture")
+	}
+	first := reveal(t, data, foul+1, false)
+	edited := deepCopy(t, first)
+	var id string
+	for _, h := range espn.PlayHolders(edited) {
+		for _, v := range h["plays"].([]any) {
+			p := espn.Map(v)
+			if espn.PlayKey(p) == espn.PlayKey(plays[foul]) {
+				id = espn.PlayKey(p)
+				p["text"] = "Edited name personal foul"
+			}
+		}
+	}
+	feed := first
+	sink := &recordSink{}
+	poller, err := NewPoller(&State{GameID: "999", Sport: "nba"}, sink, func(context.Context) (espn.Data, error) { return feed, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	poll := func() {
+		t.Helper()
+		if _, err := poller.Poll(context.Background()); err != nil {
+			t.Fatal(err)
+		}
+	}
+	poll()
+	if len(sink.events) != 1 || sink.events[0].Kind != KindPlay {
+		t.Fatalf("first poll: %+v", sink.events)
+	}
+	poll() // nothing changed
+	if len(sink.events) != 1 {
+		t.Fatalf("unchanged poll sent %d events", len(sink.events))
+	}
+	feed = edited
+	poll()
+	if len(sink.events) != 2 || sink.events[1].Kind != KindUpdate || sink.events[1].PlayID != id ||
+		!strings.Contains(sink.events[1].Body, "Edited name personal foul") {
+		t.Fatalf("after the edit: %+v", sink.events)
+	}
+	poll() // the edit is sent once
+	if len(sink.events) != 2 {
+		t.Errorf("edit re-sent: %d events", len(sink.events))
+	}
+}

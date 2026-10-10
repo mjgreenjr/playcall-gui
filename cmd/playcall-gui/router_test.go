@@ -68,6 +68,12 @@ func TestRouterSink(t *testing.T) {
 		{"unknown", false, errors.New("x"), nil, 1, false},
 		{"toast fails", false, nil, errors.New("boom"), 1, true},
 	}
+	// An update never makes a toast, wherever the window is.
+	upd := routerSink{win: &countSink{}, toast: &countSink{}, Visible: func(context.Context) (bool, error) { return false, nil }}
+	if err := upd.Send(context.Background(), core.Event{Kind: core.KindUpdate}); err != nil ||
+		upd.toast.(*countSink).n != 0 || upd.win.(*countSink).n != 1 {
+		t.Errorf("update: toasts=%d window=%d err=%v", upd.toast.(*countSink).n, upd.win.(*countSink).n, err)
+	}
 	for _, c := range cases {
 		toast := &countSink{err: c.toastErr}
 		win := &countSink{}

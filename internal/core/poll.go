@@ -6,6 +6,7 @@ import (
 	"io"
 	"log/slog"
 	"sort"
+	"strings"
 	"time"
 
 	"playcall/internal/espn"
@@ -67,6 +68,10 @@ type Poller struct {
 
 	// texts is each play's text as of the last poll, to log edits.
 	texts map[string]string
+	// sentTexts is the text of each revisable play (see revisablePlay) as it
+	// was last sent, to re-send the play when ESPN fills in its text later.
+	// In memory only: a restart forgets it.
+	sentTexts map[string]string
 }
 
 // NewPoller returns a poller for state's sport, or an error (ErrNotImplemented
@@ -186,6 +191,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		pending[espn.PlayKey(pl)] = true
 	}
 	updates := filterPlays(findScoringUpdates(seen, plays, pending), rules.Announced)
+	updates = append(updates, filterPlays(p.findRevisions(plays, pending), rules.Announced)...)
 	toSend := map[string]bool{}
 	for k := range pending {
 		toSend[k] = true
@@ -254,6 +260,11 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		}
 		if espn.Truthy(s.play["scoringPlay"]) {
 			seen[espn.PlayKey(s.play)] = text
+		} else if revisablePlay(p.Sport, s.play) {
+			if p.sentTexts == nil {
+				p.sentTexts = map[string]string{}
+			}
+			p.sentTexts[espn.PlayKey(s.play)] = text
 		}
 		if !s.update {
 			id, _ := espn.PlayID(s.play)
@@ -417,6 +428,35 @@ func findScoringUpdates(seen map[string]string, plays []espn.Data, pending map[s
 		old, ok := seen[k]
 		if espn.Truthy(p["scoringPlay"]) && ok && old != espn.PlayText(p) && !pending[k] {
 			out = append(out, p)
+		}
+	}
+	return out
+}
+
+// revisablePlay is true for the non-scoring plays worth re-sending when ESPN
+// changes their text: basketball fouls and substitutions and NHL penalties.
+// ESPN often posts these as a bare "foul" or "enters the game for X" and fills
+// in the names a poll or two later. Other edits (a shot's description, an
+// assist) are not worth a second message.
+func revisablePlay(sport string, p espn.Data) bool {
+	switch sport {
+	case "nba", "wnba", "cbb":
+		kind := strings.ToLower(playType(p))
+		return kind == "substitution" || (strings.Contains(kind, "foul") && !strings.Contains(kind, "turnover"))
+	case "nhl":
+		return espn.Truthy(espn.Map(p["type"])["penaltyMinutes"])
+	}
+	return false
+}
+
+// findRevisions returns the revisable plays already sent whose text is now
+// different, and that are not about to be sent as new plays.
+func (p *Poller) findRevisions(plays []espn.Data, pending map[string]bool) []espn.Data {
+	var out []espn.Data
+	for _, pl := range plays {
+		k := espn.PlayKey(pl)
+		if old, ok := p.sentTexts[k]; ok && old != espn.PlayText(pl) && !pending[k] && revisablePlay(p.Sport, pl) {
+			out = append(out, pl)
 		}
 	}
 	return out
