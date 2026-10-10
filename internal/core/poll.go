@@ -221,6 +221,8 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 			PlayText: text,
 			Sport:    p.Sport,
 			Series:   feed.Series,
+
+			Possession: possession(p.Sport, feed),
 		}
 		if err := p.Sink.Send(ctx, ev); err != nil {
 			// Stop here; the play stays unsent and the next poll retries it.

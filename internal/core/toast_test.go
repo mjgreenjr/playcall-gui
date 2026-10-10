@@ -55,3 +55,25 @@ func TestExecRunnerMissingProgram(t *testing.T) {
 		t.Error("running a missing program succeeded")
 	}
 }
+
+func TestMarkedTitle(t *testing.T) {
+	e := Event{Title: "ATL 14 · 0:48 1st · NO 0", Home: TeamScore{Abbr: "NO", Score: "0"}}
+	cases := []struct{ poss, title, want string }{
+		{"", e.Title, e.Title},
+		{"away", e.Title, "• ATL 14 · 0:48 1st · NO 0"},
+		{"home", e.Title, "ATL 14 · 0:48 1st · NO 0 •"},
+		{"home", "ATL 14 · 0:48 1st · NO 0 (ATL 2-1)", "ATL 14 · 0:48 1st · NO 0 • (ATL 2-1)"},
+		{"home", "ATL 14 · 0:48 1st · NO 3 PP", "ATL 14 · 0:48 1st · NO 3 PP •"},
+		{"home", "garbled", "garbled"},
+	}
+	for _, c := range cases {
+		ev := e
+		ev.Possession, ev.Title = c.poss, c.title
+		if c.title == "ATL 14 · 0:48 1st · NO 3 PP" {
+			ev.Home.Score = "3"
+		}
+		if got := ev.MarkedTitle(); got != c.want {
+			t.Errorf("%q %q: got %q, want %q", c.poss, c.title, got, c.want)
+		}
+	}
+}

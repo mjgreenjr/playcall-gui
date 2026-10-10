@@ -48,7 +48,7 @@ func (ToastSink) Args(e Event) []string {
 	return append([]string{
 		"-u", urgency,
 		"-t", strconv.Itoa(NotifExpireMS),
-		e.Title, e.Body,
+		e.MarkedTitle(), e.Body,
 		"--exec",
 	}, strings.Fields("xdg-open "+e.URL)...)
 }
