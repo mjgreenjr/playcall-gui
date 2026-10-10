@@ -1,6 +1,9 @@
 package core
 
-import "testing"
+import (
+	"log/slog"
+	"testing"
+)
 
 func TestHighlightColorRoundTrip(t *testing.T) {
 	cfg := DefaultConfig()
@@ -43,5 +46,20 @@ func TestHighlightColorMalformedIsDefault(t *testing.T) {
 	cfg.Extra[highlightColorKey] = []byte(`42`)
 	if cfg.HighlightColor() != "" {
 		t.Errorf("malformed: %q", cfg.HighlightColor())
+	}
+}
+
+func TestLogLevel(t *testing.T) {
+	var cfg Config
+	if cfg.LogLevel() != "" || ParseLogLevel(cfg.LogLevel()) != slog.LevelInfo {
+		t.Error("default is info")
+	}
+	cfg.SetLogLevel("debug")
+	if cfg.LogLevel() != "debug" || ParseLogLevel(cfg.LogLevel()) != slog.LevelDebug {
+		t.Errorf("debug: %q", cfg.LogLevel())
+	}
+	cfg.SetLogLevel("info")
+	if _, ok := cfg.Extra["log_level"]; ok {
+		t.Error("info should remove the key")
 	}
 }

@@ -34,7 +34,7 @@ type settingsEnv struct {
 }
 
 // settingsView is the settings screen: General (poll interval, highlight
-// color) and Favorites (per sport: default group and favorite teams). Every
+// color, log level) and Favorites (per sport: default group and favorite teams). Every
 // change is saved as soon as it is made.
 type settingsView struct {
 	content fyne.CanvasObject
@@ -42,6 +42,7 @@ type settingsView struct {
 
 	interval *widget.Select
 	color    *widget.Select
+	logLevel *widget.Select
 	preview  *widget.RichText
 
 	sport      *widget.Select
@@ -67,6 +68,13 @@ type teamRow struct {
 
 // intervalChoices are the poll intervals offered, in seconds.
 var intervalChoices = []int{5, 10, 15, 20, 30, 60}
+
+func logLevelLabel(name string) string {
+	if name == "debug" {
+		return "Debug"
+	}
+	return "Info"
+}
 
 func intervalLabel(seconds int) string { return fmt.Sprintf("%d seconds", seconds) }
 
@@ -128,6 +136,19 @@ func (v *settingsView) generalTab() fyne.CanvasObject {
 	v.color.SetSelected(hl.label)
 	v.quiet = false
 
+	v.logLevel = widget.NewSelect([]string{"Info", "Debug"}, func(label string) {
+		if v.quiet {
+			return
+		}
+		v.env.update(func(c *core.Config) { c.SetLogLevel(strings.ToLower(label)) })
+	})
+	v.quiet = true
+	v.logLevel.SetSelected(logLevelLabel(cfg.LogLevel()))
+	v.quiet = false
+	logNote := widget.NewLabel("Debug also records every fetch and any play whose text changes, in ~/.cache/playcall/playcall.log. The log grows quickly; use it to chase a problem.")
+	logNote.Wrapping = fyne.TextWrapWord
+	logNote.Importance = widget.LowImportance
+
 	note := widget.NewLabel("How often a followed game is refreshed. Applies to the next game you open. Never below 5 seconds.")
 	note.Wrapping = fyne.TextWrapWord
 	note.Importance = widget.LowImportance
@@ -138,6 +159,9 @@ func (v *settingsView) generalTab() fyne.CanvasObject {
 		widget.NewLabelWithStyle("Highlight color", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
 		widget.NewLabel("Marks scoring plays and turnovers in the play list."),
 		v.color, v.preview,
+		widget.NewSeparator(),
+		widget.NewLabelWithStyle("Log level", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
+		v.logLevel, logNote,
 	))
 }
 

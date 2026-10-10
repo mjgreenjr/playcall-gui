@@ -201,6 +201,17 @@ func TestSettingsGeneral(t *testing.T) {
 	if h.cfg.HighlightColor() != "green" {
 		t.Errorf("color %q", h.cfg.HighlightColor())
 	}
+	if v.logLevel.Selected != "Info" {
+		t.Errorf("log level defaults to %q", v.logLevel.Selected)
+	}
+	v.logLevel.SetSelected("Debug")
+	if h.cfg.LogLevel() != "debug" {
+		t.Errorf("log level %q", h.cfg.LogLevel())
+	}
+	v.logLevel.SetSelected("Info")
+	if h.cfg.LogLevel() != "" {
+		t.Errorf("info should clear the key, got %q", h.cfg.LogLevel())
+	}
 }
 
 func TestSettingsDoesNotSaveJustByOpening(t *testing.T) {

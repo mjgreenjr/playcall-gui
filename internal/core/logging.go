@@ -27,9 +27,17 @@ func SetupLogging(p Paths, stdout io.Writer, level slog.Level) (func() error, er
 	if stdout != nil {
 		w = io.MultiWriter(f, stdout)
 	}
-	slog.SetDefault(slog.New(&lineHandler{w: &syncWriter{w: w}, level: level}))
+	logLevel.Set(level)
+	slog.SetDefault(slog.New(&lineHandler{w: &syncWriter{w: w}, level: &logLevel}))
 	return f.Close, nil
 }
+
+// logLevel is the level of the logger SetupLogging installs; SetLogLevel
+// changes it while the program runs.
+var logLevel slog.LevelVar
+
+// SetLogLevel changes what the logger installed by SetupLogging records.
+func SetLogLevel(l slog.Level) { logLevel.Set(l) }
 
 type syncWriter struct {
 	mu sync.Mutex
@@ -45,12 +53,12 @@ func (s *syncWriter) Write(b []byte) (int, error) {
 // lineHandler writes one "time LEVEL message attrs" line per record.
 type lineHandler struct {
 	w     io.Writer
-	level slog.Level
+	level slog.Leveler
 	attrs []slog.Attr
 	group string
 }
 
-func (h *lineHandler) Enabled(_ context.Context, l slog.Level) bool { return l >= h.level }
+func (h *lineHandler) Enabled(_ context.Context, l slog.Level) bool { return l >= h.level.Level() }
 
 func (h *lineHandler) Handle(_ context.Context, r slog.Record) error {
 	var b strings.Builder

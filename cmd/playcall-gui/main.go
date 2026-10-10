@@ -31,7 +31,7 @@ func run() int {
 	mock := flag.String("mock", "", "replay a fixture file as if it were live, instead of ESPN")
 	step := flag.Int("step", 3, "with --mock: plays revealed per poll")
 	interval := flag.Duration("interval", 0, "poll interval (default: the config's; 1s with --mock; never below 5s live)")
-	debug := flag.Bool("debug", false, "log at DEBUG level (fetches, plays, edited play text) to ~/.cache/playcall/playcall.log and stderr")
+	debug := flag.Bool("debug", false, "log at DEBUG level this run, whatever the settings say")
 	flag.Parse()
 
 	if err := sports.Validate(*sport); err != nil {
@@ -52,7 +52,7 @@ func run() int {
 	root, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	s := &shell{root: root, fetcher: &espn.Client{}, interval: *interval}
+	s := &shell{root: root, fetcher: &espn.Client{}, interval: *interval, forceDebug: *debug}
 	s.loadConfig()
 
 	var start func()
@@ -111,6 +111,8 @@ type shell struct {
 	fetcher  espn.Fetcher
 	cfg      core.Config
 	interval time.Duration // --interval, 0 if not given
+	// forceDebug is --debug: log at DEBUG whatever the config says.
+	forceDebug bool
 
 	stopGame context.CancelFunc // ends the current game's polling
 
@@ -140,6 +142,16 @@ func (s *shell) loadConfig() {
 		s.cfg.FavoriteTeams = map[string][]string{} // shared with the picker, so edits show up there
 	}
 	s.highlight = highlightByKey(s.cfg.HighlightColor())
+	s.applyLogLevel()
+}
+
+// applyLogLevel sets the log level from the config; --debug wins.
+func (s *shell) applyLogLevel() {
+	if s.forceDebug {
+		core.SetLogLevel(slog.LevelDebug)
+		return
+	}
+	core.SetLogLevel(core.ParseLogLevel(s.cfg.LogLevel()))
 }
 
 // update applies a change to the config in memory and saves it to the file.
@@ -148,6 +160,7 @@ func (s *shell) loadConfig() {
 func (s *shell) update(fn func(*core.Config)) {
 	fn(&s.cfg)
 	s.highlight = highlightByKey(s.cfg.HighlightColor())
+	s.applyLogLevel()
 	paths, err := core.DefaultPaths()
 	if err == nil {
 		err = core.UpdateConfig(paths, fn)
