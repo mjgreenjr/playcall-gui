@@ -372,3 +372,28 @@ func TestPeriodTimeoutCap(t *testing.T) {
 	}
 	capTimeouts(nil, nil, 4, false) // no counts: nothing to cap
 }
+
+func TestCollegeTimeouts(t *testing.T) {
+	// A team's TimeoutSlots - Timeouts is what it has taken; ESPN's own
+	// remaining count is replaced.
+	for _, c := range []struct {
+		name         string
+		period       int
+		left, slots  int
+		wantL, wantS int
+	}{
+		{"1st half, none taken", 1, 4, 4, 4, 4},
+		{"2nd half, two taken", 2, 2, 4, 2, 4},
+		{"overtime adds one", 3, 4, 4, 5, 5},
+		{"5OT, none taken", 7, 4, 4, 9, 9},
+		{"5OT, three taken", 7, 1, 4, 6, 9},
+		{"more taken than given", 2, 0, 6, 0, 4},
+	} {
+		tc := &TeamCounts{Timeouts: c.left, TimeoutSlots: c.slots}
+		capCollegeTimeouts(tc, c.period)
+		if tc.Timeouts != c.wantL || tc.TimeoutSlots != c.wantS {
+			t.Errorf("%s: got %+v, want %d of %d", c.name, *tc, c.wantL, c.wantS)
+		}
+	}
+	capCollegeTimeouts(nil, 3)
+}

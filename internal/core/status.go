@@ -74,7 +74,11 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 	// NBA and WNBA: 7 a game, but no more than 4 in the 4th quarter and 2 in
 	// each overtime. ESPN's timeoutsRemaining is not capped (a team that took
 	// both of its overtime timeouts still shows one left), so do it here.
-	if period, _ := espn.Int64(espn.Status(f.Data)["period"]); sport != "cbb" && period >= 4 {
+	period, _ := espn.Int64(espn.Status(f.Data)["period"])
+	if sport == "cbb" {
+		capCollegeTimeouts(away, int(period))
+		capCollegeTimeouts(home, int(period))
+	} else if period >= 4 {
 		limit, overtime := fourthQuarterTimeouts, false
 		if period > 4 {
 			limit, overtime = overtimeTimeouts, true
@@ -105,6 +109,24 @@ func capTimeouts(c *TeamCounts, competitor espn.Data, limit int, overtime bool) 
 	if overtime {
 		c.TimeoutSlots = limit
 	}
+}
+
+// Men's college basketball: 4 timeouts a game and one more for each overtime.
+// What is not used carries over, so after 5 overtimes a team that never called
+// one has 9. The count is worked out here from the timeouts taken rather than
+// trusting ESPN's timeoutsRemaining, which may not include the extra ones.
+const (
+	collegeTimeouts = 4
+	collegeHalves   = 2
+)
+
+func capCollegeTimeouts(c *TeamCounts, period int) {
+	if c == nil {
+		return
+	}
+	taken := c.TimeoutSlots - c.Timeouts
+	c.TimeoutSlots = collegeTimeouts + max(period-collegeHalves, 0)
+	c.Timeouts = max(c.TimeoutSlots-taken, 0)
 }
 
 // timeoutsTaken counts the timeout plays that belong to a team. A timeout
