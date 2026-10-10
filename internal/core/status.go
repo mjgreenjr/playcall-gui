@@ -26,6 +26,8 @@ type GameStatus struct {
 	// zero until the next one starts; Detail then says what to show.
 	Break bool
 	Final bool
+	// Preseason is true for exhibition games (ESPN's season type 1).
+	Preseason bool
 	// Series is the postseason standing without parentheses, or "".
 	Series string
 	// Situation is football's down, distance and spot after the last play
@@ -230,6 +232,7 @@ func (p *Poller) publishStatus(f *Feed) {
 		Break:      espn.Str(st["name"]) == "STATUS_END_PERIOD",
 		Final:      f.Finished,
 		Series:     series,
+		Preseason:  espn.SeasonType(f.Data) == "1",
 		AwayRecord: teamRecord(f, awayComp),
 		HomeRecord: teamRecord(f, homeComp),
 		Possession: possession(p.Sport, f),

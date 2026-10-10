@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -172,8 +173,15 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.refreshRecords()
 	u.setCounts(u.awayCounts, s.Sport, s.AwayCounts)
 	u.setCounts(u.homeCounts, s.Sport, s.HomeCounts)
+	var tags []string
+	if s.Preseason {
+		tags = append(tags, "Preseason")
+	}
 	if s.Series != "" {
-		u.series.SetText("Series: " + s.Series)
+		tags = append(tags, "Series: "+s.Series)
+	}
+	if len(tags) > 0 {
+		u.series.SetText(strings.Join(tags, " · "))
 		u.series.Show()
 	} else {
 		u.series.Hide()

@@ -10,6 +10,7 @@ import (
 
 	"fyne.io/fyne/v2/test"
 
+	"playcall/internal/core"
 	"playcall/internal/espn"
 )
 
@@ -307,5 +308,46 @@ func TestPickerContinueButton(t *testing.T) {
 	p.setContinue("", nil)
 	if p.cont.Visible() {
 		t.Error("clearing the label should hide the button")
+	}
+}
+
+func TestPickerByesFollowTheFavoritesFilter(t *testing.T) {
+	test.NewApp()
+	games := []espn.Game{
+		{ID: "1", Away: "TB", Home: "DAL", State: "pre"},
+		{Away: "KC", State: core.ByeState},
+		{Away: "CAR", State: core.ByeState},
+	}
+	awayNames := func(p *picker) string {
+		var out []string
+		for _, g := range p.games {
+			out = append(out, strings.TrimSpace(g.Away))
+		}
+		return strings.Join(out, ",")
+	}
+	newP := func(favorites []string) *picker {
+		return newPicker(context.Background(), fixtureFetcher{scoreboard(t, "scoreboard_empty.json")},
+			map[string][]string{"nfl": favorites}, groupPrefs{}, "nfl", func(string, espn.Game) {})
+	}
+
+	p := newP([]string{"KC"})
+	p.lastFetched = games // what ticking "All games" shows again
+	p.show(games)
+	if got := awayNames(p); got != "KC" {
+		t.Errorf("favorite KC on a bye: %q, want just KC", got)
+	}
+	p.all.SetChecked(true)
+	if got := awayNames(p); got != "TB,KC,CAR" {
+		t.Errorf("All ticked: %q", got)
+	}
+	p = newP(nil)
+	p.show(games)
+	if got := awayNames(p); got != "TB,KC,CAR" {
+		t.Errorf("no favorites: %q", got)
+	}
+	p = newP([]string{"DAL"})
+	p.show(games)
+	if got := awayNames(p); got != "TB" {
+		t.Errorf("favorite plays: %q, want no byes", got)
 	}
 }

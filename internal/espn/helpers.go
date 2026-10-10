@@ -232,3 +232,13 @@ func TeamLogos(team Data) Logo {
 	}
 	return logo
 }
+
+// SeasonType is the season type ("1" preseason, "2" regular, "3" postseason)
+// from a game feed's header, "" if it has none.
+func SeasonType(data Data) string {
+	header := Map(data["header"])
+	if !Truthy(data["header"]) {
+		header = Map(Map(data["gamepackageJSON"])["header"])
+	}
+	return Str(Map(header["season"])["type"])
+}

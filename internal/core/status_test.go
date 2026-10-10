@@ -436,3 +436,26 @@ func TestStatusRecords(t *testing.T) {
 		t.Errorf("home %+v, want %+v", got.HomeRecord, want)
 	}
 }
+
+func TestStatusPreseason(t *testing.T) {
+	data := loadFixture(t, "playbyplay_multi_plays.json")
+	status := func() GameStatus {
+		var got GameStatus
+		poller, err := NewPoller(&State{GameID: "999", Sport: "nfl"}, &recordSink{}, func(context.Context) (espn.Data, error) { return data, nil })
+		if err != nil {
+			t.Fatal(err)
+		}
+		poller.StatusSink = StatusFunc(func(s GameStatus) { got = s })
+		if _, err := poller.Poll(context.Background()); err != nil {
+			t.Fatal(err)
+		}
+		return got
+	}
+	if status().Preseason {
+		t.Error("the fixture is not a preseason game")
+	}
+	espn.Map(data["header"])["season"] = map[string]any{"type": json.Number("1")}
+	if !status().Preseason {
+		t.Error("season type 1 is the preseason")
+	}
+}

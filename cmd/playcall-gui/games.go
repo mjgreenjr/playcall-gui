@@ -77,9 +77,17 @@ func statusRecords(s core.GameStatus, division func(abbr string) string) (away, 
 // has started, with ESPN's status ("5:12 - 1st", "Final", "10/9 - 9:00 PM EDT").
 // A finished game that started on an earlier local day than now gets its date
 // in front ("Fri 10/9  27-24  Final"), so last night's game is not mistaken for
-// today's. An upcoming game gets the weekday in front of ESPN's own date
+// today's. A preseason game is tagged ("Preseason · 3-2  Final"). An upcoming game gets the weekday in front of ESPN's own date
 // ("Sun 10/11 - 1:00 PM EDT").
 func gameDetail(g espn.Game, now time.Time) string {
+	detail := gameStatusText(g, now)
+	if g.Season == "1" && g.State != core.ByeState {
+		return "Preseason · " + detail
+	}
+	return detail
+}
+
+func gameStatusText(g espn.Game, now time.Time) string {
 	if g.State == core.ByeState {
 		return "Bye"
 	}

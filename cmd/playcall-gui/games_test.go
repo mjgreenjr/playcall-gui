@@ -156,3 +156,15 @@ func TestByeRow(t *testing.T) {
 		t.Errorf("countGames %d", n)
 	}
 }
+
+func TestPreseasonTag(t *testing.T) {
+	now := time.Date(2026, 10, 10, 11, 0, 0, 0, time.FixedZone("EDT", -4*3600))
+	g := espn.Game{State: "in", AwayScore: "7", HomeScore: "10", Status: "0:12 - 2nd", Season: "1"}
+	if got := gameDetail(g, now); got != "Preseason · 7-10  0:12 - 2nd" {
+		t.Errorf("preseason %q", got)
+	}
+	g.Season = "2"
+	if got := gameDetail(g, now); got != "7-10  0:12 - 2nd" {
+		t.Errorf("regular season %q", got)
+	}
+}
