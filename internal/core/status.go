@@ -46,10 +46,11 @@ type GameStatus struct {
 
 // TeamCounts is what a basketball scoreboard shows under a team's score.
 type TeamCounts struct {
-	// Timeouts is how many the team has left; TimeoutsUsed how many it has
-	// used. ESPN's remaining count already reflects late-game limits, so the
-	// two do not always add up to the same total for both teams.
-	Timeouts, TimeoutsUsed int
+	// Timeouts is how many the team has left in the game. TimeoutSlots is how
+	// many it had to start with: those left plus the timeouts it has taken, so
+	// a row of that many dots, Timeouts of them filled, shows the rest. (ESPN's
+	// own timeoutsUsed is for the current period only.)
+	Timeouts, TimeoutSlots int
 	// Fouls is the team's fouls this period.
 	Fouls int
 	// Bonus is "" when the team is not shooting free throws on the opponent's
@@ -69,16 +70,27 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 		return nil, nil
 	}
 	h, a := espn.Teams(espn.Competition(f.Data))
-	return teamCounts(a), teamCounts(h)
+	return teamCounts(a, f.Plays), teamCounts(h, f.Plays)
+}
+
+// timeoutsTaken counts the timeout plays that belong to a team. A timeout
+// called by nobody (the "Official timeout") has no team and is not counted.
+func timeoutsTaken(plays []espn.Data, teamID string) int {
+	n := 0
+	for _, p := range plays {
+		if strings.Contains(strings.ToLower(playType(p)), "timeout") && espn.Str(espn.Map(p["team"])["id"]) == teamID {
+			n++
+		}
+	}
+	return n
 }
 
 // teamCounts is nil when the competitor has neither timeouts nor fouls.
-func teamCounts(c espn.Data) *TeamCounts {
+func teamCounts(c espn.Data, plays []espn.Data) *TeamCounts {
 	if c == nil {
 		return nil
 	}
 	timeouts, okT := espn.Int64(c["timeoutsRemaining"])
-	used, _ := espn.Int64(c["timeoutsUsed"])
 	fouls := espn.Map(c["fouls"])
 	current, okF := espn.Int64(fouls["teamFoulsCurrent"])
 	if !okT && !okF {
@@ -92,7 +104,7 @@ func teamCounts(c espn.Data) *TeamCounts {
 	default:
 		bonus = "single"
 	}
-	return &TeamCounts{Timeouts: int(timeouts), TimeoutsUsed: int(used), Fouls: int(current), Bonus: bonus}
+	return &TeamCounts{Timeouts: int(timeouts), TimeoutSlots: int(timeouts) + timeoutsTaken(plays, espn.Str(c["id"])), Fouls: int(current), Bonus: bonus}
 }
 
 // StatusSink receives a GameStatus after every successful fetch, before that

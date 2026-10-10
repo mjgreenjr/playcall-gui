@@ -314,8 +314,8 @@ func TestBasketballCounts(t *testing.T) {
 	if got.AwayCounts == nil || got.HomeCounts == nil {
 		t.Fatalf("no counts: %+v", got)
 	}
-	if *got.AwayCounts != (TeamCounts{Timeouts: 3, Fouls: 5, Bonus: "double"}) ||
-		*got.HomeCounts != (TeamCounts{Timeouts: 3, TimeoutsUsed: 1, Fouls: 5, Bonus: "double"}) {
+	if *got.AwayCounts != (TeamCounts{Timeouts: 3, TimeoutSlots: 7, Fouls: 5, Bonus: "double"}) ||
+		*got.HomeCounts != (TeamCounts{Timeouts: 3, TimeoutSlots: 7, Fouls: 5, Bonus: "double"}) {
 		t.Errorf("away %+v home %+v", *got.AwayCounts, *got.HomeCounts)
 	}
 
@@ -336,11 +336,11 @@ func TestTeamCountsBonusStates(t *testing.T) {
 		return espn.Data{"timeoutsRemaining": json.Number("2"), "fouls": map[string]any{"teamFoulsCurrent": json.Number("4"), "bonusState": state}}
 	}
 	for state, want := range map[string]string{"NONE": "", "": "", "DOUBLE": "double", "SINGLE": "single", "ONE_AND_ONE": "single"} {
-		if got := teamCounts(c(state)); got.Bonus != want || got.Timeouts != 2 || got.Fouls != 4 {
+		if got := teamCounts(c(state), nil); got.Bonus != want || got.Timeouts != 2 || got.Fouls != 4 {
 			t.Errorf("%q: %+v", state, got)
 		}
 	}
-	if teamCounts(espn.Data{}) != nil || teamCounts(nil) != nil {
+	if teamCounts(espn.Data{}, nil) != nil || teamCounts(nil, nil) != nil {
 		t.Error("no data should be nil")
 	}
 }
