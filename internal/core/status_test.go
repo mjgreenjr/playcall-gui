@@ -173,3 +173,37 @@ func TestPossession(t *testing.T) {
 		}
 	}
 }
+
+func TestSituation(t *testing.T) {
+	data := loadFixture(t, "playbyplay_multi_plays.json")
+	typ := espn.Map(espn.Status(data)["type"])
+	typ["state"] = "in"
+	typ["name"] = "STATUS_IN_PROGRESS"
+	plays := espn.ExtractPlays(data)
+	last := plays[len(plays)-1]
+	feed := func(finished bool) *Feed { return &Feed{Data: data, Plays: plays, Finished: finished} }
+
+	last["end"] = map[string]any{"downDistanceText": "1st & 10 at NO 25", "shortDownDistanceText": "1st & 10"}
+	if got := situation("nfl", feed(false)); got != "1st & 10 at NO 25" {
+		t.Errorf("full text: %q", got)
+	}
+	last["end"] = map[string]any{"shortDownDistanceText": "2nd & Goal"}
+	if got := situation("cfb", feed(false)); got != "2nd & Goal" {
+		t.Errorf("short fallback: %q", got)
+	}
+	last["end"] = map[string]any{"team": map[string]any{"id": "1"}}
+	if got := situation("nfl", feed(false)); got != "" {
+		t.Errorf("no text: %q", got)
+	}
+	last["end"] = map[string]any{"downDistanceText": "1st & 10 at NO 25"}
+	if got := situation("nba", feed(false)); got != "" {
+		t.Errorf("basketball: %q", got)
+	}
+	if got := situation("nfl", feed(true)); got != "" {
+		t.Errorf("final: %q", got)
+	}
+	typ["name"] = "STATUS_HALFTIME"
+	if got := situation("nfl", feed(false)); got != "" {
+		t.Errorf("halftime: %q", got)
+	}
+}

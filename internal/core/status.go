@@ -25,6 +25,10 @@ type GameStatus struct {
 	Final    bool
 	// Series is the postseason standing without parentheses, or "".
 	Series string
+	// Situation is football's down, distance and spot after the last play
+	// ("1st & 10 at WASH 39"), "" when there is none (other sports, kickoffs,
+	// between plays, not in play).
+	Situation string
 	// Possession is the side on offence: "away", "home", or "" when the sport
 	// has no such notion (hockey, basketball: ESPN does not say), the game is
 	// not in play (before the start, halftime, final) or ESPN does not say.
@@ -69,6 +73,7 @@ func (p *Poller) publishStatus(f *Feed) {
 		Final:      f.Finished,
 		Series:     series,
 		Possession: possession(p.Sport, f),
+		Situation:  situation(p.Sport, f),
 		UpdatedAt:  p.now(),
 	})
 }
@@ -79,11 +84,10 @@ func (p *Poller) publishStatus(f *Feed) {
 // ends with the receiver), else the one that started it. Baseball: the team
 // batting in the current half inning; between halves nobody is.
 func possession(sport string, f *Feed) string {
-	status := espn.Status(f.Data)
-	typ := espn.Map(status["type"])
-	if f.Finished || espn.Str(typ["state"]) != "in" || espn.Str(typ["name"]) == "STATUS_HALFTIME" {
+	if !inPlay(f) {
 		return ""
 	}
+	typ := espn.Map(espn.Status(f.Data)["type"])
 	home, away := espn.Teams(espn.Competition(f.Data))
 	if home == nil || away == nil {
 		return ""
@@ -116,4 +120,23 @@ func possession(sport string, f *Feed) string {
 		}
 	}
 	return ""
+}
+
+// inPlay is true while the game is being played: not before the start, at
+// halftime or after the end.
+func inPlay(f *Feed) bool {
+	typ := espn.Map(espn.Status(f.Data)["type"])
+	return !f.Finished && espn.Str(typ["state"]) == "in" && espn.Str(typ["name"]) != "STATUS_HALFTIME"
+}
+
+// situation is the football down and distance after the last play.
+func situation(sport string, f *Feed) string {
+	if (sport != "nfl" && sport != "cfb") || !inPlay(f) || len(f.Plays) == 0 {
+		return ""
+	}
+	end := espn.Map(f.Plays[len(f.Plays)-1]["end"])
+	if text := espn.Str(end["downDistanceText"]); text != "" {
+		return text
+	}
+	return espn.Str(end["shortDownDistanceText"])
 }

@@ -87,8 +87,7 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 		if p.quiet {
 			return
 		}
-		p.setGroups()
-		p.resetAll()
+		p.setGroups() // the new sport's remembered group; favorites apply as usual
 		p.load()
 	})
 	p.all = widget.NewCheck("All games", func(bool) {

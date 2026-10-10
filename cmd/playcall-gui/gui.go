@@ -27,6 +27,7 @@ type ui struct {
 	away, home         *canvas.Text
 	awayBall, homeBall *canvas.Image
 	statusText         *widget.RichText
+	situation          *widget.RichText
 	series             *widget.Label
 	stale              *widget.Label
 
@@ -57,6 +58,9 @@ func newUI(interval time.Duration, onBack func()) *ui {
 	}
 	u.awayBall, u.homeBall = ball(), ball()
 	u.statusText = widget.NewRichText()
+	u.statusText.Wrapping = fyne.TextWrapWord
+	u.situation = widget.NewRichText()
+	u.situation.Wrapping = fyne.TextWrapWord
 	u.setStatusLine("waiting for ESPN...", false)
 	u.series = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Italic: true})
 	u.stale = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{})
@@ -71,10 +75,12 @@ func newUI(interval time.Duration, onBack func()) *ui {
 	}
 	header := container.NewVBox(
 		back,
-		container.NewGridWithColumns(2,
-			container.NewCenter(container.NewHBox(u.awayBall, u.away)),
-			container.NewCenter(container.NewHBox(u.homeBall, u.home))),
-		u.statusText, u.series, u.stale,
+		// One row: away score, the clock and situation between, home score.
+		container.NewBorder(nil, nil,
+			container.NewHBox(u.awayBall, u.away),
+			container.NewHBox(u.homeBall, u.home),
+			container.NewCenter(container.NewVBox(u.statusText, u.situation))),
+		u.series, u.stale,
 		widget.NewSeparator(),
 	)
 
@@ -107,6 +113,7 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.away.Refresh()
 	u.home.Refresh()
 	u.setStatusLine(statusLine(s), false)
+	u.setSituation(s.Situation)
 	u.setBalls(s)
 	if s.Series != "" {
 		u.series.SetText("Series: " + s.Series)
@@ -139,7 +146,7 @@ func (u *ui) setError(msg string) {
 }
 
 // setStatusLine shows the clock and period (or Halftime, Final, the start
-// time) in a subheading size, bold, centered under the scores.
+// time), bold and centered between the scores.
 func (u *ui) setStatusLine(text string, isError bool) {
 	color := theme.ColorNameForeground
 	if isError {
@@ -149,12 +156,23 @@ func (u *ui) setStatusLine(text string, isError bool) {
 		Text: text,
 		Style: widget.RichTextStyle{
 			Alignment: fyne.TextAlignCenter,
-			SizeName:  theme.SizeNameSubHeadingText,
 			ColorName: color,
 			TextStyle: fyne.TextStyle{Bold: true},
 		},
 	}}
 	u.statusText.Refresh()
+}
+
+// setSituation shows football's down and distance under the clock, smaller.
+func (u *ui) setSituation(text string) {
+	u.situation.Segments = []widget.RichTextSegment{&widget.TextSegment{
+		Text: text,
+		Style: widget.RichTextStyle{
+			Alignment: fyne.TextAlignCenter,
+			SizeName:  theme.SizeNameCaptionText,
+		},
+	}}
+	u.situation.Refresh()
 }
 
 func (u *ui) refreshStale() {
