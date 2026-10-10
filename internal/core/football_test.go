@@ -106,3 +106,30 @@ func TestFootballTimeoutBodyUsesTheSituationBefore(t *testing.T) {
 		}
 	}
 }
+
+// The timeout right after a punt or kickoff is the official's, whatever team
+// ESPN files it under; a timeout after anything else is left alone.
+func TestFootballOfficialTimeoutAfterAKick(t *testing.T) {
+	typ := func(s string) map[string]any { return map[string]any{"text": s} }
+	punt := espn.Data{"id": "1", "text": "punt", "type": typ("Punt"), "end": map[string]any{"shortDownDistanceText": "1st & 10"}}
+	t1 := espn.Data{"id": "2", "text": "Timeout BYU, clock 08:54", "type": typ("Timeout")}
+	t2 := espn.Data{"id": "3", "text": "Timeout Iowa State, clock 08:50", "type": typ("Timeout")}
+	rush := espn.Data{"id": "4", "text": "rush", "type": typ("Rush"), "end": map[string]any{"shortDownDistanceText": "2nd & 5"}}
+	t3 := espn.Data{"id": "5", "text": "Timeout BYU, clock 05:00", "type": typ("Timeout")}
+	kick := espn.Data{"id": "6", "text": "kickoff", "type": typ("Kickoff")}
+	t4 := espn.Data{"id": "7", "text": "Timeout Iowa State, clock 04:00", "type": typ("Timeout")}
+	r := footballPlays{&Feed{Plays: []espn.Data{punt, t1, t2, rush, t3, kick, t4}}}
+	for _, c := range []struct {
+		p    espn.Data
+		want string
+	}{
+		{t1, "1st & 10 · Official timeout, clock 08:54"},
+		{t2, "1st & 10 · Timeout Iowa State, clock 08:50"}, // second in a row: ESPN's label
+		{t3, "2nd & 5 · Timeout BYU, clock 05:00"},
+		{t4, "Official timeout, clock 04:00"}, // after a kickoff
+	} {
+		if got := r.Message(c.p).Body; got != c.want {
+			t.Errorf("play %v: got %q, want %q", c.p["id"], got, c.want)
+		}
+	}
+}

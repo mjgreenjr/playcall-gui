@@ -1,6 +1,7 @@
 package core
 
 import (
+	"regexp"
 	"strings"
 
 	"playcall/internal/espn"
@@ -67,6 +68,9 @@ func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
 		if espn.PlayKey(q) != id {
 			continue
 		}
+		if i > 0 && isKick(plays[i-1]) {
+			text = officialTimeout(text)
+		}
 		for j := i - 1; j >= 0; j-- {
 			if !isTimeout(plays[j]) {
 				return joinParts(downDistance(espn.Map(plays[j]["end"])), text)
@@ -74,6 +78,21 @@ func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
 		}
 	}
 	return footballBody(p, text)
+}
+
+// isKick is a kickoff or a punt.
+func isKick(p espn.Data) bool {
+	kind := strings.ToLower(playType(p))
+	return strings.Contains(kind, "kickoff") || strings.Contains(kind, "punt")
+}
+
+var teamTimeoutText = regexp.MustCompile(`^Timeout [^,]+, clock `)
+
+// officialTimeout rewrites "Timeout BYU, clock 08:54" as "Official timeout,
+// clock 08:54". Every kickoff and punt (unless the return scores) is followed
+// by an official's timeout, and ESPN files it under a team.
+func officialTimeout(text string) string {
+	return teamTimeoutText.ReplaceAllString(text, "Official timeout, clock ")
 }
 
 func joinParts(parts ...string) string {
