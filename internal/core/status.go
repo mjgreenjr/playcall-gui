@@ -84,7 +84,7 @@ func (p *Poller) publishStatus(f *Feed) {
 
 // possession finds the side on offence from the game feed.
 //
-// Football: the team the last play ended with the ball (a punt or kickoff
+// Basketball: worked out from the plays (ESPN does not say). Football: the team the last play ended with the ball (a punt or kickoff
 // ends with the receiver), else the one that started it. Baseball: the team
 // batting in the current half inning; between halves nobody is.
 func possession(sport string, f *Feed) string {
@@ -107,6 +107,19 @@ func possession(sport string, f *Feed) string {
 			id = espn.Str(espn.Map(espn.Map(last["start"])["team"])["id"])
 		}
 		switch id {
+		case "":
+			return ""
+		case espn.Str(away["id"]):
+			return "away"
+		case espn.Str(home["id"]):
+			return "home"
+		}
+	case "nba", "wnba", "cbb":
+		// Inferred from the plays; see basketballPossession.
+		if len(f.Plays) == 0 || espn.Str(typ["name"]) == "STATUS_END_PERIOD" {
+			return ""
+		}
+		switch basketballPossession(f.Plays, espn.Str(away["id"]), espn.Str(home["id"])) {
 		case "":
 			return ""
 		case espn.Str(away["id"]):

@@ -311,3 +311,21 @@ func TestShellThemeChangeWithNothingOpenIsSafe(t *testing.T) {
 	s := &shell{}
 	s.themeChanged() // no picker, settings or game yet
 }
+
+func TestBasketballBallIsInTheHeader(t *testing.T) {
+	test.NewApp()
+	for _, sport := range []string{"nba", "wnba", "cbb"} {
+		if ballFor(sport) != basketballRes {
+			t.Errorf("%s has no basketball", sport)
+		}
+	}
+	if ballFor("nhl") != nil {
+		t.Error("hockey should have no ball")
+	}
+	u := newUI(10*time.Second, nil, highlights[0], nil)
+	u.setStatus(core.GameStatus{Sport: "nba", State: "in", Possession: "away",
+		Away: core.TeamScore{Abbr: "MEM"}, Home: core.TeamScore{Abbr: "CHI"}})
+	if u.awayBall.Resource != basketballRes || u.awayBall.Translucency != 0 || u.homeBall.Translucency != 1 {
+		t.Errorf("ball: %v, away %v home %v", u.awayBall.Resource == basketballRes, u.awayBall.Translucency, u.homeBall.Translucency)
+	}
+}

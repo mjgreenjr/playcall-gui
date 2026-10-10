@@ -18,6 +18,14 @@ var (
 <path d="M9.5 5 Q15 16 9.5 27" fill="none" stroke="#c0392b" stroke-width="1.6"/>
 <path d="M22.5 5 Q17 16 22.5 27" fill="none" stroke="#c0392b" stroke-width="1.6"/>
 </svg>`))
+
+	basketballRes = fyne.NewStaticResource("basketball.svg", []byte(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<circle cx="16" cy="16" r="13.5" fill="#e07a2f" stroke="#7a3a0c" stroke-width="1"/>
+<path d="M2.5 16 L29.5 16" fill="none" stroke="#3a1a05" stroke-width="1.2"/>
+<path d="M16 2.5 L16 29.5" fill="none" stroke="#3a1a05" stroke-width="1.2"/>
+<path d="M6 6.5 Q13 16 6 25.5" fill="none" stroke="#3a1a05" stroke-width="1.2"/>
+<path d="M26 6.5 Q19 16 26 25.5" fill="none" stroke="#3a1a05" stroke-width="1.2"/>
+</svg>`))
 )
 
 // ballFor is the possession marker for a sport, nil when it has none.
@@ -27,6 +35,8 @@ func ballFor(sport string) fyne.Resource {
 		return footballRes
 	case "mlb":
 		return baseballRes
+	case "nba", "wnba", "cbb":
+		return basketballRes
 	}
 	return nil
 }
