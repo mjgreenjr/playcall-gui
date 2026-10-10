@@ -47,3 +47,32 @@ func TestGameLines(t *testing.T) {
 		t.Errorf("pre detail %q", got)
 	}
 }
+
+func TestGroupChoices(t *testing.T) {
+	cfb := groupChoices("cfb")
+	if cfb[0] != "Any" || cfb[1] != "ACC" || len(cfb) != 9 {
+		t.Errorf("cfb: %v", cfb)
+	}
+	for _, c := range cfb {
+		if c == "All FBS" {
+			t.Error("All FBS should be folded into Any")
+		}
+	}
+	if nfl := groupChoices("nfl"); nfl[0] != "Any" || nfl[1] != "AFC" || len(nfl) != 11 {
+		t.Errorf("nfl: %v", nfl)
+	}
+	if got := groupChoices("cbb"); got[1] != "America East" {
+		t.Errorf("cbb: %v", got[:3])
+	}
+}
+
+func TestGroupID(t *testing.T) {
+	cases := []struct{ sport, name, want string }{
+		{"cfb", "Any", ""}, {"cfb", "SEC", "8"}, {"nfl", "NFC North", "10"}, {"nhl", "Metropolitan", "33"}, {"wnba", "West", "2"},
+	}
+	for _, c := range cases {
+		if got := groupID(c.sport, c.name); got != c.want {
+			t.Errorf("%s %s: got %q, want %q", c.sport, c.name, got, c.want)
+		}
+	}
+}

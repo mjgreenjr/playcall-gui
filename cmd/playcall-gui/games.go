@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"playcall/internal/espn"
+	"playcall/internal/sports"
 )
 
 // stateRank puts live games first, then upcoming, then finished.
@@ -39,4 +40,35 @@ func gameDetail(g espn.Game) string {
 		return g.Status
 	}
 	return fmt.Sprintf("%s-%s  %s", g.AwayScore, g.HomeScore, g.Status)
+}
+
+// anyGroup is the picker's "no conference or division" choice.
+const anyGroup = "Any"
+
+// groupChoices are the picker's group names for a sport: "Any", then the
+// conferences and divisions. A leading "All ..." entry (college sports) is
+// left out, since "Any" already means that.
+func groupChoices(sport string) []string {
+	list := sports.Groups(sport)
+	if sports.HasAllGroup(sport) && len(list) > 0 {
+		list = list[1:]
+	}
+	out := []string{anyGroup}
+	for _, g := range list {
+		out = append(out, g.Name)
+	}
+	return out
+}
+
+// groupID is the scoreboard id for a name from groupChoices ("" for Any).
+func groupID(sport, name string) string {
+	if name == anyGroup {
+		return ""
+	}
+	for _, g := range sports.Groups(sport) {
+		if g.Name == name {
+			return g.ID
+		}
+	}
+	return ""
 }

@@ -3,6 +3,7 @@ package core
 import (
 	"context"
 	"errors"
+	"strings"
 	"testing"
 	"time"
 
@@ -18,7 +19,7 @@ func (f fixedFetcher) Fetch(context.Context, string) (espn.Data, error) { return
 
 func TestTodaysGamesSortedByStart(t *testing.T) {
 	data := loadFixture(t, "scoreboard_nfl_week.json")
-	games, err := TodaysGames(context.Background(), fixedFetcher{data: data}, "nfl", time.Now())
+	games, err := TodaysGames(context.Background(), fixedFetcher{data: data}, "nfl", "", time.Now())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -33,14 +34,14 @@ func TestTodaysGamesSortedByStart(t *testing.T) {
 }
 
 func TestTodaysGamesEmptyIsNotAnError(t *testing.T) {
-	games, err := TodaysGames(context.Background(), fixedFetcher{data: loadFixture(t, "scoreboard_empty.json")}, "nfl", time.Now())
+	games, err := TodaysGames(context.Background(), fixedFetcher{data: loadFixture(t, "scoreboard_empty.json")}, "nfl", "", time.Now())
 	if err != nil || len(games) != 0 {
 		t.Errorf("games %v, err %v", games, err)
 	}
 }
 
 func TestTodaysGamesFetchFailure(t *testing.T) {
-	_, err := TodaysGames(context.Background(), fixedFetcher{err: errors.New("down")}, "nfl", time.Now())
+	_, err := TodaysGames(context.Background(), fixedFetcher{err: errors.New("down")}, "nfl", "", time.Now())
 	if !errors.Is(err, espn.ErrScoreboardFetch) {
 		t.Errorf("err %v", err)
 	}
@@ -59,5 +60,32 @@ func TestFavoriteGames(t *testing.T) {
 	}
 	if got := FavoriteGames(games, []string{"KC"}); len(got) != 0 {
 		t.Errorf("no match: %v", got)
+	}
+}
+
+type urlRecorder struct {
+	data espn.Data
+	urls []string
+}
+
+func (r *urlRecorder) Fetch(_ context.Context, url string) (espn.Data, error) {
+	r.urls = append(r.urls, url)
+	return r.data, nil
+}
+
+func TestTodaysGamesSendsTheGroup(t *testing.T) {
+	r := &urlRecorder{data: loadFixture(t, "scoreboard_nfl_week.json")}
+	if _, err := TodaysGames(context.Background(), r, "nfl", "8", time.Now()); err != nil {
+		t.Fatal(err)
+	}
+	if len(r.urls) != 1 || !strings.Contains(r.urls[0], "groups=8") {
+		t.Errorf("urls %v", r.urls)
+	}
+	r.urls = nil
+	if _, err := TodaysGames(context.Background(), r, "cfb", "", time.Now()); err != nil {
+		t.Fatal(err)
+	}
+	if len(r.urls) != 1 || !strings.Contains(r.urls[0], "groups=80") {
+		t.Errorf("cfb default group not sent: %v", r.urls)
 	}
 }

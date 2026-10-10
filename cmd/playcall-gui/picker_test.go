@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"os"
+	"strings"
+	"sync"
 	"testing"
 	"time"
 
@@ -86,4 +88,77 @@ func TestPickerEmptyScoreboard(t *testing.T) {
 		nil, "nfl", func(string, espn.Game) {})
 	p.load()
 	waitFor(t, "status", func() bool { return p.status.Text == "No NFL games on the scoreboard." })
+}
+
+type recordingFetcher struct {
+	data espn.Data
+	mu   sync.Mutex
+	urls []string
+}
+
+func (r *recordingFetcher) Fetch(_ context.Context, url string) (espn.Data, error) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	r.urls = append(r.urls, url)
+	return r.data, nil
+}
+
+func (r *recordingFetcher) last() string {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	if len(r.urls) == 0 {
+		return ""
+	}
+	return r.urls[len(r.urls)-1]
+}
+
+func TestPickerGroupFilter(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	p := newPicker(context.Background(), f, map[string][]string{"nfl": {"DAL"}}, "nfl", func(string, espn.Game) {})
+	p.load()
+	waitFor(t, "favorites", func() bool { return len(p.games) > 0 })
+	favCount := len(p.games)
+	if f.last() == "" || strings.Contains(f.last(), "groups=") {
+		t.Errorf("Any group sent a groups param: %s", f.last())
+	}
+
+	// A group is the filter: favorites no longer apply, and the box locks.
+	p.group.SetSelected("AFC")
+	waitFor(t, "group request", func() bool { return strings.Contains(f.last(), "groups=8") })
+	waitFor(t, "group games", func() bool { return len(p.games) > favCount })
+	if !p.all.Checked || !p.all.Disabled() {
+		t.Errorf("all games: checked %v disabled %v", p.all.Checked, p.all.Disabled())
+	}
+
+	// Back to Any: favorites apply again.
+	p.group.SetSelected(anyGroup)
+	waitFor(t, "favorites again", func() bool { return len(p.games) == favCount })
+	if p.all.Checked || p.all.Disabled() {
+		t.Errorf("all games after Any: checked %v disabled %v", p.all.Checked, p.all.Disabled())
+	}
+}
+
+func TestPickerSportChangeResetsGroups(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	p := newPicker(context.Background(), f, nil, "nfl", func(string, espn.Game) {})
+	p.group.SetSelected("AFC North")
+	p.sport.SetSelected("CFB")
+	if p.group.Selected != anyGroup {
+		t.Errorf("group %q after sport change", p.group.Selected)
+	}
+	found := false
+	for _, o := range p.group.Options {
+		if o == "Big Ten" {
+			found = true
+		}
+		if o == "AFC North" {
+			t.Error("old sport's group still offered")
+		}
+	}
+	if !found {
+		t.Errorf("cfb groups missing: %v", p.group.Options)
+	}
+	waitFor(t, "cfb request", func() bool { return strings.Contains(f.last(), "groups=80") })
 }

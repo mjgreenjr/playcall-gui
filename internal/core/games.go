@@ -10,10 +10,12 @@ import (
 )
 
 // TodaysGames is the sport's current scoreboard, earliest start first (games
-// with the same start keep ESPN's order). No games is an empty list, not an
-// error; an error means the scoreboard could not be fetched.
-func TodaysGames(ctx context.Context, f espn.Fetcher, sport string, now time.Time) ([]espn.Game, error) {
-	data, err := espn.FetchScoreboard(ctx, f, sport, "", true, now)
+// with the same start keep ESPN's order). groupID narrows it to a conference
+// or division ("" is the sport's default scoreboard); a game shows in both
+// groups when its teams are in different ones. No games is an empty list, not
+// an error; an error means the scoreboard could not be fetched.
+func TodaysGames(ctx context.Context, f espn.Fetcher, sport, groupID string, now time.Time) ([]espn.Game, error) {
+	data, err := espn.FetchScoreboard(ctx, f, sport, groupID, true, now)
 	if err != nil {
 		return nil, err
 	}
