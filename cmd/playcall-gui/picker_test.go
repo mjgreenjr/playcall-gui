@@ -13,6 +13,10 @@ import (
 	"playcall/internal/espn"
 )
 
+func init() {
+	runAsync = func(f func()) { f() } // see runAsync
+}
+
 type fixtureFetcher struct{ data espn.Data }
 
 func (f fixtureFetcher) Fetch(context.Context, string) (espn.Data, error) { return f.data, nil }
@@ -77,8 +81,8 @@ func TestPickerNoFavoritesShowsAll(t *testing.T) {
 		map[string][]string{"nfl": nil}, groupPrefs{}, "nfl", func(string, espn.Game) {})
 	p.load()
 	waitFor(t, "games", func() bool { return len(p.games) > 0 })
-	if !p.all.Checked || len(p.games) != 15 {
-		t.Errorf("all checked %v, games %d", p.all.Checked, len(p.games))
+	if len(p.games) != 15 || p.status.Text != "15 game(s)" {
+		t.Errorf("games %d, status %q", len(p.games), p.status.Text)
 	}
 }
 
@@ -103,6 +107,19 @@ func (r *recordingFetcher) Fetch(_ context.Context, url string) (espn.Data, erro
 	return r.data, nil
 }
 
+// has reports whether any request so far contained substr. Loads overlap, so
+// the most recent request is not always the one a test cares about.
+func (r *recordingFetcher) has(substr string) bool {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	for _, u := range r.urls {
+		if strings.Contains(u, substr) {
+			return true
+		}
+	}
+	return false
+}
+
 func (r *recordingFetcher) last() string {
 	r.mu.Lock()
 	defer r.mu.Unlock()
@@ -112,31 +129,54 @@ func (r *recordingFetcher) last() string {
 	return r.urls[len(r.urls)-1]
 }
 
-func TestPickerGroupFilter(t *testing.T) {
+func TestPickerFavoritesNarrowWithinAGroup(t *testing.T) {
 	test.NewApp()
 	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
 	p := newPicker(context.Background(), f, map[string][]string{"nfl": {"DAL"}}, groupPrefs{}, "nfl", func(string, espn.Game) {})
 	p.load()
 	waitFor(t, "favorites", func() bool { return len(p.games) > 0 })
 	favCount := len(p.games)
-	if f.last() == "" || strings.Contains(f.last(), "groups=") {
-		t.Errorf("Any group sent a groups param: %s", f.last())
+	if f.has("groups=") {
+		t.Errorf("All sent a groups param: %v", f.urls)
 	}
 
-	// A group is the filter: favorites no longer apply, and the box locks.
+	// A group is chosen and a favorite plays in it: still only the favorites.
 	p.group.SetSelected("AFC")
-	waitFor(t, "group request", func() bool { return strings.Contains(f.last(), "groups=8") })
-	waitFor(t, "group games", func() bool { return len(p.games) > favCount })
-	if !p.all.Checked || !p.all.Disabled() {
-		t.Errorf("all games: checked %v disabled %v", p.all.Checked, p.all.Disabled())
+	waitFor(t, "group request", func() bool { return f.has("groups=8") })
+	waitFor(t, "status", func() bool { return strings.Contains(p.status.Text, "favorite-team") })
+	if len(p.games) != favCount || p.all.Disabled() || p.all.Checked {
+		t.Errorf("games %d (want %d), all disabled %v checked %v", len(p.games), favCount, p.all.Disabled(), p.all.Checked)
 	}
 
-	// Back to Any: favorites apply again.
-	p.group.SetSelected(anyGroup)
-	waitFor(t, "favorites again", func() bool { return len(p.games) == favCount })
-	if p.all.Checked || p.all.Disabled() {
-		t.Errorf("all games after Any: checked %v disabled %v", p.all.Checked, p.all.Disabled())
+	// "All games" shows the rest of the group.
+	p.all.SetChecked(true)
+	if len(p.games) != 15 {
+		t.Errorf("all games: %d", len(p.games))
 	}
+}
+
+func TestPickerShowsTheWholeGroupWhenNoFavoritePlays(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	p := newPicker(context.Background(), f, map[string][]string{"nfl": {"ZZZ"}}, groupPrefs{}, "nfl", func(string, espn.Game) {})
+	p.group.SetSelected("AFC")
+	waitFor(t, "whole group", func() bool { return len(p.games) == 15 })
+	if !strings.Contains(p.status.Text, "None of your favorite teams play here; showing all 15") {
+		t.Errorf("status %q", p.status.Text)
+	}
+}
+
+func TestPickerLevelNote(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	p := newPicker(context.Background(), f, nil, groupPrefs{}, "cfb", func(string, espn.Game) {})
+	p.load()
+	waitFor(t, "cfb games", func() bool { return len(p.games) > 0 })
+	if !strings.Contains(p.note.Text, "FBS") {
+		t.Errorf("cfb note %q", p.note.Text)
+	}
+	p.sport.SetSelected("NFL")
+	waitFor(t, "nfl note cleared", func() bool { return p.note.Text == "" && len(p.games) > 0 })
 }
 
 func TestPickerSportChangeResetsGroups(t *testing.T) {
@@ -160,7 +200,7 @@ func TestPickerSportChangeResetsGroups(t *testing.T) {
 	if !found {
 		t.Errorf("cfb groups missing: %v", p.group.Options)
 	}
-	waitFor(t, "cfb request", func() bool { return strings.Contains(f.last(), "groups=80") })
+	waitFor(t, "cfb request", func() bool { return f.has("groups=80") })
 }
 
 // memoryPrefs is groupPrefs backed by a map, counting saves.
@@ -185,7 +225,7 @@ func TestPickerStartsOnTheRememberedGroup(t *testing.T) {
 	if p.group.Selected != "AFC North" {
 		t.Fatalf("group %q", p.group.Selected)
 	}
-	waitFor(t, "group request", func() bool { return strings.Contains(f.last(), "groups=12") })
+	waitFor(t, "group request", func() bool { return f.has("groups=12") })
 	if *saves != 0 {
 		t.Errorf("starting up saved %d times", *saves)
 	}
@@ -195,7 +235,7 @@ func TestPickerStartsOnTheRememberedGroup(t *testing.T) {
 	if p.group.Selected != "Big Ten" {
 		t.Errorf("cfb group %q", p.group.Selected)
 	}
-	waitFor(t, "cfb group request", func() bool { return strings.Contains(f.last(), "groups=5") })
+	waitFor(t, "cfb group request", func() bool { return f.has("groups=5") })
 	// A sport with nothing remembered starts on All.
 	p.sport.SetSelected("MLB")
 	if p.group.Selected != anyGroup {

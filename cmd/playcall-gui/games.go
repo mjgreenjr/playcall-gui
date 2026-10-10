@@ -72,3 +72,15 @@ func groupID(sport, name string) string {
 	}
 	return ""
 }
+
+// levelNote says which level of the sport the scoreboard covers, where that
+// is narrower than the sport's name suggests.
+func levelNote(sport string) string {
+	switch sport {
+	case "cfb":
+		return "FBS only: games with at least one FBS team. FCS and lower levels are not listed."
+	case "cbb":
+		return "Division I only: games with at least one Division I team. Other levels are not listed."
+	}
+	return ""
+}

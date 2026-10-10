@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 
 	"playcall/internal/espn"
@@ -73,6 +74,17 @@ func TestGroupID(t *testing.T) {
 	for _, c := range cases {
 		if got := groupID(c.sport, c.name); got != c.want {
 			t.Errorf("%s %s: got %q, want %q", c.sport, c.name, got, c.want)
+		}
+	}
+}
+
+func TestLevelNote(t *testing.T) {
+	if !strings.Contains(levelNote("cfb"), "FBS") || !strings.Contains(levelNote("cbb"), "Division I") {
+		t.Errorf("notes: %q / %q", levelNote("cfb"), levelNote("cbb"))
+	}
+	for _, s := range []string{"nfl", "nba", "mlb", "nhl", "wnba"} {
+		if levelNote(s) != "" {
+			t.Errorf("%s has a level note", s)
 		}
 	}
 }

@@ -32,6 +32,7 @@ type picker struct {
 	group  *widget.Select
 	all    *widget.Check
 	status *widget.Label
+	note   *widget.Label // which level of the sport is covered
 	list   *widget.List
 
 	games       []espn.Game // what the list shows
@@ -59,6 +60,12 @@ func (g groupPrefs) save(sport, group string) {
 		g.set(sport, group)
 	}
 }
+
+// runAsync starts the scoreboard fetch off the UI goroutine. Tests replace it
+// with a synchronous call: Fyne's test driver runs fyne.Do on the calling
+// goroutine, so a real background fetch would touch widgets concurrently with
+// the test and crash the text shaper.
+var runAsync = func(f func()) { go f() }
 
 func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]string, prefs groupPrefs, sport string, onPick func(string, espn.Game)) *picker {
 	p := &picker{ctx: ctx, fetcher: f, favorites: favorites, prefs: prefs, onPick: onPick}
@@ -95,6 +102,9 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 	refresh := widget.NewButton("Refresh", p.load)
 	p.status = widget.NewLabel("")
 	p.status.Wrapping = fyne.TextWrapWord
+	p.note = widget.NewLabel("")
+	p.note.Wrapping = fyne.TextWrapWord
+	p.note.Importance = widget.LowImportance
 
 	p.list = widget.NewList(
 		func() int { return len(p.games) },
@@ -125,6 +135,7 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 		container.NewBorder(nil, nil, widget.NewLabel("Group"), nil, p.group),
 		p.all,
 		p.status,
+		p.note,
 		widget.NewSeparator(),
 	)
 	p.content = container.NewBorder(top, nil, nil, nil, p.list)
@@ -157,26 +168,18 @@ func (p *picker) setGroups() {
 	p.group.SetSelected(pick)
 }
 
-// resetAll sets "All games" for sports with no favorites, where filtering
-// would show nothing to choose from. A chosen group is itself the filter, so
-// it overrides favorites: the box is ticked and locked.
+// resetAll puts "All games" back to unticked: favorites narrow the list again.
 func (p *picker) resetAll() {
 	p.quiet = true
-	defer func() { p.quiet = false }()
-	if p.currentGroup() != "" {
-		p.all.SetChecked(true)
-		p.all.Disable()
-		return
-	}
-	p.all.Enable()
-	p.all.SetChecked(len(p.favorites[p.currentSport()]) == 0)
+	p.all.SetChecked(false)
+	p.quiet = false
 }
 
 func (p *picker) load() {
 	p.generation++
 	gen, sport, group := p.generation, p.currentSport(), p.currentGroup()
 	p.status.SetText("Loading " + strings.ToUpper(sport) + " games...")
-	go func() {
+	runAsync(func() {
 		games, err := core.TodaysGames(p.ctx, p.fetcher, sport, group, time.Now())
 		fyne.Do(func() {
 			if gen != p.generation {
@@ -192,16 +195,24 @@ func (p *picker) load() {
 			p.lastFetched = games
 			p.show(games)
 		})
-	}()
+	})
 }
 
-// show fills the list from the scoreboard answer, applying the favorites
-// filter unless "All games" is ticked.
+// show fills the list from the scoreboard answer. Favorite teams narrow it
+// when any of them is in it (whatever group is chosen); if none is, the whole
+// scoreboard shows and the status says so. "All games" skips the narrowing.
 func (p *picker) show(games []espn.Game) {
 	sport := p.currentSport()
-	shown := games
-	if !p.all.Checked {
-		shown = core.FavoriteGames(games, p.favorites[sport])
+	p.note.SetText(levelNote(sport))
+	favorites := p.favorites[sport]
+	shown, status := games, fmt.Sprintf("%d game(s)", len(games))
+	if len(favorites) > 0 && !p.all.Checked {
+		if fav := core.FavoriteGames(games, favorites); len(fav) > 0 {
+			shown = fav
+			status = fmt.Sprintf("%d favorite-team game(s) of %d. Tick \"All games\" for the rest.", len(fav), len(games))
+		} else if len(games) > 0 {
+			status = fmt.Sprintf("None of your favorite teams play here; showing all %d.", len(games))
+		}
 	}
 	p.games = orderForPicker(shown)
 	p.list.Refresh()
@@ -210,9 +221,7 @@ func (p *picker) show(games []espn.Game) {
 		p.status.SetText("No " + strings.ToUpper(sport) + " " + p.group.Selected + " games on the scoreboard.")
 	case len(games) == 0:
 		p.status.SetText("No " + strings.ToUpper(sport) + " games on the scoreboard.")
-	case len(p.games) == 0:
-		p.status.SetText(fmt.Sprintf("None of your favorite teams play today. Tick \"All games\" to see %d.", len(games)))
 	default:
-		p.status.SetText(fmt.Sprintf("%d game(s)", len(p.games)))
+		p.status.SetText(status)
 	}
 }
