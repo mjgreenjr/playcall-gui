@@ -27,6 +27,9 @@ type Game struct {
 	Date      string // the event's `date`, "" if missing; ISO strings sort as text
 	Away      string // abbreviations
 	Home      string
+	AwayID    string // ESPN team ids
+	HomeID    string
+	Season    string // season type: "1" pre, "2" regular, "3" post; "" if missing
 	Status    string // status.type.shortDetail, "Unknown" if missing
 	State     string // status.type.state: "pre", "in", "post"
 	AwayScore string
@@ -64,6 +67,9 @@ func ParseScoreboardEvent(event Data) (g Game, ok bool) {
 		Date:      Str(event["date"]),
 		Away:      TeamAbbr(away),
 		Home:      TeamAbbr(home),
+		AwayID:    Str(Map(away["team"])["id"]),
+		HomeID:    Str(Map(home["team"])["id"]),
+		Season:    Str(Map(event["season"])["type"]),
 		Status:    status,
 		State:     Str(t["state"]),
 		AwayScore: ScoreText(away["score"]),

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 	"time"
 
@@ -139,5 +140,19 @@ func TestStatusRecordsDivision(t *testing.T) {
 	}
 	if away, _ := statusRecords(st, nil); away != "3-1" {
 		t.Errorf("without a division %q", away)
+	}
+}
+
+func TestByeRow(t *testing.T) {
+	bye := espn.Game{Away: "BYU", State: core.ByeState, Status: "Bye"}
+	if got := gameDetail(bye, time.Now()); got != "Bye" {
+		t.Errorf("bye detail %q", got)
+	}
+	in := []espn.Game{{ID: "bye", State: core.ByeState}, {ID: "final", State: "post"}, {ID: "live", State: "in"}, {ID: "soon", State: "pre"}}
+	if got := ids(orderForPicker(in)); strings.Join(got, ",") != "live,soon,final,bye" {
+		t.Errorf("order %v", got)
+	}
+	if n := countGames(in); n != 3 {
+		t.Errorf("countGames %d", n)
 	}
 }

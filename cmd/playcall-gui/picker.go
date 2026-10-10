@@ -144,6 +144,14 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			// Border puts its left and right objects after the (empty) center.
 			box := o.(*fyne.Container)
 			teams := box.Objects[1].(*fyne.Container).Objects
+			// A bye is one team on the left; hide the "@" and the home side.
+			for _, o := range teams[3:] {
+				if g.State == core.ByeState {
+					o.Hide()
+				} else {
+					o.Show()
+				}
+			}
 			p.slots.show(p.logos, teams[0].(*canvas.Image), g.AwayLogo, isDark())
 			teams[1].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Away))
 			setRecord(teams[2], awayRecord(g))
@@ -155,7 +163,7 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 	)
 	p.list.OnSelected = func(i widget.ListItemID) {
 		p.list.UnselectAll()
-		if i < len(p.games) {
+		if i < len(p.games) && p.games[i].State != core.ByeState {
 			p.onPick(p.currentSport(), p.games[i])
 		}
 	}
@@ -285,6 +293,12 @@ func (p *picker) load() {
 	p.status.SetText("Loading " + sportLabel(sport) + " games...")
 	runAsync(func() {
 		games, err := core.TodaysGames(p.ctx, p.fetcher, sport, group, time.Now())
+		if err == nil && core.HasByes(sport) {
+			// Teams in the group with no game this week, after the games.
+			if teams, terr := espn.FetchStandingTeams(p.ctx, p.fetcher, sport, group); terr == nil {
+				games = append(games, core.ByeGames(games, teams)...)
+			}
+		}
 		if err == nil && p.divisions != nil {
 			core.AddDivisionRecords(games, p.divisions.Load(p.ctx, sport, time.Now()))
 		}
@@ -305,19 +319,30 @@ func (p *picker) load() {
 	})
 }
 
+// countGames is the number of real games in a list, not counting byes.
+func countGames(games []espn.Game) int {
+	n := 0
+	for _, g := range games {
+		if g.State != core.ByeState {
+			n++
+		}
+	}
+	return n
+}
+
 // show fills the list from the scoreboard answer. Favorite teams narrow it
 // when any of them is in it (whatever group is chosen); if none is, the whole
 // scoreboard shows and the status says so. "All games" skips the narrowing.
 func (p *picker) show(games []espn.Game) {
 	sport := p.currentSport()
 	favorites := p.favorites[sport]
-	shown, status := games, fmt.Sprintf("%d game(s)", len(games))
+	shown, status := games, fmt.Sprintf("%d game(s)", countGames(games))
 	if len(favorites) > 0 && !p.all.Checked {
 		if fav := core.FavoriteGames(games, favorites); len(fav) > 0 {
 			shown = fav
-			status = fmt.Sprintf("%d favorite-team game(s) of %d. Tick \"All games\" for the rest.", len(fav), len(games))
+			status = fmt.Sprintf("%d favorite-team game(s) of %d. Tick \"All games\" for the rest.", countGames(fav), countGames(games))
 		} else if len(games) > 0 {
-			status = fmt.Sprintf("None of your favorite teams play here; showing all %d.", len(games))
+			status = fmt.Sprintf("None of your favorite teams play here; showing all %d.", countGames(games))
 		}
 	}
 	p.games = orderForPicker(shown)

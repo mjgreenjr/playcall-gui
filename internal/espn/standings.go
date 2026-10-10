@@ -73,3 +73,69 @@ func FetchDivisionRecords(ctx context.Context, f Fetcher, sport string) (map[str
 	}
 	return records, nil
 }
+
+// StandingTeam is a team's line in the standings.
+type StandingTeam struct {
+	ID, Abbr string
+	Logo     Logo
+	// Overall is the season record ("5-0"); Conf is the record against its
+	// conference (college) or division (pro). Either may be "".
+	Overall, Conf string
+}
+
+// FetchStandingTeams lists the teams of a group (id; "" for the whole sport,
+// which for cfb is the FBS group) with their records. An error means the
+// standings could not be fetched.
+func FetchStandingTeams(ctx context.Context, f Fetcher, sport, group string) ([]StandingTeam, error) {
+	url := StandingsURL(sport, group)
+	switch {
+	case group == "" && HasDivisionRecords(sport):
+		url = StandingsAllURL(sport)
+	case group == "" && sports.HasAllGroup(sport):
+		url = StandingsURL(sport, sports.Groups(sport)[0].ID)
+	case group == "":
+		return nil, ErrNoStandings
+	}
+	data, err := f.Fetch(ctx, url)
+	if err != nil || !Truthy(data) {
+		return nil, ErrNoStandings
+	}
+	confType, ok := divisionStat[sport]
+	if !ok {
+		confType = "vsconf"
+	}
+	var teams []StandingTeam
+	seen := map[string]bool{}
+	var walk func(node Data)
+	walk = func(node Data) {
+		for _, e := range List(Map(node["standings"])["entries"]) {
+			entry := Map(e)
+			team := Map(entry["team"])
+			id := Str(team["id"])
+			if id == "" || seen[id] {
+				continue
+			}
+			seen[id] = true
+			st := StandingTeam{ID: id, Abbr: Str(team["abbreviation"]), Logo: TeamLogos(team)}
+			for _, s := range List(entry["stats"]) {
+				stat := Map(s)
+				rec := Str(stat["summary"])
+				if rec == "" {
+					rec = Str(stat["displayValue"])
+				}
+				switch Str(stat["type"]) {
+				case "total":
+					st.Overall = rec
+				case confType:
+					st.Conf = rec
+				}
+			}
+			teams = append(teams, st)
+		}
+		for _, c := range List(node["children"]) {
+			walk(Map(c))
+		}
+	}
+	walk(data)
+	return teams, nil
+}

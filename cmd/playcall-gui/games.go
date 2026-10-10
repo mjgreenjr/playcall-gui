@@ -18,6 +18,8 @@ func stateRank(state string) int {
 		return 0
 	case "pre":
 		return 1
+	case core.ByeState:
+		return 3
 	}
 	return 2
 }
@@ -78,6 +80,9 @@ func statusRecords(s core.GameStatus, division func(abbr string) string) (away, 
 // today's. An upcoming game gets the weekday in front of ESPN's own date
 // ("Sun 10/11 - 1:00 PM EDT").
 func gameDetail(g espn.Game, now time.Time) string {
+	if g.State == core.ByeState {
+		return "Bye"
+	}
 	if g.State == "pre" {
 		// ESPN's status carries the date ("10/11 - 1:00 PM EDT"); add the weekday.
 		start, err := time.Parse("2006-01-02T15:04Z", g.Date)
