@@ -3,6 +3,7 @@ package core
 import (
 	"encoding/json"
 	"strconv"
+	"strings"
 	"testing"
 
 	"playcall/internal/espn"
@@ -130,6 +131,37 @@ func TestFootballOfficialTimeoutAfterAKick(t *testing.T) {
 	} {
 		if got := r.Message(c.p).Body; got != c.want {
 			t.Errorf("play %v: got %q, want %q", c.p["id"], got, c.want)
+		}
+	}
+}
+
+// Any change of possession is followed by an official's timeout, not only a kick.
+func TestFootballOfficialTimeoutAfterATurnover(t *testing.T) {
+	typ := func(s string) map[string]any { return map[string]any{"text": s} }
+	team := func(id string) map[string]any { return map[string]any{"team": map[string]any{"id": id}} }
+	pick := espn.Data{"id": "1", "text": "pass intercepted", "type": typ("Pass Interception Return"),
+		"start": team("252"), "end": map[string]any{"team": map[string]any{"id": "66"}, "shortDownDistanceText": "1st & 10"}}
+	downs := espn.Data{"id": "3", "text": "pass incomplete", "type": typ("Pass Incompletion"),
+		"start": team("66"), "end": map[string]any{"team": map[string]any{"id": "252"}, "shortDownDistanceText": "1st & 10"}}
+	flagged := espn.Data{"id": "5", "text": "fumble", "type": typ("Fumble Recovery (Opponent)"), "isTurnover": true}
+	same := espn.Data{"id": "7", "text": "rush", "type": typ("Rush"),
+		"start": team("252"), "end": map[string]any{"team": map[string]any{"id": "252"}, "shortDownDistanceText": "2nd & 5"}}
+	mk := func(id string) espn.Data {
+		return espn.Data{"id": id, "text": "Timeout BYU, clock 08:00", "type": typ("Timeout")}
+	}
+	plays := []espn.Data{pick, mk("2"), downs, mk("4"), flagged, mk("6"), same, mk("8")}
+	r := footballPlays{&Feed{Plays: plays}}
+	for _, c := range []struct{ id, want string }{
+		{"2", "Official timeout"}, {"4", "Official timeout"}, {"6", "Official timeout"}, {"8", "Timeout BYU"},
+	} {
+		var p espn.Data
+		for _, q := range plays {
+			if q["id"] == c.id {
+				p = q
+			}
+		}
+		if got := r.Message(p).Body; !strings.Contains(got, c.want) {
+			t.Errorf("timeout %s: %q does not contain %q", c.id, got, c.want)
 		}
 	}
 }

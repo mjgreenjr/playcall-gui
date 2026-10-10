@@ -68,7 +68,7 @@ func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
 		if espn.PlayKey(q) != id {
 			continue
 		}
-		if i > 0 && isKick(plays[i-1]) {
+		if i > 0 && changesPossession(plays[i-1]) {
 			text = officialTimeout(text)
 		}
 		for j := i - 1; j >= 0; j-- {
@@ -80,17 +80,25 @@ func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
 	return footballBody(p, text)
 }
 
-// isKick is a kickoff or a punt.
-func isKick(p espn.Data) bool {
+// changesPossession is a kickoff or punt, a turnover, or any play that ends
+// with the other team holding the ball (an interception, a fumble lost, a
+// turnover on downs).
+func changesPossession(p espn.Data) bool {
 	kind := strings.ToLower(playType(p))
-	return strings.Contains(kind, "kickoff") || strings.Contains(kind, "punt")
+	if strings.Contains(kind, "kickoff") || strings.Contains(kind, "punt") || espn.Truthy(p["isTurnover"]) {
+		return true
+	}
+	start := espn.Str(espn.Map(espn.Map(p["start"])["team"])["id"])
+	end := espn.Str(espn.Map(espn.Map(p["end"])["team"])["id"])
+	return start != "" && end != "" && start != end
 }
 
 var teamTimeoutText = regexp.MustCompile(`^Timeout [^,]+, clock `)
 
 // officialTimeout rewrites "Timeout BYU, clock 08:54" as "Official timeout,
-// clock 08:54". Every kickoff and punt (unless the return scores) is followed
-// by an official's timeout, and ESPN files it under a team.
+// clock 08:54". A change of possession (every kickoff and punt unless the
+// return scores, and every turnover) is followed by an official's timeout, and
+// ESPN files it under a team.
 func officialTimeout(text string) string {
 	return teamTimeoutText.ReplaceAllString(text, "Official timeout, clock ")
 }
