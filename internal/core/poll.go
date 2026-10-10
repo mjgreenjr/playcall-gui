@@ -262,8 +262,8 @@ func (p *Poller) newFeed(data espn.Data, plays []espn.Data, finished bool) *Feed
 		f.Away = TeamScore{Abbr: "UNK", Score: "0"}
 		f.Home = TeamScore{Abbr: "UNK", Score: "0"}
 	} else {
-		f.Away = TeamScore{Abbr: espn.TeamAbbr(away), Score: espn.ScoreText(away["score"]), Logo: espn.TeamLogo(espn.Map(away["team"]))}
-		f.Home = TeamScore{Abbr: espn.TeamAbbr(home), Score: espn.ScoreText(home["score"]), Logo: espn.TeamLogo(espn.Map(home["team"]))}
+		f.Away = TeamScore{Abbr: espn.TeamAbbr(away), Score: espn.ScoreText(away["score"]), Logo: espn.TeamLogos(espn.Map(away["team"]))}
+		f.Home = TeamScore{Abbr: espn.TeamAbbr(home), Score: espn.ScoreText(home["score"]), Logo: espn.TeamLogos(espn.Map(home["team"]))}
 	}
 	status := espn.Status(data)
 	f.Clock = firstText(data["clock"], status["displayClock"])

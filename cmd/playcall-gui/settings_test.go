@@ -220,7 +220,7 @@ func TestFavoritesRowsShowNameAndLogoNotTheAbbreviation(t *testing.T) {
 	v.env.logos = newLogoCache(t.TempDir(), inline)
 	v.rows = []teamRow{
 		{Abbr: "ZZZ", Extra: true},
-		{Abbr: "DAL", Name: "Dallas Cowboys", Logo: srv.URL + "/dal.png"},
+		{Abbr: "DAL", Name: "Dallas Cowboys", Logo: espn.Logo{Dark: srv.URL + "/dal.png"}},
 		{Abbr: "HOU", Name: "Houston Texans"}, // ESPN gave no logo
 		{Abbr: "KC"},                          // ...and no name
 	}

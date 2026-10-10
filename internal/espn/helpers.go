@@ -177,14 +177,36 @@ func ExtractPlays(data Data) []Data {
 // for de-duplication, sent ids and scoring texts.
 func PlayKey(p Data) string { return playKey(p) }
 
-// TeamLogo is the URL of the team's logo for a dark background, or "". The
-// scoreboard gives `logoDark` and `logo`; the game feed gives a `logos` list
-// tagged with rels such as "default", "dark" and "scoreboard".
-func TeamLogo(team Data) string {
-	if u := Str(team["logoDark"]); u != "" {
-		return u
+// Logo holds a team's logo URLs for each kind of background: Dark is meant
+// for a dark background, Light for a light one. Either may be empty.
+type Logo struct {
+	Light, Dark string
+}
+
+// Pick returns the URL to use on a dark or light background and which variant
+// it is ("dark" or "light"). If ESPN lacks the wanted variant the other one is
+// used, labeled as what it really is. Both empty gives "", "".
+func (l Logo) Pick(dark bool) (url, variant string) {
+	first, second := l.Light, l.Dark
+	firstName, secondName := "light", "dark"
+	if dark {
+		first, second = second, first
+		firstName, secondName = secondName, firstName
 	}
-	var fallback string
+	if first != "" {
+		return first, firstName
+	}
+	if second != "" {
+		return second, secondName
+	}
+	return "", ""
+}
+
+// TeamLogos reads a team's logo URLs. The scoreboard gives `logo` and
+// `logoDark`; the game feed, team list and standings give a `logos` list
+// tagged with rels such as "default", "dark" and "scoreboard".
+func TeamLogos(team Data) Logo {
+	logo := Logo{Light: Str(team["logo"]), Dark: Str(team["logoDark"])}
 	for _, l := range List(team["logos"]) {
 		m := Map(l)
 		href := Str(m["href"])
@@ -200,15 +222,13 @@ func TeamLogo(team Data) string {
 				scoreboard = true
 			}
 		}
-		if dark && !scoreboard {
-			return href
-		}
-		if fallback == "" {
-			fallback = href
+		switch {
+		case scoreboard: // a differently cropped copy; the plain ones are used
+		case dark && logo.Dark == "":
+			logo.Dark = href
+		case !dark && logo.Light == "":
+			logo.Light = href
 		}
 	}
-	if u := Str(team["logo"]); u != "" {
-		return u
-	}
-	return fallback
+	return logo
 }

@@ -313,28 +313,49 @@ func TestPadStatus(t *testing.T) {
 	}
 }
 
-func TestTeamLogo(t *testing.T) {
+func TestTeamLogos(t *testing.T) {
 	cases := []struct {
 		name string
 		team Data
-		want string
+		want Logo
 	}{
-		{"scoreboard dark", Data{"logo": "light.png", "logoDark": "dark.png"}, "dark.png"},
-		{"scoreboard only light", Data{"logo": "light.png"}, "light.png"},
-		{"game feed: the plain dark one, not the scoreboard variant", Data{"logos": []any{
+		{"scoreboard", Data{"logo": "light.png", "logoDark": "dark.png"}, Logo{Light: "light.png", Dark: "dark.png"}},
+		{"scoreboard only light", Data{"logo": "light.png"}, Logo{Light: "light.png"}},
+		{"game feed: the plain ones, not the scoreboard variants", Data{"logos": []any{
 			map[string]any{"href": "default.png", "rel": []any{"full", "default"}},
+			map[string]any{"href": "sb-default.png", "rel": []any{"full", "scoreboard"}},
 			map[string]any{"href": "sb-dark.png", "rel": []any{"full", "scoreboard", "dark"}},
 			map[string]any{"href": "dark.png", "rel": []any{"full", "dark"}},
-		}}, "dark.png"},
+		}}, Logo{Light: "default.png", Dark: "dark.png"}},
 		{"game feed without a dark one", Data{"logos": []any{
 			map[string]any{"href": "default.png", "rel": []any{"full", "default"}},
-		}}, "default.png"},
-		{"none", Data{"abbreviation": "X"}, ""},
+		}}, Logo{Light: "default.png"}},
+		{"none", Data{"abbreviation": "X"}, Logo{}},
 	}
 	for _, c := range cases {
-		if got := TeamLogo(c.team); got != c.want {
-			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
+		if got := TeamLogos(c.team); got != c.want {
+			t.Errorf("%s: got %+v, want %+v", c.name, got, c.want)
 		}
+	}
+}
+
+func TestLogoPick(t *testing.T) {
+	both := Logo{Light: "l.png", Dark: "d.png"}
+	if u, v := both.Pick(true); u != "d.png" || v != "dark" {
+		t.Errorf("dark: %q %q", u, v)
+	}
+	if u, v := both.Pick(false); u != "l.png" || v != "light" {
+		t.Errorf("light: %q %q", u, v)
+	}
+	// A missing variant falls back to the other, labeled as what it is.
+	if u, v := (Logo{Dark: "d.png"}).Pick(false); u != "d.png" || v != "dark" {
+		t.Errorf("light wanted, only dark: %q %q", u, v)
+	}
+	if u, v := (Logo{Light: "l.png"}).Pick(true); u != "l.png" || v != "light" {
+		t.Errorf("dark wanted, only light: %q %q", u, v)
+	}
+	if u, v := (Logo{}).Pick(true); u != "" || v != "" {
+		t.Errorf("none: %q %q", u, v)
 	}
 }
 
@@ -354,14 +375,14 @@ func TestFetchTeamsCarriesLogos(t *testing.T) {
 		map[string]any{"team": map[string]any{"abbreviation": "XX", "displayName": "No Logo"}},
 	}}}}}}}
 	got := FetchTeams(context.Background(), teams, "nfl", "")
-	if len(got) != 2 || got[0].Logo != "https://x/dark/dal.png" || got[1].Logo != "" {
+	if len(got) != 2 || got[0].Logo != (Logo{Light: "https://x/dal.png", Dark: "https://x/dark/dal.png"}) || got[1].Logo != (Logo{}) {
 		t.Errorf("teams endpoint: %+v", got)
 	}
 	standings := staticFetcher{Data{"standings": map[string]any{"entries": []any{
 		map[string]any{"team": map[string]any{"abbreviation": "IOWA", "displayName": "Iowa Hawkeyes", "logos": logos("iowa")}},
 	}}}}
 	got = FetchTeams(context.Background(), standings, "cfb", "")
-	if len(got) != 1 || got[0].Logo != "https://x/dark/iowa.png" {
+	if len(got) != 1 || got[0].Logo.Dark != "https://x/dark/iowa.png" || got[0].Logo.Light != "https://x/iowa.png" {
 		t.Errorf("standings: %+v", got)
 	}
 }

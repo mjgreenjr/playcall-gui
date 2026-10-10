@@ -252,9 +252,10 @@ func TestStatusCarriesTeamLogos(t *testing.T) {
 	if _, err := poller.Poll(context.Background()); err != nil {
 		t.Fatal(err)
 	}
-	for side, logo := range map[string]string{"away": got.Away.Logo, "home": got.Home.Logo} {
-		if !strings.HasPrefix(logo, "https://") || !strings.Contains(logo, "dark") {
-			t.Errorf("%s logo %q", side, logo)
+	for side, logo := range map[string]espn.Logo{"away": got.Away.Logo, "home": got.Home.Logo} {
+		if !strings.HasPrefix(logo.Dark, "https://") || !strings.Contains(logo.Dark, "dark") ||
+			!strings.HasPrefix(logo.Light, "https://") || strings.Contains(logo.Light, "dark") {
+			t.Errorf("%s logo %+v", side, logo)
 		}
 	}
 	if got.Away.Logo == got.Home.Logo {

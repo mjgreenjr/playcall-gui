@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/theme"
 	"io"
 	"log/slog"
 	"net/http"
@@ -15,6 +16,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"playcall/internal/espn"
 )
 
 // logoSize is the pixel size logos are fetched at. ESPN's originals are 500px
@@ -36,19 +39,38 @@ type logoCache struct {
 }
 
 func newLogoCache(dir string, onUI func(func())) *logoCache {
-	return &logoCache{
+	c := &logoCache{
 		dir:     dir,
 		client:  &http.Client{Timeout: 10 * time.Second},
 		onUI:    onUI,
 		waiting: map[string][]func(string){},
 		failed:  map[string]bool{},
 	}
+	c.migrate()
+	return c
 }
 
-// path is where the logo for a URL is (or will be) stored.
-func (c *logoCache) path(logoURL string) string {
+// path is where the logo for a URL is (or will be) stored: in a folder named
+// for its variant, "dark" (for dark backgrounds) or "light".
+func (c *logoCache) path(logoURL, variant string) string {
 	sum := sha256.Sum256([]byte(logoURL))
-	return filepath.Join(c.dir, hex.EncodeToString(sum[:8])+".png")
+	return filepath.Join(c.dir, variant, hex.EncodeToString(sum[:8])+".png")
+}
+
+// migrate moves logos stored directly in the cache folder into dark/. Before
+// the variants were labeled only dark ones were ever fetched, and the file
+// name (a hash of the URL) is the same either way.
+func (c *logoCache) migrate() {
+	old, _ := filepath.Glob(filepath.Join(c.dir, "*.png"))
+	if len(old) == 0 {
+		return
+	}
+	if err := os.MkdirAll(filepath.Join(c.dir, "dark"), 0o755); err != nil {
+		return
+	}
+	for _, f := range old {
+		_ = os.Rename(f, filepath.Join(c.dir, "dark", filepath.Base(f)))
+	}
 }
 
 // sizedURL asks ESPN's image service for a small copy of one of its logos;
@@ -62,13 +84,15 @@ func sizedURL(logoURL string) string {
 }
 
 // Get calls done with the logo's file path: at once if it is already on disk,
-// otherwise on the UI goroutine after it has been downloaded. If the download
-// fails, done is never called and the caller keeps its fallback.
-func (c *logoCache) Get(logoURL string, done func(path string)) {
+// otherwise on the UI goroutine after it has been downloaded. variant is
+// "dark" or "light" (espn.Logo.Pick says which); it names the folder the file
+// is kept in. If the download fails, done is never called and the caller keeps
+// its fallback.
+func (c *logoCache) Get(logoURL, variant string, done func(path string)) {
 	if c == nil || logoURL == "" {
 		return
 	}
-	p := c.path(logoURL)
+	p := c.path(logoURL, variant)
 	if _, err := os.Stat(p); err == nil {
 		done(p)
 		return
@@ -117,10 +141,11 @@ func (c *logoCache) download(logoURL, dest string) error {
 	if ct := resp.Header.Get("Content-Type"); !strings.HasPrefix(ct, "image/") {
 		return fmt.Errorf("not an image: %q", ct)
 	}
-	if err := os.MkdirAll(c.dir, 0o755); err != nil {
+	folder := filepath.Dir(dest)
+	if err := os.MkdirAll(folder, 0o755); err != nil {
 		return err
 	}
-	tmp, err := os.CreateTemp(c.dir, "logo-*.tmp")
+	tmp, err := os.CreateTemp(folder, "logo-*.tmp")
 	if err != nil {
 		return err
 	}
@@ -133,6 +158,12 @@ func (c *logoCache) download(logoURL, dest string) error {
 		return err
 	}
 	return os.Rename(tmp.Name(), dest)
+}
+
+// isDark says whether the app is showing its dark theme, which decides
+// which logo variant to use. Tests replace it.
+var isDark = func() bool {
+	return fyne.CurrentApp().Settings().ThemeVariant() == theme.VariantDark
 }
 
 // rowLogoSize is the logo size in a list row, in points.
@@ -152,9 +183,10 @@ type logoSlots struct {
 	want map[*canvas.Image]string
 }
 
-// show puts the logo at url in img once the cache has it; "" empties the slot.
-// A nil cache shows nothing.
-func (l *logoSlots) show(cache *logoCache, img *canvas.Image, url string) {
+// show puts the logo for the current background (dark or light) in img once
+// the cache has it; no logo empties the slot. A nil cache shows nothing.
+func (l *logoSlots) show(cache *logoCache, img *canvas.Image, logo espn.Logo, dark bool) {
+	url, variant := logo.Pick(dark)
 	if l.want == nil {
 		l.want = map[*canvas.Image]string{}
 	}
@@ -164,7 +196,7 @@ func (l *logoSlots) show(cache *logoCache, img *canvas.Image, url string) {
 	l.want[img] = url
 	img.File = ""
 	img.Refresh()
-	cache.Get(url, func(path string) {
+	cache.Get(url, variant, func(path string) {
 		if l.want[img] != url {
 			return
 		}

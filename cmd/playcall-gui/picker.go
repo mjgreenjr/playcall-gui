@@ -132,9 +132,9 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			// Border puts its left and right objects after the (empty) center.
 			box := o.(*fyne.Container)
 			teams := box.Objects[1].(*fyne.Container).Objects
-			p.slots.show(p.logos, teams[0].(*canvas.Image), g.AwayLogo)
+			p.slots.show(p.logos, teams[0].(*canvas.Image), g.AwayLogo, isDark())
 			teams[1].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Away))
-			p.slots.show(p.logos, teams[3].(*canvas.Image), g.HomeLogo)
+			p.slots.show(p.logos, teams[3].(*canvas.Image), g.HomeLogo, isDark())
 			teams[4].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Home))
 			box.Objects[2].(*widget.Label).SetText(gameDetail(g))
 		},

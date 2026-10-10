@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"net/http"
+	"path/filepath"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -25,8 +26,8 @@ func TestHeaderShowsLogosAndTheBallAtTheOuterEdge(t *testing.T) {
 
 	u.setStatus(core.GameStatus{
 		Sport: "cfb", State: "in", Clock: "5:00", Period: "2nd", Possession: "home",
-		Away: core.TeamScore{Abbr: "IOWA", Score: "13", Logo: srv.URL + "/iowa.png"},
-		Home: core.TeamScore{Abbr: "WASH", Score: "0", Logo: srv.URL + "/wash.png"},
+		Away: core.TeamScore{Abbr: "IOWA", Score: "13", Logo: espn.Logo{Dark: srv.URL + "/iowa-d.png", Light: srv.URL + "/iowa-l.png"}},
+		Home: core.TeamScore{Abbr: "WASH", Score: "0", Logo: espn.Logo{Dark: srv.URL + "/wash-d.png", Light: srv.URL + "/wash-l.png"}},
 	})
 	if u.awayBadge.logo.File == "" || u.homeBadge.logo.File == "" || u.awayBadge.logo.File == u.homeBadge.logo.File {
 		t.Errorf("logo files %q / %q", u.awayBadge.logo.File, u.homeBadge.logo.File)
@@ -41,8 +42,8 @@ func TestHeaderShowsLogosAndTheBallAtTheOuterEdge(t *testing.T) {
 	// Possession flips: the ball moves to the other logo, nothing is downloaded again.
 	u.setStatus(core.GameStatus{
 		Sport: "cfb", State: "in", Possession: "away",
-		Away: core.TeamScore{Abbr: "IOWA", Score: "13", Logo: srv.URL + "/iowa.png"},
-		Home: core.TeamScore{Abbr: "WASH", Score: "0", Logo: srv.URL + "/wash.png"},
+		Away: core.TeamScore{Abbr: "IOWA", Score: "13", Logo: espn.Logo{Dark: srv.URL + "/iowa-d.png", Light: srv.URL + "/iowa-l.png"}},
+		Home: core.TeamScore{Abbr: "WASH", Score: "0", Logo: espn.Logo{Dark: srv.URL + "/wash-d.png", Light: srv.URL + "/wash-l.png"}},
 	})
 	if u.awayBall.Translucency != 0 || u.homeBall.Translucency != 1 || hits.Load() != 2 {
 		t.Errorf("after flip: away %v home %v, %d downloads", u.awayBall.Translucency, u.homeBall.Translucency, hits.Load())
@@ -68,8 +69,8 @@ func TestBadgeIgnoresALateLogoForAnotherTeam(t *testing.T) {
 	cache := newLogoCache(t.TempDir(), func(f func()) { f() })
 
 	b := newBadge()
-	b.setLogo(cache, srv.URL+"/old.png")
-	b.setLogo(cache, "") // the game changed; no logo for the new team
+	b.setLogo(cache, espn.Logo{Dark: srv.URL + "/old.png"})
+	b.setLogo(cache, espn.Logo{}) // the game changed; no logo for the new team
 	close(release)
 	deadline := time.Now().Add(2 * time.Second)
 	for hits.Load() == 0 && time.Now().Before(deadline) {
@@ -88,8 +89,8 @@ func TestPickerRowsShowLogosAndStayCorrectWhenRecycled(t *testing.T) {
 	p := newPicker(context.Background(), &recordingFetcher{}, nil, groupPrefs{}, "nfl", func(string, espn.Game) {})
 	p.logos = newLogoCache(t.TempDir(), inline)
 	p.games = []espn.Game{
-		{ID: "1", Away: "TB ", Home: "DAL", State: "pre", Status: "10/11", AwayLogo: srv.URL + "/tb.png", HomeLogo: srv.URL + "/dal.png"},
-		{ID: "2", Away: "NYJ", Home: "BUF", State: "pre", Status: "10/12", AwayLogo: srv.URL + "/nyj.png"}, // home has none
+		{ID: "1", Away: "TB ", Home: "DAL", State: "pre", Status: "10/11", AwayLogo: espn.Logo{Dark: srv.URL + "/tb.png"}, HomeLogo: espn.Logo{Dark: srv.URL + "/dal.png"}},
+		{ID: "2", Away: "NYJ", Home: "BUF", State: "pre", Status: "10/12", AwayLogo: espn.Logo{Dark: srv.URL + "/nyj.png"}}, // home has none
 	}
 	row := p.list.CreateItem()
 	parts := func() (away, home *canvas.Image) {
@@ -122,7 +123,7 @@ func TestPickerRowsShowLogosAndStayCorrectWhenRecycled(t *testing.T) {
 func TestPickerWithoutACacheStillDrawsRows(t *testing.T) {
 	test.NewApp()
 	p := newPicker(context.Background(), &recordingFetcher{}, nil, groupPrefs{}, "nfl", func(string, espn.Game) {})
-	p.games = []espn.Game{{ID: "1", Away: "TB", Home: "DAL", State: "pre", Status: "10/11", AwayLogo: "https://x/y.png"}}
+	p.games = []espn.Game{{ID: "1", Away: "TB", Home: "DAL", State: "pre", Status: "10/11", AwayLogo: espn.Logo{Dark: "https://x/y.png"}}}
 	row := p.list.CreateItem()
 	p.list.UpdateItem(0, row) // must not panic with p.logos == nil
 }
@@ -207,4 +208,106 @@ func TestWidestAbbreviation(t *testing.T) {
 	if widestAbbreviation(nil) != 0 {
 		t.Error("no games should need no width")
 	}
+}
+
+// withTheme makes the app look dark or light for the test.
+func withTheme(t *testing.T, dark *bool) {
+	t.Helper()
+	old := isDark
+	isDark = func() bool { return *dark }
+	t.Cleanup(func() { isDark = old })
+}
+
+func variantOf(path string) string { return filepath.Base(filepath.Dir(path)) }
+
+func TestHeaderSwapsLogoVariantWithTheTheme(t *testing.T) {
+	test.NewApp()
+	dark := true
+	withTheme(t, &dark)
+	var hits atomic.Int32
+	srv := logoServer(t, &hits, http.StatusOK)
+	u := newUI(10*time.Second, nil, highlights[0], newLogoCache(t.TempDir(), inline))
+	u.setStatus(core.GameStatus{Sport: "nfl", State: "in",
+		Away: core.TeamScore{Abbr: "A", Logo: espn.Logo{Dark: srv.URL + "/a-d.png", Light: srv.URL + "/a-l.png"}},
+		Home: core.TeamScore{Abbr: "H", Logo: espn.Logo{Dark: srv.URL + "/h-d.png", Light: srv.URL + "/h-l.png"}}})
+	if variantOf(u.awayBadge.logo.File) != "dark" || variantOf(u.homeBadge.logo.File) != "dark" {
+		t.Fatalf("dark theme shows %q / %q", u.awayBadge.logo.File, u.homeBadge.logo.File)
+	}
+	darkFile := u.awayBadge.logo.File
+
+	dark = false // the user switches to light
+	u.away.Color = nil
+	u.themeChanged()
+	if variantOf(u.awayBadge.logo.File) != "light" || variantOf(u.homeBadge.logo.File) != "light" {
+		t.Fatalf("light theme shows %q / %q", u.awayBadge.logo.File, u.homeBadge.logo.File)
+	}
+	if u.away.Color == nil {
+		t.Error("the score's text color was not restyled")
+	}
+
+	dark = true // ... and back: both variants are cached by now
+	u.themeChanged()
+	if u.awayBadge.logo.File != darkFile || hits.Load() != 4 {
+		t.Errorf("back on dark: %q, %d download(s), want the cached dark file and 4 downloads", u.awayBadge.logo.File, hits.Load())
+	}
+}
+
+func TestLogoFallsBackToTheOtherVariantAndSaysSo(t *testing.T) {
+	test.NewApp()
+	dark := false
+	withTheme(t, &dark)
+	var hits atomic.Int32
+	srv := logoServer(t, &hits, http.StatusOK)
+	b := newBadge()
+	b.setLogo(newLogoCache(t.TempDir(), inline), espn.Logo{Dark: srv.URL + "/only-dark.png"})
+	if b.logo.File == "" || variantOf(b.logo.File) != "dark" {
+		t.Errorf("light wanted but only dark exists: %q", b.logo.File)
+	}
+}
+
+func TestPickerAndFavoritesRowsFollowTheTheme(t *testing.T) {
+	test.NewApp()
+	dark := true
+	withTheme(t, &dark)
+	var hits atomic.Int32
+	srv := logoServer(t, &hits, http.StatusOK)
+	cache := newLogoCache(t.TempDir(), inline)
+	logo := espn.Logo{Dark: srv.URL + "/t-d.png", Light: srv.URL + "/t-l.png"}
+
+	p := newPicker(context.Background(), &recordingFetcher{}, nil, groupPrefs{}, "nfl", func(string, espn.Game) {})
+	p.logos = cache
+	p.games = []espn.Game{{ID: "1", Away: "A", Home: "B", State: "pre", AwayLogo: logo, HomeLogo: logo}}
+	row := p.list.CreateItem()
+	away := func() *canvas.Image {
+		return row.(*fyne.Container).Objects[1].(*fyne.Container).Objects[0].(*canvas.Image)
+	}
+	p.list.UpdateItem(0, row)
+	if variantOf(away().File) != "dark" {
+		t.Fatalf("picker row on dark: %q", away().File)
+	}
+	dark = false
+	p.list.UpdateItem(0, row) // what list.Refresh does for each visible row
+	if variantOf(away().File) != "light" {
+		t.Errorf("picker row on light: %q", away().File)
+	}
+
+	h := newHarness(t, core.DefaultConfig(), "nfl", false)
+	h.view.env.logos = cache
+	h.view.rows = []teamRow{{Abbr: "T", Name: "Team", Logo: logo}}
+	srow := h.view.list.CreateItem().(*fyne.Container)
+	h.view.list.UpdateItem(0, srow)
+	if f := srow.Objects[1].(*canvas.Image).File; variantOf(f) != "light" {
+		t.Errorf("favorites row on light: %q", f)
+	}
+	dark = true
+	h.view.list.UpdateItem(0, srow)
+	if f := srow.Objects[1].(*canvas.Image).File; variantOf(f) != "dark" {
+		t.Errorf("favorites row back on dark: %q", f)
+	}
+}
+
+func TestShellThemeChangeWithNothingOpenIsSafe(t *testing.T) {
+	test.NewApp()
+	s := &shell{}
+	s.themeChanged() // no picker, settings or game yet
 }

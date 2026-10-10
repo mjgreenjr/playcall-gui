@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
 	"sync/atomic"
 	"testing"
 )
@@ -33,7 +34,7 @@ func TestLogoCacheDownloadsOnceAndReuses(t *testing.T) {
 	srv := logoServer(t, &hits, http.StatusOK)
 	c := newLogoCache(t.TempDir(), inline)
 	var got []string
-	c.Get(srv.URL+"/a.png", func(p string) { got = append(got, p) })
+	c.Get(srv.URL+"/a.png", "dark", func(p string) { got = append(got, p) })
 	if len(got) != 1 {
 		t.Fatalf("callbacks: %v", got)
 	}
@@ -42,13 +43,13 @@ func TestLogoCacheDownloadsOnceAndReuses(t *testing.T) {
 		t.Fatalf("file %q: %v", b, err)
 	}
 	// Second request: from disk, no new download.
-	c.Get(srv.URL+"/a.png", func(p string) { got = append(got, p) })
+	c.Get(srv.URL+"/a.png", "dark", func(p string) { got = append(got, p) })
 	if len(got) != 2 || got[1] != got[0] || hits.Load() != 1 {
 		t.Errorf("got %v after %d download(s)", got, hits.Load())
 	}
 	// A new cache on the same folder (the next run) also finds it.
 	c2 := newLogoCache(c.dir, inline)
-	c2.Get(srv.URL+"/a.png", func(string) {})
+	c2.Get(srv.URL+"/a.png", "dark", func(string) {})
 	if hits.Load() != 1 {
 		t.Errorf("downloaded again after a restart: %d", hits.Load())
 	}
@@ -60,7 +61,7 @@ func TestLogoCacheFailureIsNotRetried(t *testing.T) {
 	c := newLogoCache(t.TempDir(), inline)
 	called := false
 	for i := 0; i < 3; i++ {
-		c.Get(srv.URL+"/missing.png", func(string) { called = true })
+		c.Get(srv.URL+"/missing.png", "dark", func(string) { called = true })
 	}
 	if called || hits.Load() != 1 {
 		t.Errorf("called %v after %d request(s)", called, hits.Load())
@@ -78,7 +79,7 @@ func TestLogoCacheIgnoresNonImages(t *testing.T) {
 	defer srv.Close()
 	c := newLogoCache(t.TempDir(), inline)
 	called := false
-	c.Get(srv.URL+"/x", func(string) { called = true })
+	c.Get(srv.URL+"/x", "dark", func(string) { called = true })
 	if called {
 		t.Error("an HTML page was cached as a logo")
 	}
@@ -96,9 +97,9 @@ func TestLogoCacheSharesOneDownloadBetweenWaiters(t *testing.T) {
 	defer func() { runAsync = old }()
 
 	done := make(chan string, 2)
-	c.Get(srv.URL+"/b.png", func(p string) { done <- p })
+	c.Get(srv.URL+"/b.png", "dark", func(p string) { done <- p })
 	<-started
-	c.Get(srv.URL+"/b.png", func(p string) { done <- p })
+	c.Get(srv.URL+"/b.png", "dark", func(p string) { done <- p })
 	close(release)
 	a, b := <-done, <-done
 	if a != b || hits.Load() != 1 {
@@ -108,8 +109,8 @@ func TestLogoCacheSharesOneDownloadBetweenWaiters(t *testing.T) {
 
 func TestLogoCacheNilAndEmptyAreNoOps(t *testing.T) {
 	var c *logoCache
-	c.Get("https://x/y.png", func(string) { t.Error("nil cache called back") })
-	newLogoCache(t.TempDir(), inline).Get("", func(string) { t.Error("empty URL called back") })
+	c.Get("https://x/y.png", "dark", func(string) { t.Error("nil cache called back") })
+	newLogoCache(t.TempDir(), inline).Get("", "dark", func(string) { t.Error("empty URL called back") })
 }
 
 func TestSizedURL(t *testing.T) {
@@ -124,4 +125,49 @@ func TestSizedURL(t *testing.T) {
 	if guid := "https://a.espncdn.com/guid/abc/logos/x.png"; sizedURL(guid) != guid {
 		t.Errorf("non-/i/ paths must be left alone: %q", sizedURL(guid))
 	}
+}
+
+func TestLogoCacheKeepsVariantsInSeparateFolders(t *testing.T) {
+	var hits atomic.Int32
+	srv := logoServer(t, &hits, http.StatusOK)
+	c := newLogoCache(t.TempDir(), inline)
+	var dark, light string
+	c.Get(srv.URL+"/d.png", "dark", func(p string) { dark = p })
+	c.Get(srv.URL+"/l.png", "light", func(p string) { light = p })
+	if filepath.Dir(dark) != filepath.Join(c.dir, "dark") || filepath.Dir(light) != filepath.Join(c.dir, "light") {
+		t.Errorf("dark %q, light %q", dark, light)
+	}
+	for _, p := range []string{dark, light} {
+		if _, err := os.Stat(p); err != nil {
+			t.Errorf("missing %s: %v", p, err)
+		}
+	}
+}
+
+func TestLogoCacheMovesOldFlatFilesIntoDark(t *testing.T) {
+	var hits atomic.Int32
+	srv := logoServer(t, &hits, http.StatusOK)
+	dir := t.TempDir()
+	// A file from before variants were labeled: flat, named by the URL's hash.
+	probe := newLogoCache(t.TempDir(), inline)
+	url := srv.URL + "/old.png"
+	flat := filepath.Join(dir, filepath.Base(probe.path(url, "dark")))
+	if err := os.WriteFile(flat, pngBytes, 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	c := newLogoCache(dir, inline)
+	if _, err := os.Stat(flat); err == nil {
+		t.Error("the flat file was left behind")
+	}
+	var got string
+	c.Get(url, "dark", func(p string) { got = p })
+	if got != c.path(url, "dark") || hits.Load() != 0 {
+		t.Errorf("got %q after %d download(s); the migrated file should be used", got, hits.Load())
+	}
+}
+
+func TestLogoCacheMigrationIsHarmlessWithNoFolderYet(t *testing.T) {
+	c := newLogoCache(filepath.Join(t.TempDir(), "not", "there", "yet"), inline)
+	c.migrate() // must not create or fail on anything
 }

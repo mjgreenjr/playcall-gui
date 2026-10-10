@@ -31,8 +31,8 @@ type Game struct {
 	State     string // status.type.state: "pre", "in", "post"
 	AwayScore string
 	HomeScore string
-	AwayLogo  string // logo URLs for a dark background, "" if ESPN has none
-	HomeLogo  string
+	AwayLogo  Logo // ESPN's logo URLs; either variant may be empty
+	HomeLogo  Logo
 }
 
 // ParseScoreboardEvent reads a scoreboard event. ok is false when the event
@@ -60,8 +60,8 @@ func ParseScoreboardEvent(event Data) (g Game, ok bool) {
 		State:     Str(t["state"]),
 		AwayScore: ScoreText(away["score"]),
 		HomeScore: ScoreText(home["score"]),
-		AwayLogo:  TeamLogo(Map(away["team"])),
-		HomeLogo:  TeamLogo(Map(home["team"])),
+		AwayLogo:  TeamLogos(Map(away["team"])),
+		HomeLogo:  TeamLogos(Map(home["team"])),
 	}, true
 }
 

@@ -60,8 +60,9 @@ type settingsView struct {
 
 // teamRow is one line of the favorites list.
 type teamRow struct {
-	Abbr, Name, Logo string
-	Extra            bool // a favorite that ESPN's list for this sport does not have
+	Abbr, Name string
+	Logo       espn.Logo
+	Extra      bool // a favorite that ESPN's list for this sport does not have
 }
 
 // intervalChoices are the poll intervals offered, in seconds.
@@ -196,7 +197,7 @@ func (v *settingsView) favoritesTab(sport string) fyne.CanvasObject {
 			// Border lists its center first, then the left object.
 			box := o.(*fyne.Container)
 			check := box.Objects[0].(*widget.Check)
-			v.slots.show(v.env.logos, box.Objects[1].(*canvas.Image), row.Logo)
+			v.slots.show(v.env.logos, box.Objects[1].(*canvas.Image), row.Logo, isDark())
 			check.OnChanged = nil // setting the state below is not a user's choice
 			check.SetText(row.label())
 			check.SetChecked(v.isFavorite(row.Abbr))

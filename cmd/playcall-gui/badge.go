@@ -3,6 +3,8 @@ package main
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
+
+	"playcall/internal/espn"
 )
 
 const (
@@ -13,8 +15,9 @@ const (
 // badge is a team's logo in the header. The slot keeps its size while the
 // image loads (or never does), so the header does not jump around.
 type badge struct {
-	logo *canvas.Image
-	url  string // the logo this badge is showing or waiting for
+	logo  *canvas.Image
+	src   espn.Logo // the team's logos, both variants
+	shown string    // the URL this badge is showing or waiting for
 }
 
 func newBadge() *badge {
@@ -23,16 +26,25 @@ func newBadge() *badge {
 	return b
 }
 
-// setLogo shows the logo at url once the cache has it ("" clears it).
-func (b *badge) setLogo(cache *logoCache, url string) {
-	if url == b.url {
+// setLogo sets the team's logos and shows the one for the current theme once
+// the cache has it.
+func (b *badge) setLogo(cache *logoCache, src espn.Logo) {
+	b.src = src
+	b.refresh(cache)
+}
+
+// refresh shows the variant that suits the current theme; call it when the
+// theme changes.
+func (b *badge) refresh(cache *logoCache) {
+	url, variant := b.src.Pick(isDark())
+	if url == b.shown {
 		return
 	}
-	b.url = url
+	b.shown = url
 	b.logo.File = ""
 	b.logo.Refresh()
-	cache.Get(url, func(path string) {
-		if b.url != url { // the team changed while this downloaded
+	cache.Get(url, variant, func(path string) {
+		if b.shown != url { // the team or the theme changed while this downloaded
 			return
 		}
 		b.logo.File = path

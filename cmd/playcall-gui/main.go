@@ -70,6 +70,18 @@ func run() int {
 	if paths, err := core.DefaultPaths(); err == nil {
 		s.logos = newLogoCache(filepath.Join(paths.CacheDir, "logos"), func(f func()) { fyne.Do(f) })
 	}
+	changes := make(chan fyne.Settings, 1)
+	s.app.Settings().AddChangeListener(changes)
+	go func() {
+		for {
+			select {
+			case <-root.Done():
+				return
+			case <-changes:
+				fyne.Do(s.themeChanged)
+			}
+		}
+	}()
 	s.win = s.app.NewWindow("playcall")
 	s.win.Resize(fyne.NewSize(480, 700))
 	s.win.SetOnClosed(cancel)
@@ -93,6 +105,7 @@ type shell struct {
 	highlight  highlight // color of scoring plays and turnovers
 	pickerView *picker   // the picker last shown, kept while settings are open
 	settings   *settingsView
+	gameView   *ui        // the game being followed, nil in the picker
 	logos      *logoCache // team logos on disk; nil if the cache folder is unknown
 }
 
@@ -182,7 +195,22 @@ func (s *shell) groupPrefs() groupPrefs {
 	}
 }
 
+// themeChanged runs when the user switches between light and dark: the logos
+// and any colors set at build time follow the new theme.
+func (s *shell) themeChanged() {
+	if s.pickerView != nil {
+		s.pickerView.list.Refresh()
+	}
+	if s.settings != nil {
+		s.settings.list.Refresh()
+	}
+	if s.gameView != nil {
+		s.gameView.themeChanged()
+	}
+}
+
 func (s *shell) endGame() {
+	s.gameView = nil
 	if s.stopGame != nil {
 		s.stopGame()
 		s.stopGame = nil
@@ -201,6 +229,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 		onBack = func() { s.showPicker(sport) }
 	}
 	view := newUI(every, onBack, s.highlight, s.logos)
+	s.gameView = view
 	sink := guiSink{view}
 	state := &core.State{GameID: gameID, Sport: sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, sink, fetch)

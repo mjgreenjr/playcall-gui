@@ -100,6 +100,17 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	return u
 }
 
+// themeChanged restyles what was colored when it was built: the scores'
+// text, and the logos, which come in a variant for each kind of background.
+func (u *ui) themeChanged() {
+	for _, t := range []*canvas.Text{u.away, u.home} {
+		t.Color = theme.Color(theme.ColorNameForeground)
+		t.Refresh()
+	}
+	u.awayBadge.refresh(u.logos)
+	u.homeBadge.refresh(u.logos)
+}
+
 func (u *ui) clearUnseen() {
 	u.unseen = 0
 	u.newBtn.Hide()

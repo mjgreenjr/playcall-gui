@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"io"
+
+	"playcall/internal/espn"
 )
 
 // Event kinds.
@@ -17,8 +19,8 @@ const (
 type TeamScore struct {
 	Abbr      string
 	Score     string
-	PowerPlay bool   // NHL: this side has the man advantage
-	Logo      string // logo URL for a dark background, "" if none
+	PowerPlay bool      // NHL: this side has the man advantage
+	Logo      espn.Logo // logo URLs for light and dark backgrounds
 }
 
 // Event is one announcement. Title and Body are rendered once in the core, so
