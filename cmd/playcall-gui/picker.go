@@ -138,7 +138,7 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			teams[1].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Away))
 			p.slots.show(p.logos, teams[3].(*canvas.Image), g.HomeLogo, isDark())
 			teams[4].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Home))
-			box.Objects[2].(*widget.Label).SetText(gameDetail(g))
+			box.Objects[2].(*widget.Label).SetText(gameDetail(g, time.Now()))
 		},
 	)
 	p.list.OnSelected = func(i widget.ListItemID) {

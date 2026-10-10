@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"time"
 
 	"playcall/internal/espn"
 	"playcall/internal/sports"
@@ -35,11 +36,26 @@ func matchup(g espn.Game) string {
 
 // gameDetail is the right-hand side of a picker row: the score once the game
 // has started, with ESPN's status ("5:12 - 1st", "Final", "10/9 - 9:00 PM EDT").
-func gameDetail(g espn.Game) string {
+// A finished game that started on an earlier local day than now gets its date
+// in front ("10/9  27-24  Final"), so last night's game is not mistaken for
+// today's.
+func gameDetail(g espn.Game, now time.Time) string {
 	if g.State == "pre" {
 		return g.Status
 	}
-	return fmt.Sprintf("%s-%s  %s", g.AwayScore, g.HomeScore, g.Status)
+	detail := fmt.Sprintf("%s-%s  %s", g.AwayScore, g.HomeScore, g.Status)
+	if g.State != "post" {
+		return detail
+	}
+	start, err := time.Parse("2006-01-02T15:04Z", g.Date)
+	if err != nil {
+		return detail
+	}
+	start = start.In(now.Location())
+	if y, m, d := start.Date(); y == now.Year() && m == now.Month() && d == now.Day() {
+		return detail
+	}
+	return fmt.Sprintf("%d/%d  %s", int(start.Month()), start.Day(), detail)
 }
 
 // anyGroup is the picker's "no conference or division" choice.

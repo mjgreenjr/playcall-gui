@@ -2,6 +2,7 @@ package main
 
 import (
 	"testing"
+	"time"
 
 	"playcall/internal/espn"
 	"playcall/internal/sports"
@@ -36,16 +37,25 @@ func ids(gs []espn.Game) []string {
 }
 
 func TestGameLines(t *testing.T) {
+	now := time.Date(2026, 10, 10, 11, 0, 0, 0, time.FixedZone("EDT", -4*3600))
 	live := espn.Game{Away: "TB ", Home: "DAL", State: "in", AwayScore: "7", HomeScore: "10", Status: "0:12 - 2nd"}
 	if got := matchup(live); got != "TB @ DAL" {
 		t.Errorf("matchup %q", got)
 	}
-	if got := gameDetail(live); got != "7-10  0:12 - 2nd" {
+	if got := gameDetail(live, now); got != "7-10  0:12 - 2nd" {
 		t.Errorf("live detail %q", got)
 	}
 	pre := espn.Game{State: "pre", AwayScore: "0", HomeScore: "0", Status: "10/10 - 8:00 PM EDT"}
-	if got := gameDetail(pre); got != "10/10 - 8:00 PM EDT" {
+	if got := gameDetail(pre, now); got != "10/10 - 8:00 PM EDT" {
 		t.Errorf("pre detail %q", got)
+	}
+	final := espn.Game{State: "post", AwayScore: "27", HomeScore: "24", Status: "Final", Date: "2026-10-10T01:00Z"}
+	if got := gameDetail(final, now); got != "10/9  27-24  Final" {
+		t.Errorf("earlier final %q", got)
+	}
+	final.Date = "2026-10-10T12:00Z"
+	if got := gameDetail(final, now); got != "27-24  Final" {
+		t.Errorf("same-day final %q", got)
 	}
 }
 
