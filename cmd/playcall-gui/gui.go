@@ -20,6 +20,7 @@ import (
 // has scrolled away from the top.
 type ui struct {
 	interval time.Duration
+	hl       highlight // color of urgent plays
 
 	model  Model
 	status core.GameStatus
@@ -39,8 +40,8 @@ type ui struct {
 	content fyne.CanvasObject
 }
 
-func newUI(interval time.Duration, onBack func()) *ui {
-	u := &ui{interval: interval}
+func newUI(interval time.Duration, onBack func(), hl highlight) *ui {
+	u := &ui{interval: interval, hl: hl}
 	big := func() *canvas.Text {
 		t := canvas.NewText("", theme.Color(theme.ColorNameForeground))
 		t.TextSize = 30
@@ -184,18 +185,18 @@ func (u *ui) refreshStale() {
 	}
 }
 
-// newRow renders one play: its text, bold for urgent plays. The score and
-// clock live in the header, not on every row.
-func newRow(r Row) fyne.CanvasObject {
+// newRow renders one play: its text, bold for urgent plays and in the
+// highlight color. The score and clock live in the header, not on every row.
+func newRow(r Row, hl highlight) fyne.CanvasObject {
 	text := r.Body
 	if r.Updated {
 		text += "  (updated)"
 	}
-	body := widget.NewLabelWithStyle(text, fyne.TextAlignLeading, fyne.TextStyle{Bold: r.Urgent || r.Final})
+	body := widget.NewRichText(&widget.TextSegment{Text: text, Style: widget.RichTextStyle{
+		ColorName: rowColor(r, hl),
+		TextStyle: fyne.TextStyle{Bold: r.Urgent || r.Final},
+	}})
 	body.Wrapping = fyne.TextWrapWord
-	if r.Urgent {
-		body.Importance = widget.HighImportance
-	}
 	return container.NewVBox(body, widget.NewSeparator())
 }
 
@@ -205,13 +206,13 @@ func (u *ui) addEvent(e core.Event) {
 	if !added {
 		for i, r := range u.model.Rows {
 			if r.PlayID == e.PlayID {
-				u.rows.Objects[i] = newRow(r)
+				u.rows.Objects[i] = newRow(r, u.hl)
 			}
 		}
 		u.rows.Refresh()
 		return
 	}
-	row := newRow(u.model.Rows[0])
+	row := newRow(u.model.Rows[0], u.hl)
 	u.rows.Objects = append([]fyne.CanvasObject{row}, u.rows.Objects...)
 	u.rows.Refresh()
 	if atTop {

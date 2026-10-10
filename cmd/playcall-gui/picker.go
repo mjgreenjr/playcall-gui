@@ -9,6 +9,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
 	"playcall/internal/core"
@@ -21,6 +22,8 @@ import (
 type picker struct {
 	content fyne.CanvasObject
 	prefs   groupPrefs
+	// onSettings opens the settings screen; the gear button is inert while nil.
+	onSettings func()
 
 	ctx       context.Context
 	fetcher   espn.Fetcher
@@ -96,6 +99,11 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 		}
 	})
 	refresh := widget.NewButton("Refresh", p.load)
+	gear := widget.NewButtonWithIcon("", theme.SettingsIcon(), func() {
+		if p.onSettings != nil {
+			p.onSettings()
+		}
+	})
 	p.status = widget.NewLabel("")
 	p.status.Wrapping = fyne.TextWrapWord
 
@@ -124,7 +132,7 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 	}
 
 	top := container.NewVBox(
-		container.NewBorder(nil, nil, widget.NewLabel("Sport"), refresh, p.sport),
+		container.NewBorder(nil, nil, widget.NewLabel("Sport"), container.NewHBox(refresh, gear), p.sport),
 		container.NewBorder(nil, nil, widget.NewLabel("Group"), nil, p.group),
 		p.all,
 		p.status,
@@ -138,6 +146,13 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 	p.setGroups()
 	p.resetAll()
 	return p
+}
+
+// refresh picks up changes made elsewhere (favorites, the saved group) and
+// reloads the scoreboard.
+func (p *picker) refresh() {
+	p.setGroups()
+	p.load()
 }
 
 func (p *picker) currentSport() string { return sportFromLabel(p.sport.Selected) }

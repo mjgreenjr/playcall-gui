@@ -134,6 +134,7 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
 - After a gap (e.g. a reboot mid-game), only the newest 5 unseen plays are announced (10 for NHL and basketball); older ones are skipped.
 - `last_play_id` advances only after a play's `Send` succeeds, so a failed send is retried on the next poll. Skipped plays advance it on purpose.
 - Config: `~/.config/playcall/config.json`: `favorite_teams` (map of sport to list of abbreviations, a key for every sport), `interval` in seconds (default 10, minimum 5; anything lower is raised to 5, from config or `--interval`). Created with defaults on first run.
+- GUI settings live in the same file and are kept as extra keys, so the CLI ignores them and a fresh config does not contain them: `favorite_groups` (sport -> remembered conference or division name, e.g. `{"cfb": "Big Ten"}`) and `highlight_color` (`blue`, `green`, `orange`, `red` or `none`). The GUI's settings screen also edits `favorite_teams` and `interval`, saving each change right away by re-reading the file first.
 - Log: `~/.cache/playcall/playcall.log` via `log/slog`. State changes (saved/cleared, config created) and service start/stop are INFO. Fetches, new and updated plays, sent events, systemctl calls and skipped plays are DEBUG. Failures are WARN or ERROR.
 - One game at a time. `follow` replaces the current game. Following several games at once was ruled out.
 

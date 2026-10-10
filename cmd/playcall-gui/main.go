@@ -85,6 +85,10 @@ type shell struct {
 	interval time.Duration // --interval, 0 if not given
 
 	stopGame context.CancelFunc // ends the current game's polling
+
+	highlight  highlight // color of scoring plays and turnovers
+	pickerView *picker   // the picker last shown, kept while settings are open
+	settings   *settingsView
 }
 
 func (s *shell) loadConfig() {
@@ -98,6 +102,25 @@ func (s *shell) loadConfig() {
 	}
 	if err != nil {
 		slog.Warn("Using the default config", "err", err)
+	}
+	if s.cfg.FavoriteTeams == nil {
+		s.cfg.FavoriteTeams = map[string][]string{} // shared with the picker, so edits show up there
+	}
+	s.highlight = highlightByKey(s.cfg.HighlightColor())
+}
+
+// update applies a change to the config in memory and saves it to the file.
+// The file is read again first, so a change made elsewhere (the CLI's
+// addfavorite, a hand edit) is kept.
+func (s *shell) update(fn func(*core.Config)) {
+	fn(&s.cfg)
+	s.highlight = highlightByKey(s.cfg.HighlightColor())
+	paths, err := core.DefaultPaths()
+	if err == nil {
+		err = core.UpdateConfig(paths, fn)
+	}
+	if err != nil {
+		slog.Warn("Could not save the config", "err", err)
 	}
 }
 
@@ -118,23 +141,36 @@ func (s *shell) showPicker(sport string) {
 		s.follow(sport, g.ID, liveFetcher(sport, g.ID), s.liveInterval(), true)
 		s.win.SetTitle(fmt.Sprintf("playcall - %s: %s", sportLabel(sport), matchup(g)))
 	})
+	p.onSettings = s.showSettings
+	s.pickerView = p
 	s.win.SetContent(p.content)
 	p.load()
+}
+
+// showSettings opens the settings screen over the picker. Back returns to the
+// same picker, which reloads in case the favorites or default group changed.
+func (s *shell) showSettings() {
+	sport := s.pickerView.currentSport()
+	v := newSettings(settingsEnv{
+		ctx:     s.root,
+		fetcher: s.fetcher,
+		cfg:     func() core.Config { return s.cfg },
+		update:  s.update,
+		back: func() {
+			s.win.SetContent(s.pickerView.content)
+			s.pickerView.refresh()
+		},
+	}, sport)
+	s.settings = v
+	s.win.SetContent(v.content)
 }
 
 // groupPrefs reads and writes each sport's remembered group in config.json.
 func (s *shell) groupPrefs() groupPrefs {
 	return groupPrefs{
-		get: s.cfg.FavoriteGroup,
+		get: func(sport string) string { return s.cfg.FavoriteGroup(sport) },
 		set: func(sport, group string) {
-			s.cfg.SetFavoriteGroup(sport, group)
-			paths, err := core.DefaultPaths()
-			if err == nil {
-				err = core.SaveFavoriteGroup(paths, sport, group)
-			}
-			if err != nil {
-				slog.Warn("Could not remember the group", "sport", sport, "group", group, "err", err)
-			}
+			s.update(func(c *core.Config) { c.SetFavoriteGroup(sport, group) })
 		},
 	}
 }
@@ -157,7 +193,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 	if back {
 		onBack = func() { s.showPicker(sport) }
 	}
-	view := newUI(every, onBack)
+	view := newUI(every, onBack, s.highlight)
 	sink := guiSink{view}
 	state := &core.State{GameID: gameID, Sport: sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, sink, fetch)
