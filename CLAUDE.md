@@ -1,6 +1,6 @@
 # playcall
 
-Go app that follows live ESPN play-by-play (NFL, NBA, MLB, NHL, college football, men's college basketball, WNBA) and reports each play. The GUI is the main output; desktop toasts and the CLI stay as optional features. This repo is the only active implementation: the Python original (`reference/playcall.py`, and `/home/mike/Work/playcall`) is frozen. New sports, features and fixes go here only, and the Python is never updated to match.
+Go app that follows live ESPN play-by-play (NFL, NBA, MLB, NHL, college football, men's college basketball, WNBA) and reports each play. The GUI is the main output; desktop toasts and the CLI stay as optional features. This repo is the only active implementation: the Python original (`reference/playcall.py`) is frozen. New sports, features and fixes go here only, and the Python is never updated to match.
 
 Status: the core library and CLI (slices 1-7) are merged and match the Python on every golden. Current work is phase 2, a Fyne GUI in `cmd/playcall-gui` on top of the same core. Slice 7b (`follow` without `--once`, `stop`, systemctl) is deferred and likely skipped, since the GUI manages its own lifecycle.
 

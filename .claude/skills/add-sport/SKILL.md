@@ -33,4 +33,4 @@ The user settles per-sport rules one decision at a time (see the MLB, NHL and NB
 - Run `/verify`, then `list` and `teams` (with and without `--group`) against the live API, and watch a live game with `--dry-run --once` (`tools/compare_live.sh` needs the Python, which has no rules for a new sport).
 
 ## 5. Docs
-Update CLAUDE.md: the sport list and path mapping under API Endpoints, a rules section if the sport has its own, `--sport` mentions in Commands and Testing, and the fixture list. Say whether the sport was checked against a live feed. Do not touch `reference/` or `/home/mike/Work/playcall`.
+Update CLAUDE.md: the sport list and path mapping under API Endpoints, a rules section if the sport has its own, `--sport` mentions in Commands and Testing, and the fixture list. Say whether the sport was checked against a live feed. Do not touch `reference/`.
