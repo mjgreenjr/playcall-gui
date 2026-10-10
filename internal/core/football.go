@@ -25,6 +25,9 @@ func (r footballPlays) Message(p espn.Data) Message {
 	text := espn.PlayText(p)
 	f := r.f
 	clock, period, body := f.Clock, f.Period, footballBody(p, text)
+	if isTimeout(p) {
+		body = footballTimeoutBody(f.Plays, p, text)
+	}
 	if footballHalftime(p) {
 		// The end-of-half play stands in for the break: "Halftime" replaces
 		// the clock, and its down and distance (the next possession) is dropped.
@@ -53,6 +56,34 @@ func footballHalftime(p espn.Data) bool {
 		return n == 2
 	}
 	return false
+}
+
+// footballTimeoutBody is a timeout's text framed by the situation after the
+// play before it. ESPN's own "start" for a timeout can be stale (after a punt
+// it still has the fourth down); with no earlier play to go by it is used as is.
+func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
+	id := espn.PlayKey(p)
+	for i, q := range plays {
+		if espn.PlayKey(q) != id {
+			continue
+		}
+		for j := i - 1; j >= 0; j-- {
+			if !isTimeout(plays[j]) {
+				return joinParts(downDistance(espn.Map(plays[j]["end"])), text)
+			}
+		}
+	}
+	return footballBody(p, text)
+}
+
+func joinParts(parts ...string) string {
+	var kept []string
+	for _, s := range parts {
+		if s != "" {
+			kept = append(kept, s)
+		}
+	}
+	return strings.Join(kept, " · ")
 }
 
 // footballBody frames the play text with the down and distance before and

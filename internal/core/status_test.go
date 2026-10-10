@@ -198,12 +198,21 @@ func TestSituation(t *testing.T) {
 	if got := situation("nfl", feed(false)); got != "" {
 		t.Errorf("no text: %q", got)
 	}
-	// A timeout keeps the situation it started from; a score does not.
+	// A timeout shows the situation after the play before it, not its own
+	// start (stale after a punt); a score does not leave one.
+	before := plays[len(plays)-2]
+	before["type"] = map[string]any{"text": "Punt"}
+	before["end"] = map[string]any{"downDistanceText": "1st & 10 at ISU 3"}
 	last["type"] = map[string]any{"text": "Timeout"}
-	last["start"] = map[string]any{"downDistanceText": "3rd & 5 at IOWA 13"}
+	last["start"] = map[string]any{"downDistanceText": "4th & 2 at ISU 43"}
 	last["end"] = map[string]any{"team": map[string]any{"id": "1"}}
-	if got := situation("cfb", feed(false)); got != "3rd & 5 at IOWA 13" {
-		t.Errorf("timeout: %q", got)
+	if got := situation("cfb", feed(false)); got != "1st & 10 at ISU 3" {
+		t.Errorf("timeout after a punt: %q", got)
+	}
+	before["type"] = map[string]any{"text": "Passing Touchdown"}
+	before["end"] = map[string]any{}
+	if got := situation("cfb", feed(false)); got != "" {
+		t.Errorf("timeout after a touchdown: %q", got)
 	}
 	last["type"] = map[string]any{"text": "Passing Touchdown"}
 	if got := situation("cfb", feed(false)); got != "" {

@@ -74,3 +74,35 @@ func TestFootballBodyDropsDownlessDistance(t *testing.T) {
 		}
 	}
 }
+
+// A timeout after a punt carries the old fourth down in its own start; its
+// body uses the situation after the punt.
+func TestFootballTimeoutBodyUsesTheSituationBefore(t *testing.T) {
+	punt := espn.Data{"id": "1", "text": "punt 40 yards", "type": map[string]any{"text": "Punt"},
+		"start": map[string]any{"shortDownDistanceText": "4th & 2"},
+		"end":   map[string]any{"shortDownDistanceText": "1st & 10"}}
+	timeout := espn.Data{"id": "2", "text": "Timeout BYU", "type": map[string]any{"text": "Timeout"},
+		"start": map[string]any{"shortDownDistanceText": "4th & 2"}}
+	second := espn.Data{"id": "3", "text": "Timeout ISU", "type": map[string]any{"text": "Timeout"},
+		"start": map[string]any{"shortDownDistanceText": "4th & 2"}}
+	score := espn.Data{"id": "4", "text": "touchdown", "type": map[string]any{"text": "Passing Touchdown"},
+		"start": map[string]any{"shortDownDistanceText": "2nd & 5"}}
+	late := espn.Data{"id": "5", "text": "Timeout BYU", "type": map[string]any{"text": "Timeout"},
+		"start": map[string]any{"shortDownDistanceText": "3rd & 1"}}
+	r := footballPlays{&Feed{Plays: []espn.Data{punt, timeout, second, score, late}}}
+	for play, want := range map[string]string{
+		"2": "1st & 10 · Timeout BYU",
+		"3": "1st & 10 · Timeout ISU", // two timeouts in a row
+		"5": "Timeout BYU",            // after a score: nothing to show
+	} {
+		var p espn.Data
+		for _, q := range r.f.Plays {
+			if q["id"] == play {
+				p = q
+			}
+		}
+		if got := r.Message(p).Body; got != want {
+			t.Errorf("play %s: got %q, want %q", play, got, want)
+		}
+	}
+}

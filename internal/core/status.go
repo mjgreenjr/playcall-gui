@@ -284,22 +284,30 @@ func situation(sport string, f *Feed) string {
 		return ""
 	}
 	last := f.Plays[len(f.Plays)-1]
-	end := espn.Map(last["end"])
-	if text := espn.Str(end["downDistanceText"]); text != "" {
-		return text
-	}
-	if text := espn.Str(end["shortDownDistanceText"]); text != "" {
-		return text
-	}
-	// A timeout changes nothing on the field and has no "after" of its own,
-	// so the situation is the one it started from. Other plays without one
-	// (a kickoff, a score) really have none, and the header shows nothing.
-	if strings.Contains(strings.ToLower(espn.Str(espn.Map(last["type"])["text"])), "timeout") {
-		start := espn.Map(last["start"])
-		if text := espn.Str(start["downDistanceText"]); text != "" {
-			return text
+	if isTimeout(last) {
+		// A timeout changes nothing on the field and has no "after" of its
+		// own, and its "start" can be stale (after a punt it still shows the
+		// fourth down). So it is the situation after the last real play. If
+		// that play has none (a score, a kickoff), there is none to show.
+		for i := len(f.Plays) - 2; i >= 0; i-- {
+			if !isTimeout(f.Plays[i]) {
+				return downDistanceFull(espn.Map(f.Plays[i]["end"]))
+			}
 		}
-		return espn.Str(start["shortDownDistanceText"])
+		return downDistanceFull(espn.Map(last["start"]))
 	}
-	return ""
+	return downDistanceFull(espn.Map(last["end"]))
+}
+
+func isTimeout(p espn.Data) bool {
+	return strings.Contains(strings.ToLower(playType(p)), "timeout")
+}
+
+// downDistanceFull is "1st & 10 at NO 25", or the short form, from a play's
+// start or end.
+func downDistanceFull(side espn.Data) string {
+	if text := espn.Str(side["downDistanceText"]); text != "" {
+		return text
+	}
+	return espn.Str(side["shortDownDistanceText"])
 }
