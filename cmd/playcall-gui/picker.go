@@ -144,9 +144,9 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			// Border puts its left and right objects after the (empty) center.
 			box := o.(*fyne.Container)
 			teams := box.Objects[1].(*fyne.Container).Objects
-			// A bye is one team on the left; hide the "@" and the home side.
+			// An idle team (bye, no game) is one team on the left; hide the "@" and the home side.
 			for _, o := range teams[3:] {
-				if g.State == core.ByeState {
+				if g.State == core.IdleState {
 					o.Hide()
 				} else {
 					o.Show()
@@ -163,7 +163,7 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 	)
 	p.list.OnSelected = func(i widget.ListItemID) {
 		p.list.UnselectAll()
-		if i < len(p.games) && p.games[i].State != core.ByeState {
+		if i < len(p.games) && p.games[i].State != core.IdleState {
 			p.onPick(p.currentSport(), p.games[i])
 		}
 	}
@@ -293,10 +293,10 @@ func (p *picker) load() {
 	p.status.SetText("Loading " + sportLabel(sport) + " games...")
 	runAsync(func() {
 		games, err := core.TodaysGames(p.ctx, p.fetcher, sport, group, time.Now())
-		if err == nil && core.HasByes(sport) {
-			// Teams in the group with no game this week, after the games.
+		if err == nil {
+			// Teams in the group with no game on this scoreboard, after the games.
 			if teams, terr := espn.FetchStandingTeams(p.ctx, p.fetcher, sport, group); terr == nil {
-				games = append(games, core.ByeGames(games, teams)...)
+				games = append(games, core.IdleGames(sport, games, teams)...)
 			}
 		}
 		if err == nil && p.divisions != nil {
@@ -323,7 +323,7 @@ func (p *picker) load() {
 func countGames(games []espn.Game) int {
 	n := 0
 	for _, g := range games {
-		if g.State != core.ByeState {
+		if g.State != core.IdleState {
 			n++
 		}
 	}

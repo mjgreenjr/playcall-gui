@@ -18,7 +18,7 @@ func stateRank(state string) int {
 		return 0
 	case "pre":
 		return 1
-	case core.ByeState:
+	case core.IdleState:
 		return 3
 	}
 	return 2
@@ -81,15 +81,15 @@ func statusRecords(s core.GameStatus, division func(abbr string) string) (away, 
 // ("Sun 10/11 - 1:00 PM EDT").
 func gameDetail(g espn.Game, now time.Time) string {
 	detail := gameStatusText(g, now)
-	if g.Season == "1" && g.State != core.ByeState {
+	if g.Season == "1" && g.State != core.IdleState {
 		return "Preseason · " + detail
 	}
 	return detail
 }
 
 func gameStatusText(g espn.Game, now time.Time) string {
-	if g.State == core.ByeState {
-		return "Bye"
+	if g.State == core.IdleState {
+		return g.Status
 	}
 	if g.State == "pre" {
 		// ESPN's status carries the date ("10/11 - 1:00 PM EDT"); add the weekday.

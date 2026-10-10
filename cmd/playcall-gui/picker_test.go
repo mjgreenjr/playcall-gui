@@ -311,12 +311,12 @@ func TestPickerContinueButton(t *testing.T) {
 	}
 }
 
-func TestPickerByesFollowTheFavoritesFilter(t *testing.T) {
+func TestPickerIdleTeamsFollowTheFavoritesFilter(t *testing.T) {
 	test.NewApp()
 	games := []espn.Game{
 		{ID: "1", Away: "TB", Home: "DAL", State: "pre"},
-		{Away: "KC", State: core.ByeState},
-		{Away: "CAR", State: core.ByeState},
+		{Away: "KC", State: core.IdleState},
+		{Away: "CAR", State: core.IdleState},
 	}
 	awayNames := func(p *picker) string {
 		var out []string

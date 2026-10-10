@@ -70,7 +70,7 @@ func TestDivisionCacheOncePerDay(t *testing.T) {
 func TestDivisionCacheSportWithoutDivisions(t *testing.T) {
 	f := &standingsFetcher{}
 	c := NewDivisionCache(t.TempDir(), f)
-	for _, sport := range []string{"cfb", "wnba"} {
+	for _, sport := range []string{"cfb", "cbb"} {
 		if got := c.Load(context.Background(), sport, time.Now()); got != nil || f.calls != 0 {
 			t.Errorf("%s: %v, %d fetches", sport, got, f.calls)
 		}

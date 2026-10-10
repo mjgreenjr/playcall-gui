@@ -11,14 +11,15 @@ import (
 // its own division, per sport. ESPN's scoreboard has no such record; the
 // college sports get a conference record there instead.
 var divisionStat = map[string]string{
-	"nfl": "vsdiv",
-	"nba": "vsdiv",
-	"nhl": "vsdiv",
-	"mlb": "intradivision",
+	"nfl":  "vsdiv",
+	"wnba": "vsconf", // no divisions: the conference record stands in
+	"nba":  "vsdiv",
+	"nhl":  "vsdiv",
+	"mlb":  "intradivision",
 }
 
-// HasDivisionRecords is true for the sports whose division record can be read
-// from the standings (wnba has no divisions).
+// HasDivisionRecords is true for the sports whose division record (the
+// conference record, for wnba) can be read from the standings.
 func HasDivisionRecords(sport string) bool {
 	_, ok := divisionStat[sport]
 	return ok
@@ -94,7 +95,7 @@ func FetchStandingTeams(ctx context.Context, f Fetcher, sport, group string) ([]
 	case group == "" && sports.HasAllGroup(sport):
 		url = StandingsURL(sport, sports.Groups(sport)[0].ID)
 	case group == "":
-		return nil, ErrNoStandings
+		url = StandingsAllURL(sport)
 	}
 	data, err := f.Fetch(ctx, url)
 	if err != nil || !Truthy(data) {

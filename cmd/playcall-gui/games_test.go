@@ -143,12 +143,12 @@ func TestStatusRecordsDivision(t *testing.T) {
 	}
 }
 
-func TestByeRow(t *testing.T) {
-	bye := espn.Game{Away: "BYU", State: core.ByeState, Status: "Bye"}
+func TestIdleRow(t *testing.T) {
+	bye := espn.Game{Away: "BYU", State: core.IdleState, Status: "Bye"}
 	if got := gameDetail(bye, time.Now()); got != "Bye" {
 		t.Errorf("bye detail %q", got)
 	}
-	in := []espn.Game{{ID: "bye", State: core.ByeState}, {ID: "final", State: "post"}, {ID: "live", State: "in"}, {ID: "soon", State: "pre"}}
+	in := []espn.Game{{ID: "bye", State: core.IdleState}, {ID: "final", State: "post"}, {ID: "live", State: "in"}, {ID: "soon", State: "pre"}}
 	if got := ids(orderForPicker(in)); strings.Join(got, ",") != "live,soon,final,bye" {
 		t.Errorf("order %v", got)
 	}
