@@ -198,3 +198,23 @@ func TestFootballTwoMinuteWarningIsOfficial(t *testing.T) {
 		}
 	}
 }
+
+func TestEndZone(t *testing.T) {
+	for in, want := range map[string]string{
+		"(13:40) #1 J.Raynor pass complete to #13 J.Polite caught at BYU01, for 17 yards to the BYU00 TOUCHDOWN, clock 13:35": "(13:40) #1 J.Raynor pass complete to #13 J.Polite caught at BYU01, for 17 yards to the BYU end zone TOUCHDOWN, clock 13:35",
+		"M.James caught at IOWA00, for 3 yards to the IOWA00 TOUCHDOWN":                                                       "M.James caught at IOWA end zone, for 3 yards to the IOWA end zone TOUCHDOWN",
+		"punt 40 yards to the ISU00, Touchback":                                                                               "punt 40 yards to the ISU end zone, Touchback",
+		"rush for 5 yards to the TA&M00 TOUCHDOWN":                                                                            "rush for 5 yards to the TA&M end zone TOUCHDOWN",
+		"Timeout BYU, clock 02:00":                                                                                            "Timeout BYU, clock 02:00",   // a clock, not a spot
+		"rush to the ISU10 (tackle)":                                                                                          "rush to the ISU10 (tackle)", // not the goal line
+		"penalty from ISU01 to ISU06":                                                                                         "penalty from ISU01 to ISU06",
+	} {
+		if got := endZone(in); got != want {
+			t.Errorf("%q\n got %q\nwant %q", in, got, want)
+		}
+	}
+	body := footballBody(espn.Data{"end": map[string]any{"shortDownDistanceText": "1st & 10"}}, "rush to the BYU00 TOUCHDOWN")
+	if body != "rush to the BYU end zone TOUCHDOWN · 1st & 10" {
+		t.Errorf("body %q", body)
+	}
+}

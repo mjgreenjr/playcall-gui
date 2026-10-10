@@ -74,7 +74,7 @@ func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
 		}
 		for j := i - 1; j >= 0; j-- {
 			if !isTimeout(plays[j]) {
-				return joinParts(downDistance(espn.Map(plays[j]["end"])), text)
+				return joinParts(downDistance(espn.Map(plays[j]["end"])), endZone(text))
 			}
 		}
 	}
@@ -161,6 +161,15 @@ func joinParts(parts ...string) string {
 	return strings.Join(kept, " · ")
 }
 
+var endZoneSpot = regexp.MustCompile(`\b([A-Z][A-Z&]*)00\b`)
+
+// endZone writes ESPN's goal-line spot ("to the BYU00 TOUCHDOWN") as
+// "to the BYU end zone TOUCHDOWN". Only what is shown changes; the play's text
+// is kept as ESPN sent it.
+func endZone(text string) string {
+	return endZoneSpot.ReplaceAllString(text, "$1 end zone")
+}
+
 // footballBody frames the play text with the down and distance before and
 // after it ("1st & 10 · text · 2nd & 5"); a part ESPN has no value for is
 // left out (kickoffs have no start).
@@ -168,7 +177,7 @@ func footballBody(p espn.Data, text string) string {
 	var parts []string
 	for _, s := range []string{
 		downDistance(espn.Map(p["start"])),
-		text,
+		endZone(text),
 		downDistance(espn.Map(p["end"])),
 	} {
 		if s != "" {
