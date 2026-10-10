@@ -351,3 +351,33 @@ func TestPickerIdleTeamsFollowTheFavoritesFilter(t *testing.T) {
 		t.Errorf("favorite plays: %q, want no byes", got)
 	}
 }
+
+func TestPickerContinueHidesForFinishedGame(t *testing.T) {
+	test.NewApp()
+	p := newPicker(context.Background(), fixtureFetcher{scoreboard(t, "scoreboard_nfl_week.json")},
+		nil, groupPrefs{}, "nfl", func(string, espn.Game) {})
+	p.setContinue("A @ B (NFL)", func() {})
+	p.continueFor("nfl", "g1")
+	list := func(state string) []espn.Game {
+		return []espn.Game{{ID: "other", State: "in"}, {ID: "g1", State: state}}
+	}
+	for _, c := range []struct {
+		name  string
+		games []espn.Game
+		show  bool
+	}{
+		{"final", list("post"), false},
+		{"live", list("in"), true},
+		{"not on this list", []espn.Game{{ID: "other", State: "post"}}, true},
+	} {
+		p.hideFinishedContinue(c.games)
+		if p.cont.Visible() != c.show {
+			t.Errorf("%s: visible=%v, want %v", c.name, p.cont.Visible(), c.show)
+		}
+	}
+	p.continueFor("cfb", "g1") // another sport's list says nothing about it
+	p.hideFinishedContinue(list("post"))
+	if !p.cont.Visible() {
+		t.Error("a list for another sport hid the button")
+	}
+}

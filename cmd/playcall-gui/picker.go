@@ -45,6 +45,9 @@ type picker struct {
 	list   *widget.List
 	// cont is the "Continue" button for the last game; hidden when there is none.
 	cont *widget.Button
+	// contSport and contID name that game, so a list that shows it final hides the button.
+	contSport, contID string
+	contLabel         string
 
 	games       []espn.Game // what the list shows
 	lastFetched []espn.Game // the scoreboard answer, before the favorites filter
@@ -197,6 +200,30 @@ func (p *picker) setContinue(label string, follow func()) {
 	}
 	p.cont.SetText("Continue: " + label)
 	p.cont.OnTapped = follow
+	p.contLabel = label
+	p.cont.Show()
+}
+
+// continueFor tells the picker which game the Continue button follows.
+func (p *picker) continueFor(sport, id string) { p.contSport, p.contID = sport, id }
+
+// hideFinishedContinue hides the Continue button when the list just loaded
+// shows its game as over, and shows it again otherwise (a game the list does
+// not have, say in another group, is not known to be over).
+func (p *picker) hideFinishedContinue(games []espn.Game) {
+	if p.contLabel == "" || p.contID == "" || p.currentSport() != p.contSport {
+		return
+	}
+	for _, g := range games {
+		if g.ID == p.contID {
+			if g.State == "post" {
+				p.cont.Hide()
+			} else {
+				p.cont.Show()
+			}
+			return
+		}
+	}
 	p.cont.Show()
 }
 
@@ -314,6 +341,7 @@ func (p *picker) load() {
 				return
 			}
 			p.lastFetched = games
+			p.hideFinishedContinue(games)
 			p.show(games)
 		})
 	})

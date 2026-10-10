@@ -193,6 +193,7 @@ func (s *shell) showPicker(sport string) {
 	})
 	if last, ok := s.cfg.LastGame(); ok {
 		p.setContinue(fmt.Sprintf("%s (%s)", last.Label, strings.ToUpper(last.Sport)), func() { s.followPicked(last) })
+		p.continueFor(last.Sport, last.ID)
 	}
 	p.onSettings = s.settingsFromPicker
 	p.logos = s.logos
