@@ -29,6 +29,7 @@ type picker struct {
 	logos      *logoCache // team logos for the rows; nil shows none
 	slots      logoSlots
 	abbrWidth  float32 // width of the abbreviation columns, so every row lines up
+	recWidth   float32 // width of the record columns
 
 	ctx       context.Context
 	fetcher   espn.Fetcher
@@ -123,7 +124,14 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			column := func(l *widget.Label) fyne.CanvasObject {
 				return container.New(columnLayout{width: func() float32 { return p.abbrWidth }}, l)
 			}
-			teams := container.NewHBox(rowLogo(), column(bold()), widget.NewLabel("@"), rowLogo(), column(bold()))
+			record := func() fyne.CanvasObject {
+				t := canvas.NewText("", theme.Color(theme.ColorNamePlaceHolder))
+				t.TextSize = theme.TextSize() * recordTextScale
+				// Centered up and down; the column's width is shared by all rows.
+				return container.New(columnLayout{width: func() float32 { return p.recWidth }},
+					container.NewVBox(layout.NewSpacer(), t, layout.NewSpacer()))
+			}
+			teams := container.NewHBox(rowLogo(), column(bold()), record(), widget.NewLabel("@"), rowLogo(), column(bold()), record())
 			return container.NewBorder(nil, nil, teams, widget.NewLabel(""), layout.NewSpacer())
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
@@ -136,8 +144,10 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			teams := box.Objects[1].(*fyne.Container).Objects
 			p.slots.show(p.logos, teams[0].(*canvas.Image), g.AwayLogo, isDark())
 			teams[1].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Away))
-			p.slots.show(p.logos, teams[3].(*canvas.Image), g.HomeLogo, isDark())
-			teams[4].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Home))
+			setRecord(teams[2], awayRecord(g))
+			p.slots.show(p.logos, teams[4].(*canvas.Image), g.HomeLogo, isDark())
+			teams[5].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Home))
+			setRecord(teams[6], homeRecord(g))
 			box.Objects[2].(*widget.Label).SetText(gameDetail(g, time.Now()))
 		},
 	)
@@ -199,6 +209,31 @@ func (c columnLayout) MinSize(objs []fyne.CanvasObject) fyne.Size {
 func (c columnLayout) Layout(objs []fyne.CanvasObject, size fyne.Size) {
 	objs[0].Move(fyne.NewPos(0, 0))
 	objs[0].Resize(size)
+}
+
+// recordTextScale is the record's size relative to the normal text.
+const recordTextScale = 0.8
+
+// setRecord fills a record column made by the row template.
+func setRecord(column fyne.CanvasObject, text string) {
+	t := column.(*fyne.Container).Objects[0].(*fyne.Container).Objects[1].(*canvas.Text)
+	t.Text = text
+	t.Color = theme.Color(theme.ColorNamePlaceHolder)
+	t.Refresh()
+}
+
+// widestRecord is how wide the record columns need to be for these games.
+func widestRecord(games []espn.Game) float32 {
+	var w float32
+	t := canvas.NewText("", theme.Color(theme.ColorNamePlaceHolder))
+	t.TextSize = theme.TextSize() * recordTextScale
+	for _, g := range games {
+		for _, text := range []string{awayRecord(g), homeRecord(g)} {
+			t.Text = text
+			w = max(w, t.MinSize().Width)
+		}
+	}
+	return w
 }
 
 // widestAbbreviation is how wide the abbreviation column needs to be for
@@ -282,6 +317,7 @@ func (p *picker) show(games []espn.Game) {
 	}
 	p.games = orderForPicker(shown)
 	p.abbrWidth = widestAbbreviation(p.games)
+	p.recWidth = widestRecord(p.games)
 	p.list.Refresh()
 	switch {
 	case len(games) == 0 && p.group.Selected != anyGroup:

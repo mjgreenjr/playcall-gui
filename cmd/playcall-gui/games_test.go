@@ -109,3 +109,18 @@ func TestSportLabels(t *testing.T) {
 		t.Error("unknown values should pass through empty")
 	}
 }
+
+func TestTeamRecord(t *testing.T) {
+	cases := []struct{ overall, conf, wins, other, want string }{
+		{"3-1", "1-0", "", "", "3-1 (1-0)"},
+		{"85-77", "", "", "", "85-77"},
+		{"85-77", "", "2", "1", "series 2-1"},
+		{"85-77", "", "2", "", "85-77"},
+		{"", "", "", "", ""},
+	}
+	for _, c := range cases {
+		if got := teamRecord(c.overall, c.conf, c.wins, c.other); got != c.want {
+			t.Errorf("teamRecord(%q, %q, %q, %q) = %q, want %q", c.overall, c.conf, c.wins, c.other, got, c.want)
+		}
+	}
+}

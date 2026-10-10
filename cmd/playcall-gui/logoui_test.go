@@ -95,7 +95,7 @@ func TestPickerRowsShowLogosAndStayCorrectWhenRecycled(t *testing.T) {
 	row := p.list.CreateItem()
 	parts := func() (away, home *canvas.Image) {
 		teams := row.(*fyne.Container).Objects[1].(*fyne.Container).Objects
-		return teams[0].(*canvas.Image), teams[3].(*canvas.Image)
+		return teams[0].(*canvas.Image), teams[4].(*canvas.Image)
 	}
 
 	p.list.UpdateItem(0, row)

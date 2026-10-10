@@ -34,6 +34,28 @@ func matchup(g espn.Game) string {
 	return strings.TrimSpace(g.Away) + " @ " + strings.TrimSpace(g.Home)
 }
 
+// teamRecord is the small text after a team's abbreviation: the series
+// record in a playoff series ("series 2-1", wins then the opponent's wins),
+// otherwise the season record with the conference record after it ("3-1 (1-0)").
+// Any part ESPN did not send is left out.
+func teamRecord(overall, conf, seriesWins, opponentSeriesWins string) string {
+	if seriesWins != "" && opponentSeriesWins != "" {
+		return "series " + seriesWins + "-" + opponentSeriesWins
+	}
+	if overall != "" && conf != "" {
+		return overall + " (" + conf + ")"
+	}
+	return overall
+}
+
+func awayRecord(g espn.Game) string {
+	return teamRecord(g.AwayRecord, g.AwayConf, g.AwaySeries, g.HomeSeries)
+}
+
+func homeRecord(g espn.Game) string {
+	return teamRecord(g.HomeRecord, g.HomeConf, g.HomeSeries, g.AwaySeries)
+}
+
 // gameDetail is the right-hand side of a picker row: the score once the game
 // has started, with ESPN's status ("5:12 - 1st", "Final", "10/9 - 9:00 PM EDT").
 // A finished game that started on an earlier local day than now gets its date

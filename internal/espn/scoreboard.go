@@ -33,6 +33,13 @@ type Game struct {
 	HomeScore string
 	AwayLogo  Logo // ESPN's logo URLs; either variant may be empty
 	HomeLogo  Logo
+	// Season records as ESPN writes them ("3-1"); empty when it sends none.
+	// Conf is the conference record, which only the college sports carry.
+	AwayRecord, HomeRecord string
+	AwayConf, HomeConf     string
+	// Wins in the current playoff series ("2"), "" outside one. They count
+	// completed games only.
+	AwaySeries, HomeSeries string
 }
 
 // ParseScoreboardEvent reads a scoreboard event. ok is false when the event
@@ -62,7 +69,48 @@ func ParseScoreboardEvent(event Data) (g Game, ok bool) {
 		HomeScore: ScoreText(home["score"]),
 		AwayLogo:  TeamLogos(Map(away["team"])),
 		HomeLogo:  TeamLogos(Map(home["team"])),
+
+		AwayRecord: record(away, "total"),
+		HomeRecord: record(home, "total"),
+		AwayConf:   record(away, "vsconf"),
+		HomeConf:   record(home, "vsconf"),
+		AwaySeries: seriesWins(Competition(event), away),
+		HomeSeries: seriesWins(Competition(event), home),
 	}, true
+}
+
+// record is a competitor's record summary of one type ("total", "vsconf"),
+// "" if ESPN does not send it.
+func record(competitor Data, typ string) string {
+	for _, r := range List(competitor["records"]) {
+		if m := Map(r); Str(m["type"]) == typ {
+			return Str(m["summary"])
+		}
+	}
+	return ""
+}
+
+// seriesWins is the competitor's wins in the competition's playoff series,
+// matched by team id; "" if the game is not in a playoff series. The scoreboard
+// sends `series` as one object, the summary as a list.
+func seriesWins(comp Data, competitor Data) string {
+	candidates := List(comp["series"])
+	if m := Map(comp["series"]); m != nil {
+		candidates = []any{m}
+	}
+	for _, c := range candidates {
+		m := Map(c)
+		if Str(m["type"]) != "playoff" {
+			continue
+		}
+		for _, t := range List(m["competitors"]) {
+			tm := Map(t)
+			if Str(tm["id"]) == Str(competitor["id"]) && tm["wins"] != nil {
+				return Str(tm["wins"])
+			}
+		}
+	}
+	return ""
 }
 
 // scheduledStatus matches a scheduled start, e.g. "10/9 - 9:00 PM EDT".
