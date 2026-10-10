@@ -40,6 +40,8 @@ type picker struct {
 	all    *widget.Check
 	status *widget.Label
 	list   *widget.List
+	// cont is the "Continue" button for the last game; hidden when there is none.
+	cont *widget.Button
 
 	games       []espn.Game // what the list shows
 	lastFetched []espn.Game // the scoreboard answer, before the favorites filter
@@ -146,7 +148,10 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 		}
 	}
 
+	p.cont = widget.NewButtonWithIcon("", theme.MediaPlayIcon(), nil)
+	p.cont.Hide()
 	top := container.NewVBox(
+		p.cont,
 		container.NewBorder(nil, nil, widget.NewLabel("Sport"), container.NewHBox(refresh, gear), p.sport),
 		container.NewBorder(nil, nil, widget.NewLabel("Group"), nil, p.group),
 		p.all,
@@ -161,6 +166,18 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 	p.setGroups()
 	p.resetAll()
 	return p
+}
+
+// setContinue shows a button that follows the last game again, or hides it
+// when label is "".
+func (p *picker) setContinue(label string, follow func()) {
+	if label == "" || follow == nil {
+		p.cont.Hide()
+		return
+	}
+	p.cont.SetText("Continue: " + label)
+	p.cont.OnTapped = follow
+	p.cont.Show()
 }
 
 // refresh picks up changes made elsewhere (favorites, the saved group) and

@@ -63,3 +63,23 @@ func TestLogLevel(t *testing.T) {
 		t.Error("info should remove the key")
 	}
 }
+
+func TestLastGame(t *testing.T) {
+	cfg := DefaultConfig()
+	if _, ok := cfg.LastGame(); ok {
+		t.Fatal("a fresh config has no last game")
+	}
+	want := LastGame{Sport: "cfb", ID: "401856826", Label: "ISU @ BYU"}
+	cfg.SetLastGame(want)
+	if got, ok := cfg.LastGame(); !ok || got != want {
+		t.Errorf("got %+v, %v", got, ok)
+	}
+	cfg.Extra["last_game"] = []byte(`{"sport":"","game_id":""}`)
+	if _, ok := cfg.LastGame(); ok {
+		t.Error("an empty entry is no game")
+	}
+	cfg.Extra["last_game"] = []byte(`"junk"`)
+	if _, ok := cfg.LastGame(); ok {
+		t.Error("junk is no game")
+	}
+}

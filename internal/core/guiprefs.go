@@ -74,3 +74,35 @@ func ParseLogLevel(name string) slog.Level {
 	}
 	return slog.LevelInfo
 }
+
+const lastGameKey = "last_game"
+
+// LastGame is the game the GUI was following last, for its "Continue" button.
+// Label is the matchup as shown ("ISU @ BYU").
+type LastGame struct {
+	Sport string `json:"sport"`
+	ID    string `json:"game_id"`
+	Label string `json:"label"`
+}
+
+// LastGame returns the remembered game, and false when there is none.
+func (c Config) LastGame() (LastGame, bool) {
+	raw, ok := c.Extra[lastGameKey]
+	if !ok {
+		return LastGame{}, false
+	}
+	var g LastGame
+	if json.Unmarshal(raw, &g) != nil || g.Sport == "" || g.ID == "" {
+		return LastGame{}, false
+	}
+	return g, true
+}
+
+// SetLastGame remembers the game.
+func (c *Config) SetLastGame(g LastGame) {
+	if c.Extra == nil {
+		c.Extra = map[string]json.RawMessage{}
+	}
+	b, _ := json.Marshal(g)
+	c.Extra[lastGameKey] = b
+}

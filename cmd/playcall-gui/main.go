@@ -10,6 +10,7 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync/atomic"
 	"time"
 
@@ -184,14 +185,24 @@ func (s *shell) showPicker(sport string) {
 	s.endGame()
 	s.win.SetTitle("playcall")
 	p := newPicker(s.root, s.fetcher, s.cfg.FavoriteTeams, s.groupPrefs(), sport, func(sport string, g espn.Game) {
-		s.follow(sport, g.ID, liveFetcher(sport, g.ID), s.liveInterval(), true)
-		s.win.SetTitle(fmt.Sprintf("playcall - %s: %s", sportLabel(sport), matchup(g)))
+		s.followPicked(core.LastGame{Sport: sport, ID: g.ID, Label: matchup(g)})
 	})
+	if last, ok := s.cfg.LastGame(); ok {
+		p.setContinue(fmt.Sprintf("%s (%s)", last.Label, strings.ToUpper(last.Sport)), func() { s.followPicked(last) })
+	}
 	p.onSettings = s.settingsFromPicker
 	p.logos = s.logos
 	s.pickerView = p
 	s.win.SetContent(p.content)
 	p.load()
+}
+
+// followPicked follows a game chosen in the picker (or the Continue button)
+// and remembers it for the next launch.
+func (s *shell) followPicked(g core.LastGame) {
+	s.update(func(c *core.Config) { c.SetLastGame(g) })
+	s.follow(g.Sport, g.ID, liveFetcher(g.Sport, g.ID), s.liveInterval(), true)
+	s.win.SetTitle(fmt.Sprintf("playcall - %s: %s", sportLabel(g.Sport), g.Label))
 }
 
 // openSettings shows the settings screen in place of whatever is on screen;

@@ -185,3 +185,36 @@ func TestShellSettingsFromAGameReturnsToTheGame(t *testing.T) {
 		t.Errorf("saved %q, %v", saved.HighlightColor(), err)
 	}
 }
+
+// Following a game from the picker remembers it, and the next picker offers
+// to continue it.
+func TestShellContinueLastGame(t *testing.T) {
+	t.Setenv("HOME", t.TempDir())
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel() // follow() starts its polling, which stops at once
+	s := &shell{root: ctx, fetcher: urlFetcher{t}}
+	s.loadConfig()
+	s.app = test.NewApp()
+	s.win = s.app.NewWindow("playcall")
+
+	s.showPicker("nfl")
+	if s.pickerView.cont.Visible() {
+		t.Fatal("a fresh config should have no Continue button")
+	}
+	s.followPicked(core.LastGame{Sport: "cfb", ID: "401856826", Label: "ISU @ BYU"})
+	paths, _ := core.DefaultPaths()
+	saved, err := core.LoadConfig(paths)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if last, ok := saved.LastGame(); !ok || last.ID != "401856826" || last.Sport != "cfb" {
+		t.Errorf("saved %+v, %v", last, ok)
+	}
+
+	// Back at the picker the game is offered, with its sport.
+	s.showPicker("nfl")
+	if !s.pickerView.cont.Visible() || s.pickerView.cont.Text != "Continue: ISU @ BYU (CFB)" {
+		t.Errorf("button: visible=%v text=%q", s.pickerView.cont.Visible(), s.pickerView.cont.Text)
+	}
+	s.endGame()
+}

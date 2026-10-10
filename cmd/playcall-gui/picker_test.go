@@ -287,3 +287,25 @@ func TestPickerShowsSportNames(t *testing.T) {
 		t.Errorf("status %q", p.status.Text)
 	}
 }
+
+func TestPickerContinueButton(t *testing.T) {
+	test.NewApp()
+	p := newPicker(context.Background(), fixtureFetcher{scoreboard(t, "scoreboard_nfl_week.json")},
+		nil, groupPrefs{}, "nfl", func(string, espn.Game) {})
+	if p.cont.Visible() {
+		t.Fatal("no last game: the button should be hidden")
+	}
+	tapped := false
+	p.setContinue("ISU @ BYU (CFB)", func() { tapped = true })
+	if !p.cont.Visible() || p.cont.Text != "Continue: ISU @ BYU (CFB)" {
+		t.Errorf("button: visible=%v text=%q", p.cont.Visible(), p.cont.Text)
+	}
+	test.Tap(p.cont)
+	if !tapped {
+		t.Error("tapping did not continue")
+	}
+	p.setContinue("", nil)
+	if p.cont.Visible() {
+		t.Error("clearing the label should hide the button")
+	}
+}
