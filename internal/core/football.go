@@ -280,3 +280,25 @@ func footballClock(sport, clock string, data espn.Data, plays []espn.Data, finis
 	}
 	return clock
 }
+
+// footballOvertime relabels ESPN's "5th" as "OT" ("2OT", ...). College
+// overtime has no clock (ESPN leaves 0:00 and every play says "clock 00:00"),
+// so the clock is dropped there; the NFL's overtime clock is kept.
+func footballOvertime(sport, clock, period string, data espn.Data) (string, string) {
+	if sport != "nfl" && sport != "cfb" {
+		return clock, period
+	}
+	n, ok := espn.Int64(espn.Status(data)["period"])
+	if !ok || n < 5 {
+		return clock, period
+	}
+	if n == 5 {
+		period = "OT"
+	} else {
+		period = strconv.FormatInt(n-4, 10) + "OT"
+	}
+	if sport == "cfb" {
+		clock = ""
+	}
+	return clock, period
+}

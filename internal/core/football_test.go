@@ -312,3 +312,29 @@ func TestFootballClockFallsBackWhenESPNsIsStuck(t *testing.T) {
 		}
 	}
 }
+
+func TestFootballOvertimeLabel(t *testing.T) {
+	data := func(period int) espn.Data {
+		return espn.Data{"status": map[string]any{"period": json.Number(strconv.Itoa(period))}}
+	}
+	cases := []struct {
+		sport, clock, period string
+		n                    int
+		wantClock, wantPer   string
+	}{
+		{"cfb", "0:00", "5th", 5, "", "OT"},
+		{"cfb", "0:00", "6th", 6, "", "2OT"},
+		{"nfl", "7:12", "5th", 5, "7:12", "OT"},
+		{"cfb", "3:00", "4th", 4, "3:00", "4th"},
+		{"nba", "0:00", "5th", 5, "0:00", "5th"},
+	}
+	for _, c := range cases {
+		clock, period := footballOvertime(c.sport, c.clock, c.period, data(c.n))
+		if clock != c.wantClock || period != c.wantPer {
+			t.Errorf("%s period %d: got %q %q, want %q %q", c.sport, c.n, clock, period, c.wantClock, c.wantPer)
+		}
+	}
+	if got := dropPlaceholderClock("TOUCHDOWN, clock 00:00, 1ST DOWN", ""); got != "TOUCHDOWN, 1ST DOWN" {
+		t.Errorf("overtime text kept the placeholder: %q", got)
+	}
+}
