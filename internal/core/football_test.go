@@ -43,3 +43,34 @@ func TestFootballHalftime(t *testing.T) {
 		t.Errorf("event fields: clock %q period %q", m.Clock, m.Period)
 	}
 }
+
+// ESPN sends " & Goal" (down 0) on timeouts and some penalties; a fragment with
+// no down is left out of the body.
+func TestFootballBodyDropsDownlessDistance(t *testing.T) {
+	play := func(start, end string) espn.Data {
+		p := espn.Data{}
+		if start != "" {
+			p["start"] = map[string]any{"shortDownDistanceText": start}
+		}
+		if end != "" {
+			p["end"] = map[string]any{"shortDownDistanceText": end}
+		}
+		return p
+	}
+	for _, c := range []struct {
+		name       string
+		start, end string
+		want       string
+	}{
+		{"normal", "1st & 10", "2nd & 5", "1st & 10 · Rush · 2nd & 5"},
+		{"goal to go", "1st & Goal", "2nd & Goal", "1st & Goal · Rush · 2nd & Goal"},
+		{"timeout, no down", " & Goal", "", "Rush"},
+		{"no down at either end", " & Goal", "& 3", "Rush"},
+		{"only the start lacks a down", " & Goal", "2nd & 2", "Rush · 2nd & 2"},
+		{"no start", "", "2nd & 5", "Rush · 2nd & 5"},
+	} {
+		if got := footballBody(play(c.start, c.end), "Rush"); got != c.want {
+			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
+		}
+	}
+}

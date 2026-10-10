@@ -61,15 +61,26 @@ func footballHalftime(p espn.Data) bool {
 func footballBody(p espn.Data, text string) string {
 	var parts []string
 	for _, s := range []string{
-		espn.Str(espn.Map(p["start"])["shortDownDistanceText"]),
+		downDistance(espn.Map(p["start"])),
 		text,
-		espn.Str(espn.Map(p["end"])["shortDownDistanceText"]),
+		downDistance(espn.Map(p["end"])),
 	} {
 		if s != "" {
 			parts = append(parts, s)
 		}
 	}
 	return strings.Join(parts, " · ")
+}
+
+// downDistance is the "2nd & 5" of a play's start or end. Timeouts and some
+// penalties come with no down, so ESPN's text is just " & Goal" (down 0); a
+// fragment that starts with "&" says nothing alone and is left out.
+func downDistance(side espn.Data) string {
+	text := espn.Str(side["shortDownDistanceText"])
+	if strings.HasPrefix(strings.TrimSpace(text), "&") {
+		return ""
+	}
+	return text
 }
 
 var footballKeywords = []string{"touchdown", "field goal", "safety", "fumble", "interception"}
