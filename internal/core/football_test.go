@@ -166,6 +166,36 @@ func TestFootballOfficialTimeoutAfterATurnover(t *testing.T) {
 	}
 }
 
+// A touchdown or field goal is followed by the official's timeout before the
+// kickoff (31 of them in one Saturday's feeds, each filed under a team), so
+// the timeout right after a score is relabeled.
+func TestFootballOfficialTimeoutAfterAScore(t *testing.T) {
+	typ := func(s string) map[string]any { return map[string]any{"text": s} }
+	td := espn.Data{"id": "1", "text": "pass for a touchdown", "type": typ("Passing Touchdown"), "scoringPlay": true}
+	fg := espn.Data{"id": "3", "text": "field goal", "type": typ("Field Goal Good"), "scoringPlay": true}
+	rush := espn.Data{"id": "5", "text": "rush", "type": typ("Rush"), "scoringPlay": false}
+	mk := func(id string) espn.Data {
+		return espn.Data{"id": id, "text": "Timeout Nebraska, clock 11:51", "type": typ("Timeout")}
+	}
+	plays := []espn.Data{td, mk("2"), fg, mk("4"), rush, mk("6")}
+	r := footballPlays{&Feed{Plays: plays}}
+	for _, c := range []struct{ id, want string }{
+		{"2", "Official timeout, clock 11:51"},
+		{"4", "Official timeout, clock 11:51"},
+		{"6", "Timeout Nebraska, clock 11:51"}, // after a plain play: ESPN's label
+	} {
+		var p espn.Data
+		for _, q := range plays {
+			if q["id"] == c.id {
+				p = q
+			}
+		}
+		if got := r.Message(p).Body; got != c.want {
+			t.Errorf("timeout %s: got %q, want %q", c.id, got, c.want)
+		}
+	}
+}
+
 // The timeout that stops the clock at 2:00 of the 2nd or 4th quarter is the
 // two-minute warning, even when the play before it ran through 2:00.
 func TestFootballTwoMinuteWarningIsOfficial(t *testing.T) {

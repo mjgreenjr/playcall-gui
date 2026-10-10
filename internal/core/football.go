@@ -69,7 +69,7 @@ func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
 		if espn.PlayKey(q) != id {
 			continue
 		}
-		if (i > 0 && changesPossession(plays[i-1])) || twoMinuteWarning(plays, i) {
+		if (i > 0 && (changesPossession(plays[i-1]) || espn.Truthy(plays[i-1]["scoringPlay"]))) || twoMinuteWarning(plays, i) {
 			text = officialTimeout(text)
 		}
 		for j := i - 1; j >= 0; j-- {
@@ -144,8 +144,9 @@ func snapClock(text string) (int, bool) { return clockSeconds(snapClockRE.FindSt
 var teamTimeoutText = regexp.MustCompile(`^Timeout [^,]+, clock `)
 
 // officialTimeout rewrites "Timeout BYU, clock 08:54" as "Official timeout,
-// clock 08:54". The two-minute warning and a change of possession (every kickoff and punt unless the
-// return scores, and every turnover) is followed by an official's timeout, and
+// clock 08:54". The two-minute warning, a change of possession (every kickoff
+// and punt unless the return scores, and every turnover) and a score (the TV
+// timeout before the kickoff) are each followed by an official's timeout, and
 // ESPN files it under a team.
 func officialTimeout(text string) string {
 	return teamTimeoutText.ReplaceAllString(text, "Official timeout, clock ")
