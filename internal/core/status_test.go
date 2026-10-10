@@ -258,6 +258,9 @@ func TestStatusCarriesTeamLogos(t *testing.T) {
 			t.Errorf("%s logo %+v", side, logo)
 		}
 	}
+	if got.Away.Name != "Los Angeles Dodgers" || got.Home.Name != "Atlanta Braves" {
+		t.Errorf("names %q / %q", got.Away.Name, got.Home.Name)
+	}
 	if got.Away.Logo == got.Home.Logo {
 		t.Error("both sides have the same logo")
 	}

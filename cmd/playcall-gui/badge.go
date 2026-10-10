@@ -15,6 +15,7 @@ const (
 // badge is a team's logo in the header. The slot keeps its size while the
 // image loads (or never does), so the header does not jump around.
 type badge struct {
+	box   *hoverTip // what goes in the header: the logo, with the team's name as its tip
 	logo  *canvas.Image
 	src   espn.Logo // the team's logos, both variants
 	shown string    // the URL this badge is showing or waiting for
@@ -23,8 +24,12 @@ type badge struct {
 func newBadge() *badge {
 	b := &badge{logo: &canvas.Image{FillMode: canvas.ImageFillContain}}
 	b.logo.SetMinSize(fyne.NewSize(badgeLogo, badgeLogo))
+	b.box = newHoverTip(b.logo)
 	return b
 }
+
+// setName sets the team's full name, shown when the pointer rests on the logo.
+func (b *badge) setName(name string) { b.box.SetText(name) }
 
 // setLogo sets the team's logos and shows the one for the current theme once
 // the cache has it.

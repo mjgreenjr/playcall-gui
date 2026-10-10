@@ -84,8 +84,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		// each team with the clock and situation between; the home ball is the
 		// last thing on the line.
 		container.NewBorder(nil, nil,
-			container.NewHBox(u.awayBall, u.awayBadge.logo, u.away),
-			container.NewHBox(u.homeBadge.logo, u.home, u.homeBall),
+			container.NewHBox(u.awayBall, u.awayBadge.box, u.away),
+			container.NewHBox(u.homeBadge.box, u.home, u.homeBall),
 			container.NewCenter(container.NewVBox(u.statusText, u.situation))),
 		u.series, u.stale,
 		widget.NewSeparator(),
@@ -145,6 +145,8 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.home.Refresh()
 	u.setStatusLine(statusLine(s), false)
 	u.setSituation(s.Situation)
+	u.awayBadge.setName(s.Away.Name)
+	u.homeBadge.setName(s.Home.Name)
 	u.awayBadge.setLogo(u.logos, s.Away.Logo)
 	u.homeBadge.setLogo(u.logos, s.Home.Logo)
 	u.setBalls(s)

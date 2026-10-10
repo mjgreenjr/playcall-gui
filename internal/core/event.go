@@ -18,6 +18,7 @@ const (
 // TeamScore is one side of the game as shown in an event.
 type TeamScore struct {
 	Abbr      string
+	Name      string // full team name, e.g. "Washington Huskies"; "" if unknown
 	Score     string
 	PowerPlay bool      // NHL: this side has the man advantage
 	Logo      espn.Logo // logo URLs for light and dark backgrounds
