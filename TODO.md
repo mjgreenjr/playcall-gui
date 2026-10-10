@@ -1,5 +1,4 @@
 # TODO:
-- Add extr header text during postseason play. Maybe at the end of the header give the series count in order of Awaywins/Homewins.
 
 ## Future ideas:
 

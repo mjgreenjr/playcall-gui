@@ -207,7 +207,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 			GameID:   st.GameID,
 			PlayID:   espn.PlayKey(s.play),
 			Kind:     kind,
-			Title:    msg.Title,
+			Title:    withSeries(msg.Title, feed.Series),
 			Body:     msg.Body,
 			Urgent:   msg.Urgent,
 			URL:      espn.GamePageURL(p.Sport, st.GameID),
@@ -217,6 +217,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 			Period:   msg.Period,
 			PlayText: text,
 			Sport:    p.Sport,
+			Series:   feed.Series,
 		}
 		if err := p.Sink.Send(ctx, ev); err != nil {
 			// Stop here; the play stays unsent and the next poll retries it.
@@ -264,6 +265,7 @@ func (p *Poller) newFeed(data espn.Data, plays []espn.Data, finished bool) *Feed
 	status := espn.Status(data)
 	f.Clock = firstText(data["clock"], status["displayClock"])
 	f.Period = firstText(data["period"], status["displayPeriod"])
+	f.Series = seriesText(data, "", false)
 	return f
 }
 
@@ -287,7 +289,8 @@ func (p *Poller) sendFinal(ctx context.Context, f *Feed) bool {
 		detail = "Final"
 	}
 	st := p.State
-	title := FormatTitle(f.Away.Abbr, f.Away.Score, detail, "", f.Home.Abbr, f.Home.Score)
+	series := seriesText(f.Data, st.GameID, true)
+	title := withSeries(FormatTitle(f.Away.Abbr, f.Away.Score, detail, "", f.Home.Abbr, f.Home.Score), series)
 	slog.Debug("Final event", "game", st.GameID, "title", title)
 	err := p.Sink.Send(ctx, Event{
 		GameID: st.GameID,
@@ -300,6 +303,7 @@ func (p *Poller) sendFinal(ctx context.Context, f *Feed) bool {
 		Home:   f.Home,
 		Period: detail,
 		Sport:  p.Sport,
+		Series: series,
 	})
 	if err != nil {
 		slog.Error("Failed to send final event", "game", st.GameID, "err", err)

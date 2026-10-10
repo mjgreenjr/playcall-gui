@@ -1,8 +1,8 @@
 [DRY-RUN] 1 new play(s) for game 999
   401918296501: End of Game
-[DRY-RUN] LV 60 · 0.0 4th · GS 71
+[DRY-RUN] LV 60 · 0.0 4th · GS 71 (GS 1-0)
 End of Game
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 60 · Final · GS 71
+[DRY-RUN] LV 60 · Final · GS 71 (GS 1-0)
 Game over
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999

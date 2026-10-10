@@ -37,6 +37,7 @@ type Event struct {
 	Period     string
 	PlayText   string
 	Sport      string
+	Series     string // postseason series standing without parentheses, or ""
 }
 
 // Sink receives events. An error means "not delivered": the poller keeps the

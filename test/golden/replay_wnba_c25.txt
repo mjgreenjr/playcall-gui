@@ -1,7 +1,7 @@
 == poll 1: revealed 25/359 ==
 [DRY-RUN] 1 new play(s) for game 999
   40191829638: Gabby Williams makes 25-foot three point jumper (Cecilia Zandalasini assists)
-[DRY-RUN] LV 7 · 6:26 1st · GS 8
+[DRY-RUN] LV 7 · 6:26 1st · GS 8 (GS 1-0)
 Gabby Williams makes 25-foot three point jumper (Cecilia Zandalasini assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=40191829638 sent_ids=25 scoring_texts=7
@@ -17,34 +17,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   40191829667: Brianna Turner defensive rebound
   40191829668: Veronica Burton personal foul
   40191829670: Kaila Charles enters the game for Gabby Williams
-[DRY-RUN] LV 11 · 4:35 1st · GS 10
+[DRY-RUN] LV 11 · 4:35 1st · GS 10 (GS 1-0)
 Jackie Young misses 25-foot three point jumper · Kiah Stokes defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 11 · 4:23 1st · GS 13
+[DRY-RUN] LV 11 · 4:23 1st · GS 13 (GS 1-0)
 Kayla Thornton makes 23-foot three point jumper (Kiah Stokes assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 11 · 4:11 1st · GS 13
+[DRY-RUN] LV 11 · 4:11 1st · GS 13 (GS 1-0)
 Kiah Stokes shooting foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 12 · 4:11 1st · GS 13
+[DRY-RUN] LV 12 · 4:11 1st · GS 13 (GS 1-0)
 A'ja Wilson makes free throw 1 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 13 · 4:11 1st · GS 13
+[DRY-RUN] LV 13 · 4:11 1st · GS 13 (GS 1-0)
 A'ja Wilson makes free throw 2 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 13 · 3:54 1st · GS 13
+[DRY-RUN] LV 13 · 3:54 1st · GS 13 (GS 1-0)
 Cecilia Zandalasini misses 23-foot three point pullup jump shot · Jackie Young defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 13 · 3:42 1st · GS 13
+[DRY-RUN] LV 13 · 3:42 1st · GS 13 (GS 1-0)
 Jackie Young misses driving floating jump shot · Veronica Burton defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 13 · 3:27 1st · GS 13
+[DRY-RUN] LV 13 · 3:27 1st · GS 13 (GS 1-0)
 Kayla Thornton misses 22-foot three point jumper · Brianna Turner defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 13 · 3:23 1st · GS 13
+[DRY-RUN] LV 13 · 3:23 1st · GS 13 (GS 1-0)
 Veronica Burton personal foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 13 · 3:23 1st · GS 13
+[DRY-RUN] LV 13 · 3:23 1st · GS 13 (GS 1-0)
 Kaila Charles enters the game for Gabby Williams
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=40191829670 sent_ids=50 scoring_texts=13
@@ -61,34 +61,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296110: Gabby Williams makes free throw 1 of 1
   401918296111: Chelsea Gray bad pass
 turnover (Aminata Gueye steals)
-[DRY-RUN] LV 16 · 1:42 1st · GS 15
+[DRY-RUN] LV 16 · 1:42 1st · GS 15 (GS 1-0)
 Cheyenne Parker-Tyus shooting foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 16 · 1:42 1st · GS 16
+[DRY-RUN] LV 16 · 1:42 1st · GS 16 (GS 1-0)
 Janelle Salaun makes free throw 1 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 16 · 1:42 1st · GS 16
+[DRY-RUN] LV 16 · 1:42 1st · GS 16 (GS 1-0)
 Gabby Williams enters the game for Cecilia Zandalasini
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 16 · 1:42 1st · GS 17
+[DRY-RUN] LV 16 · 1:42 1st · GS 17 (GS 1-0)
 Janelle Salaun makes free throw 2 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 1:25 1st · GS 17
+[DRY-RUN] LV 18 · 1:25 1st · GS 17 (GS 1-0)
 A'ja Wilson makes 16-foot turnaround jump shot (Jackie Young assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 1:08 1st · GS 19
+[DRY-RUN] LV 18 · 1:08 1st · GS 19 (GS 1-0)
 Gabby Williams makes driving layup
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 1:08 1st · GS 19
+[DRY-RUN] LV 18 · 1:08 1st · GS 19 (GS 1-0)
 Jewell Loyd shooting foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 1:08 1st · GS 19
+[DRY-RUN] LV 18 · 1:08 1st · GS 19 (GS 1-0)
 Chelsea Gray enters the game for Jewell Loyd
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 1:08 1st · GS 20
+[DRY-RUN] LV 18 · 1:08 1st · GS 20 (GS 1-0)
 Gabby Williams makes free throw 1 of 1
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 50.8 1st · GS 20
+[DRY-RUN] LV 18 · 50.8 1st · GS 20 (GS 1-0)
 Chelsea Gray bad pass turnover (Aminata Gueye steals)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296111 sent_ids=75 scoring_texts=20
@@ -105,34 +105,34 @@ turnover (Tiffany Hayes steals)
   401918296146: Tiffany Hayes defensive rebound
   401918296148: Aminata Gueye offensive rebound
   401918296149: Aminata Gueye makes two point shot
-[DRY-RUN] LV 18 · 10:00 2nd · GS 22
+[DRY-RUN] LV 18 · 10:00 2nd · GS 22 (GS 1-0)
 Tiffany Hayes enters the game for Kaila Charles
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 10:00 2nd · GS 22
+[DRY-RUN] LV 18 · 10:00 2nd · GS 22 (GS 1-0)
 Kaitlyn Chen enters the game for Veronica Burton
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 9:46 2nd · GS 22
+[DRY-RUN] LV 18 · 9:46 2nd · GS 22 (GS 1-0)
 Brianna Turner bad pass turnover (Tiffany Hayes steals)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 9:37 2nd · GS 25
+[DRY-RUN] LV 18 · 9:37 2nd · GS 25 (GS 1-0)
 Kaitlyn Chen makes 25-foot three point jumper (Gabby Williams assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 9:12 2nd · GS 25
+[DRY-RUN] LV 18 · 9:12 2nd · GS 25 (GS 1-0)
 Kierstan Bell misses 23-foot three point jumper · Aminata Gueye defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 8:53 2nd · GS 25
+[DRY-RUN] LV 18 · 8:53 2nd · GS 25 (GS 1-0)
 Gabby Williams misses 18-foot pullup jump shot · Aces defensive team rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 8:53 2nd · GS 25
+[DRY-RUN] LV 18 · 8:53 2nd · GS 25 (GS 1-0)
 A'ja Wilson enters the game for Cheyenne Parker-Tyus
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 8:38 2nd · GS 25
+[DRY-RUN] LV 18 · 8:38 2nd · GS 25 (GS 1-0)
 Jackie Young misses 25-foot three point pullup jump shot · Tiffany Hayes defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 8:19 2nd · GS 25
+[DRY-RUN] LV 18 · 8:19 2nd · GS 25 (GS 1-0)
 Aminata Gueye misses layup · Aminata Gueye offensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 18 · 8:18 2nd · GS 27
+[DRY-RUN] LV 18 · 8:18 2nd · GS 27 (GS 1-0)
 Aminata Gueye makes two point shot
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296149 sent_ids=100 scoring_texts=24
@@ -148,34 +148,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296179: Kiah Stokes defensive rebound
   401918296180: Chelsea Gray personal foul
   401918296182: Veronica Burton enters the game for Kaitlyn Chen
-[DRY-RUN] LV 21 · 6:34 2nd · GS 27
+[DRY-RUN] LV 21 · 6:34 2nd · GS 27 (GS 1-0)
 Jackie Young misses 24-foot three point jumper · Gabby Williams defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 21 · 6:29 2nd · GS 29
+[DRY-RUN] LV 21 · 6:29 2nd · GS 29 (GS 1-0)
 Gabby Williams makes running layup
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 21 · 6:27 2nd · GS 29
+[DRY-RUN] LV 21 · 6:27 2nd · GS 29 (GS 1-0)
 Aces Full timeout
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 21 · 6:27 2nd · GS 29
+[DRY-RUN] LV 21 · 6:27 2nd · GS 29 (GS 1-0)
 Kayla Thornton enters the game for Janelle Salaun
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 23 · 6:09 2nd · GS 29
+[DRY-RUN] LV 23 · 6:09 2nd · GS 29 (GS 1-0)
 Chelsea Gray makes layup
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 23 · 5:52 2nd · GS 29
+[DRY-RUN] LV 23 · 5:52 2nd · GS 29 (GS 1-0)
 Tiffany Hayes misses 23-foot three point jumper · Kayla Thornton offensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 23 · 5:43 2nd · GS 32
+[DRY-RUN] LV 23 · 5:43 2nd · GS 32 (GS 1-0)
 Gabby Williams makes 25-foot three pointer
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 23 · 5:14 2nd · GS 32
+[DRY-RUN] LV 23 · 5:14 2nd · GS 32 (GS 1-0)
 Chelsea Gray misses 13-foot turnaround jump shot · Kiah Stokes defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 23 · 5:08 2nd · GS 32
+[DRY-RUN] LV 23 · 5:08 2nd · GS 32 (GS 1-0)
 Chelsea Gray personal foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 23 · 5:08 2nd · GS 32
+[DRY-RUN] LV 23 · 5:08 2nd · GS 32 (GS 1-0)
 Veronica Burton enters the game for Kaitlyn Chen
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296182 sent_ids=125 scoring_texts=28
@@ -191,34 +191,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296212: Brianna Turner enters the game for Kierstan Bell
   401918296220: Kiah Stokes blocks A'ja Wilson 's 7-foot driving layup
   401918296218: Official timeout
-[DRY-RUN] LV 25 · 3:41 2nd · GS 34
+[DRY-RUN] LV 25 · 3:41 2nd · GS 34 (GS 1-0)
 Chelsea Gray defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 25 · 3:19 2nd · GS 34
+[DRY-RUN] LV 25 · 3:19 2nd · GS 34 (GS 1-0)
 Kiah Stokes blocks A'ja Wilson 's 4-foot driving layup · Aces offensive team rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 25 · 3:12 2nd · GS 34
+[DRY-RUN] LV 25 · 3:12 2nd · GS 34 (GS 1-0)
 A'ja Wilson misses 16-foot pullup jump shot · Cecilia Zandalasini defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 25 · 3:02 2nd · GS 34
+[DRY-RUN] LV 25 · 3:02 2nd · GS 34 (GS 1-0)
 Veronica Burton misses 21-foot step back jumpshot · Kayla Thornton offensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 25 · 2:51 2nd · GS 34
+[DRY-RUN] LV 25 · 2:51 2nd · GS 34 (GS 1-0)
 Veronica Burton misses driving layup · Chelsea Gray defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 25 · 2:43 2nd · GS 34
+[DRY-RUN] LV 25 · 2:43 2nd · GS 34 (GS 1-0)
 Official timeout
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 25 · 2:43 2nd · GS 34
+[DRY-RUN] LV 25 · 2:43 2nd · GS 34 (GS 1-0)
 Gabby Williams enters the game for Tiffany Hayes
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 25 · 2:43 2nd · GS 34
+[DRY-RUN] LV 25 · 2:43 2nd · GS 34 (GS 1-0)
 Brianna Turner enters the game for Kierstan Bell
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 25 · 2:34 2nd · GS 34
+[DRY-RUN] LV 25 · 2:34 2nd · GS 34 (GS 1-0)
 Kiah Stokes blocks A'ja Wilson 's 7-foot driving layup
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 25 · 2:33 2nd · GS 34
+[DRY-RUN] LV 25 · 2:33 2nd · GS 34 (GS 1-0)
 Official timeout
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296218 sent_ids=150 scoring_texts=30
@@ -234,34 +234,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296248: Aminata Gueye lost ball turnover (Jackie Young steals)
   401918296251: Aces offensive team rebound
   401918296252: End of the 2nd Quarter
-[DRY-RUN] LV 28 · 1:06 2nd · GS 34
+[DRY-RUN] LV 28 · 1:06 2nd · GS 34 (GS 1-0)
 Kayla Thornton shooting foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 28 · 1:06 2nd · GS 34
+[DRY-RUN] LV 28 · 1:06 2nd · GS 34 (GS 1-0)
 A'ja Wilson misses free throw 1 of 2 · Aces offensive team rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 28 · 1:06 2nd · GS 34
+[DRY-RUN] LV 28 · 1:06 2nd · GS 34 (GS 1-0)
 Aminata Gueye enters the game for Kiah Stokes
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 28 · 1:06 2nd · GS 34
+[DRY-RUN] LV 28 · 1:06 2nd · GS 34 (GS 1-0)
 Kalani Brown enters the game for Brianna Turner
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 29 · 1:06 2nd · GS 34
+[DRY-RUN] LV 29 · 1:06 2nd · GS 34 (GS 1-0)
 A'ja Wilson makes free throw 2 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 29 · 49.7 2nd · GS 34
+[DRY-RUN] LV 29 · 49.7 2nd · GS 34 (GS 1-0)
 Gabby Williams traveling turnover
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 36.3 2nd · GS 34
+[DRY-RUN] LV 31 · 36.3 2nd · GS 34 (GS 1-0)
 A'ja Wilson makes 11-foot turnaround jump shot
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 18.2 2nd · GS 34
+[DRY-RUN] LV 31 · 18.2 2nd · GS 34 (GS 1-0)
 Aminata Gueye lost ball turnover (Jackie Young steals)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 0.1 2nd · GS 34
+[DRY-RUN] LV 31 · 0.1 2nd · GS 34 (GS 1-0)
 Chelsea Gray misses 14-foot fade away jump shot · Aces offensive team rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 0.0 2nd · GS 34
+[DRY-RUN] LV 31 · 0.0 2nd · GS 34 (GS 1-0)
 End of the 2nd Quarter
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296252 sent_ids=175 scoring_texts=33
@@ -278,34 +278,34 @@ turnover (Veronica Burton steals)
   401918296279: Kierstan Bell enters the game for Jewell Loyd
   401918296283: Brianna Turner offensive rebound
   401918296284: Chelsea Gray makes 26-foot three point jumper (Brianna Turner assists)
-[DRY-RUN] LV 31 · 8:09 3rd · GS 36
+[DRY-RUN] LV 31 · 8:09 3rd · GS 36 (GS 1-0)
 A'ja Wilson misses 20-foot jumper · Gabby Williams defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 8:00 3rd · GS 36
+[DRY-RUN] LV 31 · 8:00 3rd · GS 36 (GS 1-0)
 Kayla Thornton misses 23-foot three point jumper · Brianna Turner defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 7:56 3rd · GS 36
+[DRY-RUN] LV 31 · 7:56 3rd · GS 36 (GS 1-0)
 Jackie Young bad pass turnover (Veronica Burton steals)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 7:51 3rd · GS 36
+[DRY-RUN] LV 31 · 7:51 3rd · GS 36 (GS 1-0)
 Veronica Burton misses running layup · Brianna Turner defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 7:43 3rd · GS 36
+[DRY-RUN] LV 31 · 7:43 3rd · GS 36 (GS 1-0)
 Jewell Loyd misses 23-foot three point jumper · Kiah Stokes defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 7:29 3rd · GS 36
+[DRY-RUN] LV 31 · 7:29 3rd · GS 36 (GS 1-0)
 Veronica Burton misses 27-foot three point step back jumpshot · Aces defensive team rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 7:29 3rd · GS 36
+[DRY-RUN] LV 31 · 7:29 3rd · GS 36 (GS 1-0)
 Kaitlyn Chen enters the game for Veronica Burton
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 7:29 3rd · GS 36
+[DRY-RUN] LV 31 · 7:29 3rd · GS 36 (GS 1-0)
 Kierstan Bell enters the game for Jewell Loyd
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 31 · 7:10 3rd · GS 36
+[DRY-RUN] LV 31 · 7:10 3rd · GS 36 (GS 1-0)
 Jackie Young misses 23-foot three point jumper · Brianna Turner offensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 34 · 7:06 3rd · GS 36
+[DRY-RUN] LV 34 · 7:06 3rd · GS 36 (GS 1-0)
 Chelsea Gray makes 26-foot three point jumper (Brianna Turner assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296284 sent_ids=200 scoring_texts=35
@@ -321,34 +321,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296311: Mai Yamamoto enters the game for Brianna Turner
   401918296312: Cheyenne Parker-Tyus enters the game for Kierstan Bell
   401918296317: A'ja Wilson makes 11-foot turnaround jump shot (Chelsea Gray assists)
-[DRY-RUN] LV 37 · 5:00 3rd · GS 43
+[DRY-RUN] LV 37 · 5:00 3rd · GS 43 (GS 1-0)
 Chelsea Gray misses 26-foot three point pullup jump shot · Kaitlyn Chen defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 37 · 4:46 3rd · GS 43
+[DRY-RUN] LV 37 · 4:46 3rd · GS 43 (GS 1-0)
 Gabby Williams misses 24-foot three point jumper · A'ja Wilson defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 37 · 4:35 3rd · GS 43
+[DRY-RUN] LV 37 · 4:35 3rd · GS 43 (GS 1-0)
 A'ja Wilson misses layup · Gabby Williams defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 37 · 4:30 3rd · GS 45
+[DRY-RUN] LV 37 · 4:30 3rd · GS 45 (GS 1-0)
 Kayla Thornton makes running layup (Gabby Williams assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 37 · 4:17 3rd · GS 45
+[DRY-RUN] LV 37 · 4:17 3rd · GS 45 (GS 1-0)
 Kiah Stokes personal foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 37 · 4:17 3rd · GS 45
+[DRY-RUN] LV 37 · 4:17 3rd · GS 45 (GS 1-0)
 Kaila Charles enters the game for Cecilia Zandalasini
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 37 · 4:17 3rd · GS 45
+[DRY-RUN] LV 37 · 4:17 3rd · GS 45 (GS 1-0)
 Aminata Gueye enters the game for Kiah Stokes
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 37 · 4:17 3rd · GS 45
+[DRY-RUN] LV 37 · 4:17 3rd · GS 45 (GS 1-0)
 Mai Yamamoto enters the game for Brianna Turner
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 37 · 4:17 3rd · GS 45
+[DRY-RUN] LV 37 · 4:17 3rd · GS 45 (GS 1-0)
 Cheyenne Parker-Tyus enters the game for Kierstan Bell
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 39 · 4:10 3rd · GS 45
+[DRY-RUN] LV 39 · 4:10 3rd · GS 45 (GS 1-0)
 A'ja Wilson makes 11-foot turnaround jump shot (Chelsea Gray assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296317 sent_ids=225 scoring_texts=42
@@ -365,34 +365,34 @@ turnover (Chelsea Gray steals)
   401918296350: Chelsea Gray makes free throw 1 of 2
   401918296351: Chelsea Gray makes free throw 2 of 2
   401918296352: Gabby Williams lost ball turnover (Cheyenne Parker-Tyus steals)
-[DRY-RUN] LV 42 · 2:42 3rd · GS 49
+[DRY-RUN] LV 42 · 2:42 3rd · GS 49 (GS 1-0)
 A'ja Wilson makes free throw 2 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 42 · 2:21 3rd · GS 51
+[DRY-RUN] LV 42 · 2:21 3rd · GS 51 (GS 1-0)
 Aminata Gueye makes 8-foot layup (Gabby Williams assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 42 · 2:21 3rd · GS 51
+[DRY-RUN] LV 42 · 2:21 3rd · GS 51 (GS 1-0)
 Chelsea Gray shooting foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 42 · 2:21 3rd · GS 52
+[DRY-RUN] LV 42 · 2:21 3rd · GS 52 (GS 1-0)
 Aminata Gueye makes free throw 1 of 1
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 42 · 2:03 3rd · GS 52
+[DRY-RUN] LV 42 · 2:03 3rd · GS 52 (GS 1-0)
 A'ja Wilson misses 9-foot turnaround jump shot · Kaitlyn Chen defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 42 · 2:00 3rd · GS 52
+[DRY-RUN] LV 42 · 2:00 3rd · GS 52 (GS 1-0)
 Kaitlyn Chen bad pass turnover (Chelsea Gray steals)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 42 · 1:58 3rd · GS 52
+[DRY-RUN] LV 42 · 1:58 3rd · GS 52 (GS 1-0)
 Kaila Charles shooting foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 43 · 1:58 3rd · GS 52
+[DRY-RUN] LV 43 · 1:58 3rd · GS 52 (GS 1-0)
 Chelsea Gray makes free throw 1 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 44 · 1:58 3rd · GS 52
+[DRY-RUN] LV 44 · 1:58 3rd · GS 52 (GS 1-0)
 Chelsea Gray makes free throw 2 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 44 · 1:41 3rd · GS 52
+[DRY-RUN] LV 44 · 1:41 3rd · GS 52 (GS 1-0)
 Gabby Williams lost ball turnover (Cheyenne Parker-Tyus steals)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296352 sent_ids=249 scoring_texts=51
@@ -409,34 +409,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 turnover (Kierstan Bell steals)
   401918296387: Jackie Young makes 27-foot three point jumper (Mai Yamamoto assists)
   401918296389: A'ja Wilson shooting foul
-[DRY-RUN] LV 48 · 5.9 3rd · GS 56
+[DRY-RUN] LV 48 · 5.9 3rd · GS 56 (GS 1-0)
 Mai Yamamoto makes driving layup (Chelsea Gray assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 48 · 0.1 3rd · GS 56
+[DRY-RUN] LV 48 · 0.1 3rd · GS 56 (GS 1-0)
 Tiffany Hayes misses driving floating jump shot · Golden State Valkyries offensive team rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 48 · 0.0 3rd · GS 56
+[DRY-RUN] LV 48 · 0.0 3rd · GS 56 (GS 1-0)
 End of the 3rd Quarter
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 48 · 9:41 4th · GS 56
+[DRY-RUN] LV 48 · 9:41 4th · GS 56 (GS 1-0)
 Kaila Charles misses 7-foot pullup jump shot · A'ja Wilson defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 48 · 9:33 4th · GS 56
+[DRY-RUN] LV 48 · 9:33 4th · GS 56 (GS 1-0)
 Chelsea Gray out of bounds bad pass turnover
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 48 · 9:19 4th · GS 58
+[DRY-RUN] LV 48 · 9:19 4th · GS 58 (GS 1-0)
 Tiffany Hayes makes 10-foot driving floating jump shot (Aminata Gueye assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 50 · 8:57 4th · GS 58
+[DRY-RUN] LV 50 · 8:57 4th · GS 58 (GS 1-0)
 A'ja Wilson makes 10-foot jumper (Jackie Young assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 50 · 8:36 4th · GS 58
+[DRY-RUN] LV 50 · 8:36 4th · GS 58 (GS 1-0)
 Tiffany Hayes bad pass turnover (Kierstan Bell steals)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 53 · 8:25 4th · GS 58
+[DRY-RUN] LV 53 · 8:25 4th · GS 58 (GS 1-0)
 Jackie Young makes 27-foot three point jumper (Mai Yamamoto assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 53 · 8:10 4th · GS 58
+[DRY-RUN] LV 53 · 8:10 4th · GS 58 (GS 1-0)
 A'ja Wilson shooting foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296389 sent_ids=275 scoring_texts=58
@@ -452,34 +452,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296419: Chelsea Gray makes free throw 2 of 2
   401918296421: Kiah Stokes offensive rebound
   401918296423: Kayla Thornton offensive rebound
-[DRY-RUN] LV 53 · 6:56 4th · GS 64
+[DRY-RUN] LV 53 · 6:56 4th · GS 64 (GS 1-0)
 Kaitlyn Chen makes 6-foot two point shot
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 53 · 6:56 4th · GS 64
+[DRY-RUN] LV 53 · 6:56 4th · GS 64 (GS 1-0)
 Aces Full timeout
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 53 · 6:56 4th · GS 64
+[DRY-RUN] LV 53 · 6:56 4th · GS 64 (GS 1-0)
 Cheyenne Parker-Tyus enters the game for A'ja Wilson
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 55 · 6:40 4th · GS 64
+[DRY-RUN] LV 55 · 6:40 4th · GS 64 (GS 1-0)
 Jackie Young makes 3-foot two point shot
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 55 · 6:20 4th · GS 64
+[DRY-RUN] LV 55 · 6:20 4th · GS 64 (GS 1-0)
 Kaitlyn Chen misses two point shot · Kierstan Bell defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 55 · 6:08 4th · GS 64
+[DRY-RUN] LV 55 · 6:08 4th · GS 64 (GS 1-0)
 Kayla Thornton shooting foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 55 · 6:08 4th · GS 64
+[DRY-RUN] LV 55 · 6:08 4th · GS 64 (GS 1-0)
 Chelsea Gray misses free throw 1 of 2 · Aces offensive team rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 56 · 6:08 4th · GS 64
+[DRY-RUN] LV 56 · 6:08 4th · GS 64 (GS 1-0)
 Chelsea Gray makes free throw 2 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 56 · 5:44 4th · GS 64
+[DRY-RUN] LV 56 · 5:44 4th · GS 64 (GS 1-0)
 Gabby Williams misses driving layup · Kiah Stokes offensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 56 · 5:41 4th · GS 64
+[DRY-RUN] LV 56 · 5:41 4th · GS 64 (GS 1-0)
 Kaitlyn Chen misses 27-foot three point jumper · Kayla Thornton offensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296423 sent_ids=300 scoring_texts=63
@@ -495,34 +495,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296451: Kaitlyn Chen personal foul
   401918296453: Kierstan Bell enters the game for Cheyenne Parker-Tyus
   401918296456: Kayla Thornton defensive rebound
-[DRY-RUN] LV 56 · 4:50 4th · GS 65
+[DRY-RUN] LV 56 · 4:50 4th · GS 65 (GS 1-0)
 Gabby Williams misses driving layup · Jackie Young defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 56 · 4:44 4th · GS 65
+[DRY-RUN] LV 56 · 4:44 4th · GS 65 (GS 1-0)
 Kayla Thornton shooting foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 57 · 4:44 4th · GS 65
+[DRY-RUN] LV 57 · 4:44 4th · GS 65 (GS 1-0)
 A'ja Wilson makes free throw 1 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 4:44 4th · GS 65
+[DRY-RUN] LV 58 · 4:44 4th · GS 65 (GS 1-0)
 A'ja Wilson makes free throw 2 of 2
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 4:28 4th · GS 65
+[DRY-RUN] LV 58 · 4:28 4th · GS 65 (GS 1-0)
 Kaitlyn Chen misses driving layup · Chelsea Gray defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 4:08 4th · GS 65
+[DRY-RUN] LV 58 · 4:08 4th · GS 65 (GS 1-0)
 Jackie Young misses 20-foot step back jumpshot · Gabby Williams defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 4:03 4th · GS 67
+[DRY-RUN] LV 58 · 4:03 4th · GS 67 (GS 1-0)
 Kayla Thornton makes running layup (Gabby Williams assists)
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 3:53 4th · GS 67
+[DRY-RUN] LV 58 · 3:53 4th · GS 67 (GS 1-0)
 Kaitlyn Chen personal foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 3:53 4th · GS 67
+[DRY-RUN] LV 58 · 3:53 4th · GS 67 (GS 1-0)
 Kierstan Bell enters the game for Cheyenne Parker-Tyus
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 3:45 4th · GS 67
+[DRY-RUN] LV 58 · 3:45 4th · GS 67 (GS 1-0)
 A'ja Wilson misses 23-foot three point jumper · Kayla Thornton defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296456 sent_ids=325 scoring_texts=67
@@ -538,34 +538,34 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296486: Justine Pissott enters the game for Chelsea Gray
   401918296487: Kalani Brown enters the game for A'ja Wilson
   401918296491: shot clock turnover
-[DRY-RUN] LV 58 · 2:24 4th · GS 69
+[DRY-RUN] LV 58 · 2:24 4th · GS 69 (GS 1-0)
 A'ja Wilson misses free throw 1 of 2 · Aces offensive team rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 2:22 4th · GS 69
+[DRY-RUN] LV 58 · 2:22 4th · GS 69 (GS 1-0)
 A'ja Wilson misses free throw 2 of 2 · Kiah Stokes defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 2:00 4th · GS 71
+[DRY-RUN] LV 58 · 2:00 4th · GS 71 (GS 1-0)
 Kaitlyn Chen makes driving layup
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 1:42 4th · GS 71
+[DRY-RUN] LV 58 · 1:42 4th · GS 71 (GS 1-0)
 Aces Full timeout
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 1:35 4th · GS 71
+[DRY-RUN] LV 58 · 1:35 4th · GS 71 (GS 1-0)
 A'ja Wilson misses 24-foot three point jumper · Kayla Thornton defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 1:35 4th · GS 71
+[DRY-RUN] LV 58 · 1:35 4th · GS 71 (GS 1-0)
 Jackie Young personal foul
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 1:35 4th · GS 71
+[DRY-RUN] LV 58 · 1:35 4th · GS 71 (GS 1-0)
 Cheyenne Parker-Tyus enters the game for Jackie Young
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 1:35 4th · GS 71
+[DRY-RUN] LV 58 · 1:35 4th · GS 71 (GS 1-0)
 Justine Pissott enters the game for Chelsea Gray
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 1:35 4th · GS 71
+[DRY-RUN] LV 58 · 1:35 4th · GS 71 (GS 1-0)
 Kalani Brown enters the game for A'ja Wilson
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 58 · 1:10 4th · GS 71
+[DRY-RUN] LV 58 · 1:10 4th · GS 71 (GS 1-0)
 shot clock turnover
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned False; last_play_id=401918296491 sent_ids=349 scoring_texts=69
@@ -578,28 +578,28 @@ Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
   401918296499: Kaitlyn Chen back court turnover
   401918296500: End of the 4th Quarter
   401918296501: End of Game
-[DRY-RUN] LV 58 · 55.4 4th · GS 71
+[DRY-RUN] LV 58 · 55.4 4th · GS 71 (GS 1-0)
 Kiah Stokes blocks Kalani Brown 's 3-foot layup · Kalani Brown offensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 60 · 53.4 4th · GS 71
+[DRY-RUN] LV 60 · 53.4 4th · GS 71 (GS 1-0)
 Kalani Brown makes two point shot
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 60 · 33.1 4th · GS 71
+[DRY-RUN] LV 60 · 33.1 4th · GS 71 (GS 1-0)
 Gabby Williams misses 25-foot three point pullup jump shot · Justine Pissott defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 60 · 22.0 4th · GS 71
+[DRY-RUN] LV 60 · 22.0 4th · GS 71 (GS 1-0)
 Mai Yamamoto misses 24-foot three point step back jumpshot · Gabby Williams defensive rebound
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 60 · 7.3 4th · GS 71
+[DRY-RUN] LV 60 · 7.3 4th · GS 71 (GS 1-0)
 Kaitlyn Chen back court turnover
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 60 · 0.0 4th · GS 71
+[DRY-RUN] LV 60 · 0.0 4th · GS 71 (GS 1-0)
 End of the 4th Quarter
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 60 · 0.0 4th · GS 71
+[DRY-RUN] LV 60 · 0.0 4th · GS 71 (GS 1-0)
 End of Game
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
-[DRY-RUN] LV 60 · Final · GS 71
+[DRY-RUN] LV 60 · Final · GS 71 (GS 1-0)
 Game over
 Exec: xdg-open https://www.espn.com/wnba/game/_/gameId/999
 -> returned True; last_play_id=401918296501 sent_ids=359 scoring_texts=70

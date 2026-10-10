@@ -23,6 +23,7 @@ type Feed struct {
 	Home, Away TeamScore
 	Clock      string // top-level clock, else status displayClock
 	Period     string // top-level period, else status displayPeriod
+	Series     string // postseason series standing, e.g. "LAD 2-1"; "" if none
 }
 
 // Message is what a play becomes: the rendered text, and the structured parts
