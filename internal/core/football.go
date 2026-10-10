@@ -2,6 +2,7 @@ package core
 
 import (
 	"regexp"
+	"strconv"
 	"strings"
 
 	"playcall/internal/espn"
@@ -68,7 +69,7 @@ func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
 		if espn.PlayKey(q) != id {
 			continue
 		}
-		if (i > 0 && changesPossession(plays[i-1])) || twoMinuteWarning(p) {
+		if (i > 0 && changesPossession(plays[i-1])) || twoMinuteWarning(plays, i) {
 			text = officialTimeout(text)
 		}
 		for j := i - 1; j >= 0; j-- {
@@ -93,12 +94,52 @@ func changesPossession(p espn.Data) bool {
 	return start != "" && end != "" && start != end
 }
 
-// twoMinuteWarning is a timeout at exactly 2:00 of the 2nd or 4th quarter. ESPN
-// files college football's two-minute timeout under a team, like the others.
-func twoMinuteWarning(p espn.Data) bool {
+// twoMinuteWarning is the timeout that stops the clock at 2:00 of the 2nd or
+// 4th quarter; ESPN files it under a team, like the others. It is logged at
+// 2:00, or lower when the play before it ran through 2:00 (a snap at 2:03 that
+// ends at 1:55). A team timeout late in the half is not mistaken for it: the
+// play before must have started above 2:00.
+func twoMinuteWarning(plays []espn.Data, i int) bool {
+	p := plays[i]
 	n, _ := espn.Int64(espn.Map(p["period"])["number"])
-	return (n == 2 || n == 4) && strings.Contains(espn.PlayText(p), ", clock 02:00")
+	if n != 2 && n != 4 {
+		return false
+	}
+	at, ok := timeoutClock(espn.PlayText(p))
+	if !ok || at > 120 {
+		return false
+	}
+	if at == 120 {
+		return true
+	}
+	if i == 0 || isTimeout(plays[i-1]) {
+		return false
+	}
+	snap, ok := snapClock(espn.PlayText(plays[i-1]))
+	return ok && snap > 120
 }
+
+var (
+	timeoutClockRE = regexp.MustCompile(`, clock (\d+):(\d+)$`)
+	snapClockRE    = regexp.MustCompile(`^\((\d+):(\d+)\)`)
+)
+
+func clockSeconds(m []string) (int, bool) {
+	if m == nil {
+		return 0, false
+	}
+	min, err1 := strconv.Atoi(m[1])
+	sec, err2 := strconv.Atoi(m[2])
+	return min*60 + sec, err1 == nil && err2 == nil
+}
+
+// timeoutClock is the seconds left in "Timeout BYU, clock 01:55".
+func timeoutClock(text string) (int, bool) {
+	return clockSeconds(timeoutClockRE.FindStringSubmatch(text))
+}
+
+// snapClock is the seconds left at the snap, from a play's "(02:03) ..." prefix.
+func snapClock(text string) (int, bool) { return clockSeconds(snapClockRE.FindStringSubmatch(text)) }
 
 var teamTimeoutText = regexp.MustCompile(`^Timeout [^,]+, clock `)
 

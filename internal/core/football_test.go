@@ -166,27 +166,35 @@ func TestFootballOfficialTimeoutAfterATurnover(t *testing.T) {
 	}
 }
 
-// The timeout at 2:00 of the 2nd or 4th quarter is the two-minute warning.
+// The timeout that stops the clock at 2:00 of the 2nd or 4th quarter is the
+// two-minute warning, even when the play before it ran through 2:00.
 func TestFootballTwoMinuteWarningIsOfficial(t *testing.T) {
-	timeout := func(id string, period int, clock string) espn.Data {
-		return espn.Data{"id": id, "text": "Timeout BYU, clock " + clock, "type": map[string]any{"text": "Timeout"},
-			"period": map[string]any{"number": json.Number(strconv.Itoa(period))}}
+	typ := func(s string) map[string]any { return map[string]any{"text": s} }
+	period := func(n int) map[string]any { return map[string]any{"number": json.Number(strconv.Itoa(n))} }
+	snap := func(id, clock string, n int) espn.Data {
+		return espn.Data{"id": id, "text": "(" + clock + ") rush for 4 yards", "type": typ("Rush"), "period": period(n)}
 	}
-	rush := espn.Data{"id": "0", "text": "rush", "type": map[string]any{"text": "Rush"}, "end": map[string]any{"shortDownDistanceText": "2nd & 5"}}
-	plays := []espn.Data{rush, timeout("1", 2, "02:00"), timeout("2", 4, "02:00"), timeout("3", 3, "02:00"), timeout("4", 2, "02:01")}
-	r := footballPlays{&Feed{Plays: plays}}
-	for id, want := range map[string]string{
-		"1": "Official timeout, clock 02:00",
-		"2": "Official timeout, clock 02:00",
-		"3": "Timeout BYU, clock 02:00", // 3rd quarter: not a warning
-		"4": "Timeout BYU, clock 02:01",
+	timeout := func(id string, n int, clock string) espn.Data {
+		return espn.Data{"id": id, "text": "Timeout BYU, clock " + clock, "type": typ("Timeout"), "period": period(n)}
+	}
+	for _, c := range []struct {
+		name  string
+		plays []espn.Data
+		want  string
+	}{
+		{"exactly 2:00", []espn.Data{snap("0", "02:10", 2), timeout("1", 2, "02:00")}, "Official timeout"},
+		{"4th quarter", []espn.Data{snap("0", "02:10", 4), timeout("1", 4, "02:00")}, "Official timeout"},
+		{"play ran through 2:00", []espn.Data{snap("0", "02:03", 2), timeout("1", 2, "01:55")}, "Official timeout"},
+		{"snap at 2:00 sharp, ends below", []espn.Data{snap("0", "02:00", 4), timeout("1", 4, "01:54")}, "Timeout BYU"},
+		{"already inside two minutes", []espn.Data{snap("0", "01:58", 4), timeout("1", 4, "01:50")}, "Timeout BYU"},
+		{"before the warning", []espn.Data{snap("0", "02:30", 4), timeout("1", 4, "02:10")}, "Timeout BYU"},
+		{"3rd quarter", []espn.Data{snap("0", "02:10", 3), timeout("1", 3, "02:00")}, "Timeout BYU"},
+		{"second timeout in a row", []espn.Data{snap("0", "02:03", 2), timeout("1", 2, "01:55"), timeout("2", 2, "01:50")}, "Timeout BYU"},
 	} {
-		for _, p := range plays {
-			if p["id"] == id {
-				if got := r.Message(p).Body; !strings.Contains(got, want) {
-					t.Errorf("play %s: %q does not contain %q", id, got, want)
-				}
-			}
+		r := footballPlays{&Feed{Plays: c.plays}}
+		last := c.plays[len(c.plays)-1]
+		if got := r.Message(last).Body; !strings.Contains(got, c.want) {
+			t.Errorf("%s: %q does not contain %q", c.name, got, c.want)
 		}
 	}
 }
