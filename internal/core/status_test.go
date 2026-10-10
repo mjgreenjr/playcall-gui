@@ -345,23 +345,30 @@ func TestTeamCountsBonusStates(t *testing.T) {
 	}
 }
 
-func TestFourthQuarterTimeoutCap(t *testing.T) {
+func TestPeriodTimeoutCap(t *testing.T) {
 	comp := func(used string) espn.Data { return espn.Data{"timeoutsUsed": json.Number(used)} }
 	for _, c := range []struct {
+		name        string
 		left, slots int
 		used        string
-		want        int
+		limit       int
+		overtime    bool
+		wantLeft    int
+		wantSlots   int
 	}{
-		{6, 7, "0", 4}, // six left, but only four may be used in the 4th
-		{6, 7, "1", 3}, // one used already this quarter
-		{3, 7, "0", 3}, // fewer left than the cap
-		{3, 7, "4", 0}, // used the quarter's four
+		{"4th: six left, four allowed", 6, 7, "0", 4, false, 4, 7},
+		{"4th: one used already", 6, 7, "1", 4, false, 3, 7},
+		{"4th: fewer left than the cap", 3, 7, "0", 4, false, 3, 7},
+		{"4th: used the quarter's four", 3, 7, "4", 4, false, 0, 7},
+		{"OT: two allowed", 3, 9, "0", 2, true, 2, 2},
+		{"OT: one used", 3, 9, "1", 2, true, 1, 2},
+		{"OT: both used, ESPN still shows one", 1, 9, "2", 2, true, 0, 2},
 	} {
 		tc := &TeamCounts{Timeouts: c.left, TimeoutSlots: c.slots}
-		capTimeouts(tc, comp(c.used))
-		if tc.Timeouts != c.want || tc.TimeoutSlots != c.slots {
-			t.Errorf("left %d used %s: got %+v, want %d left of %d", c.left, c.used, *tc, c.want, c.slots)
+		capTimeouts(tc, comp(c.used), c.limit, c.overtime)
+		if tc.Timeouts != c.wantLeft || tc.TimeoutSlots != c.wantSlots {
+			t.Errorf("%s: got %+v, want %d of %d", c.name, *tc, c.wantLeft, c.wantSlots)
 		}
 	}
-	capTimeouts(nil, nil) // no counts: nothing to cap
+	capTimeouts(nil, nil, 4, false) // no counts: nothing to cap
 }

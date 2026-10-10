@@ -71,27 +71,40 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 	}
 	h, a := espn.Teams(espn.Competition(f.Data))
 	away, home = teamCounts(a, f.Plays), teamCounts(h, f.Plays)
-	// NBA and WNBA: 7 a game, but no more than 4 in the 4th quarter. ESPN may
-	// or may not already apply that to timeoutsRemaining, so cap it here.
-	if period, _ := espn.Int64(espn.Status(f.Data)["period"]); period == 4 && sport != "cbb" {
-		capTimeouts(away, a)
-		capTimeouts(home, h)
+	// NBA and WNBA: 7 a game, but no more than 4 in the 4th quarter and 2 in
+	// each overtime. ESPN's timeoutsRemaining is not capped (a team that took
+	// both of its overtime timeouts still shows one left), so do it here.
+	if period, _ := espn.Int64(espn.Status(f.Data)["period"]); sport != "cbb" && period >= 4 {
+		limit, overtime := fourthQuarterTimeouts, false
+		if period > 4 {
+			limit, overtime = overtimeTimeouts, true
+		}
+		capTimeouts(away, a, limit, overtime)
+		capTimeouts(home, h, limit, overtime)
 	}
 	return away, home
 }
 
-// fourthQuarterTimeouts is the most timeouts a team may use in the 4th quarter.
-const fourthQuarterTimeouts = 4
+// Most timeouts a pro team may use in the 4th quarter and in each overtime.
+const (
+	fourthQuarterTimeouts = 4
+	overtimeTimeouts      = 2
+)
 
-// capTimeouts lowers the timeouts a team can still use to what the 4th-quarter
+// capTimeouts lowers the timeouts a team can still use to what the period's
 // limit allows, given what it used so far in the period (ESPN's timeoutsUsed
-// is per period). The team's starting total is left alone.
-func capTimeouts(c *TeamCounts, competitor espn.Data) {
+// is per period). In the 4th quarter the team's starting total stays as it is;
+// in overtime the row is just the period's allowance, since what was left from
+// regulation does not matter.
+func capTimeouts(c *TeamCounts, competitor espn.Data, limit int, overtime bool) {
 	if c == nil {
 		return
 	}
 	used, _ := espn.Int64(competitor["timeoutsUsed"])
-	c.Timeouts = min(c.Timeouts, max(fourthQuarterTimeouts-int(used), 0))
+	c.Timeouts = min(c.Timeouts, max(limit-int(used), 0))
+	if overtime {
+		c.TimeoutSlots = limit
+	}
 }
 
 // timeoutsTaken counts the timeout plays that belong to a team. A timeout
