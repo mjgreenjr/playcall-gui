@@ -165,3 +165,28 @@ func TestFootballOfficialTimeoutAfterATurnover(t *testing.T) {
 		}
 	}
 }
+
+// The timeout at 2:00 of the 2nd or 4th quarter is the two-minute warning.
+func TestFootballTwoMinuteWarningIsOfficial(t *testing.T) {
+	timeout := func(id string, period int, clock string) espn.Data {
+		return espn.Data{"id": id, "text": "Timeout BYU, clock " + clock, "type": map[string]any{"text": "Timeout"},
+			"period": map[string]any{"number": json.Number(strconv.Itoa(period))}}
+	}
+	rush := espn.Data{"id": "0", "text": "rush", "type": map[string]any{"text": "Rush"}, "end": map[string]any{"shortDownDistanceText": "2nd & 5"}}
+	plays := []espn.Data{rush, timeout("1", 2, "02:00"), timeout("2", 4, "02:00"), timeout("3", 3, "02:00"), timeout("4", 2, "02:01")}
+	r := footballPlays{&Feed{Plays: plays}}
+	for id, want := range map[string]string{
+		"1": "Official timeout, clock 02:00",
+		"2": "Official timeout, clock 02:00",
+		"3": "Timeout BYU, clock 02:00", // 3rd quarter: not a warning
+		"4": "Timeout BYU, clock 02:01",
+	} {
+		for _, p := range plays {
+			if p["id"] == id {
+				if got := r.Message(p).Body; !strings.Contains(got, want) {
+					t.Errorf("play %s: %q does not contain %q", id, got, want)
+				}
+			}
+		}
+	}
+}

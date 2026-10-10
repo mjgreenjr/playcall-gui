@@ -68,7 +68,7 @@ func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
 		if espn.PlayKey(q) != id {
 			continue
 		}
-		if i > 0 && changesPossession(plays[i-1]) {
+		if (i > 0 && changesPossession(plays[i-1])) || twoMinuteWarning(p) {
 			text = officialTimeout(text)
 		}
 		for j := i - 1; j >= 0; j-- {
@@ -93,10 +93,17 @@ func changesPossession(p espn.Data) bool {
 	return start != "" && end != "" && start != end
 }
 
+// twoMinuteWarning is a timeout at exactly 2:00 of the 2nd or 4th quarter. ESPN
+// files college football's two-minute timeout under a team, like the others.
+func twoMinuteWarning(p espn.Data) bool {
+	n, _ := espn.Int64(espn.Map(p["period"])["number"])
+	return (n == 2 || n == 4) && strings.Contains(espn.PlayText(p), ", clock 02:00")
+}
+
 var teamTimeoutText = regexp.MustCompile(`^Timeout [^,]+, clock `)
 
 // officialTimeout rewrites "Timeout BYU, clock 08:54" as "Official timeout,
-// clock 08:54". A change of possession (every kickoff and punt unless the
+// clock 08:54". The two-minute warning and a change of possession (every kickoff and punt unless the
 // return scores, and every turnover) is followed by an official's timeout, and
 // ESPN files it under a team.
 func officialTimeout(text string) string {
