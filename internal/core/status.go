@@ -36,9 +36,60 @@ type GameStatus struct {
 	// has no such notion (hockey, basketball: ESPN does not say), the game is
 	// not in play (before the start, halftime, final) or ESPN does not say.
 	Possession string
+	// AwayCounts and HomeCounts are basketball's timeouts and foul trouble;
+	// nil for other sports, before the start and after the end.
+	AwayCounts, HomeCounts *TeamCounts
 	// UpdatedAt is when ESPN last answered, so a header can dim or show
 	// "updated Ns ago" while polls fail and the loop backs off.
 	UpdatedAt time.Time
+}
+
+// TeamCounts is what a basketball scoreboard shows under a team's score.
+type TeamCounts struct {
+	// Timeouts is how many the team has left.
+	Timeouts int
+	// Fouls is the team's fouls this period.
+	Fouls int
+	// Bonus is "" when the team is not shooting free throws on the opponent's
+	// fouls, else "single" (one-and-one) or "double" (two shots). ESPN calls
+	// the NBA's and WNBA's bonus "DOUBLE" as well.
+	Bonus string
+}
+
+// basketballCounts reads each team's timeouts and fouls from the game's
+// competitors. ESPN's foulsToGive and bonusState are about the team they sit
+// on: bonusState says that team is in the bonus.
+func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
+	if sport != "nba" && sport != "wnba" && sport != "cbb" {
+		return nil, nil
+	}
+	if f.Finished || espn.Str(espn.Map(espn.Status(f.Data)["type"])["state"]) != "in" {
+		return nil, nil
+	}
+	h, a := espn.Teams(espn.Competition(f.Data))
+	return teamCounts(a), teamCounts(h)
+}
+
+// teamCounts is nil when the competitor has neither timeouts nor fouls.
+func teamCounts(c espn.Data) *TeamCounts {
+	if c == nil {
+		return nil
+	}
+	timeouts, okT := espn.Int64(c["timeoutsRemaining"])
+	fouls := espn.Map(c["fouls"])
+	current, okF := espn.Int64(fouls["teamFoulsCurrent"])
+	if !okT && !okF {
+		return nil
+	}
+	bonus := ""
+	switch strings.ToLower(espn.Str(fouls["bonusState"])) {
+	case "", "none":
+	case "double":
+		bonus = "double"
+	default:
+		bonus = "single"
+	}
+	return &TeamCounts{Timeouts: int(timeouts), Fouls: int(current), Bonus: bonus}
 }
 
 // StatusSink receives a GameStatus after every successful fetch, before that
@@ -66,6 +117,7 @@ func (p *Poller) publishStatus(f *Feed) {
 			period = nbaPeriod(espn.Data{"period": espn.Data{"number": n, "displayValue": f.Period}}, br.regulation)
 		}
 	}
+	awayCounts, homeCounts := basketballCounts(p.Sport, f)
 	series := f.Series
 	if f.Finished {
 		series = seriesText(f.Data, p.State.GameID, true)
@@ -78,6 +130,8 @@ func (p *Poller) publishStatus(f *Feed) {
 		State:      espn.Str(st["state"]),
 		Clock:      f.Clock,
 		Period:     period,
+		AwayCounts: awayCounts,
+		HomeCounts: homeCounts,
 		Detail:     espn.Str(st["shortDetail"]),
 		Halftime:   espn.Str(st["name"]) == "STATUS_HALFTIME",
 		Break:      espn.Str(st["name"]) == "STATUS_END_PERIOD",

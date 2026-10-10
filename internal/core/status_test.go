@@ -298,3 +298,49 @@ func TestStatusBasketballOvertimePeriod(t *testing.T) {
 		}
 	}
 }
+
+func TestBasketballCounts(t *testing.T) {
+	// The NBA fixture is live, 4th quarter: both teams at 5 fouls and in the bonus.
+	data := loadFixture(t, "playbyplay_nba_multi_plays.json")
+	var got GameStatus
+	poller, err := NewPoller(&State{GameID: "999", Sport: "nba"}, &recordSink{}, func(context.Context) (espn.Data, error) { return data, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	poller.StatusSink = StatusFunc(func(s GameStatus) { got = s })
+	if _, err := poller.Poll(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if got.AwayCounts == nil || got.HomeCounts == nil {
+		t.Fatalf("no counts: %+v", got)
+	}
+	if *got.AwayCounts != (TeamCounts{Timeouts: 3, Fouls: 5, Bonus: "double"}) ||
+		*got.HomeCounts != (TeamCounts{Timeouts: 3, Fouls: 5, Bonus: "double"}) {
+		t.Errorf("away %+v home %+v", *got.AwayCounts, *got.HomeCounts)
+	}
+
+	// Not in play: nothing shown. The WNBA fixture is a final game.
+	final := loadFixture(t, "playbyplay_wnba_multi_plays.json")
+	poller, _ = NewPoller(&State{GameID: "998", Sport: "wnba"}, &recordSink{}, func(context.Context) (espn.Data, error) { return final, nil })
+	poller.StatusSink = StatusFunc(func(s GameStatus) { got = s })
+	if _, err := poller.Poll(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if got.AwayCounts != nil || got.HomeCounts != nil {
+		t.Errorf("final game has counts: %+v %+v", got.AwayCounts, got.HomeCounts)
+	}
+}
+
+func TestTeamCountsBonusStates(t *testing.T) {
+	c := func(state string) espn.Data {
+		return espn.Data{"timeoutsRemaining": json.Number("2"), "fouls": map[string]any{"teamFoulsCurrent": json.Number("4"), "bonusState": state}}
+	}
+	for state, want := range map[string]string{"NONE": "", "": "", "DOUBLE": "double", "SINGLE": "single", "ONE_AND_ONE": "single"} {
+		if got := teamCounts(c(state)); got.Bonus != want || got.Timeouts != 2 || got.Fouls != 4 {
+			t.Errorf("%q: %+v", state, got)
+		}
+	}
+	if teamCounts(espn.Data{}) != nil || teamCounts(nil) != nil {
+		t.Error("no data should be nil")
+	}
+}

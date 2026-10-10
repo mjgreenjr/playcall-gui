@@ -77,3 +77,23 @@ func staleText(updated, now time.Time, interval time.Duration) string {
 	}
 	return fmt.Sprintf("updated %s ago", age.Round(time.Second))
 }
+
+// countsText is basketball's line under a team's score: timeouts left, the
+// team's fouls this period and the bonus when it is in it. "" when there is
+// nothing to show.
+func countsText(sport string, c *core.TeamCounts) string {
+	if c == nil {
+		return ""
+	}
+	parts := []string{fmt.Sprintf("TO %d", c.Timeouts), fmt.Sprintf("Fouls %d", c.Fouls)}
+	switch {
+	case c.Bonus == "":
+	case sport == "cbb" && c.Bonus == "double":
+		parts = append(parts, "Double bonus")
+	case sport == "cbb":
+		parts = append(parts, "1-and-1")
+	default:
+		parts = append(parts, "Bonus")
+	}
+	return strings.Join(parts, " · ")
+}

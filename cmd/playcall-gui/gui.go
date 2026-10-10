@@ -27,14 +27,15 @@ type ui struct {
 	model  Model
 	status core.GameStatus
 
-	away, home           *canvas.Text
-	awayBadge, homeBadge *badge
-	awayBall, homeBall   *canvas.Image
-	logos                *logoCache
-	statusText           *widget.RichText
-	situation            *widget.RichText
-	series               *widget.Label
-	stale                *widget.Label
+	away, home             *canvas.Text
+	awayBadge, homeBadge   *badge
+	awayBall, homeBall     *canvas.Image
+	logos                  *logoCache
+	statusText             *widget.RichText
+	situation              *widget.RichText
+	awayCounts, homeCounts *widget.Label
+	series                 *widget.Label
+	stale                  *widget.Label
 
 	rows   *fyne.Container
 	scroll *container.Scroll
@@ -61,6 +62,11 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	u.situation = widget.NewRichText()
 	u.situation.Wrapping = fyne.TextWrapWord
 	u.setStatusLine("waiting for ESPN...", false)
+	u.awayCounts = widget.NewLabelWithStyle("", fyne.TextAlignLeading, fyne.TextStyle{})
+	u.homeCounts = widget.NewLabelWithStyle("", fyne.TextAlignTrailing, fyne.TextStyle{})
+	for _, l := range []*widget.Label{u.awayCounts, u.homeCounts} {
+		l.Hide() // basketball only
+	}
 	u.series = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Italic: true})
 	u.stale = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{})
 	u.stale.Importance = widget.WarningImportance
@@ -87,6 +93,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 			container.NewHBox(u.awayBall, u.awayBadge.box, u.away),
 			container.NewHBox(u.homeBadge.box, u.home, u.homeBall),
 			container.NewCenter(container.NewVBox(u.statusText, u.situation))),
+		// Basketball's timeouts and fouls, under each team's score.
+		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
 		u.series, u.stale,
 		widget.NewSeparator(),
 	)
@@ -150,6 +158,8 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.awayBadge.setLogo(u.logos, s.Away.Logo)
 	u.homeBadge.setLogo(u.logos, s.Home.Logo)
 	u.setBalls(s)
+	u.setCounts(u.awayCounts, s.Sport, s.AwayCounts)
+	u.setCounts(u.homeCounts, s.Sport, s.HomeCounts)
 	if s.Series != "" {
 		u.series.SetText("Series: " + s.Series)
 		u.series.Show()
@@ -157,6 +167,16 @@ func (u *ui) setStatus(s core.GameStatus) {
 		u.series.Hide()
 	}
 	u.refreshStale()
+}
+
+// setCounts shows a team's timeouts and fouls, or hides the line.
+func (u *ui) setCounts(l *widget.Label, sport string, c *core.TeamCounts) {
+	if text := countsText(sport, c); text != "" {
+		l.SetText(text)
+		l.Show()
+	} else {
+		l.Hide()
+	}
 }
 
 // setBalls puts the sport's ball at the outer edge of the team on offence.
