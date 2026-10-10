@@ -322,6 +322,7 @@ func (p *Poller) newFeed(data espn.Data, plays []espn.Data, finished bool) *Feed
 	status := espn.Status(data)
 	f.Clock = firstText(data["clock"], status["displayClock"])
 	f.Period = firstText(data["period"], status["displayPeriod"])
+	f.Clock = footballClock(p.Sport, f.Clock, data, plays, finished)
 	f.Series = seriesText(data, "", false)
 	return f
 }

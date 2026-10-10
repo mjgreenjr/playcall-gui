@@ -26,7 +26,7 @@ func (footballPlays) IDs(p espn.Data) []string { return []string{espn.PlayKey(p)
 func (r footballPlays) Message(p espn.Data) Message {
 	text := espn.PlayText(p)
 	f := r.f
-	clock, period, body := f.Clock, f.Period, footballBody(p, text)
+	clock, period, body := f.Clock, f.Period, footballBody(p, dropPlaceholderClock(text, f.Clock))
 	if isTimeout(p) {
 		body = footballTimeoutBody(f.Plays, p, text)
 	}
@@ -219,4 +219,64 @@ func footballUrgent(p espn.Data, text string) bool {
 		}
 	}
 	return false
+}
+
+// placeholderClock is the ", clock 00:00" ESPN writes into a score's text
+// before it knows the time (it fills in the real one a poll or two later).
+var placeholderClock = regexp.MustCompile(`, clock 00:00`)
+
+// dropPlaceholderClock takes the ", clock 00:00" out of what is shown unless
+// the game clock really is at zero (the end of a quarter). The text ESPN sent
+// is not changed, so the update that carries the real time is still detected.
+func dropPlaceholderClock(text, gameClock string) string {
+	if gameClock == "0:00" || gameClock == "00:00" {
+		return text
+	}
+	return placeholderClock.ReplaceAllString(text, "")
+}
+
+// staleClockSeconds is how far ESPN's game clock may trail the newest play
+// before it counts as stuck.
+const staleClockSeconds = 45
+
+var clockRE = regexp.MustCompile(`^(\d+):(\d{2})$`)
+
+func parseClock(s string) (int, bool) {
+	m := clockRE.FindStringSubmatch(strings.TrimSpace(s))
+	if m == nil {
+		return 0, false
+	}
+	return clockSeconds(m)
+}
+
+// footballClock is the game clock to show. ESPN's own can stay at the start of
+// a quarter ("15:00 2nd") for minutes while the plays go on; it counts down,
+// so when it is more than staleClockSeconds above the newest play's time in
+// the same period, that play's time is the better answer. Otherwise ESPN's is
+// kept, as it is outside live football play and at a period break.
+func footballClock(sport, clock string, data espn.Data, plays []espn.Data, finished bool) string {
+	if (sport != "nfl" && sport != "cfb") || finished || len(plays) == 0 {
+		return clock
+	}
+	status := espn.Status(data)
+	if espn.Str(espn.Map(status["type"])["state"]) != "in" {
+		return clock
+	}
+	last := plays[len(plays)-1]
+	switch strings.ToLower(playType(last)) {
+	case "end period", "end of half", "end of game":
+		return clock
+	}
+	period, ok := espn.Int64(status["period"])
+	playPeriod, okPlay := espn.Int64(espn.Map(last["period"])["number"])
+	if !ok || !okPlay || period != playPeriod {
+		return clock
+	}
+	playClock := espn.Str(espn.Map(last["clock"])["displayValue"])
+	shown, ok1 := parseClock(clock)
+	played, ok2 := parseClock(playClock)
+	if ok1 && ok2 && shown-played > staleClockSeconds {
+		return playClock
+	}
+	return clock
 }

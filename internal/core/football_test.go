@@ -248,3 +248,67 @@ func TestEndZone(t *testing.T) {
 		t.Errorf("body %q", body)
 	}
 }
+
+// ESPN writes ", clock 00:00" into a score before it knows the time. It is
+// left out of what is shown unless the game clock really is at zero.
+func TestFootballDropsThePlaceholderClock(t *testing.T) {
+	text := "Shotgun #4 K.Houser rush right for 2 yards gain to the MSU00 TOUCHDOWN, clock 00:00"
+	for _, c := range []struct{ clock, want string }{
+		{"8:57", "Shotgun #4 K.Houser rush right for 2 yards gain to the MSU end zone TOUCHDOWN"},
+		{"15:00", "Shotgun #4 K.Houser rush right for 2 yards gain to the MSU end zone TOUCHDOWN"},
+		{"0:00", "Shotgun #4 K.Houser rush right for 2 yards gain to the MSU end zone TOUCHDOWN, clock 00:00"}, // the quarter really ended
+	} {
+		td := espn.Data{"id": "1", "text": text, "type": map[string]any{"text": "Rushing Touchdown"}, "scoringPlay": true}
+		r := footballPlays{&Feed{Plays: []espn.Data{td}, Clock: c.clock, Period: "2nd"}}
+		if got := r.Message(td).Body; got != c.want {
+			t.Errorf("game clock %s: got %q, want %q", c.clock, got, c.want)
+		}
+	}
+	// The real time ESPN fills in later is kept.
+	if got := dropPlaceholderClock("TOUCHDOWN, clock 08:57", "8:57"); got != "TOUCHDOWN, clock 08:57" {
+		t.Errorf("real clock dropped: %q", got)
+	}
+	// The raw text is what update detection compares, and is not touched.
+	if got := espn.PlayText(espn.Data{"text": text}); !strings.HasSuffix(got, "clock 00:00") {
+		t.Errorf("play text changed: %q", got)
+	}
+}
+
+// ESPN's game clock sometimes sits at the start of a quarter while plays go
+// on. When it is well above the newest play's time, that time is shown.
+func TestFootballClockFallsBackWhenESPNsIsStuck(t *testing.T) {
+	play := func(typ, period, clock string) espn.Data {
+		return espn.Data{"type": map[string]any{"text": typ}, "period": map[string]any{"number": json.Number(period)},
+			"clock": map[string]any{"displayValue": clock}}
+	}
+	data := func(state, period string) espn.Data {
+		return espn.Data{"status": espn.Data{"period": json.Number(period), "type": espn.Data{"state": state}}}
+	}
+	rush := func(period, clock string) []espn.Data { return []espn.Data{play("Rush", period, clock)} }
+	for _, c := range []struct {
+		name     string
+		sport    string
+		clock    string
+		data     espn.Data
+		plays    []espn.Data
+		finished bool
+		want     string
+	}{
+		{"stuck at the start of the quarter", "cfb", "15:00", data("in", "2"), rush("2", "12:12"), false, "12:12"},
+		{"nfl too", "nfl", "15:00", data("in", "2"), rush("2", "12:12"), false, "12:12"},
+		{"not noticeably behind", "cfb", "12:40", data("in", "2"), rush("2", "12:12"), false, "12:40"},
+		{"exactly at the limit", "cfb", "12:57", data("in", "2"), rush("2", "12:12"), false, "12:57"},
+		{"ESPN is ahead of the play", "cfb", "11:50", data("in", "2"), rush("2", "12:12"), false, "11:50"},
+		{"the play is from the last quarter", "cfb", "15:00", data("in", "3"), rush("2", "0:30"), false, "15:00"},
+		{"after the End Period play", "cfb", "15:00", data("in", "2"), []espn.Data{play("End Period", "2", "0:00")}, false, "15:00"},
+		{"not in play", "cfb", "15:00", data("pre", "2"), rush("2", "12:12"), false, "15:00"},
+		{"final", "cfb", "15:00", data("in", "2"), rush("2", "12:12"), true, "15:00"},
+		{"no plays", "cfb", "15:00", data("in", "2"), nil, false, "15:00"},
+		{"another sport", "nba", "15:00", data("in", "2"), rush("2", "12:12"), false, "15:00"},
+		{"a clock that is not m:ss", "cfb", "", data("in", "2"), rush("2", "12:12"), false, ""},
+	} {
+		if got := footballClock(c.sport, c.clock, c.data, c.plays, c.finished); got != c.want {
+			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
+		}
+	}
+}
