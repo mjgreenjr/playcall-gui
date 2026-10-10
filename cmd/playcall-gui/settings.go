@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
@@ -28,6 +29,8 @@ type settingsEnv struct {
 	update func(func(*core.Config))
 	// back leaves the screen.
 	back func()
+	// logos supplies team logos for the favorites list; nil shows none.
+	logos *logoCache
 }
 
 // settingsView is the settings screen: General (poll interval, highlight
@@ -49,15 +52,16 @@ type settingsView struct {
 	list       *widget.List
 	teams      []espn.Team // the sport's teams as ESPN lists them
 	rows       []teamRow   // what the list shows, after the search filter
-	loadedFor  string      // sport the teams belong to
+	slots      logoSlots
+	loadedFor  string // sport the teams belong to
 	generation int
 	quiet      bool
 }
 
 // teamRow is one line of the favorites list.
 type teamRow struct {
-	Abbr, Name string
-	Extra      bool // a favorite that ESPN's list for this sport does not have
+	Abbr, Name, Logo string
+	Extra            bool // a favorite that ESPN's list for this sport does not have
 }
 
 // intervalChoices are the poll intervals offered, in seconds.
@@ -181,13 +185,18 @@ func (v *settingsView) favoritesTab(sport string) fyne.CanvasObject {
 
 	v.list = widget.NewList(
 		func() int { return len(v.rows) },
-		func() fyne.CanvasObject { return widget.NewCheck("", nil) },
+		func() fyne.CanvasObject {
+			return container.NewBorder(nil, nil, rowLogo(), nil, widget.NewCheck("", nil))
+		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
 			if i >= len(v.rows) {
 				return
 			}
 			row := v.rows[i]
-			check := o.(*widget.Check)
+			// Border lists its center first, then the left object.
+			box := o.(*fyne.Container)
+			check := box.Objects[0].(*widget.Check)
+			v.slots.show(v.env.logos, box.Objects[1].(*canvas.Image), row.Logo)
 			check.OnChanged = nil // setting the state below is not a user's choice
 			check.SetText(row.label())
 			check.SetChecked(v.isFavorite(row.Abbr))
@@ -211,11 +220,16 @@ func (v *settingsView) favoritesTab(sport string) fyne.CanvasObject {
 	return container.NewBorder(head, nil, nil, nil, v.list)
 }
 
+// label is the team's name; the abbreviation stands in only when ESPN's list
+// does not have the team (an unknown favorite) or gives it no name.
 func (r teamRow) label() string {
 	if r.Extra {
 		return r.Abbr + "  (not in ESPN's team list)"
 	}
-	return r.Abbr + "  " + r.Name
+	if r.Name == "" {
+		return r.Abbr
+	}
+	return r.Name
 }
 
 func (v *settingsView) currentSport() string { return sportFromLabel(v.sport.Selected) }
@@ -308,7 +322,7 @@ func (v *settingsView) applyFilter() {
 	}
 	for _, t := range v.teams {
 		if query == "" || strings.Contains(strings.ToLower(t.Abbr), query) || strings.Contains(strings.ToLower(t.Name), query) {
-			rows = append(rows, teamRow{Abbr: t.Abbr, Name: t.Name})
+			rows = append(rows, teamRow{Abbr: t.Abbr, Name: t.Name, Logo: t.Logo})
 		}
 	}
 	v.rows = rows

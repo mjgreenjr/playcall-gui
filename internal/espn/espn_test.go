@@ -337,3 +337,31 @@ func TestTeamLogo(t *testing.T) {
 		}
 	}
 }
+
+type staticFetcher struct{ data Data }
+
+func (f staticFetcher) Fetch(context.Context, string) (Data, error) { return f.data, nil }
+
+func TestFetchTeamsCarriesLogos(t *testing.T) {
+	logos := func(abbr string) []any {
+		return []any{
+			map[string]any{"href": "https://x/" + abbr + ".png", "rel": []any{"full", "default"}},
+			map[string]any{"href": "https://x/dark/" + abbr + ".png", "rel": []any{"full", "dark"}},
+		}
+	}
+	teams := staticFetcher{Data{"sports": []any{map[string]any{"leagues": []any{map[string]any{"teams": []any{
+		map[string]any{"team": map[string]any{"abbreviation": "DAL", "displayName": "Dallas Cowboys", "logos": logos("dal")}},
+		map[string]any{"team": map[string]any{"abbreviation": "XX", "displayName": "No Logo"}},
+	}}}}}}}
+	got := FetchTeams(context.Background(), teams, "nfl", "")
+	if len(got) != 2 || got[0].Logo != "https://x/dark/dal.png" || got[1].Logo != "" {
+		t.Errorf("teams endpoint: %+v", got)
+	}
+	standings := staticFetcher{Data{"standings": map[string]any{"entries": []any{
+		map[string]any{"team": map[string]any{"abbreviation": "IOWA", "displayName": "Iowa Hawkeyes", "logos": logos("iowa")}},
+	}}}}
+	got = FetchTeams(context.Background(), standings, "cfb", "")
+	if len(got) != 1 || got[0].Logo != "https://x/dark/iowa.png" {
+		t.Errorf("standings: %+v", got)
+	}
+}

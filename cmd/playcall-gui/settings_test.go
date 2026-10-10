@@ -3,11 +3,16 @@ package main
 import (
 	"context"
 	"errors"
+	"net/http"
 	"os"
 	"strings"
+	"sync/atomic"
 	"testing"
 
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/test"
+	"fyne.io/fyne/v2/widget"
 
 	"playcall/internal/core"
 	"playcall/internal/espn"
@@ -202,5 +207,69 @@ func TestSettingsDoesNotSaveJustByOpening(t *testing.T) {
 	h := newHarness(t, core.DefaultConfig(), "nfl", false)
 	if h.updates != 0 {
 		t.Errorf("opening saved %d times", h.updates)
+	}
+}
+
+func TestFavoritesRowsShowNameAndLogoNotTheAbbreviation(t *testing.T) {
+	var hits atomic.Int32
+	srv := logoServer(t, &hits, http.StatusOK)
+	cfg := core.DefaultConfig()
+	cfg.SetFavoriteTeams("nfl", []string{"ZZZ"})
+	h := newHarness(t, cfg, "nfl", false)
+	v := h.view
+	v.env.logos = newLogoCache(t.TempDir(), inline)
+	v.rows = []teamRow{
+		{Abbr: "ZZZ", Extra: true},
+		{Abbr: "DAL", Name: "Dallas Cowboys", Logo: srv.URL + "/dal.png"},
+		{Abbr: "HOU", Name: "Houston Texans"}, // ESPN gave no logo
+		{Abbr: "KC"},                          // ...and no name
+	}
+	row := v.list.CreateItem().(*fyne.Container)
+	parts := func() (*widget.Check, *canvas.Image) {
+		return row.Objects[0].(*widget.Check), row.Objects[1].(*canvas.Image)
+	}
+
+	v.list.UpdateItem(1, row)
+	check, logo := parts()
+	if check.Text != "Dallas Cowboys" {
+		t.Errorf("name row shows %q (the abbreviation should be gone)", check.Text)
+	}
+	if logo.File == "" {
+		t.Error("no logo shown")
+	}
+	first := logo.File
+
+	// The same row object reused for a team with no logo must not keep Dallas's.
+	v.list.UpdateItem(2, row)
+	check, logo = parts()
+	if check.Text != "Houston Texans" || logo.File != "" {
+		t.Errorf("recycled row: %q, logo %q", check.Text, logo.File)
+	}
+
+	// An unknown favorite keeps its abbreviation, since it has no name.
+	v.list.UpdateItem(0, row)
+	if check, logo = parts(); check.Text != "ZZZ  (not in ESPN's team list)" || logo.File != "" || !check.Checked {
+		t.Errorf("unknown favorite: %q checked %v logo %q", check.Text, check.Checked, logo.File)
+	}
+	// A team with no name falls back to its abbreviation.
+	v.list.UpdateItem(3, row)
+	if check, _ = parts(); check.Text != "KC" {
+		t.Errorf("nameless team: %q", check.Text)
+	}
+
+	// Back to Dallas: from disk, no new download.
+	before := hits.Load()
+	v.list.UpdateItem(1, row)
+	if _, logo = parts(); logo.File != first || hits.Load() != before {
+		t.Errorf("returned row: %q, %d new downloads", logo.File, hits.Load()-before)
+	}
+}
+
+func TestFavoritesStillSearchableByAbbreviation(t *testing.T) {
+	h := newHarness(t, core.DefaultConfig(), "nfl", false)
+	v := h.view
+	v.search.SetText("DAL")
+	if len(v.rows) != 1 || v.rows[0].Abbr != "DAL" || v.rows[0].label() != "Dallas Cowboys" {
+		t.Errorf("rows %+v", v.rows)
 	}
 }

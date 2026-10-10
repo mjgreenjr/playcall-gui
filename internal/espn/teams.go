@@ -7,9 +7,10 @@ import (
 	"playcall/internal/sports"
 )
 
-// Team is a team's abbreviation and display name.
+// Team is a team's abbreviation, display name and logo (a URL for a dark
+// background, "" if ESPN has none).
 type Team struct {
-	Abbr, Name string
+	Abbr, Name, Logo string
 }
 
 // FetchTeams returns the sport's teams, or nil if they cannot be fetched. A
@@ -42,7 +43,7 @@ func FetchTeams(ctx context.Context, f Fetcher, sport, group string) []Team {
 }
 
 func teamOf(t Data) Team {
-	return Team{Abbr: Str(t["abbreviation"]), Name: Str(t["displayName"])}
+	return Team{Abbr: Str(t["abbreviation"]), Name: Str(t["displayName"]), Logo: TeamLogo(t)}
 }
 
 // standingsTeams collects the teams of a standings tree; conferences nest.

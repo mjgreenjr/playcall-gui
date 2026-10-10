@@ -4,6 +4,8 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"io"
 	"log/slog"
 	"net/http"
@@ -131,4 +133,42 @@ func (c *logoCache) download(logoURL, dest string) error {
 		return err
 	}
 	return os.Rename(tmp.Name(), dest)
+}
+
+// rowLogoSize is the logo size in a list row, in points.
+const rowLogoSize = 28
+
+// rowLogo is an empty logo slot for a list row.
+func rowLogo() *canvas.Image {
+	img := &canvas.Image{FillMode: canvas.ImageFillContain}
+	img.SetMinSize(fyne.NewSize(rowLogoSize, rowLogoSize))
+	return img
+}
+
+// logoSlots shows logos in the reused rows of a list. A list recycles its
+// row widgets, so a download that finishes late only lands if the slot still
+// wants that logo.
+type logoSlots struct {
+	want map[*canvas.Image]string
+}
+
+// show puts the logo at url in img once the cache has it; "" empties the slot.
+// A nil cache shows nothing.
+func (l *logoSlots) show(cache *logoCache, img *canvas.Image, url string) {
+	if l.want == nil {
+		l.want = map[*canvas.Image]string{}
+	}
+	if l.want[img] == url && (url == "" || img.File != "") {
+		return // already showing it; no flicker on a plain refresh
+	}
+	l.want[img] = url
+	img.File = ""
+	img.Refresh()
+	cache.Get(url, func(path string) {
+		if l.want[img] != url {
+			return
+		}
+		img.File = path
+		img.Refresh()
+	})
 }

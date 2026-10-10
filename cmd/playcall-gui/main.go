@@ -162,6 +162,7 @@ func (s *shell) showSettings() {
 		fetcher: s.fetcher,
 		cfg:     func() core.Config { return s.cfg },
 		update:  s.update,
+		logos:   s.logos,
 		back: func() {
 			s.win.SetContent(s.pickerView.content)
 			s.pickerView.refresh()
