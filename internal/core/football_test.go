@@ -231,13 +231,13 @@ func TestFootballTwoMinuteWarningIsOfficial(t *testing.T) {
 
 func TestEndZone(t *testing.T) {
 	for in, want := range map[string]string{
-		"(13:40) #1 J.Raynor pass complete to #13 J.Polite caught at BYU01, for 17 yards to the BYU00 TOUCHDOWN, clock 13:35": "(13:40) #1 J.Raynor pass complete to #13 J.Polite caught at BYU01, for 17 yards to the BYU end zone TOUCHDOWN, clock 13:35",
+		"(13:40) #1 J.Raynor pass complete to #13 J.Polite caught at BYU01, for 17 yards to the BYU00 TOUCHDOWN, clock 13:35": "(13:40) #1 J.Raynor pass complete to #13 J.Polite caught at BYU 1, for 17 yards to the BYU end zone TOUCHDOWN, clock 13:35",
 		"M.James caught at IOWA00, for 3 yards to the IOWA00 TOUCHDOWN":                                                       "M.James caught at IOWA end zone, for 3 yards to the IOWA end zone TOUCHDOWN",
 		"punt 40 yards to the ISU00, Touchback":                                                                               "punt 40 yards to the ISU end zone, Touchback",
 		"rush for 5 yards to the TA&M00 TOUCHDOWN":                                                                            "rush for 5 yards to the TA&M end zone TOUCHDOWN",
-		"Timeout BYU, clock 02:00":                                                                                            "Timeout BYU, clock 02:00",   // a clock, not a spot
-		"rush to the ISU10 (tackle)":                                                                                          "rush to the ISU10 (tackle)", // not the goal line
-		"penalty from ISU01 to ISU06":                                                                                         "penalty from ISU01 to ISU06",
+		"Timeout BYU, clock 02:00":                                                                                            "Timeout BYU, clock 02:00",    // a clock, not a spot
+		"rush to the ISU10 (tackle)":                                                                                          "rush to the ISU 10 (tackle)", // not the goal line
+		"penalty from ISU01 to ISU06":                                                                                         "penalty from ISU 1 to ISU 6",
 	} {
 		if got := endZone(in); got != want {
 			t.Errorf("%q\n got %q\nwant %q", in, got, want)
@@ -336,5 +336,19 @@ func TestFootballOvertimeLabel(t *testing.T) {
 	}
 	if got := dropPlaceholderClock("TOUCHDOWN, clock 00:00, 1ST DOWN", ""); got != "TOUCHDOWN, 1ST DOWN" {
 		t.Errorf("overtime text kept the placeholder: %q", got)
+	}
+}
+
+func TestFootballYardLineSpaced(t *testing.T) {
+	cases := map[string]string{
+		"rush for 10 yards gain to the ILL15 (#16 T.Heckel)":   "rush for 10 yards gain to the ILL 15 (#16 T.Heckel)",
+		"caught at MSU13, for 25 yards to the MSU00 TOUCHDOWN": "caught at MSU 13, for 25 yards to the MSU end zone TOUCHDOWN",
+		"1ST DOWN #37 E.Moczulski kick":                        "1ST DOWN #37 E.Moczulski kick",
+		"from ILL31 to ILL26. NO PLAY":                         "from ILL 31 to ILL 26. NO PLAY",
+	}
+	for in, want := range cases {
+		if got := endZone(in); got != want {
+			t.Errorf("endZone(%q) = %q, want %q", in, got, want)
+		}
 	}
 }
