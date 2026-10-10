@@ -36,8 +36,11 @@ type ui struct {
 	situation              *widget.RichText
 	awayCounts, homeCounts *widget.Label
 	awayRecord, homeRecord *widget.RichText
-	series                 *widget.Label
-	stale                  *widget.Label
+	// division is a team's division record for the header, from memory (it
+	// runs on the UI goroutine); nil shows none.
+	division func(abbr string) string
+	series   *widget.Label
+	stale    *widget.Label
 
 	rows   *fyne.Container
 	scroll *container.Scroll
@@ -166,7 +169,7 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.awayBadge.setLogo(u.logos, s.Away.Logo)
 	u.homeBadge.setLogo(u.logos, s.Home.Logo)
 	u.setBalls(s)
-	u.setRecords(statusRecords(s))
+	u.refreshRecords()
 	u.setCounts(u.awayCounts, s.Sport, s.AwayCounts)
 	u.setCounts(u.homeCounts, s.Sport, s.HomeCounts)
 	if s.Series != "" {
@@ -228,6 +231,12 @@ func (u *ui) setSituation(text string) {
 		},
 	}}
 	u.situation.Refresh()
+}
+
+// refreshRecords redraws the records from the last status; the division
+// records may have arrived since.
+func (u *ui) refreshRecords() {
+	u.setRecords(statusRecords(u.status, u.division))
 }
 
 // setRecords shows each team's record under its side, in the situation's size.

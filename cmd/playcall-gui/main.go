@@ -82,6 +82,7 @@ func run() int {
 	s.app = app.New() // before any widget: they read the theme from it
 	if paths, err := core.DefaultPaths(); err == nil {
 		s.logos = newLogoCache(filepath.Join(paths.CacheDir, "logos"), func(f func()) { fyne.Do(f) })
+		s.divisions = core.NewDivisionCache(filepath.Join(paths.CacheDir, "standings"), s.fetcher)
 	}
 	changes := make(chan fyne.Settings, 1)
 	s.app.Settings().AddChangeListener(changes)
@@ -125,6 +126,9 @@ type shell struct {
 	// the settings opened over it). Read by the poll goroutine.
 	gameShown atomic.Bool
 	logos     *logoCache // team logos on disk; nil if the cache folder is unknown
+	// divisions is the day's division records for the pro sports; nil if the
+	// cache folder is unknown.
+	divisions *core.DivisionCache
 }
 
 func (s *shell) loadConfig() {
@@ -192,6 +196,7 @@ func (s *shell) showPicker(sport string) {
 	}
 	p.onSettings = s.settingsFromPicker
 	p.logos = s.logos
+	p.divisions = s.divisions
 	s.pickerView = p
 	s.win.SetContent(p.content)
 	p.load()
@@ -283,6 +288,47 @@ func (s *shell) endGame() {
 	}
 }
 
+// divisionRetry is how long after a game ends the standings are fetched once
+// more, in case ESPN had not counted the game yet.
+const divisionRetry = 5 * time.Minute
+
+// watchDivisions gives a pro sport's game page its division records: they are
+// loaded in the background when the game opens, and fetched again when the
+// game turns final (and once more a few minutes later), so the next look at
+// the picker has the new standings.
+func (s *shell) watchDivisions(ctx context.Context, sport string, view *ui, poller *core.Poller) {
+	if s.divisions == nil || !espn.HasDivisionRecords(sport) {
+		return
+	}
+	cache := s.divisions
+	view.division = func(abbr string) string { return cache.Cached(sport, abbr) }
+	refresh := func(f func()) {
+		f()
+		fyne.Do(view.refreshRecords)
+	}
+	go refresh(func() { cache.Load(ctx, sport, time.Now()) })
+	var wasLive bool
+	poller.StatusSink = core.StatusFunc(func(st core.GameStatus) {
+		guiSink{view}.Status(st)
+		if !st.Final {
+			wasLive = true
+			return
+		}
+		if !wasLive {
+			return // opened on a finished game: the day's fetch is enough
+		}
+		wasLive = false
+		go func() {
+			refresh(func() { cache.Refresh(ctx, sport, time.Now()) })
+			select {
+			case <-ctx.Done():
+			case <-time.After(divisionRetry):
+				refresh(func() { cache.Refresh(ctx, sport, time.Now()) })
+			}
+		}()
+	})
+}
+
 // follow polls one game into a fresh game view. back adds a button that
 // returns to the picker.
 func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duration, back bool) {
@@ -308,6 +354,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 		return
 	}
 	poller.StatusSink = win
+	s.watchDivisions(ctx, sport, view, poller)
 
 	s.win.SetTitle(fmt.Sprintf("playcall - %s %s", sportLabel(sport), gameID))
 	s.win.SetContent(view.content)

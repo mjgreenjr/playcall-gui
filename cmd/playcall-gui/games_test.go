@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"playcall/internal/core"
 	"playcall/internal/espn"
 	"playcall/internal/sports"
 )
@@ -122,5 +123,21 @@ func TestTeamRecord(t *testing.T) {
 		if got := teamRecord(c.overall, c.conf, c.wins, c.other); got != c.want {
 			t.Errorf("teamRecord(%q, %q, %q, %q) = %q, want %q", c.overall, c.conf, c.wins, c.other, got, c.want)
 		}
+	}
+}
+
+func TestStatusRecordsDivision(t *testing.T) {
+	st := core.GameStatus{
+		Away:       core.TeamScore{Abbr: "BUF"},
+		Home:       core.TeamScore{Abbr: "NYJ"},
+		AwayRecord: core.TeamRecord{Overall: "3-1"},
+		HomeRecord: core.TeamRecord{Overall: "2-2", Conf: "1-0"},
+	}
+	away, home := statusRecords(st, func(abbr string) string { return map[string]string{"BUF": "0-1", "NYJ": "9-9"}[abbr] })
+	if away != "3-1 (0-1)" || home != "2-2 (1-0)" {
+		t.Errorf("records %q, %q", away, home)
+	}
+	if away, _ := statusRecords(st, nil); away != "3-1" {
+		t.Errorf("without a division %q", away)
 	}
 }

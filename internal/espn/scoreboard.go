@@ -34,7 +34,8 @@ type Game struct {
 	AwayLogo  Logo // ESPN's logo URLs; either variant may be empty
 	HomeLogo  Logo
 	// Season records as ESPN writes them ("3-1"); empty when it sends none.
-	// Conf is the conference record, which only the college sports carry.
+	// Conf is the conference record (college sports); core.AddDivisionRecords
+	// puts the division record there for the pro sports.
 	AwayRecord, HomeRecord string
 	AwayConf, HomeConf     string
 	// Wins in the current playoff series ("2"), "" outside one. They count

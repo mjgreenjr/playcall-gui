@@ -27,9 +27,11 @@ type picker struct {
 	// onSettings opens the settings screen; the gear button is inert while nil.
 	onSettings func()
 	logos      *logoCache // team logos for the rows; nil shows none
-	slots      logoSlots
-	abbrWidth  float32 // width of the abbreviation columns, so every row lines up
-	recWidth   float32 // width of the record columns
+	// divisions adds the pro sports' division records to the rows; nil skips them.
+	divisions *core.DivisionCache
+	slots     logoSlots
+	abbrWidth float32 // width of the abbreviation columns, so every row lines up
+	recWidth  float32 // width of the record columns
 
 	ctx       context.Context
 	fetcher   espn.Fetcher
@@ -283,6 +285,9 @@ func (p *picker) load() {
 	p.status.SetText("Loading " + sportLabel(sport) + " games...")
 	runAsync(func() {
 		games, err := core.TodaysGames(p.ctx, p.fetcher, sport, group, time.Now())
+		if err == nil && p.divisions != nil {
+			core.AddDivisionRecords(games, p.divisions.Load(p.ctx, sport, time.Now()))
+		}
 		fyne.Do(func() {
 			if gen != p.generation {
 				return
