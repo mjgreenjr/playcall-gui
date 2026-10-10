@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"os"
 	"strings"
 	"testing"
@@ -584,5 +585,27 @@ func TestSleepContextCancels(t *testing.T) {
 	start := time.Now()
 	if err := sleepContext(ctx, time.Hour); err == nil || time.Since(start) > time.Second {
 		t.Errorf("err = %v after %v", err, time.Since(start))
+	}
+}
+
+func TestLogTextChanges(t *testing.T) {
+	var buf bytes.Buffer
+	old := slog.Default()
+	slog.SetDefault(slog.New(slog.NewTextHandler(&buf, &slog.HandlerOptions{Level: slog.LevelDebug})))
+	defer slog.SetDefault(old)
+
+	p := &Poller{State: &State{GameID: "g"}}
+	play := func(text string) []espn.Data { return []espn.Data{{"id": "7", "text": text}} }
+	p.logTextChanges(play("foul"))
+	p.logTextChanges(play("foul"))
+	if buf.Len() != 0 {
+		t.Fatalf("unchanged text logged: %s", buf.String())
+	}
+	p.logTextChanges(play("Smith personal foul"))
+	out := buf.String()
+	for _, want := range []string{"Play text changed", "old=foul", `new="Smith personal foul"`, "play=7"} {
+		if !strings.Contains(out, want) {
+			t.Errorf("log missing %q: %s", want, out)
+		}
 	}
 }

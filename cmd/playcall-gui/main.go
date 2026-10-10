@@ -31,11 +31,22 @@ func run() int {
 	mock := flag.String("mock", "", "replay a fixture file as if it were live, instead of ESPN")
 	step := flag.Int("step", 3, "with --mock: plays revealed per poll")
 	interval := flag.Duration("interval", 0, "poll interval (default: the config's; 1s with --mock; never below 5s live)")
+	debug := flag.Bool("debug", false, "log at DEBUG level (fetches, plays, edited play text) to ~/.cache/playcall/playcall.log and stderr")
 	flag.Parse()
 
 	if err := sports.Validate(*sport); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return 2
+	}
+
+	level := slog.LevelInfo
+	if *debug {
+		level = slog.LevelDebug
+	}
+	if paths, err := core.DefaultPaths(); err == nil {
+		if closeLog, err := core.SetupLogging(paths, os.Stderr, level); err == nil {
+			defer closeLog()
+		}
 	}
 
 	root, cancel := context.WithCancel(context.Background())

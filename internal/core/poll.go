@@ -64,6 +64,9 @@ type Poller struct {
 	Trace io.Writer
 	// Now is the clock; nil means time.Now.
 	Now func() time.Time
+
+	// texts is each play's text as of the last poll, to log edits.
+	texts map[string]string
 }
 
 // NewPoller returns a poller for state's sport, or an error (ErrNotImplemented
@@ -90,6 +93,24 @@ func (p *Poller) save() error {
 	return p.Store.Save(p.State)
 }
 
+// logTextChanges logs, at DEBUG, each play whose text differs from the last
+// poll. ESPN sometimes posts a play with partial text and fills it in later
+// under the same id; only scoring plays are re-sent when that happens, so this
+// is how to tell which plays a sink showed incomplete.
+func (p *Poller) logTextChanges(plays []espn.Data) {
+	if p.texts == nil {
+		p.texts = map[string]string{}
+	}
+	for _, pl := range plays {
+		id, text := espn.PlayKey(pl), espn.PlayText(pl)
+		if old, ok := p.texts[id]; ok && old != text {
+			slog.Debug("Play text changed", "game", p.State.GameID, "play", id, "old", old, "new", text,
+				"scoring", espn.Truthy(pl["scoringPlay"]))
+		}
+		p.texts[id] = text
+	}
+}
+
 // Poll runs one poll: fetch, find the plays not announced yet, send them
 // (scoring updates first), advance the state, and send the final event once
 // the game is over and everything else is out. The error is for unexpected
@@ -104,6 +125,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 	}
 	plays := espn.ExtractPlays(data)
 	finished := espn.IsFinal(data)
+	p.logTextChanges(plays)
 	feed := p.newFeed(data, plays, finished)
 	p.publishStatus(feed)
 	var out Outcome
