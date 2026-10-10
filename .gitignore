@@ -1,5 +1,6 @@
 /playcall
 /playcall.exe
+/playcall-gui
 .claude/.verified_hash
 __pycache__/
 *.pyc
