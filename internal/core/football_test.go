@@ -407,3 +407,31 @@ func TestDropReplacedPlay(t *testing.T) {
 		t.Errorf("a play whose twin is still there was dropped: %v", got)
 	}
 }
+
+func TestDropAfterPeriodEnd(t *testing.T) {
+	play := func(id string, period int, kind string) espn.Data {
+		return espn.Data{
+			"id": id, "text": "play " + id,
+			"type":   map[string]any{"text": kind},
+			"period": map[string]any{"number": json.Number(strconv.Itoa(period))},
+		}
+	}
+	last := PlayID(191)
+	p := &Poller{State: &State{GameID: "g", LastPlayID: &last}, Rules: footballRules{}, known: map[string]bool{}}
+	end := play("191", 1, "End Period")
+	late := play("194", 1, "Kickoff")
+	// The end arrives in the same poll as the plays before it: all are sent.
+	before := play("190", 1, "Rush")
+	if got := p.dropAfterPeriodEnd([]espn.Data{before, end}, []espn.Data{before, end}); len(got) != 2 {
+		t.Fatalf("same poll: %d kept", len(got))
+	}
+	// Later a 1st-quarter play shows up: not announced; a 2nd-quarter one is.
+	next := play("195", 2, "Rush")
+	got := p.dropAfterPeriodEnd([]espn.Data{before, end, late, next}, []espn.Data{late, next})
+	if len(got) != 1 || espn.PlayKey(got[0]) != "195" {
+		t.Errorf("kept %v", got)
+	}
+	if *p.State.LastPlayID != 194 || !p.known["194"] {
+		t.Errorf("last_play_id %d, known %v", *p.State.LastPlayID, p.known)
+	}
+}

@@ -84,6 +84,8 @@ type Poller struct {
 	// signatures is what each football play looked like (period, clock, type,
 	// start of the text), to spot a play ESPN replaced with a new id.
 	signatures map[string]string
+	// ended is the periods whose end an earlier poll's feed already showed.
+	ended map[int64]bool
 	// sentTexts is the text of each revisable play (see revisablePlay) as it
 	// was last sent, to re-send the play when ESPN fills in its text later.
 	// In memory only: a restart forgets it.
@@ -182,6 +184,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		if _, ok := p.Rules.(footballRules); ok {
 			unseen = p.addLatePlays(plays, unseen, st.LastPlayID)
 			unseen = p.dropReplaced(plays, unseen)
+			unseen = p.dropAfterPeriodEnd(plays, unseen)
 		}
 	}
 	rules := p.Rules.Prepare(feed)
@@ -460,6 +463,48 @@ func (p *Poller) dropReplaced(plays, unseen []espn.Data) []espn.Data {
 	}
 	for _, pl := range plays {
 		p.signatures[espn.PlayKey(pl)] = playSignature(pl)
+	}
+	return kept
+}
+
+// endsPeriod is the play that closes a quarter, a half or the game.
+func endsPeriod(pl espn.Data) bool {
+	switch strings.ToLower(playType(pl)) {
+	case "end period", "end of half", "end of game", "end of regulation":
+		return true
+	}
+	return false
+}
+
+// dropAfterPeriodEnd takes out of unseen a football play from a period an
+// earlier poll already saw end. Nothing from the 1st quarter can come after
+// the end of the 1st, so a play that shows up late (ESPN re-posting a corrected
+// play, or filling one in) is not announced. Plays that arrive in the same poll
+// as the end of their period are sent as usual. The list is marked as handled.
+func (p *Poller) dropAfterPeriodEnd(plays, unseen []espn.Data) []espn.Data {
+	if p.ended == nil {
+		p.ended = map[int64]bool{}
+	}
+	var kept []espn.Data
+	for _, pl := range unseen {
+		n, ok := espn.Int64(espn.Map(pl["period"])["number"])
+		if !ok || !p.ended[n] || endsPeriod(pl) {
+			kept = append(kept, pl)
+			continue
+		}
+		slog.Debug("Play after the end of its period", "game", p.State.GameID, "id", espn.PlayKey(pl), "period", n,
+			"clock", espn.Str(espn.Map(pl["clock"])["displayValue"]))
+		p.markKnown(pl)
+		if id, ok := espn.PlayID(pl); ok {
+			p.advanceLast(id)
+		}
+	}
+	for _, pl := range plays {
+		if endsPeriod(pl) {
+			if n, ok := espn.Int64(espn.Map(pl["period"])["number"]); ok {
+				p.ended[n] = true
+			}
+		}
 	}
 	return kept
 }
