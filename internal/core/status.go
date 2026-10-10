@@ -59,6 +59,13 @@ func (p *Poller) publishStatus(f *Feed) {
 		return
 	}
 	st := espn.Map(espn.Status(f.Data)["type"])
+	period := f.Period
+	if br, ok := p.Rules.(basketballRules); ok {
+		// ESPN's status says "5th" in overtime; the plays say "OT".
+		if n := espn.Status(f.Data)["period"]; espn.Truthy(n) {
+			period = nbaPeriod(espn.Data{"period": espn.Data{"number": n, "displayValue": f.Period}}, br.regulation)
+		}
+	}
 	series := f.Series
 	if f.Finished {
 		series = seriesText(f.Data, p.State.GameID, true)
@@ -70,7 +77,7 @@ func (p *Poller) publishStatus(f *Feed) {
 		Home:       f.Home,
 		State:      espn.Str(st["state"]),
 		Clock:      f.Clock,
-		Period:     f.Period,
+		Period:     period,
 		Detail:     espn.Str(st["shortDetail"]),
 		Halftime:   espn.Str(st["name"]) == "STATUS_HALFTIME",
 		Break:      espn.Str(st["name"]) == "STATUS_END_PERIOD",

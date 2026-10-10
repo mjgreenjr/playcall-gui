@@ -2,6 +2,8 @@ package core
 
 import (
 	"context"
+	"encoding/json"
+	"strconv"
 	"strings"
 	"sync"
 	"testing"
@@ -263,5 +265,36 @@ func TestStatusCarriesTeamLogos(t *testing.T) {
 	}
 	if got.Away.Logo == got.Home.Logo {
 		t.Error("both sides have the same logo")
+	}
+}
+
+// ESPN's status says "5th" for the first overtime; the header says "OT" like
+// the plays do.
+func TestStatusBasketballOvertimePeriod(t *testing.T) {
+	cases := []struct {
+		sport  string
+		period int
+		want   string
+	}{
+		{"nba", 4, "4th"}, {"nba", 5, "OT"}, {"wnba", 6, "2OT"},
+		{"cbb", 2, "2nd"}, {"cbb", 3, "OT"},
+	}
+	for _, c := range cases {
+		data := loadFixture(t, "playbyplay_nba_multi_plays.json")
+		status := espn.Status(data)
+		status["period"] = json.Number(strconv.Itoa(c.period))
+		status["displayPeriod"] = "5th"
+		var got GameStatus
+		poller, err := NewPoller(&State{GameID: "999", Sport: c.sport}, &recordSink{}, func(context.Context) (espn.Data, error) { return data, nil })
+		if err != nil {
+			t.Fatal(err)
+		}
+		poller.StatusSink = StatusFunc(func(s GameStatus) { got = s })
+		if _, err := poller.Poll(context.Background()); err != nil {
+			t.Fatal(err)
+		}
+		if got.Period != c.want {
+			t.Errorf("%s period %d: got %q, want %q", c.sport, c.period, got.Period, c.want)
+		}
 	}
 }
