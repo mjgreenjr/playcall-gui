@@ -126,4 +126,4 @@ teams. This project is not affiliated with or endorsed by any of them.
 
 ## License
 
-Not chosen yet.
+[MIT](LICENSE). The license covers this code only, not ESPN's data or logos.
