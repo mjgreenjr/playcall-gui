@@ -83,3 +83,10 @@ func TestRouterSink(t *testing.T) {
 		}
 	}
 }
+
+func TestGameVisibleNeedsGameScreen(t *testing.T) {
+	s := &shell{}
+	if v, err := s.gameVisible(context.Background()); v || err != nil {
+		t.Errorf("game not shown: got %v, %v", v, err)
+	}
+}

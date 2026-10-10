@@ -10,6 +10,7 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"sync/atomic"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -105,8 +106,11 @@ type shell struct {
 	highlight  highlight // color of scoring plays and turnovers
 	pickerView *picker   // the picker last shown, kept while settings are open
 	settings   *settingsView
-	gameView   *ui        // the game being followed, nil in the picker
-	logos      *logoCache // team logos on disk; nil if the cache folder is unknown
+	gameView   *ui // the game being followed, nil in the picker
+	// gameShown is true while the game view is the screen on display (not
+	// the settings opened over it). Read by the poll goroutine.
+	gameShown atomic.Bool
+	logos     *logoCache // team logos on disk; nil if the cache folder is unknown
 }
 
 func (s *shell) loadConfig() {
@@ -193,10 +197,22 @@ func (s *shell) settingsFromPicker() {
 // settingsFromGame: the game keeps polling while settings are open, so Back
 // returns to a current view, with its rows recolored if the highlight changed.
 func (s *shell) settingsFromGame(sport string, view *ui) {
+	s.gameShown.Store(false)
 	s.openSettings(sport, func() {
 		view.setHighlight(s.highlight)
 		s.win.SetContent(view.content)
+		s.gameShown.Store(true)
 	})
+}
+
+// gameVisible is the router's test: the game screen is up and the window is
+// on a visible workspace. With settings open the game can't be seen, so its
+// plays go to a toast.
+func (s *shell) gameVisible(ctx context.Context) (bool, error) {
+	if !s.gameShown.Load() {
+		return false, nil
+	}
+	return windowVisible(ctx)
 }
 
 // groupPrefs reads and writes each sport's remembered group in config.json.
@@ -224,6 +240,7 @@ func (s *shell) themeChanged() {
 }
 
 func (s *shell) endGame() {
+	s.gameShown.Store(false)
 	s.gameView = nil
 	if s.stopGame != nil {
 		s.stopGame()
@@ -246,7 +263,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 	s.gameView = view
 	view.onSettings = func() { s.settingsFromGame(sport, view) }
 	win := guiSink{view}
-	sink := routerSink{win: win, toast: core.ToastSink{Runner: core.ExecRunner{}}, Visible: windowVisible}
+	sink := routerSink{win: win, toast: core.ToastSink{Runner: core.ExecRunner{}}, Visible: s.gameVisible}
 	state := &core.State{GameID: gameID, Sport: sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, sink, fetch)
 	if err != nil {
@@ -259,6 +276,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 
 	s.win.SetTitle(fmt.Sprintf("playcall - %s %s", sportLabel(sport), gameID))
 	s.win.SetContent(view.content)
+	s.gameShown.Store(true)
 
 	go func() {
 		loop := &core.Loop{Poll: poller.Poll, GameID: gameID, Interval: every}
