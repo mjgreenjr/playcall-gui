@@ -162,7 +162,7 @@ func joinParts(parts ...string) string {
 	return strings.Join(kept, " · ")
 }
 
-var endZoneSpot = regexp.MustCompile(`\b([A-Z][A-Z&]*)00\b`)
+var endZoneSpot = regexp.MustCompile(`\b([A-Z][A-Za-z&]*)00\b`)
 
 // endZone writes ESPN's goal-line spot ("to the BYU00 TOUCHDOWN") as
 // "to the BYU end zone TOUCHDOWN". Only what is shown changes; the play's text
@@ -177,7 +177,7 @@ func endZone(text string) string {
 }
 
 // yardLine matches ESPN's spot with no space ("ILL11", "MSU9").
-var yardLine = regexp.MustCompile(`\b([A-Z][A-Z&]+)(\d{1,2})\b`)
+var yardLine = regexp.MustCompile(`\b([A-Z][A-Za-z&]+)(\d{1,2})\b`)
 
 // footballBody frames the play text with the down and distance before and
 // after it ("1st & 10 · text · 2nd & 5"); a part ESPN has no value for is

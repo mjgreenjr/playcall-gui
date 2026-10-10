@@ -343,6 +343,8 @@ func TestFootballYardLineSpaced(t *testing.T) {
 	cases := map[string]string{
 		"rush for 10 yards gain to the ILL15 (#16 T.Heckel)":   "rush for 10 yards gain to the ILL 15 (#16 T.Heckel)",
 		"caught at MSU13, for 25 yards to the MSU00 TOUCHDOWN": "caught at MSU 13, for 25 yards to the MSU end zone TOUCHDOWN",
+		"pass to the OhioSt19 (tackle)":                        "pass to the OhioSt 19 (tackle)",
+		"rush to the Mizzou00 TOUCHDOWN":                       "rush to the Mizzou end zone TOUCHDOWN",
 		"1ST DOWN #37 E.Moczulski kick":                        "1ST DOWN #37 E.Moczulski kick",
 		"from ILL31 to ILL26. NO PLAY":                         "from ILL 31 to ILL 26. NO PLAY",
 	}
