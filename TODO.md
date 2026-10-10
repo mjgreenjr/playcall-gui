@@ -15,3 +15,4 @@
   - Opening URLs: `rundll32 url.dll,FileProtocolHandler` or Fyne's `OpenURL`.
   - Autostart: a registry Run key or a Startup-folder shortcut, in place of systemd.
   - Paths: `os.UserConfigDir` and `os.UserCacheDir` (`%AppData%`, `%LocalAppData%`).
+- League logos: show the league's logo (NFL, NBA, MLB, ...) in the picker's sport selector and/or the game header. ESPN's scoreboard has a `leagues[].logos` entry per league; check which variants it gives (light and dark) and cache them like the team logos.
