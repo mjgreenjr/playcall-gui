@@ -25,12 +25,13 @@ type ui struct {
 	model  Model
 	status core.GameStatus
 
-	away, home         *canvas.Text
-	awayBall, homeBall *canvas.Image
-	statusText         *widget.RichText
-	situation          *widget.RichText
-	series             *widget.Label
-	stale              *widget.Label
+	away, home           *canvas.Text
+	awayBadge, homeBadge *badge
+	logos                *logoCache
+	statusText           *widget.RichText
+	situation            *widget.RichText
+	series               *widget.Label
+	stale                *widget.Label
 
 	rows   *fyne.Container
 	scroll *container.Scroll
@@ -40,8 +41,8 @@ type ui struct {
 	content fyne.CanvasObject
 }
 
-func newUI(interval time.Duration, onBack func(), hl highlight) *ui {
-	u := &ui{interval: interval, hl: hl}
+func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache) *ui {
+	u := &ui{interval: interval, hl: hl, logos: logos}
 	big := func() *canvas.Text {
 		t := canvas.NewText("", theme.Color(theme.ColorNameForeground))
 		t.TextSize = 30
@@ -50,14 +51,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight) *ui {
 		return t
 	}
 	u.away, u.home = big(), big()
-	ball := func() *canvas.Image {
-		img := canvas.NewImageFromResource(footballRes)
-		img.FillMode = canvas.ImageFillContain
-		img.SetMinSize(fyne.NewSize(30, 30))
-		img.Translucency = 1 // invisible but keeps its space, so the score does not shift
-		return img
-	}
-	u.awayBall, u.homeBall = ball(), ball()
+	u.awayBadge, u.homeBadge = newBadge(), newBadge()
 	u.statusText = widget.NewRichText()
 	u.statusText.Wrapping = fyne.TextWrapWord
 	u.situation = widget.NewRichText()
@@ -78,8 +72,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight) *ui {
 		back,
 		// One row: away score, the clock and situation between, home score.
 		container.NewBorder(nil, nil,
-			container.NewHBox(u.awayBall, u.away),
-			container.NewHBox(u.homeBall, u.home),
+			container.NewHBox(u.awayBadge.box, u.away),
+			container.NewHBox(u.home, u.homeBadge.box),
 			container.NewCenter(container.NewVBox(u.statusText, u.situation))),
 		u.series, u.stale,
 		widget.NewSeparator(),
@@ -115,6 +109,8 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.home.Refresh()
 	u.setStatusLine(statusLine(s), false)
 	u.setSituation(s.Situation)
+	u.awayBadge.setLogo(u.logos, s.Away.Logo)
+	u.homeBadge.setLogo(u.logos, s.Home.Logo)
 	u.setBalls(s)
 	if s.Series != "" {
 		u.series.SetText("Series: " + s.Series)
@@ -125,20 +121,11 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.refreshStale()
 }
 
-// setBalls puts the sport's ball beside the team on offence.
+// setBalls puts the sport's ball on the logo of the team on offence.
 func (u *ui) setBalls(s core.GameStatus) {
 	res := ballFor(s.Sport)
-	for side, img := range map[string]*canvas.Image{"away": u.awayBall, "home": u.homeBall} {
-		if res != nil {
-			img.Resource = res
-		}
-		if res != nil && s.Possession == side {
-			img.Translucency = 0
-		} else {
-			img.Translucency = 1
-		}
-		img.Refresh()
-	}
+	u.awayBadge.setBall(res, s.Possession == "away")
+	u.homeBadge.setBall(res, s.Possession == "home")
 }
 
 // setError shows a problem where the status goes.

@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -225,5 +226,26 @@ func TestStatusPeriodBreak(t *testing.T) {
 	}
 	if !got.Break || got.Halftime || got.Final || got.Detail != "End of 3rd" {
 		t.Errorf("status: %+v", got)
+	}
+}
+
+func TestStatusCarriesTeamLogos(t *testing.T) {
+	data := loadFixture(t, "playbyplay_mlb_multi_plays.json")
+	var got GameStatus
+	poller, err := NewPoller(&State{GameID: "401908015", Sport: "mlb"}, &recordSink{}, func(context.Context) (espn.Data, error) { return data, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	poller.StatusSink = StatusFunc(func(s GameStatus) { got = s })
+	if _, err := poller.Poll(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	for side, logo := range map[string]string{"away": got.Away.Logo, "home": got.Home.Logo} {
+		if !strings.HasPrefix(logo, "https://") || !strings.Contains(logo, "dark") {
+			t.Errorf("%s logo %q", side, logo)
+		}
+	}
+	if got.Away.Logo == got.Home.Logo {
+		t.Error("both sides have the same logo")
 	}
 }

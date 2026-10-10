@@ -176,3 +176,39 @@ func ExtractPlays(data Data) []Data {
 // PlayKey is the play's id as text ("None" when it has none), the key used
 // for de-duplication, sent ids and scoring texts.
 func PlayKey(p Data) string { return playKey(p) }
+
+// TeamLogo is the URL of the team's logo for a dark background, or "". The
+// scoreboard gives `logoDark` and `logo`; the game feed gives a `logos` list
+// tagged with rels such as "default", "dark" and "scoreboard".
+func TeamLogo(team Data) string {
+	if u := Str(team["logoDark"]); u != "" {
+		return u
+	}
+	var fallback string
+	for _, l := range List(team["logos"]) {
+		m := Map(l)
+		href := Str(m["href"])
+		if href == "" {
+			continue
+		}
+		var dark, scoreboard bool
+		for _, r := range List(m["rel"]) {
+			switch Str(r) {
+			case "dark":
+				dark = true
+			case "scoreboard":
+				scoreboard = true
+			}
+		}
+		if dark && !scoreboard {
+			return href
+		}
+		if fallback == "" {
+			fallback = href
+		}
+	}
+	if u := Str(team["logo"]); u != "" {
+		return u
+	}
+	return fallback
+}

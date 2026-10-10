@@ -312,3 +312,28 @@ func TestPadStatus(t *testing.T) {
 		}
 	}
 }
+
+func TestTeamLogo(t *testing.T) {
+	cases := []struct {
+		name string
+		team Data
+		want string
+	}{
+		{"scoreboard dark", Data{"logo": "light.png", "logoDark": "dark.png"}, "dark.png"},
+		{"scoreboard only light", Data{"logo": "light.png"}, "light.png"},
+		{"game feed: the plain dark one, not the scoreboard variant", Data{"logos": []any{
+			map[string]any{"href": "default.png", "rel": []any{"full", "default"}},
+			map[string]any{"href": "sb-dark.png", "rel": []any{"full", "scoreboard", "dark"}},
+			map[string]any{"href": "dark.png", "rel": []any{"full", "dark"}},
+		}}, "dark.png"},
+		{"game feed without a dark one", Data{"logos": []any{
+			map[string]any{"href": "default.png", "rel": []any{"full", "default"}},
+		}}, "default.png"},
+		{"none", Data{"abbreviation": "X"}, ""},
+	}
+	for _, c := range cases {
+		if got := TeamLogo(c.team); got != c.want {
+			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
+		}
+	}
+}

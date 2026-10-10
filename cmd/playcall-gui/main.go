@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"path/filepath"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -66,6 +67,9 @@ func run() int {
 	}
 
 	s.app = app.New() // before any widget: they read the theme from it
+	if paths, err := core.DefaultPaths(); err == nil {
+		s.logos = newLogoCache(filepath.Join(paths.CacheDir, "logos"), func(f func()) { fyne.Do(f) })
+	}
 	s.win = s.app.NewWindow("playcall")
 	s.win.Resize(fyne.NewSize(480, 700))
 	s.win.SetOnClosed(cancel)
@@ -89,6 +93,7 @@ type shell struct {
 	highlight  highlight // color of scoring plays and turnovers
 	pickerView *picker   // the picker last shown, kept while settings are open
 	settings   *settingsView
+	logos      *logoCache // team logos on disk; nil if the cache folder is unknown
 }
 
 func (s *shell) loadConfig() {
@@ -142,6 +147,7 @@ func (s *shell) showPicker(sport string) {
 		s.win.SetTitle(fmt.Sprintf("playcall - %s: %s", sportLabel(sport), matchup(g)))
 	})
 	p.onSettings = s.showSettings
+	p.logos = s.logos
 	s.pickerView = p
 	s.win.SetContent(p.content)
 	p.load()
@@ -193,7 +199,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 	if back {
 		onBack = func() { s.showPicker(sport) }
 	}
-	view := newUI(every, onBack, s.highlight)
+	view := newUI(every, onBack, s.highlight, s.logos)
 	sink := guiSink{view}
 	state := &core.State{GameID: gameID, Sport: sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, sink, fetch)

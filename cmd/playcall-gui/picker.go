@@ -4,9 +4,11 @@ import (
 	"context"
 	"fmt"
 	"slices"
+	"strings"
 	"time"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
@@ -24,6 +26,8 @@ type picker struct {
 	prefs   groupPrefs
 	// onSettings opens the settings screen; the gear button is inert while nil.
 	onSettings func()
+	logos      *logoCache // team logos for the rows; nil shows none
+	logoFor    map[*canvas.Image]string
 
 	ctx       context.Context
 	fetcher   espn.Fetcher
@@ -110,17 +114,24 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 	p.list = widget.NewList(
 		func() int { return len(p.games) },
 		func() fyne.CanvasObject {
-			return container.NewBorder(nil, nil, widget.NewLabelWithStyle("", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
-				widget.NewLabel(""), layout.NewSpacer())
+			bold := func() *widget.Label {
+				return widget.NewLabelWithStyle("", fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
+			}
+			teams := container.NewHBox(rowLogo(), bold(), widget.NewLabel("@"), rowLogo(), bold())
+			return container.NewBorder(nil, nil, teams, widget.NewLabel(""), layout.NewSpacer())
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
 			if i >= len(p.games) {
 				return
 			}
 			g := p.games[i]
-			box := o.(*fyne.Container)
 			// Border puts its left and right objects after the (empty) center.
-			box.Objects[1].(*widget.Label).SetText(matchup(g))
+			box := o.(*fyne.Container)
+			teams := box.Objects[1].(*fyne.Container).Objects
+			p.setRowLogo(teams[0].(*canvas.Image), g.AwayLogo)
+			teams[1].(*widget.Label).SetText(strings.TrimSpace(g.Away))
+			p.setRowLogo(teams[3].(*canvas.Image), g.HomeLogo)
+			teams[4].(*widget.Label).SetText(strings.TrimSpace(g.Home))
 			box.Objects[2].(*widget.Label).SetText(gameDetail(g))
 		},
 	)
@@ -153,6 +164,36 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 func (p *picker) refresh() {
 	p.setGroups()
 	p.load()
+}
+
+// rowLogoSize is the logo size in a picker row, in points.
+const rowLogoSize = 28
+
+func rowLogo() *canvas.Image {
+	img := &canvas.Image{FillMode: canvas.ImageFillContain}
+	img.SetMinSize(fyne.NewSize(rowLogoSize, rowLogoSize))
+	return img
+}
+
+// setRowLogo shows a team's logo in a recycled list row. The list reuses its
+// rows, so a late download only lands if the row still wants that logo.
+func (p *picker) setRowLogo(img *canvas.Image, url string) {
+	if p.logoFor == nil {
+		p.logoFor = map[*canvas.Image]string{}
+	}
+	if p.logoFor[img] == url && (url == "" || img.File != "") {
+		return
+	}
+	p.logoFor[img] = url
+	img.File = ""
+	img.Refresh()
+	p.logos.Get(url, func(path string) {
+		if p.logoFor[img] != url {
+			return
+		}
+		img.File = path
+		img.Refresh()
+	})
 }
 
 func (p *picker) currentSport() string { return sportFromLabel(p.sport.Selected) }
