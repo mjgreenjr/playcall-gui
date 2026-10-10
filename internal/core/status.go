@@ -1,6 +1,7 @@
 package core
 
 import (
+	"strings"
 	"time"
 
 	"playcall/internal/espn"
@@ -24,6 +25,10 @@ type GameStatus struct {
 	Final    bool
 	// Series is the postseason standing without parentheses, or "".
 	Series string
+	// Possession is the side on offence: "away", "home", or "" when the sport
+	// has no such notion (hockey, basketball: ESPN does not say), the game is
+	// not in play (before the start, halftime, final) or ESPN does not say.
+	Possession string
 	// UpdatedAt is when ESPN last answered, so a header can dim or show
 	// "updated Ns ago" while polls fail and the loop backs off.
 	UpdatedAt time.Time
@@ -52,17 +57,63 @@ func (p *Poller) publishStatus(f *Feed) {
 		series = seriesText(f.Data, p.State.GameID, true)
 	}
 	p.StatusSink.Status(GameStatus{
-		GameID:    p.State.GameID,
-		Sport:     p.Sport,
-		Away:      f.Away,
-		Home:      f.Home,
-		State:     espn.Str(st["state"]),
-		Clock:     f.Clock,
-		Period:    f.Period,
-		Detail:    espn.Str(st["shortDetail"]),
-		Halftime:  espn.Str(st["name"]) == "STATUS_HALFTIME",
-		Final:     f.Finished,
-		Series:    series,
-		UpdatedAt: p.now(),
+		GameID:     p.State.GameID,
+		Sport:      p.Sport,
+		Away:       f.Away,
+		Home:       f.Home,
+		State:      espn.Str(st["state"]),
+		Clock:      f.Clock,
+		Period:     f.Period,
+		Detail:     espn.Str(st["shortDetail"]),
+		Halftime:   espn.Str(st["name"]) == "STATUS_HALFTIME",
+		Final:      f.Finished,
+		Series:     series,
+		Possession: possession(p.Sport, f),
+		UpdatedAt:  p.now(),
 	})
+}
+
+// possession finds the side on offence from the game feed.
+//
+// Football: the team the last play ended with the ball (a punt or kickoff
+// ends with the receiver), else the one that started it. Baseball: the team
+// batting in the current half inning; between halves nobody is.
+func possession(sport string, f *Feed) string {
+	status := espn.Status(f.Data)
+	typ := espn.Map(status["type"])
+	if f.Finished || espn.Str(typ["state"]) != "in" || espn.Str(typ["name"]) == "STATUS_HALFTIME" {
+		return ""
+	}
+	home, away := espn.Teams(espn.Competition(f.Data))
+	if home == nil || away == nil {
+		return ""
+	}
+	switch sport {
+	case "nfl", "cfb":
+		if len(f.Plays) == 0 {
+			return ""
+		}
+		last := f.Plays[len(f.Plays)-1]
+		id := espn.Str(espn.Map(espn.Map(last["end"])["team"])["id"])
+		if id == "" {
+			id = espn.Str(espn.Map(espn.Map(last["start"])["team"])["id"])
+		}
+		switch id {
+		case "":
+			return ""
+		case espn.Str(away["id"]):
+			return "away"
+		case espn.Str(home["id"]):
+			return "home"
+		}
+	case "mlb":
+		detail := strings.ToLower(espn.Str(typ["shortDetail"]))
+		switch {
+		case strings.HasPrefix(detail, "top"):
+			return "away"
+		case strings.HasPrefix(detail, "bot"):
+			return "home"
+		}
+	}
+	return ""
 }

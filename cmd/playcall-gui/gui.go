@@ -24,10 +24,11 @@ type ui struct {
 	model  Model
 	status core.GameStatus
 
-	away, home *canvas.Text
-	statusText *widget.Label
-	series     *widget.Label
-	stale      *widget.Label
+	away, home         *canvas.Text
+	awayBall, homeBall *canvas.Image
+	statusText         *widget.Label
+	series             *widget.Label
+	stale              *widget.Label
 
 	rows   *fyne.Container
 	scroll *container.Scroll
@@ -47,10 +48,20 @@ func newUI(interval time.Duration, onBack func()) *ui {
 		return t
 	}
 	u.away, u.home = big(), big()
+	ball := func() *canvas.Image {
+		img := canvas.NewImageFromResource(footballRes)
+		img.FillMode = canvas.ImageFillContain
+		img.SetMinSize(fyne.NewSize(30, 30))
+		img.Translucency = 1 // invisible but keeps its space, so the score does not shift
+		return img
+	}
+	u.awayBall, u.homeBall = ball(), ball()
 	u.statusText = widget.NewLabelWithStyle("waiting for ESPN...", fyne.TextAlignCenter, fyne.TextStyle{})
 	u.series = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Italic: true})
 	u.stale = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{})
 	u.stale.Importance = widget.WarningImportance
+	u.series.Hide() // shown only when there is something to say
+	u.stale.Hide()
 
 	var back fyne.CanvasObject = layout.NewSpacer()
 	if onBack != nil {
@@ -59,7 +70,9 @@ func newUI(interval time.Duration, onBack func()) *ui {
 	}
 	header := container.NewVBox(
 		back,
-		container.NewGridWithColumns(2, u.away, u.home),
+		container.NewGridWithColumns(2,
+			container.NewCenter(container.NewHBox(u.awayBall, u.away)),
+			container.NewCenter(container.NewHBox(u.homeBall, u.home))),
 		u.statusText, u.series, u.stale,
 		widget.NewSeparator(),
 	)
@@ -93,12 +106,30 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.away.Refresh()
 	u.home.Refresh()
 	u.statusText.SetText(statusLine(s))
+	u.setBalls(s)
 	if s.Series != "" {
 		u.series.SetText("Series: " + s.Series)
+		u.series.Show()
 	} else {
-		u.series.SetText("")
+		u.series.Hide()
 	}
 	u.refreshStale()
+}
+
+// setBalls puts the sport's ball beside the team on offence.
+func (u *ui) setBalls(s core.GameStatus) {
+	res := ballFor(s.Sport)
+	for side, img := range map[string]*canvas.Image{"away": u.awayBall, "home": u.homeBall} {
+		if res != nil {
+			img.Resource = res
+		}
+		if res != nil && s.Possession == side {
+			img.Translucency = 0
+		} else {
+			img.Translucency = 1
+		}
+		img.Refresh()
+	}
 }
 
 // setError shows a problem where the status goes.
@@ -109,15 +140,17 @@ func (u *ui) setError(msg string) {
 }
 
 func (u *ui) refreshStale() {
-	u.stale.SetText(staleText(u.status.UpdatedAt, time.Now(), u.interval))
+	if text := staleText(u.status.UpdatedAt, time.Now(), u.interval); text != "" {
+		u.stale.SetText(text)
+		u.stale.Show()
+	} else {
+		u.stale.Hide()
+	}
 }
 
-// newRow renders one play: its title (scores and clock) small, its text
-// below, bold for urgent plays.
+// newRow renders one play: its text, bold for urgent plays. The score and
+// clock live in the header, not on every row.
 func newRow(r Row) fyne.CanvasObject {
-	title := widget.NewLabel(r.Title)
-	title.Importance = widget.LowImportance
-	title.Wrapping = fyne.TextWrapWord
 	text := r.Body
 	if r.Updated {
 		text += "  (updated)"
@@ -127,7 +160,7 @@ func newRow(r Row) fyne.CanvasObject {
 	if r.Urgent {
 		body.Importance = widget.HighImportance
 	}
-	return container.NewVBox(title, body, widget.NewSeparator())
+	return container.NewVBox(body, widget.NewSeparator())
 }
 
 func (u *ui) addEvent(e core.Event) {

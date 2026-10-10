@@ -110,3 +110,66 @@ func TestStatusHalftime(t *testing.T) {
 		t.Errorf("status: %+v", got)
 	}
 }
+
+func TestPossession(t *testing.T) {
+	// football: the fixture's drives-shaped feed, last play's end team.
+	data := loadFixture(t, "playbyplay_multi_plays.json")
+	status := espn.Status(data)
+	typ := espn.Map(status["type"])
+	typ["state"] = "in"
+	typ["name"] = "STATUS_IN_PROGRESS"
+	feed := func(d espn.Data, finished bool) *Feed {
+		return &Feed{Data: d, Plays: espn.ExtractPlays(d), Finished: finished}
+	}
+	home, away := espn.Teams(espn.Competition(data))
+	last := espn.ExtractPlays(data)
+	lastPlay := last[len(last)-1]
+
+	setTeam := func(id string) {
+		lastPlay["end"] = map[string]any{"team": map[string]any{"id": id}}
+	}
+	setTeam(espn.Str(away["id"]))
+	if got := possession("nfl", feed(data, false)); got != "away" {
+		t.Errorf("away ball: %q", got)
+	}
+	setTeam(espn.Str(home["id"]))
+	if got := possession("cfb", feed(data, false)); got != "home" {
+		t.Errorf("home ball: %q", got)
+	}
+	delete(lastPlay, "end")
+	lastPlay["start"] = map[string]any{"team": map[string]any{"id": espn.Str(away["id"])}}
+	if got := possession("nfl", feed(data, false)); got != "away" {
+		t.Errorf("falls back to start team: %q", got)
+	}
+	setTeam("12345")
+	if got := possession("nfl", feed(data, false)); got != "" {
+		t.Errorf("unknown team: %q", got)
+	}
+	setTeam(espn.Str(home["id"]))
+	if got := possession("nba", feed(data, false)); got != "" {
+		t.Errorf("basketball has no marker: %q", got)
+	}
+	if got := possession("nfl", feed(data, true)); got != "" {
+		t.Errorf("final: %q", got)
+	}
+	typ["name"] = "STATUS_HALFTIME"
+	if got := possession("nfl", feed(data, false)); got != "" {
+		t.Errorf("halftime: %q", got)
+	}
+	typ["name"] = "STATUS_IN_PROGRESS"
+	typ["state"] = "pre"
+	if got := possession("nfl", feed(data, false)); got != "" {
+		t.Errorf("pregame: %q", got)
+	}
+
+	// baseball: batting team from the half inning.
+	typ["state"] = "in"
+	for detail, want := range map[string]string{
+		"Top 6th": "away", "Bot 7th": "home", "Bottom 7th": "home", "Mid 4th": "", "End 9th": "", "": "",
+	} {
+		typ["shortDetail"] = detail
+		if got := possession("mlb", feed(data, false)); got != want {
+			t.Errorf("mlb %q: got %q, want %q", detail, got, want)
+		}
+	}
+}
