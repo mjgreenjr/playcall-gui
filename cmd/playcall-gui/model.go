@@ -78,6 +78,17 @@ func staleText(updated, now time.Time, interval time.Duration) string {
 	return fmt.Sprintf("updated %s ago", age.Round(time.Second))
 }
 
+// timeoutDots is a filled circle for each timeout left and an empty one for
+// each used, like the boxes on a broadcast. A team with none left shows only
+// empty circles; one with none at all shows "0".
+func timeoutDots(c *core.TeamCounts) string {
+	left, used := max(c.Timeouts, 0), max(c.TimeoutsUsed, 0)
+	if left+used == 0 {
+		return "0"
+	}
+	return strings.Repeat("●", left) + strings.Repeat("○", used)
+}
+
 // countsText is basketball's line under a team's score: timeouts left, the
 // team's fouls this period and the bonus when it is in it. "" when there is
 // nothing to show.
@@ -85,7 +96,7 @@ func countsText(sport string, c *core.TeamCounts) string {
 	if c == nil {
 		return ""
 	}
-	parts := []string{fmt.Sprintf("TO %d", c.Timeouts), fmt.Sprintf("Fouls %d", c.Fouls)}
+	parts := []string{"TO " + timeoutDots(c), fmt.Sprintf("Fouls %d", c.Fouls)}
 	switch {
 	case c.Bonus == "":
 	case sport == "cbb" && c.Bonus == "double":

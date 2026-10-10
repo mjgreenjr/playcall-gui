@@ -315,7 +315,7 @@ func TestBasketballCounts(t *testing.T) {
 		t.Fatalf("no counts: %+v", got)
 	}
 	if *got.AwayCounts != (TeamCounts{Timeouts: 3, Fouls: 5, Bonus: "double"}) ||
-		*got.HomeCounts != (TeamCounts{Timeouts: 3, Fouls: 5, Bonus: "double"}) {
+		*got.HomeCounts != (TeamCounts{Timeouts: 3, TimeoutsUsed: 1, Fouls: 5, Bonus: "double"}) {
 		t.Errorf("away %+v home %+v", *got.AwayCounts, *got.HomeCounts)
 	}
 

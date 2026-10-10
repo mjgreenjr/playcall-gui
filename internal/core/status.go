@@ -46,8 +46,10 @@ type GameStatus struct {
 
 // TeamCounts is what a basketball scoreboard shows under a team's score.
 type TeamCounts struct {
-	// Timeouts is how many the team has left.
-	Timeouts int
+	// Timeouts is how many the team has left; TimeoutsUsed how many it has
+	// used. ESPN's remaining count already reflects late-game limits, so the
+	// two do not always add up to the same total for both teams.
+	Timeouts, TimeoutsUsed int
 	// Fouls is the team's fouls this period.
 	Fouls int
 	// Bonus is "" when the team is not shooting free throws on the opponent's
@@ -76,6 +78,7 @@ func teamCounts(c espn.Data) *TeamCounts {
 		return nil
 	}
 	timeouts, okT := espn.Int64(c["timeoutsRemaining"])
+	used, _ := espn.Int64(c["timeoutsUsed"])
 	fouls := espn.Map(c["fouls"])
 	current, okF := espn.Int64(fouls["teamFoulsCurrent"])
 	if !okT && !okF {
@@ -89,7 +92,7 @@ func teamCounts(c espn.Data) *TeamCounts {
 	default:
 		bonus = "single"
 	}
-	return &TeamCounts{Timeouts: int(timeouts), Fouls: int(current), Bonus: bonus}
+	return &TeamCounts{Timeouts: int(timeouts), TimeoutsUsed: int(used), Fouls: int(current), Bonus: bonus}
 }
 
 // StatusSink receives a GameStatus after every successful fetch, before that
