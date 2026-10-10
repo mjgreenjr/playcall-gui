@@ -49,6 +49,8 @@ type Poller struct {
 	Sport string
 	Rules Rules
 	Sink  Sink
+	// StatusSink, when set, gets a GameStatus after every successful fetch.
+	StatusSink StatusSink
 	// Fetch returns the game's play-by-play. An error means the fetch failed.
 	Fetch func(ctx context.Context) (espn.Data, error)
 	State *State
@@ -103,6 +105,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 	plays := espn.ExtractPlays(data)
 	finished := espn.IsFinal(data)
 	feed := p.newFeed(data, plays, finished)
+	p.publishStatus(feed)
 	var out Outcome
 	if len(plays) == 0 {
 		out.UntilStart = secondsUntilStart(data, p.now())

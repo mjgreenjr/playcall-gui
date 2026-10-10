@@ -1,0 +1,68 @@
+package core
+
+import (
+	"time"
+
+	"playcall/internal/espn"
+)
+
+// GameStatus is the game as of the last successful fetch: what a persistent
+// header shows between plays. It is built from ESPN's game-level status, not
+// from a play, so it does not inherit a play's snapshot of the clock. The
+// clock is ESPN's displayClock as fetched; nothing ticks locally.
+type GameStatus struct {
+	GameID, Sport string
+	Away, Home    TeamScore
+	// State is ESPN's status state: "pre", "in" or "post" ("" if unknown).
+	State string
+	// Clock and Period are ESPN's displayClock and period text.
+	Clock, Period string
+	// Detail is ESPN's shortDetail ("Final", "End of 2nd", "10/9 - 9:00 PM EDT").
+	Detail string
+	// Halftime is true for the whole break, not just the end-of-half play.
+	Halftime bool
+	Final    bool
+	// Series is the postseason standing without parentheses, or "".
+	Series string
+	// UpdatedAt is when ESPN last answered, so a header can dim or show
+	// "updated Ns ago" while polls fail and the loop backs off.
+	UpdatedAt time.Time
+}
+
+// StatusSink receives a GameStatus after every successful fetch, before that
+// poll's plays are sent. It is called on the poll goroutine and must not
+// block; a GUI should hand the value to its own goroutine.
+type StatusSink interface {
+	Status(GameStatus)
+}
+
+// StatusFunc adapts a function to a StatusSink.
+type StatusFunc func(GameStatus)
+
+// Status calls f.
+func (f StatusFunc) Status(s GameStatus) { f(s) }
+
+func (p *Poller) publishStatus(f *Feed) {
+	if p.StatusSink == nil {
+		return
+	}
+	st := espn.Map(espn.Status(f.Data)["type"])
+	series := f.Series
+	if f.Finished {
+		series = seriesText(f.Data, p.State.GameID, true)
+	}
+	p.StatusSink.Status(GameStatus{
+		GameID:    p.State.GameID,
+		Sport:     p.Sport,
+		Away:      f.Away,
+		Home:      f.Home,
+		State:     espn.Str(st["state"]),
+		Clock:     f.Clock,
+		Period:    f.Period,
+		Detail:    espn.Str(st["shortDetail"]),
+		Halftime:  espn.Str(st["name"]) == "STATUS_HALFTIME",
+		Final:     f.Finished,
+		Series:    series,
+		UpdatedAt: p.now(),
+	})
+}
