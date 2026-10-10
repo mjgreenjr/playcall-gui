@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strings"
 	"time"
 
@@ -20,6 +21,7 @@ import (
 // It shows the favorite teams' games by default, with a box for all of them.
 type picker struct {
 	content fyne.CanvasObject
+	prefs   groupPrefs
 
 	ctx       context.Context
 	fetcher   espn.Fetcher
@@ -38,18 +40,44 @@ type picker struct {
 	quiet       bool        // set while the code itself changes a control
 }
 
-func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]string, sport string, onPick func(string, espn.Game)) *picker {
-	p := &picker{ctx: ctx, fetcher: f, favorites: favorites, onPick: onPick}
+// groupPrefs remembers the last conference or division chosen for each sport.
+// Either function may be nil.
+type groupPrefs struct {
+	get func(sport string) string
+	set func(sport, group string)
+}
+
+func (g groupPrefs) saved(sport string) string {
+	if g.get == nil {
+		return ""
+	}
+	return g.get(sport)
+}
+
+func (g groupPrefs) save(sport, group string) {
+	if g.set != nil {
+		g.set(sport, group)
+	}
+}
+
+func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]string, prefs groupPrefs, sport string, onPick func(string, espn.Game)) *picker {
+	p := &picker{ctx: ctx, fetcher: f, favorites: favorites, prefs: prefs, onPick: onPick}
 
 	names := make([]string, len(sports.Names))
 	for i, n := range sports.Names {
 		names[i] = strings.ToUpper(n)
 	}
-	p.group = widget.NewSelect([]string{anyGroup}, func(string) {
-		if !p.quiet {
-			p.resetAll()
-			p.load()
+	p.group = widget.NewSelect([]string{anyGroup}, func(name string) {
+		if p.quiet {
+			return
 		}
+		// A pick by the user is the new default for this sport.
+		if name == anyGroup {
+			name = ""
+		}
+		p.prefs.save(p.currentSport(), name)
+		p.resetAll()
+		p.load()
 	})
 	p.sport = widget.NewSelect(names, func(string) {
 		if p.quiet {
@@ -115,12 +143,18 @@ func (p *picker) currentGroup() string {
 	return groupID(p.currentSport(), p.group.Selected)
 }
 
-// setGroups fills the group choices for the current sport, back at "Any".
+// setGroups fills the group choices for the current sport and selects the
+// one remembered for it ("All" if none, or if it is no longer a choice).
 func (p *picker) setGroups() {
 	p.quiet = true
-	p.group.SetOptions(groupChoices(p.currentSport()))
-	p.group.SetSelected(anyGroup)
-	p.quiet = false
+	defer func() { p.quiet = false }()
+	choices := groupChoices(p.currentSport())
+	p.group.SetOptions(choices)
+	pick := anyGroup
+	if saved := p.prefs.saved(p.currentSport()); slices.Contains(choices, saved) {
+		pick = saved
+	}
+	p.group.SetSelected(pick)
 }
 
 // resetAll sets "All games" for sports with no favorites, where filtering

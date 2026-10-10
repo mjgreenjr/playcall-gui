@@ -43,11 +43,11 @@ func gameDetail(g espn.Game) string {
 }
 
 // anyGroup is the picker's "no conference or division" choice.
-const anyGroup = "Any"
+const anyGroup = "All"
 
-// groupChoices are the picker's group names for a sport: "Any", then the
+// groupChoices are the picker's group names for a sport: "All", then the
 // conferences and divisions. A leading "All ..." entry (college sports) is
-// left out, since "Any" already means that.
+// left out, since "All" already means that.
 func groupChoices(sport string) []string {
 	list := sports.Groups(sport)
 	if sports.HasAllGroup(sport) && len(list) > 0 {
@@ -60,7 +60,7 @@ func groupChoices(sport string) []string {
 	return out
 }
 
-// groupID is the scoreboard id for a name from groupChoices ("" for Any).
+// groupID is the scoreboard id for a name from groupChoices ("" for All).
 func groupID(sport, name string) string {
 	if name == anyGroup {
 		return ""

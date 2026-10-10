@@ -114,12 +114,29 @@ func (s *shell) liveInterval() time.Duration {
 func (s *shell) showPicker(sport string) {
 	s.endGame()
 	s.win.SetTitle("playcall")
-	p := newPicker(s.root, s.fetcher, s.cfg.FavoriteTeams, sport, func(sport string, g espn.Game) {
+	p := newPicker(s.root, s.fetcher, s.cfg.FavoriteTeams, s.groupPrefs(), sport, func(sport string, g espn.Game) {
 		s.follow(sport, g.ID, liveFetcher(sport, g.ID), s.liveInterval(), true)
 		s.win.SetTitle(fmt.Sprintf("playcall - %s %s", sport, matchup(g)))
 	})
 	s.win.SetContent(p.content)
 	p.load()
+}
+
+// groupPrefs reads and writes each sport's remembered group in config.json.
+func (s *shell) groupPrefs() groupPrefs {
+	return groupPrefs{
+		get: s.cfg.FavoriteGroup,
+		set: func(sport, group string) {
+			s.cfg.SetFavoriteGroup(sport, group)
+			paths, err := core.DefaultPaths()
+			if err == nil {
+				err = core.SaveFavoriteGroup(paths, sport, group)
+			}
+			if err != nil {
+				slog.Warn("Could not remember the group", "sport", sport, "group", group, "err", err)
+			}
+		},
+	}
 }
 
 func (s *shell) endGame() {

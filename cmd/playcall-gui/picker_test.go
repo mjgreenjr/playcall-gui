@@ -47,7 +47,7 @@ func TestPickerShowsGamesAndPicks(t *testing.T) {
 	var pickedSport string
 	var picked espn.Game
 	p := newPicker(context.Background(), fixtureFetcher{scoreboard(t, "scoreboard_nfl_week.json")},
-		map[string][]string{"nfl": {"DAL"}}, "nfl", func(sport string, g espn.Game) { pickedSport, picked = sport, g })
+		map[string][]string{"nfl": {"DAL"}}, groupPrefs{}, "nfl", func(sport string, g espn.Game) { pickedSport, picked = sport, g })
 	p.load()
 
 	// Favorites on: only games with DAL.
@@ -74,7 +74,7 @@ func TestPickerShowsGamesAndPicks(t *testing.T) {
 func TestPickerNoFavoritesShowsAll(t *testing.T) {
 	test.NewApp()
 	p := newPicker(context.Background(), fixtureFetcher{scoreboard(t, "scoreboard_nfl_week.json")},
-		map[string][]string{"nfl": nil}, "nfl", func(string, espn.Game) {})
+		map[string][]string{"nfl": nil}, groupPrefs{}, "nfl", func(string, espn.Game) {})
 	p.load()
 	waitFor(t, "games", func() bool { return len(p.games) > 0 })
 	if !p.all.Checked || len(p.games) != 15 {
@@ -85,7 +85,7 @@ func TestPickerNoFavoritesShowsAll(t *testing.T) {
 func TestPickerEmptyScoreboard(t *testing.T) {
 	test.NewApp()
 	p := newPicker(context.Background(), fixtureFetcher{scoreboard(t, "scoreboard_empty.json")},
-		nil, "nfl", func(string, espn.Game) {})
+		nil, groupPrefs{}, "nfl", func(string, espn.Game) {})
 	p.load()
 	waitFor(t, "status", func() bool { return p.status.Text == "No NFL games on the scoreboard." })
 }
@@ -115,7 +115,7 @@ func (r *recordingFetcher) last() string {
 func TestPickerGroupFilter(t *testing.T) {
 	test.NewApp()
 	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
-	p := newPicker(context.Background(), f, map[string][]string{"nfl": {"DAL"}}, "nfl", func(string, espn.Game) {})
+	p := newPicker(context.Background(), f, map[string][]string{"nfl": {"DAL"}}, groupPrefs{}, "nfl", func(string, espn.Game) {})
 	p.load()
 	waitFor(t, "favorites", func() bool { return len(p.games) > 0 })
 	favCount := len(p.games)
@@ -142,7 +142,7 @@ func TestPickerGroupFilter(t *testing.T) {
 func TestPickerSportChangeResetsGroups(t *testing.T) {
 	test.NewApp()
 	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
-	p := newPicker(context.Background(), f, nil, "nfl", func(string, espn.Game) {})
+	p := newPicker(context.Background(), f, nil, groupPrefs{}, "nfl", func(string, espn.Game) {})
 	p.group.SetSelected("AFC North")
 	p.sport.SetSelected("CFB")
 	if p.group.Selected != anyGroup {
@@ -161,4 +161,76 @@ func TestPickerSportChangeResetsGroups(t *testing.T) {
 		t.Errorf("cfb groups missing: %v", p.group.Options)
 	}
 	waitFor(t, "cfb request", func() bool { return strings.Contains(f.last(), "groups=80") })
+}
+
+// memoryPrefs is groupPrefs backed by a map, counting saves.
+func memoryPrefs(initial map[string]string) (groupPrefs, map[string]string, *int) {
+	m := map[string]string{}
+	for k, v := range initial {
+		m[k] = v
+	}
+	saves := 0
+	return groupPrefs{
+		get: func(sport string) string { return m[sport] },
+		set: func(sport, group string) { saves++; m[sport] = group },
+	}, m, &saves
+}
+
+func TestPickerStartsOnTheRememberedGroup(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	prefs, _, saves := memoryPrefs(map[string]string{"nfl": "AFC North", "cfb": "Big Ten"})
+	p := newPicker(context.Background(), f, nil, prefs, "nfl", func(string, espn.Game) {})
+	p.load()
+	if p.group.Selected != "AFC North" {
+		t.Fatalf("group %q", p.group.Selected)
+	}
+	waitFor(t, "group request", func() bool { return strings.Contains(f.last(), "groups=12") })
+	if *saves != 0 {
+		t.Errorf("starting up saved %d times", *saves)
+	}
+
+	// Another sport starts on its own remembered group.
+	p.sport.SetSelected("CFB")
+	if p.group.Selected != "Big Ten" {
+		t.Errorf("cfb group %q", p.group.Selected)
+	}
+	waitFor(t, "cfb group request", func() bool { return strings.Contains(f.last(), "groups=5") })
+	// A sport with nothing remembered starts on All.
+	p.sport.SetSelected("MLB")
+	if p.group.Selected != anyGroup {
+		t.Errorf("mlb group %q", p.group.Selected)
+	}
+	if *saves != 0 {
+		t.Errorf("changing sport saved %d times", *saves)
+	}
+}
+
+func TestPickerRemembersWhatTheUserPicks(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	prefs, m, saves := memoryPrefs(nil)
+	p := newPicker(context.Background(), f, nil, prefs, "nfl", func(string, espn.Game) {})
+	p.group.SetSelected("NFC East")
+	if m["nfl"] != "NFC East" || *saves != 1 {
+		t.Errorf("saved %v (%d)", m, *saves)
+	}
+	p.group.SetSelected("AFC West") // another pick replaces it
+	if m["nfl"] != "AFC West" {
+		t.Errorf("saved %v", m)
+	}
+	p.group.SetSelected(anyGroup) // going back to All is remembered too
+	if m["nfl"] != "" {
+		t.Errorf("saved %v", m)
+	}
+}
+
+func TestPickerIgnoresAForgottenGroup(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	prefs, _, _ := memoryPrefs(map[string]string{"nfl": "Not A Division"})
+	p := newPicker(context.Background(), f, nil, prefs, "nfl", func(string, espn.Game) {})
+	if p.group.Selected != anyGroup {
+		t.Errorf("group %q", p.group.Selected)
+	}
 }
