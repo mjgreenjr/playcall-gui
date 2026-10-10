@@ -50,7 +50,7 @@ func TestGameLines(t *testing.T) {
 		t.Errorf("pre detail %q", got)
 	}
 	final := espn.Game{State: "post", AwayScore: "27", HomeScore: "24", Status: "Final", Date: "2026-10-10T01:00Z"}
-	if got := gameDetail(final, now); got != "10/9  27-24  Final" {
+	if got := gameDetail(final, now); got != "Fri 10/9  27-24  Final" {
 		t.Errorf("earlier final %q", got)
 	}
 	final.Date = "2026-10-10T12:00Z"

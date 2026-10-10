@@ -37,7 +37,7 @@ func matchup(g espn.Game) string {
 // gameDetail is the right-hand side of a picker row: the score once the game
 // has started, with ESPN's status ("5:12 - 1st", "Final", "10/9 - 9:00 PM EDT").
 // A finished game that started on an earlier local day than now gets its date
-// in front ("10/9  27-24  Final"), so last night's game is not mistaken for
+// in front ("Fri 10/9  27-24  Final"), so last night's game is not mistaken for
 // today's.
 func gameDetail(g espn.Game, now time.Time) string {
 	if g.State == "pre" {
@@ -55,7 +55,7 @@ func gameDetail(g espn.Game, now time.Time) string {
 	if y, m, d := start.Date(); y == now.Year() && m == now.Month() && d == now.Day() {
 		return detail
 	}
-	return fmt.Sprintf("%d/%d  %s", int(start.Month()), start.Day(), detail)
+	return fmt.Sprintf("%s %d/%d  %s", start.Weekday().String()[:3], int(start.Month()), start.Day(), detail)
 }
 
 // anyGroup is the picker's "no conference or division" choice.
