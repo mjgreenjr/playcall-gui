@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"slices"
 	"strings"
 	"time"
@@ -167,7 +168,9 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 	p.list.OnSelected = func(i widget.ListItemID) {
 		p.list.UnselectAll()
 		if i < len(p.games) && p.games[i].State != core.IdleState {
-			p.onPick(p.currentSport(), p.games[i])
+			g := p.games[i]
+			slog.Debug("Picker pick", "sport", p.currentSport(), "game", g.ID, "matchup", matchup(g), "state", g.State)
+			p.onPick(p.currentSport(), g)
 		}
 	}
 
@@ -217,6 +220,7 @@ func (p *picker) hideFinishedContinue(games []espn.Game) {
 	for _, g := range games {
 		if g.ID == p.contID {
 			if g.State == "post" {
+				slog.Debug("Continue hidden: the game is final", "game", p.contID)
 				p.cont.Hide()
 			} else {
 				p.cont.Show()
@@ -374,6 +378,9 @@ func (p *picker) show(games []espn.Game) {
 		}
 	}
 	p.games = orderForPicker(shown)
+	slog.Debug("Picker list", "sport", sport, "group", p.group.Selected, "all", p.all.Checked,
+		"favorites", len(favorites), "games", countGames(games), "idle", idleTeams(games),
+		"shown", countGames(shown), "shown_idle", idleTeams(shown))
 	p.abbrWidth = widestAbbreviation(p.games)
 	p.recWidth = widestRecord(p.games)
 	p.list.Refresh()
@@ -385,4 +392,15 @@ func (p *picker) show(games []espn.Game) {
 	default:
 		p.status.SetText(status)
 	}
+}
+
+// idleTeams lists the teams with no game in a list, for the log.
+func idleTeams(games []espn.Game) string {
+	var teams []string
+	for _, g := range games {
+		if g.State == core.IdleState {
+			teams = append(teams, strings.TrimSpace(g.Away))
+		}
+	}
+	return strings.Join(teams, " ")
 }
