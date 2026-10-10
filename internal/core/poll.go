@@ -68,6 +68,11 @@ type Poller struct {
 
 	// texts is each play's text as of the last poll, to log edits.
 	texts map[string]string
+	// What logTimeouts has logged: the last counters, the timeout plays seen,
+	// and whether the first poll is done.
+	lastTimeouts   string
+	timeoutPlays   map[string]bool
+	timeoutsSeeded bool
 	// known is the football plays this run has seen or sent whose ids are not
 	// above last_play_id. ESPN's football ids are not always in play order (a
 	// timeout can carry a higher id than the snap that followed it), so a play
@@ -139,6 +144,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 	finished := espn.IsFinal(data)
 	p.logTextChanges(plays)
 	feed := p.newFeed(data, plays, finished)
+	p.logTimeouts(feed)
 	p.publishStatus(feed)
 	var out Outcome
 	if len(plays) == 0 {
