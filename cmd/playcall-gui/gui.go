@@ -38,7 +38,7 @@ type ui struct {
 	situation              *widget.RichText
 	awayCounts, homeCounts *widget.Label
 	// awayTO and homeTO are football's timeouts, under each team's score.
-	awayTO, homeTO         *widget.Label
+	awayTO, homeTO         *dotRow
 	awayRecord, homeRecord *widget.RichText
 	// division is a team's division record for the header, from memory (it
 	// runs on the UI goroutine); nil shows none.
@@ -77,10 +77,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	for _, l := range []*widget.Label{u.awayCounts, u.homeCounts} {
 		l.Hide() // basketball only
 	}
-	u.awayTO = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{})
-	u.homeTO = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{})
-	u.awayTO.Hide()
-	u.homeTO.Hide()
+	u.awayTO, u.homeTO = newDotRow(), newDotRow()
 	u.awayRecord, u.homeRecord = widget.NewRichText(), widget.NewRichText()
 	u.setRecords("", "")
 	u.series = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Italic: true})
@@ -108,8 +105,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		// and ball. Football's timeouts sit under each score.
 		// Each team's record sits centered under its abbreviation.
 		container.NewBorder(nil, nil,
-			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(u.away, u.awayRecord), scoreGap(), container.NewVBox(u.awayScore, u.awayTO)),
-			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO), scoreGap(), container.NewVBox(u.home, u.homeRecord), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
+			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(u.away, u.awayRecord), scoreGap(), container.NewVBox(u.awayScore, u.awayTO.box)),
+			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO.box), scoreGap(), container.NewVBox(u.home, u.homeRecord), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
 			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.NewVBox(u.statusText, u.situation))),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
@@ -159,6 +156,8 @@ func (u *ui) themeChanged() {
 	}
 	u.awayBadge.refresh(u.logos)
 	u.homeBadge.refresh(u.logos)
+	u.awayTO.recolor()
+	u.homeTO.recolor()
 }
 
 // setHighlight changes the color of urgent plays, redrawing the rows already
@@ -195,9 +194,11 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.setBalls(s)
 	u.refreshRecords()
 	if s.Sport == "nfl" {
-		u.setCounts(u.awayTO, s.Sport, s.AwayCounts)
-		u.setCounts(u.homeTO, s.Sport, s.HomeCounts)
+		u.awayTO.set(s.AwayCounts)
+		u.homeTO.set(s.HomeCounts)
 	} else {
+		u.awayTO.set(nil)
+		u.homeTO.set(nil)
 		u.setCounts(u.awayCounts, s.Sport, s.AwayCounts)
 		u.setCounts(u.homeCounts, s.Sport, s.HomeCounts)
 	}

@@ -4,7 +4,6 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/test"
-	"fyne.io/fyne/v2/widget"
 	"testing"
 	"time"
 
@@ -104,8 +103,6 @@ func TestCountsText(t *testing.T) {
 		{"nba", &core.TeamCounts{}, "TO 0 · Fouls 0"},
 		{"cbb", &core.TeamCounts{Timeouts: 1, Fouls: 7, Bonus: "single"}, "TO ● · Fouls 7 · 1-and-1"},
 		{"cbb", &core.TeamCounts{Timeouts: 1, Fouls: 10, Bonus: "double"}, "TO ● · Fouls 10 · Double bonus"},
-		{"nfl", &core.TeamCounts{Timeouts: 2, TimeoutSlots: 3}, "●●○"},
-		{"nfl", &core.TeamCounts{Timeouts: 0, TimeoutSlots: 2}, "○○"},
 	} {
 		if got := countsText(c.sport, c.c); got != c.want {
 			t.Errorf("%s %+v: got %q, want %q", c.sport, c.c, got, c.want)
@@ -121,11 +118,36 @@ func TestFootballTimeoutsUnderScore(t *testing.T) {
 		Home:       core.TeamScore{Abbr: "LAC", Score: "7"},
 		AwayCounts: &core.TeamCounts{Timeouts: 3, TimeoutSlots: 3},
 		HomeCounts: &core.TeamCounts{Timeouts: 1, TimeoutSlots: 3}})
-	if u.awayTO.Text != "●●●" || u.homeTO.Text != "●○○" || !u.awayTO.Visible() || !u.homeTO.Visible() {
-		t.Errorf("under the scores: %q (%v) %q (%v)", u.awayTO.Text, u.awayTO.Visible(), u.homeTO.Text, u.homeTO.Visible())
+	// Every circle has the same size; the ones used are outlined, not filled.
+	for _, c := range []struct {
+		d            *dotRow
+		left, filled int
+	}{{u.awayTO, 3, 3}, {u.homeTO, 1, 1}} {
+		if !c.d.box.Visible() || len(c.d.dots) != 3 || c.d.left != c.left {
+			t.Fatalf("row: shown %v, %d circles, %d left", c.d.box.Visible(), len(c.d.dots), c.d.left)
+		}
+		filled := 0
+		for _, dot := range c.d.dots {
+			if dot.FillColor != nil {
+				filled++
+			}
+		}
+		if filled != c.filled {
+			t.Errorf("%d circles filled, want %d", filled, c.filled)
+		}
 	}
 	if u.awayCounts.Visible() || u.homeCounts.Visible() {
 		t.Error("the basketball row is showing for football")
+	}
+	// Overtime is two each, and a sport with no counts hides the row.
+	u.setStatus(core.GameStatus{Sport: "nfl", State: "in",
+		AwayCounts: &core.TeamCounts{Timeouts: 2, TimeoutSlots: 2}, HomeCounts: &core.TeamCounts{Timeouts: 1, TimeoutSlots: 2}})
+	if len(u.awayTO.dots) != 2 || len(u.homeTO.dots) != 2 || u.homeTO.left != 1 {
+		t.Errorf("overtime: %d and %d circles", len(u.awayTO.dots), len(u.homeTO.dots))
+	}
+	u.setStatus(core.GameStatus{Sport: "cfb", State: "in"})
+	if u.awayTO.box.Visible() || u.homeTO.box.Visible() {
+		t.Error("college football shows timeouts")
 	}
 }
 
@@ -138,18 +160,18 @@ func TestFootballScoreCenteredOverTimeouts(t *testing.T) {
 		Away: core.TeamScore{Abbr: "DEN", Score: "0"}, Home: core.TeamScore{Abbr: "LAC", Score: "27"},
 		AwayCounts: &core.TeamCounts{Timeouts: 3, TimeoutSlots: 3}, HomeCounts: &core.TeamCounts{Timeouts: 1, TimeoutSlots: 3}})
 	w.Resize(fyne.NewSize(601, 200))
-	// Both are centered in one column, so they line up only if the score's text
+	// Both sit centered in one column, so they line up only if the score's text
 	// carries no padding of its own (a leading space pushed it off the dots).
 	for _, c := range []struct {
 		score *canvas.Text
-		to    *widget.Label
+		to    *dotRow
 		want  string
 	}{{u.awayScore, u.awayTO, "0"}, {u.homeScore, u.homeTO, "27"}} {
-		if c.score.Text != c.want || c.score.Alignment != fyne.TextAlignCenter || c.to.Alignment != fyne.TextAlignCenter {
-			t.Errorf("score %q (align %v), timeouts align %v", c.score.Text, c.score.Alignment, c.to.Alignment)
+		if c.score.Text != c.want || c.score.Alignment != fyne.TextAlignCenter {
+			t.Errorf("score %q (align %v)", c.score.Text, c.score.Alignment)
 		}
-		if absX(c.score) != absX(c.to) || c.score.Size().Width != c.to.Size().Width {
-			t.Errorf("score column %v+%v, timeouts column %v+%v", absX(c.score), c.score.Size().Width, absX(c.to), c.to.Size().Width)
+		if absX(c.score) != absX(c.to.box) || c.score.Size().Width != c.to.box.Size().Width {
+			t.Errorf("score column %v+%v, timeouts column %v+%v", absX(c.score), c.score.Size().Width, absX(c.to.box), c.to.box.Size().Width)
 		}
 	}
 }

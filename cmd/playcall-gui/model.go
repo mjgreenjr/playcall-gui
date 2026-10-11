@@ -99,9 +99,6 @@ func countsText(sport string, c *core.TeamCounts) string {
 	if c == nil {
 		return ""
 	}
-	if sport == "nfl" {
-		return timeoutDots(c)
-	}
 	parts := []string{"TO " + timeoutDots(c), fmt.Sprintf("Fouls %d", c.Fouls)}
 	switch {
 	case c.Bonus == "":
