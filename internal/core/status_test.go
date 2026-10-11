@@ -166,10 +166,11 @@ func TestPossession(t *testing.T) {
 		t.Errorf("pregame: %q", got)
 	}
 
-	// baseball: batting team from the half inning.
+	// baseball has no ball marker: the half inning already says who bats, and
+	// the ball would read as the pitching side.
 	typ["state"] = "in"
 	for detail, want := range map[string]string{
-		"Top 6th": "away", "Bot 7th": "home", "Bottom 7th": "home", "Mid 4th": "", "End 9th": "", "": "",
+		"Top 6th": "", "Bot 7th": "", "Bottom 7th": "", "Mid 4th": "", "End 9th": "", "": "",
 	} {
 		typ["shortDetail"] = detail
 		if got := possession("mlb", feed(data, false)); got != want {
@@ -537,5 +538,33 @@ func TestMLBMatchup(t *testing.T) {
 	}
 	if p, _, _ := mlbMatchup("nfl", feed(top)); p != "" {
 		t.Error("another sport")
+	}
+}
+
+func TestMLBPitchCarriesTheBatter(t *testing.T) {
+	play := func(id, kind, text string) espn.Data {
+		return espn.Data{"id": id, "text": text,
+			"type":   map[string]any{"type": kind, "text": text},
+			"period": map[string]any{"type": "Top", "number": 3}}
+	}
+	plays := []espn.Data{
+		play("101", "start-batterpitcher", "Gavin Williams pitches to Sam Antonacci"),
+		play("102", "pitch", "Pitch 1 : Ball 1"),
+		play("103", "pitch", "Pitch 2 : Strike 1 Looking"),
+		play("201", "start-batterpitcher", "Gavin Williams pitches to Brenton Doyle"),
+		play("202", "pitch", "Pitch 1 : Strike 1 Swinging"),
+	}
+	ctxs := mlbContexts(plays)
+	for id, want := range map[string]string{"102": "Sam Antonacci", "103": "Sam Antonacci", "202": "Brenton Doyle", "101": ""} {
+		if got := ctxs[id].batter; got != want {
+			t.Errorf("play %s: batter %q, want %q", id, got, want)
+		}
+	}
+	args := ToastSink{}.Args(Event{Body: "Ball 1", Batter: "Sam Antonacci", Title: "CHW 0 · Top 3 · CLE 0"})
+	if args[5] != "Ball 1 · Sam Antonacci" {
+		t.Errorf("toast body %q", args[5])
+	}
+	if args := (ToastSink{}).Args(Event{Body: "Single to left"}); args[5] != "Single to left" {
+		t.Errorf("no batter: %q", args[5])
 	}
 }

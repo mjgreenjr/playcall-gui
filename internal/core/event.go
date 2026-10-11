@@ -50,6 +50,9 @@ type Event struct {
 	// Possession is the side on offence when the event was sent: "away",
 	// "home", or "" when unknown or the sport has no such notion.
 	Possession string
+	// Batter is baseball's batter on a pitch, which a toast adds to the text
+	// (the play itself, "Ball 2", does not name anyone); "" otherwise.
+	Batter string
 }
 
 // Sink receives events. An error means "not delivered": the poller keeps the

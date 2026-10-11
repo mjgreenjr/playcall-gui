@@ -277,6 +277,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 			Series:   feed.Series,
 
 			Possession: possession(p.Sport, feed),
+			Batter:     msg.Batter,
 			Revision:   s.update && !espn.Truthy(s.play["scoringPlay"]),
 		}
 		if err := p.Sink.Send(ctx, ev); err != nil {

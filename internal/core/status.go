@@ -318,14 +318,6 @@ func possession(sport string, f *Feed) string {
 		case espn.Str(home["id"]):
 			return "home"
 		}
-	case "mlb":
-		detail := strings.ToLower(espn.Str(typ["shortDetail"]))
-		switch {
-		case strings.HasPrefix(detail, "top"):
-			return "away"
-		case strings.HasPrefix(detail, "bot"):
-			return "home"
-		}
 	}
 	return ""
 }

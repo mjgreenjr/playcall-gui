@@ -34,6 +34,8 @@ type Message struct {
 	Home, Away  TeamScore
 	Clock       string
 	Period      string
+	// Batter is baseball's batter on a pitch ("" otherwise); a toast adds it.
+	Batter string
 }
 
 // Rules holds a sport's per-poll constants and hooks.

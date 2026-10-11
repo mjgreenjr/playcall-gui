@@ -46,6 +46,7 @@ func (r mlbPlays) Message(p espn.Data) Message {
 		Home:   home,
 		Away:   away,
 		Clock:  ctx.status,
+		Batter: ctx.batter,
 	}
 }
 
@@ -53,7 +54,7 @@ func (r mlbPlays) Message(p espn.Data) Message {
 // sent none).
 type mlbContext struct {
 	announce             bool
-	status, body         string
+	status, body, batter string
 	urgent               bool
 	awayScore, homeScore any
 }
@@ -119,6 +120,7 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 	})
 	ctxs := map[string]mlbContext{}
 	outs, on := 0, 0
+	batter := "" // the one named by the latest Start Batter/Pitcher
 	for _, p := range sorted {
 		typ := espn.Map(p["type"])
 		kind := espn.Str(typ["type"])
@@ -160,6 +162,9 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 			ctx.status = mlbStatus(next, 0, nil, nil)
 			ctx.body = "Side retired"
 		case kind == "start-batterpitcher":
+			if _, name, found := strings.Cut(text, " pitches to "); found {
+				batter = strings.TrimSpace(name)
+			}
 			on = mlbRunners(p)
 			ctx.status = mlbStatus(label, outs, &on, &[2]int{0, 0})
 		case strings.HasPrefix(text, "Pitch "):
@@ -172,6 +177,7 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 				ctx.announce = false
 			}
 			ctx.status = mlbStatus(label, outs, &on, &count)
+			ctx.batter = batter
 		case espn.Str(typ["text"]) == "Stolen Base":
 			// Duplicated by the Play Result with the same text.
 			ctx.announce = false

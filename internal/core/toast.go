@@ -45,10 +45,14 @@ func (ToastSink) Args(e Event) []string {
 	if e.Urgent {
 		urgency = "normal"
 	}
+	body := e.Body
+	if e.Batter != "" {
+		body += " · " + e.Batter
+	}
 	return append([]string{
 		"-u", urgency,
 		"-t", strconv.Itoa(NotifExpireMS),
-		e.MarkedTitle(), e.Body,
+		e.MarkedTitle(), body,
 		"--exec",
 	}, strings.Fields("xdg-open "+e.URL)...)
 }
