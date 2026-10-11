@@ -61,6 +61,8 @@ func statusLine(s core.GameStatus) string {
 		return s.Detail // "End of 3rd", not a clock stuck at 0.0
 	case s.State == "pre":
 		return s.Detail
+	case s.Sport == "mlb" && s.Detail != "":
+		return s.Detail // "Top 3rd", "Mid 3rd"; baseball has no clock, ESPN's says 0:00
 	}
 	return strings.TrimSpace(s.Clock + " " + s.Period)
 }

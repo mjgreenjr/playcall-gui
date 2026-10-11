@@ -54,6 +54,8 @@ func TestStatusLine(t *testing.T) {
 	}{
 		{core.GameStatus{State: "in", Clock: "0:48", Period: "1st"}, "0:48 1st"},
 		{core.GameStatus{State: "in", Clock: "", Period: "Top 6"}, "Top 6"},
+		{core.GameStatus{State: "in", Sport: "mlb", Clock: "0:00", Period: "3rd", Detail: "Top 3rd"}, "Top 3rd"},
+		{core.GameStatus{State: "in", Sport: "mlb", Clock: "0:00", Period: "3rd"}, "0:00 3rd"},
 		{core.GameStatus{State: "in", Halftime: true, Clock: "0:00", Period: "2nd"}, "Halftime"},
 		{core.GameStatus{State: "in", Break: true, Clock: "0.0", Period: "3rd", Detail: "End of 3rd"}, "End of 3rd"},
 		{core.GameStatus{State: "post", Final: true, Detail: "Final/OT"}, "Final/OT"},

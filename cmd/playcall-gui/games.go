@@ -59,7 +59,8 @@ func homeRecord(g espn.Game) string {
 	return teamRecord(g.HomeRecord, g.HomeConf, g.HomeSeries, g.AwaySeries)
 }
 
-// statusRecords are the two teams' record texts for the game page header.
+// statusRecords are the two teams' record texts for the game page header. A
+// playoff series is not among them: the header's middle already shows it.
 // division gives a team's division record where ESPN's game feed has no
 // conference record (nil for none).
 func statusRecords(s core.GameStatus, division func(abbr string) string) (away, home string) {
@@ -69,8 +70,8 @@ func statusRecords(s core.GameStatus, division func(abbr string) string) (away, 
 		}
 		return r.Conf
 	}
-	return teamRecord(s.AwayRecord.Overall, conf(s.AwayRecord, s.Away.Abbr), s.AwayRecord.SeriesWins, s.HomeRecord.SeriesWins),
-		teamRecord(s.HomeRecord.Overall, conf(s.HomeRecord, s.Home.Abbr), s.HomeRecord.SeriesWins, s.AwayRecord.SeriesWins)
+	return teamRecord(s.AwayRecord.Overall, conf(s.AwayRecord, s.Away.Abbr), "", ""),
+		teamRecord(s.HomeRecord.Overall, conf(s.HomeRecord, s.Home.Abbr), "", "")
 }
 
 // gameDetail is the right-hand side of a picker row: the score once the game

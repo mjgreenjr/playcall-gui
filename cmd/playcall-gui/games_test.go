@@ -168,3 +168,13 @@ func TestPreseasonTag(t *testing.T) {
 		t.Errorf("regular season %q", got)
 	}
 }
+
+func TestStatusRecordsLeaveOutTheSeries(t *testing.T) {
+	st := core.GameStatus{
+		AwayRecord: core.TeamRecord{Overall: "84-78", SeriesWins: "2"},
+		HomeRecord: core.TeamRecord{Overall: "85-77", SeriesWins: "2"},
+	}
+	if away, home := statusRecords(st, nil); away != "84-78" || home != "85-77" {
+		t.Errorf("records %q, %q", away, home)
+	}
+}
