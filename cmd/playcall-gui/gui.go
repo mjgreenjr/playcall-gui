@@ -103,7 +103,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		container.NewBorder(nil, nil,
 			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(u.away, u.awayRecord), container.NewVBox(u.awayScore)),
 			container.NewHBox(container.NewVBox(u.homeBadge.box), container.NewVBox(u.home, u.homeRecord), container.NewVBox(u.homeScore), ballSlot(u.homeBall)),
-			container.NewCenter(container.NewVBox(u.statusText, u.situation))),
+			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.NewVBox(u.statusText, u.situation))),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
 		u.series, u.stale,
@@ -338,3 +338,17 @@ func (g guiSink) Status(s core.GameStatus) {
 
 var _ core.Sink = guiSink{}
 var _ core.StatusSink = guiSink{}
+
+// scoreLineCenter centers its one child across the width and, vertically,
+// within the first height pixels: the score line, so the clock and situation
+// sit beside the scores and not in the middle of the records' extra row.
+type scoreLineCenter struct{ height func() float32 }
+
+func (scoreLineCenter) MinSize(objs []fyne.CanvasObject) fyne.Size { return objs[0].MinSize() }
+
+func (l scoreLineCenter) Layout(objs []fyne.CanvasObject, size fyne.Size) {
+	min := objs[0].MinSize()
+	y := (l.height() - min.Height) / 2 // negative when taller than the scores: it grows both ways
+	objs[0].Resize(fyne.NewSize(size.Width, min.Height))
+	objs[0].Move(fyne.NewPos(0, y))
+}
