@@ -253,7 +253,9 @@ func (u *ui) setSituation(text string) {
 // refreshRecords redraws the records from the last status; the division
 // records may have arrived since.
 func (u *ui) refreshRecords() {
-	u.setRecords(statusRecords(u.status, u.division))
+	away, home := statusRecords(u.status, u.division)
+	awayRole, homeRole := atBatRoles(u.status)
+	u.setRecords(joinLines(away, awayRole), joinLines(home, homeRole))
 }
 
 // setRecords shows each team's record under its side, in the situation's size.

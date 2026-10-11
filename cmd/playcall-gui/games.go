@@ -186,3 +186,27 @@ func sportFromLabel(label string) string {
 	}
 	return ""
 }
+
+// atBatRoles are baseball's pitcher and batter, each under its own team: the
+// batting side gets "At bat: ...", the other "Pitcher: ...".
+func atBatRoles(s core.GameStatus) (away, home string) {
+	if s.Batter == "" || s.BattingSide == "" {
+		return "", ""
+	}
+	bat, pitch := "At bat: "+s.Batter, "Pitcher: "+s.Pitcher
+	if s.BattingSide == "away" {
+		return bat, pitch
+	}
+	return pitch, bat
+}
+
+// joinLines puts the non-empty parts on separate lines.
+func joinLines(parts ...string) string {
+	var kept []string
+	for _, p := range parts {
+		if p != "" {
+			kept = append(kept, p)
+		}
+	}
+	return strings.Join(kept, "\n")
+}

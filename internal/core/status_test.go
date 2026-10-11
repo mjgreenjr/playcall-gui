@@ -509,3 +509,33 @@ func TestMLBSituation(t *testing.T) {
 		t.Errorf("no plays: %q", got)
 	}
 }
+
+func TestMLBMatchup(t *testing.T) {
+	play := func(id, kind, half, text string) espn.Data {
+		return espn.Data{"id": id, "text": text,
+			"type":   map[string]any{"type": kind},
+			"period": map[string]any{"type": half}}
+	}
+	data := loadFixture(t, "playbyplay_mlb_multi_plays.json")
+	typ := espn.Map(espn.Status(data)["type"])
+	typ["state"] = "in"
+	typ["name"] = "STATUS_IN_PROGRESS"
+	feed := func(plays ...espn.Data) *Feed { return &Feed{Data: data, Plays: plays} }
+	top := play("101", "start-batterpitcher", "Top", "Gavin Williams pitches to Sam Antonacci")
+	pitch := play("102", "pitch", "Top", "Pitch 1 : Ball 1")
+	p, b, side := mlbMatchup("mlb", feed(top, pitch))
+	if p != "Gavin Williams" || b != "Sam Antonacci" || side != "away" {
+		t.Errorf("top: %q %q %q", p, b, side)
+	}
+	bot := play("201", "start-batterpitcher", "Bottom", "Sean Burke pitches to Patrick Bailey")
+	if _, _, side := mlbMatchup("mlb", feed(top, bot)); side != "home" {
+		t.Errorf("bottom: %q", side)
+	}
+	end := play("299", "end-inning", "End", "End of the 3rd inning")
+	if p, b, side := mlbMatchup("mlb", feed(top, bot, end)); p != "" || b != "" || side != "" {
+		t.Errorf("after the inning: %q %q %q", p, b, side)
+	}
+	if p, _, _ := mlbMatchup("nfl", feed(top)); p != "" {
+		t.Error("another sport")
+	}
+}

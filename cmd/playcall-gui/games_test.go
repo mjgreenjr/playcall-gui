@@ -197,3 +197,22 @@ func TestPostseasonDropsSeasonRecords(t *testing.T) {
 		t.Errorf("other postseason game %q, %q", awayRecord(g), homeRecord(g))
 	}
 }
+
+func TestAtBatRoles(t *testing.T) {
+	s := core.GameStatus{Pitcher: "Sean Burke", Batter: "Sam Antonacci", BattingSide: "away"}
+	away, home := atBatRoles(s)
+	if away != "At bat: Sam Antonacci" || home != "Pitcher: Sean Burke" {
+		t.Errorf("top: %q, %q", away, home)
+	}
+	s.BattingSide = "home"
+	away, home = atBatRoles(s)
+	if away != "Pitcher: Sean Burke" || home != "At bat: Sam Antonacci" {
+		t.Errorf("bottom: %q, %q", away, home)
+	}
+	if away, home = atBatRoles(core.GameStatus{}); away != "" || home != "" {
+		t.Errorf("none: %q, %q", away, home)
+	}
+	if got := joinLines("84-78", "", "At bat: X"); got != "84-78\nAt bat: X" {
+		t.Errorf("joinLines %q", got)
+	}
+}

@@ -36,6 +36,9 @@ type GameStatus struct {
 	// ("1st & 10 at WASH 39"), "" when there is none (other sports, kickoffs,
 	// between plays, not in play).
 	Situation string
+	// Pitcher and Batter are baseball's current at-bat, and BattingSide the
+	// side ("away" or "home") the batter is on; "" between half-innings.
+	Pitcher, Batter, BattingSide string
 	// AwayRecord and HomeRecord are the teams' season and series records.
 	AwayRecord, HomeRecord TeamRecord
 	// Possession is the side on offence: "away", "home", or "" when the sport
@@ -223,28 +226,32 @@ func (p *Poller) publishStatus(f *Feed) {
 	if f.Finished {
 		series = seriesText(f.Data, p.State.GameID, true)
 	}
+	pitcher, batter, side := mlbMatchup(p.Sport, f)
 	p.StatusSink.Status(GameStatus{
-		GameID:     p.State.GameID,
-		Sport:      p.Sport,
-		Away:       f.Away,
-		Home:       f.Home,
-		State:      espn.Str(st["state"]),
-		Clock:      f.Clock,
-		Period:     period,
-		AwayCounts: awayCounts,
-		HomeCounts: homeCounts,
-		Detail:     detail,
-		Halftime:   espn.Str(st["name"]) == "STATUS_HALFTIME",
-		Break:      espn.Str(st["name"]) == "STATUS_END_PERIOD" || footballPeriodBreak(p.Sport, f),
-		Final:      f.Finished,
-		Series:     series,
-		Preseason:  espn.SeasonType(f.Data) == "1",
-		Postseason: espn.SeasonType(f.Data) == "3",
-		AwayRecord: teamRecord(f, awayComp),
-		HomeRecord: teamRecord(f, homeComp),
-		Possession: possession(p.Sport, f),
-		Situation:  situation(p.Sport, f),
-		UpdatedAt:  p.now(),
+		Pitcher:     pitcher,
+		Batter:      batter,
+		BattingSide: side,
+		GameID:      p.State.GameID,
+		Sport:       p.Sport,
+		Away:        f.Away,
+		Home:        f.Home,
+		State:       espn.Str(st["state"]),
+		Clock:       f.Clock,
+		Period:      period,
+		AwayCounts:  awayCounts,
+		HomeCounts:  homeCounts,
+		Detail:      detail,
+		Halftime:    espn.Str(st["name"]) == "STATUS_HALFTIME",
+		Break:       espn.Str(st["name"]) == "STATUS_END_PERIOD" || footballPeriodBreak(p.Sport, f),
+		Final:       f.Finished,
+		Series:      series,
+		Preseason:   espn.SeasonType(f.Data) == "1",
+		Postseason:  espn.SeasonType(f.Data) == "3",
+		AwayRecord:  teamRecord(f, awayComp),
+		HomeRecord:  teamRecord(f, homeComp),
+		Possession:  possession(p.Sport, f),
+		Situation:   situation(p.Sport, f),
+		UpdatedAt:   p.now(),
 	})
 }
 
@@ -384,4 +391,34 @@ func mlbSituation(f *Feed) string {
 		}
 	}
 	return text
+}
+
+// mlbMatchup is the pitcher, the batter and the batting side ("away" in the top
+// of an inning) from the newest Start Batter/Pitcher play ("Sean Burke pitches
+// to Travis Bazzana"), none once an inning has ended since.
+func mlbMatchup(sport string, f *Feed) (pitcher, batter, side string) {
+	if sport != "mlb" || !inPlay(f) {
+		return "", "", ""
+	}
+	var newest espn.Data
+	best := int64(-1)
+	for _, p := range f.Plays {
+		kind := espn.Str(espn.Map(p["type"])["type"])
+		id, ok := espn.PlayID(p)
+		if ok && id > best && (kind == "start-batterpitcher" || kind == "end-inning") {
+			best, newest = id, p
+		}
+	}
+	if newest == nil || espn.Str(espn.Map(newest["type"])["type"]) != "start-batterpitcher" {
+		return "", "", ""
+	}
+	pitcher, batter, found := strings.Cut(espn.PlayText(newest), " pitches to ")
+	if !found {
+		return "", "", ""
+	}
+	side = "home"
+	if espn.Str(espn.Map(newest["period"])["type"]) == "Top" {
+		side = "away"
+	}
+	return strings.TrimSpace(pitcher), strings.TrimSpace(batter), side
 }
