@@ -100,3 +100,20 @@ func Int64(v any) (int64, bool) {
 	n, err := strconv.ParseInt(s, 10, 64)
 	return n, err == nil
 }
+
+// Float returns v as a number: a JSON number or a string holding one.
+func Float(v any) (float64, bool) {
+	var s string
+	switch x := v.(type) {
+	case string:
+		s = x
+	case json.Number:
+		s = x.String()
+	case float64:
+		return x, true
+	default:
+		return 0, false
+	}
+	n, err := strconv.ParseFloat(s, 64)
+	return n, err == nil
+}

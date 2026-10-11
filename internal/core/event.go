@@ -53,6 +53,18 @@ type Event struct {
 	// Batter is baseball's batter on a pitch, which a toast adds to the text
 	// (the play itself, "Ball 2", does not name anyone); "" otherwise.
 	Batter string
+	// Display is Body with each player's team added after the name, or an
+	// icing's team; "" when there is nothing to add. Body itself stays ESPN's
+	// text so the CLI output is unchanged.
+	Display string
+}
+
+// BodyText is what the window and toasts show: Display, or else Body.
+func (e Event) BodyText() string {
+	if e.Display != "" {
+		return e.Display
+	}
+	return e.Body
 }
 
 // Sink receives events. An error means "not delivered": the poller keeps the

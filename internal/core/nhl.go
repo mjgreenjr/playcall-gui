@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -62,14 +63,97 @@ func (r nhlPlays) Message(p espn.Data) Message {
 	clock := nhlClockLeft(f.Data, p)
 	period := espn.Str(espn.Map(p["period"])["displayValue"])
 	return Message{
-		Title:  FormatTitle(away.Abbr, awayShown, clock, period, home.Abbr, homeShown),
-		Body:   nhlBody(p, espn.PlayText(p)),
-		Urgent: espn.Truthy(p["scoringPlay"]) || espn.Truthy(espn.Map(p["type"])["penaltyMinutes"]),
-		Home:   home,
-		Away:   away,
-		Clock:  clock,
-		Period: period,
+		Title:   FormatTitle(away.Abbr, awayShown, clock, period, home.Abbr, homeShown),
+		Body:    nhlBody(p, espn.PlayText(p)),
+		Urgent:  espn.Truthy(p["scoringPlay"]) || espn.Truthy(espn.Map(p["type"])["penaltyMinutes"]),
+		Home:    home,
+		Away:    away,
+		Clock:   clock,
+		Period:  period,
+		Display: icingDisplay(nhlIcingTeam(f, p)),
 	}
+}
+
+func icingDisplay(team string) string {
+	if team == "" {
+		return ""
+	}
+	return "Icing (" + team + ")"
+}
+
+// nhlIcingTeam is the abbreviation of the team an icing is called against, or
+// "". ESPN gives an icing no team, but it does give where the puck was shot
+// from, which is in the icing team's own end (the faceoff after it is in that
+// end too: 43 of 43 in five games). The team that defends that end is the one
+// whose shots in the period come from the other end.
+func nhlIcingTeam(f *Feed, p espn.Data) string {
+	if espn.PlayText(p) != "Icing" {
+		return ""
+	}
+	x, ok := espn.Float(espn.Map(p["coordinate"])["x"])
+	if !ok || x == 0 {
+		return ""
+	}
+	home, away := espn.Teams(espn.Competition(f.Data))
+	if home == nil || away == nil {
+		return ""
+	}
+	period, _ := espn.Int64(espn.Map(p["period"])["number"])
+	sign := func(v float64) int {
+		if v > 0 {
+			return 1
+		}
+		return -1
+	}
+	for _, t := range []struct {
+		c     espn.Data
+		other espn.Data
+		abbr  string
+	}{{home, away, f.Home.Abbr}, {away, home, f.Away.Abbr}} {
+		if att := nhlAttackSign(f.Plays, period, espn.Str(t.c["id"])); att != 0 {
+			if att == -sign(x) {
+				return t.abbr
+			}
+			if t.abbr == f.Home.Abbr {
+				return f.Away.Abbr
+			}
+			return f.Home.Abbr
+		}
+	}
+	return ""
+}
+
+// nhlAttackSign is +1 or -1 for the end a team shoots at in a period (the sign
+// of the middle of its shots' x), 0 when unknown. A period with no shots from
+// the team uses the one before it: the teams switch ends every period.
+func nhlAttackSign(plays []espn.Data, period int64, team string) int {
+	for n, flip := period, 1; n >= 1 && n <= 3; n, flip = n-1, -flip {
+		var xs []float64
+		for _, q := range plays {
+			if m, _ := espn.Int64(espn.Map(q["period"])["number"]); m != n {
+				continue
+			}
+			switch playType(q) {
+			case "Shot", "Missed", "Goal":
+			default:
+				continue
+			}
+			if espn.Str(espn.Map(q["team"])["id"]) != team {
+				continue
+			}
+			if x, ok := espn.Float(espn.Map(q["coordinate"])["x"]); ok {
+				xs = append(xs, x)
+			}
+		}
+		if len(xs) >= 2 {
+			sort.Float64s(xs)
+			if xs[len(xs)/2] > 0 {
+				return flip
+			}
+			return -flip
+		}
+	}
+	return 0
 }
 
 // intOr is Python's int(v or def): def when v is falsy or not an integer.

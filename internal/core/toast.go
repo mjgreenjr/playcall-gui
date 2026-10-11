@@ -45,7 +45,7 @@ func (ToastSink) Args(e Event) []string {
 	if e.Urgent {
 		urgency = "normal"
 	}
-	body := e.Body
+	body := e.BodyText()
 	if e.Batter != "" {
 		body += " · " + e.Batter
 	}

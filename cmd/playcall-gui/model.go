@@ -30,7 +30,7 @@ func (m *Model) Apply(e core.Event) (added bool) {
 	row := Row{
 		PlayID:  e.PlayID,
 		Title:   e.Title,
-		Body:    e.Body,
+		Body:    e.BodyText(),
 		Urgent:  e.Urgent,
 		Updated: e.Kind == core.KindUpdate,
 		Final:   e.Kind == core.KindFinal,

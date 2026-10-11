@@ -36,6 +36,9 @@ type Message struct {
 	Period      string
 	// Batter is baseball's batter on a pitch ("" otherwise); a toast adds it.
 	Batter string
+	// Display is the text for the window and toasts when it differs from Body
+	// ("Icing (ANA)"); "" means Body. The CLI keeps the plain Body.
+	Display string
 }
 
 // Rules holds a sport's per-poll constants and hooks.

@@ -568,3 +568,49 @@ func TestMLBPitchCarriesTheBatter(t *testing.T) {
 		t.Errorf("no batter: %q", args[5])
 	}
 }
+
+func TestNHLIcingTeam(t *testing.T) {
+	shot := func(period int, team string, x float64) espn.Data {
+		return espn.Data{"text": "shot", "type": map[string]any{"text": "Shot"},
+			"period":     map[string]any{"number": json.Number(strconv.Itoa(period))},
+			"team":       map[string]any{"id": team},
+			"coordinate": map[string]any{"x": json.Number(strconv.FormatFloat(x, 'f', -1, 64))}}
+	}
+	icing := func(period int, x float64) espn.Data {
+		p := shot(period, "", x)
+		p["text"], p["type"] = "Icing", map[string]any{"text": "Stoppage"}
+		delete(p, "team")
+		return p
+	}
+	data := espn.Data{"header": map[string]any{"competitions": []any{map[string]any{"competitors": []any{
+		map[string]any{"homeAway": "home", "id": "1", "team": map[string]any{"id": "1", "abbreviation": "BOS"}},
+		map[string]any{"homeAway": "away", "id": "15", "team": map[string]any{"id": "15", "abbreviation": "PHI"}},
+	}}}}}
+	// Period 1: BOS shoots at +x (so it defends -x), PHI at -x.
+	plays := []espn.Data{shot(1, "1", 70), shot(1, "1", 60), shot(1, "15", -60), shot(1, "15", -75),
+		shot(2, "1", -65), shot(2, "1", -70)}
+	f := &Feed{Data: data, Plays: plays, Home: TeamScore{Abbr: "BOS"}, Away: TeamScore{Abbr: "PHI"}}
+	for _, c := range []struct {
+		name string
+		p    espn.Data
+		want string
+	}{
+		{"puck shot from BOS's end", icing(1, -58), "BOS"},
+		{"puck shot from PHI's end", icing(1, 40), "PHI"},
+		{"second period: ends switch", icing(2, -30), "PHI"},
+		{"third period uses the second's shots", icing(3, -30), "BOS"},
+		{"no coordinate", espn.Data{"text": "Icing", "period": map[string]any{"number": json.Number("1")}}, ""},
+		{"not an icing", shot(1, "1", -58), ""},
+		{"overtime has no known ends", icing(4, -58), ""},
+	} {
+		if got := nhlIcingTeam(f, c.p); got != c.want {
+			t.Errorf("%s: %q, want %q", c.name, got, c.want)
+		}
+	}
+	if icingDisplay("BOS") != "Icing (BOS)" || icingDisplay("") != "" {
+		t.Errorf("icingDisplay %q", icingDisplay("BOS"))
+	}
+	if (Event{Body: "Icing", Display: "Icing (BOS)"}).BodyText() != "Icing (BOS)" || (Event{Body: "Icing"}).BodyText() != "Icing" {
+		t.Error("BodyText")
+	}
+}
