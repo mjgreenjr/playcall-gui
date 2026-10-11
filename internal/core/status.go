@@ -28,6 +28,8 @@ type GameStatus struct {
 	Final bool
 	// Preseason is true for exhibition games (ESPN's season type 1).
 	Preseason bool
+	// Postseason is true for playoff and bowl games (season type 3).
+	Postseason bool
 	// Series is the postseason standing without parentheses, or "".
 	Series string
 	// Situation is football's down, distance and spot after the last play
@@ -237,6 +239,7 @@ func (p *Poller) publishStatus(f *Feed) {
 		Final:      f.Finished,
 		Series:     series,
 		Preseason:  espn.SeasonType(f.Data) == "1",
+		Postseason: espn.SeasonType(f.Data) == "3",
 		AwayRecord: teamRecord(f, awayComp),
 		HomeRecord: teamRecord(f, homeComp),
 		Possession: possession(p.Sport, f),
@@ -327,8 +330,12 @@ func inPlay(f *Feed) bool {
 	return !f.Finished && espn.Str(typ["state"]) == "in" && espn.Str(typ["name"]) != "STATUS_HALFTIME"
 }
 
-// situation is the football down and distance after the last play.
+// situation is the football down and distance after the last play, or the
+// baseball count, outs and runners ("1-2, 1 out, 2 on").
 func situation(sport string, f *Feed) string {
+	if sport == "mlb" {
+		return mlbSituation(f)
+	}
 	if (sport != "nfl" && sport != "cfb") || !inPlay(f) || len(f.Plays) == 0 {
 		return ""
 	}
@@ -359,4 +366,22 @@ func downDistanceFull(side espn.Data) string {
 		return text
 	}
 	return espn.Str(side["shortDownDistanceText"])
+}
+
+// mlbSituation is what the newest play that has one says about the at-bat, the
+// way a play's title gives it, without the half-inning.
+func mlbSituation(f *Feed) string {
+	if !inPlay(f) || len(f.Plays) == 0 {
+		return ""
+	}
+	ctxs := mlbContexts(f.Plays)
+	best, text := int64(-1), ""
+	for _, p := range f.Plays {
+		id, ok := espn.PlayID(p)
+		_, status, found := strings.Cut(ctxs[espn.PlayKey(p)].status, " · ")
+		if ok && found && id > best {
+			best, text = id, status
+		}
+	}
+	return text
 }

@@ -3,6 +3,7 @@ package core
 import (
 	"context"
 	"encoding/json"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -488,5 +489,23 @@ func TestFootballPeriodBreak(t *testing.T) {
 		if got := footballPeriodBreak(c.sport, c.f); got != c.want {
 			t.Errorf("%s: %v, want %v", c.name, got, c.want)
 		}
+	}
+}
+
+func TestMLBSituation(t *testing.T) {
+	data := loadFixture(t, "playbyplay_mlb_multi_plays.json")
+	typ := espn.Map(espn.Status(data)["type"])
+	typ["state"] = "in"
+	typ["name"] = "STATUS_IN_PROGRESS"
+	plays := espn.ExtractPlays(data)
+	got := situation("mlb", &Feed{Data: data, Plays: plays})
+	if !regexp.MustCompile(`^(\d-\d, )?\d outs?(, \d on)?$`).MatchString(got) {
+		t.Errorf("situation %q", got)
+	}
+	if got := situation("mlb", &Feed{Data: data, Plays: plays, Finished: true}); got != "" {
+		t.Errorf("finished: %q", got)
+	}
+	if got := situation("mlb", &Feed{Data: data}); got != "" {
+		t.Errorf("no plays: %q", got)
 	}
 }

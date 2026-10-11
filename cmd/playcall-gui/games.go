@@ -51,19 +51,31 @@ func teamRecord(overall, conf, seriesWins, opponentSeriesWins string) string {
 	return overall
 }
 
+// Regular-season records mean nothing in the postseason (season type 3): a
+// series game keeps its series standing, any other shows none.
 func awayRecord(g espn.Game) string {
+	if g.Season == "3" {
+		return teamRecord("", "", g.AwaySeries, g.HomeSeries)
+	}
 	return teamRecord(g.AwayRecord, g.AwayConf, g.AwaySeries, g.HomeSeries)
 }
 
 func homeRecord(g espn.Game) string {
+	if g.Season == "3" {
+		return teamRecord("", "", g.HomeSeries, g.AwaySeries)
+	}
 	return teamRecord(g.HomeRecord, g.HomeConf, g.HomeSeries, g.AwaySeries)
 }
 
 // statusRecords are the two teams' record texts for the game page header. A
-// playoff series is not among them: the header's middle already shows it.
+// playoff series is not among them (the header's middle already shows it), and
+// neither are the season records in the postseason.
 // division gives a team's division record where ESPN's game feed has no
 // conference record (nil for none).
 func statusRecords(s core.GameStatus, division func(abbr string) string) (away, home string) {
+	if s.Postseason {
+		return "", ""
+	}
 	conf := func(r core.TeamRecord, abbr string) string {
 		if r.Conf == "" && division != nil {
 			return division(abbr)

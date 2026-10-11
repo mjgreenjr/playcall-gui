@@ -178,3 +178,22 @@ func TestStatusRecordsLeaveOutTheSeries(t *testing.T) {
 		t.Errorf("records %q, %q", away, home)
 	}
 }
+
+func TestPostseasonDropsSeasonRecords(t *testing.T) {
+	st := core.GameStatus{
+		Postseason: true,
+		AwayRecord: core.TeamRecord{Overall: "84-78", Conf: "1-0"},
+		HomeRecord: core.TeamRecord{Overall: "85-77"},
+	}
+	if away, home := statusRecords(st, nil); away != "" || home != "" {
+		t.Errorf("game page %q, %q", away, home)
+	}
+	g := espn.Game{Season: "3", AwayRecord: "84-78", HomeRecord: "85-77", AwaySeries: "2", HomeSeries: "1"}
+	if awayRecord(g) != "series 2-1" || homeRecord(g) != "series 1-2" {
+		t.Errorf("series game %q, %q", awayRecord(g), homeRecord(g))
+	}
+	g.AwaySeries, g.HomeSeries = "", ""
+	if awayRecord(g) != "" || homeRecord(g) != "" {
+		t.Errorf("other postseason game %q, %q", awayRecord(g), homeRecord(g))
+	}
+}
