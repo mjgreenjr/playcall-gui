@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fyne.io/fyne/v2/test"
 	"testing"
 	"time"
 
@@ -106,5 +107,21 @@ func TestCountsText(t *testing.T) {
 		if got := countsText(c.sport, c.c); got != c.want {
 			t.Errorf("%s %+v: got %q, want %q", c.sport, c.c, got, c.want)
 		}
+	}
+}
+
+func TestFootballTimeoutsUnderScore(t *testing.T) {
+	test.NewApp()
+	u := newUI(10*time.Second, nil, highlights[0], nil)
+	u.setStatus(core.GameStatus{Sport: "nfl", State: "in",
+		Away:       core.TeamScore{Abbr: "DEN", Score: "0"},
+		Home:       core.TeamScore{Abbr: "LAC", Score: "7"},
+		AwayCounts: &core.TeamCounts{Timeouts: 3, TimeoutSlots: 3},
+		HomeCounts: &core.TeamCounts{Timeouts: 1, TimeoutSlots: 3}})
+	if u.awayTO.Text != "TO ●●●" || u.homeTO.Text != "TO ●○○" || !u.awayTO.Visible() || !u.homeTO.Visible() {
+		t.Errorf("under the scores: %q (%v) %q (%v)", u.awayTO.Text, u.awayTO.Visible(), u.homeTO.Text, u.homeTO.Visible())
+	}
+	if u.awayCounts.Visible() || u.homeCounts.Visible() {
+		t.Error("the basketball row is showing for football")
 	}
 }

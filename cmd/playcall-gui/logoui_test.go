@@ -145,12 +145,13 @@ func TestHeaderOrderBallLogoNameOnBothSides(t *testing.T) {
 	if !(absX(u.awayBall) < absX(u.awayBadge.logo) && absX(u.awayBadge.logo) < absX(u.away)) {
 		t.Errorf("away order: ball %v logo %v name %v", absX(u.awayBall), absX(u.awayBadge.logo), absX(u.away))
 	}
-	// Home: logo, then name, then ball as the last thing on the line.
-	if !(absX(u.homeBadge.logo) < absX(u.home) && absX(u.home) < absX(u.homeBall)) {
-		t.Errorf("home order: logo %v name %v ball %v", absX(u.homeBadge.logo), absX(u.home), absX(u.homeBall))
+	// Home mirrors it: score on the inside, then name, then logo, then the
+	// ball as the last thing on the line.
+	if !(absX(u.homeScore) < absX(u.home) && absX(u.home) < absX(u.homeBadge.logo) && absX(u.homeBadge.logo) < absX(u.homeBall)) {
+		t.Errorf("home order: score %v name %v logo %v ball %v", absX(u.homeScore), absX(u.home), absX(u.homeBadge.logo), absX(u.homeBall))
 	}
-	if !(absX(u.away) < absX(u.statusText) && absX(u.statusText) < absX(u.homeBadge.logo)) {
-		t.Errorf("clock is not between the teams: %v %v %v", absX(u.away), absX(u.statusText), absX(u.homeBadge.logo))
+	if !(absX(u.away) < absX(u.statusText) && absX(u.statusText) < absX(u.homeScore)) {
+		t.Errorf("clock is not between the teams: %v %v %v", absX(u.away), absX(u.statusText), absX(u.homeScore))
 	}
 	if u.awayBall.Translucency != 0 || u.homeBall.Translucency != 1 {
 		t.Errorf("ball: away %v home %v", u.awayBall.Translucency, u.homeBall.Translucency)
