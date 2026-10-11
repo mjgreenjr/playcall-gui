@@ -88,6 +88,44 @@ func seriesText(data espn.Data, gameID string, final bool) string {
 	return fmt.Sprintf("%s %d-%d", lead.abbr, lead.wins, trail.wins)
 }
 
+// seriesInfo says which game of a playoff series this is and how long the
+// series is: "NLCS - Game 1 · Best of 7" (ESPN's own game note, which names
+// the round), or "Game 3 · Best of 7" from the game's place in the series'
+// event list when there is no note. It is empty outside a playoff series, and
+// shown even at 0-0, when seriesText has nothing to say yet.
+func seriesInfo(data espn.Data, gameID string) string {
+	var series espn.Data
+	for _, s := range espn.List(espn.Competition(data)["series"]) {
+		if m := espn.Map(s); espn.Str(m["type"]) == "playoff" {
+			series = m
+			break
+		}
+	}
+	if series == nil {
+		return ""
+	}
+	game := espn.Str(espn.Map(data["header"])["gameNote"])
+	if game == "" {
+		for i, e := range espn.List(series["events"]) {
+			if espn.Str(espn.Map(e)["id"]) == gameID {
+				game = fmt.Sprintf("Game %d", i+1)
+				break
+			}
+		}
+	}
+	best := ""
+	if n, _ := espn.Int64(series["totalCompetitions"]); n > 1 {
+		best = fmt.Sprintf("Best of %d", n)
+	}
+	switch {
+	case game != "" && best != "":
+		return game + " · " + best
+	case game != "":
+		return game
+	}
+	return best
+}
+
 // winnerID is the id of the competitor flagged as the winner, or "".
 func winnerID(comp espn.Data) string {
 	for _, c := range espn.List(comp["competitors"]) {

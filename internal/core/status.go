@@ -31,7 +31,9 @@ type GameStatus struct {
 	// Postseason is true for playoff and bowl games (season type 3).
 	Postseason bool
 	// Series is the postseason standing without parentheses, or "".
-	Series string
+	// SeriesInfo is which game of a playoff series this is and its length
+	// ("NLCS - Game 1 · Best of 7"), or "".
+	Series, SeriesInfo string
 	// Situation is football's down, distance and spot after the last play
 	// ("1st & 10 at WASH 39"), "" when there is none (other sports, kickoffs,
 	// between plays, not in play).
@@ -282,6 +284,7 @@ func (p *Poller) publishStatus(f *Feed) {
 		Break:       espn.Str(st["name"]) == "STATUS_END_PERIOD" || footballPeriodBreak(p.Sport, f),
 		Final:       f.Finished,
 		Series:      series,
+		SeriesInfo:  seriesInfo(f.Data, p.State.GameID),
 		Preseason:   espn.SeasonType(f.Data) == "1",
 		Postseason:  espn.SeasonType(f.Data) == "3",
 		AwayRecord:  teamRecord(f, awayComp),

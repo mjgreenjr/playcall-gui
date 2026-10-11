@@ -88,3 +88,25 @@ func TestWithSeries(t *testing.T) {
 		t.Errorf("got %q", got)
 	}
 }
+
+func TestSeriesInfo(t *testing.T) {
+	// From the game's place in the event list: game 3 of 7, even at 0-0.
+	d := seriesFeed(t, 0, 0, 7, 3, "")
+	if got := seriesInfo(d, "game"); got != "Game 3 · Best of 7" {
+		t.Errorf("got %q", got)
+	}
+	// ESPN's own game note names the round and wins over the position.
+	d["header"].(map[string]any)["gameNote"] = "NLCS - Game 1"
+	if got := seriesInfo(d, "game"); got != "NLCS - Game 1 · Best of 7" {
+		t.Errorf("with a note: got %q", got)
+	}
+	// A game that is not in the list and has no note: only the length.
+	delete(d["header"].(map[string]any), "gameNote")
+	if got := seriesInfo(d, "other"); got != "Best of 7" {
+		t.Errorf("unlisted: got %q", got)
+	}
+	// Outside a playoff series there is nothing.
+	if got := seriesInfo(espn.Data{"header": espn.Data{"gameNote": "Week 5"}}, "game"); got != "" {
+		t.Errorf("no series: got %q", got)
+	}
+}

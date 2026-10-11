@@ -175,3 +175,16 @@ func TestFootballScoreCenteredOverTimeouts(t *testing.T) {
 		}
 	}
 }
+
+func TestSeriesTagShowsGameAndLength(t *testing.T) {
+	test.NewApp()
+	u := newUI(10*time.Second, nil, highlights[0], nil)
+	u.setStatus(core.GameStatus{Sport: "mlb", State: "pre", SeriesInfo: "NLCS - Game 1 · Best of 7"})
+	if !u.series.Visible() || u.series.Text != "NLCS - Game 1 · Best of 7" {
+		t.Errorf("0-0: %q (%v)", u.series.Text, u.series.Visible())
+	}
+	u.setStatus(core.GameStatus{Sport: "mlb", State: "in", SeriesInfo: "NLCS - Game 3 · Best of 7", Series: "LAD 2-0"})
+	if u.series.Text != "NLCS - Game 3 · Best of 7 · Series: LAD 2-0" {
+		t.Errorf("with a standing: %q", u.series.Text)
+	}
+}

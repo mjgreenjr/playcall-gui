@@ -206,6 +206,9 @@ func (u *ui) setStatus(s core.GameStatus) {
 	if s.Preseason {
 		tags = append(tags, "Preseason")
 	}
+	if s.SeriesInfo != "" {
+		tags = append(tags, s.SeriesInfo)
+	}
 	if s.Series != "" {
 		tags = append(tags, "Series: "+s.Series)
 	}
