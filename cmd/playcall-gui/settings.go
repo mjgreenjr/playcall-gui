@@ -17,6 +17,7 @@ import (
 	"playcall/internal/core"
 	"playcall/internal/espn"
 	"playcall/internal/sports"
+	"playcall/internal/version"
 )
 
 // settingsEnv is what the settings screen needs from the app.
@@ -162,6 +163,8 @@ func (v *settingsView) generalTab() fyne.CanvasObject {
 		widget.NewSeparator(),
 		widget.NewLabelWithStyle("Log level", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
 		v.logLevel, logNote,
+		widget.NewSeparator(),
+		versionLabel(),
 	))
 }
 
@@ -353,4 +356,11 @@ func (v *settingsView) applyFilter() {
 	v.rows = rows
 	v.list.Refresh()
 	v.updateCount()
+}
+
+// versionLabel is the small "playcall 0.1.0" at the foot of the settings.
+func versionLabel() *widget.Label {
+	l := widget.NewLabel("playcall " + version.Version)
+	l.Importance = widget.LowImportance
+	return l
 }

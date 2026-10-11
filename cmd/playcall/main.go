@@ -20,6 +20,7 @@ import (
 	"playcall/internal/core"
 	"playcall/internal/espn"
 	"playcall/internal/sports"
+	"playcall/internal/version"
 )
 
 func main() {
@@ -90,6 +91,7 @@ type options struct {
 }
 
 const usageText = `usage: playcall [--dry-run] [--once] [--interval N] [--mock FILE] [--sport S] COMMAND ...
+       playcall --version
 
 commands:
   list [--all] [--group G]   show today's games
@@ -135,6 +137,10 @@ func parse(args []string) (opts options, positional []string, err error) {
 
 func run(ctx context.Context, d deps, args []string) int {
 	stdout, stderr := d.Stdout, d.Stderr
+	if len(args) == 1 && args[0] == "--version" {
+		fmt.Fprintf(stdout, "playcall %s\n", version.Version)
+		return exitOK
+	}
 	opts, positional, err := parse(args)
 	if errors.Is(err, flag.ErrHelp) {
 		fmt.Fprint(stdout, usageText)

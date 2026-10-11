@@ -20,6 +20,7 @@ import (
 	"playcall/internal/core"
 	"playcall/internal/espn"
 	"playcall/internal/sports"
+	"playcall/internal/version"
 )
 
 func main() {
@@ -33,7 +34,12 @@ func run() int {
 	step := flag.Int("step", 3, "with --mock: plays revealed per poll")
 	interval := flag.Duration("interval", 0, "poll interval (default: the config's; 1s with --mock; never below 5s live)")
 	debug := flag.Bool("debug", false, "log at DEBUG level this run, whatever the settings say")
+	showVersion := flag.Bool("version", false, "print the version and exit")
 	flag.Parse()
+	if *showVersion {
+		fmt.Println("playcall-gui", version.Version)
+		return 0
+	}
 
 	if err := sports.Validate(*sport); err != nil {
 		fmt.Fprintln(os.Stderr, err)
