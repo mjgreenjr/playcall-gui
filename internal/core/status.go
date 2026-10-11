@@ -117,6 +117,40 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 	return away, home
 }
 
+// NFL teams get 3 timeouts in each half and 2 in overtime. ESPN's
+// timeoutsUsed counts the current half only (it drops to 0 as the 2nd quarter
+// ends, so halftime shows 3 each) and runs a play or two ahead of the numbered
+// timeout plays ("Timeout #2 by PHI at 01:06."), which agreed with it in
+// every game checked. College's counter is a running total and its timeout
+// plays include official ones, so only the NFL is shown.
+const (
+	nflHalfTimeouts     = 3
+	nflOvertimeTimeouts = 2
+)
+
+// footballCounts reads each NFL team's timeouts left in the half from the
+// competitors; nil when the game is not in play or ESPN sends no counter.
+// Fouls are not part of it (Fouls stays 0 and the GUI leaves them out).
+func footballCounts(f *Feed) (away, home *TeamCounts) {
+	if f.Finished || espn.Str(espn.Map(espn.Status(f.Data)["type"])["state"]) != "in" {
+		return nil, nil
+	}
+	period, _ := espn.Int64(espn.Status(f.Data)["period"])
+	slots := nflHalfTimeouts
+	if period > 4 {
+		slots = nflOvertimeTimeouts
+	}
+	h, a := espn.Teams(espn.Competition(f.Data))
+	count := func(c espn.Data) *TeamCounts {
+		used, ok := espn.Int64(c["timeoutsUsed"])
+		if !ok {
+			return nil
+		}
+		return &TeamCounts{Timeouts: min(max(slots-int(used), 0), slots), TimeoutSlots: slots}
+	}
+	return count(a), count(h)
+}
+
 // Most timeouts a pro team may use in the 4th quarter and in each overtime.
 const (
 	fourthQuarterTimeouts = 4
@@ -221,6 +255,9 @@ func (p *Poller) publishStatus(f *Feed) {
 		detail = "End of " + period // ESPN's own says "15:00 - 3rd"
 	}
 	awayCounts, homeCounts := basketballCounts(p.Sport, f)
+	if p.Sport == "nfl" {
+		awayCounts, homeCounts = footballCounts(f)
+	}
 	homeComp, awayComp := espn.Teams(espn.Competition(f.Data))
 	series := f.Series
 	if f.Finished {

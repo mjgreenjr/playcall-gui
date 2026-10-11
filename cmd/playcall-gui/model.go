@@ -92,12 +92,15 @@ func timeoutDots(c *core.TeamCounts) string {
 	return strings.Repeat("●", left) + strings.Repeat("○", slots-left)
 }
 
-// countsText is basketball's line under a team's score: timeouts left, the
-// team's fouls this period and the bonus when it is in it. "" when there is
+// countsText is the line under a team's score: timeouts left and, in
+// basketball, the team's fouls this period and the bonus when it is in it. "" when there is
 // nothing to show.
 func countsText(sport string, c *core.TeamCounts) string {
 	if c == nil {
 		return ""
+	}
+	if sport == "nfl" {
+		return "TO " + timeoutDots(c)
 	}
 	parts := []string{"TO " + timeoutDots(c), fmt.Sprintf("Fouls %d", c.Fouls)}
 	switch {

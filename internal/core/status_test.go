@@ -3,6 +3,7 @@ package core
 import (
 	"context"
 	"encoding/json"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -639,5 +640,49 @@ func TestAnnotateNames(t *testing.T) {
 		if got := annotateNames(in, roster); got != want {
 			t.Errorf("%q: got %q, want %q", in, got, want)
 		}
+	}
+}
+
+func TestFootballCounts(t *testing.T) {
+	feed := func(state string, period int, away, home any) *Feed {
+		comp := func(side string, used any) espn.Data {
+			c := espn.Data{"homeAway": side}
+			if used != nil {
+				c["timeoutsUsed"] = used
+			}
+			return c
+		}
+		return &Feed{Data: espn.Data{
+			"header": espn.Data{"competitions": []any{espn.Data{
+				"competitors": []any{comp("away", away), comp("home", home)},
+				"status":      espn.Data{"period": json.Number(strconv.Itoa(period)), "type": espn.Data{"state": state}},
+			}}},
+		}}
+	}
+	for _, c := range []struct {
+		name       string
+		f          *Feed
+		away, home *TeamCounts
+	}{
+		{"start of the half", feed("in", 3, json.Number("0"), json.Number("0")),
+			&TeamCounts{Timeouts: 3, TimeoutSlots: 3}, &TeamCounts{Timeouts: 3, TimeoutSlots: 3}},
+		{"two used, one used", feed("in", 4, "2", json.Number("1")),
+			&TeamCounts{Timeouts: 1, TimeoutSlots: 3}, &TeamCounts{Timeouts: 2, TimeoutSlots: 3}},
+		{"more than allowed stays at none", feed("in", 2, json.Number("4"), json.Number("3")),
+			&TeamCounts{Timeouts: 0, TimeoutSlots: 3}, &TeamCounts{Timeouts: 0, TimeoutSlots: 3}},
+		{"overtime has two", feed("in", 5, json.Number("1"), json.Number("0")),
+			&TeamCounts{Timeouts: 1, TimeoutSlots: 2}, &TeamCounts{Timeouts: 2, TimeoutSlots: 2}},
+		{"no counter", feed("in", 1, nil, nil), nil, nil},
+		{"not in play", feed("pre", 0, json.Number("0"), json.Number("0")), nil, nil},
+	} {
+		away, home := footballCounts(c.f)
+		if !reflect.DeepEqual(away, c.away) || !reflect.DeepEqual(home, c.home) {
+			t.Errorf("%s: got %+v %+v, want %+v %+v", c.name, away, home, c.away, c.home)
+		}
+	}
+	final := feed("in", 4, json.Number("1"), json.Number("1"))
+	final.Finished = true
+	if away, home := footballCounts(final); away != nil || home != nil {
+		t.Errorf("final game has counts: %+v %+v", away, home)
 	}
 }
