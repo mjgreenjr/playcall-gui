@@ -614,3 +614,30 @@ func TestNHLIcingTeam(t *testing.T) {
 		t.Error("BodyText")
 	}
 }
+
+func TestAnnotateNames(t *testing.T) {
+	data := espn.Data{"boxscore": map[string]any{"players": []any{
+		map[string]any{"team": map[string]any{"abbreviation": "PHI"}, "statistics": []any{map[string]any{"athletes": []any{
+			map[string]any{"athlete": map[string]any{"displayName": "Nikita Zadorov"}},
+			map[string]any{"athlete": map[string]any{"displayName": "Sean Walker"}},
+			map[string]any{"athlete": map[string]any{"displayName": "Sam Smith"}},
+		}}}},
+		map[string]any{"team": map[string]any{"abbreviation": "BOS"}, "statistics": []any{map[string]any{"athletes": []any{
+			map[string]any{"athlete": map[string]any{"displayName": "Noel Acciari"}},
+			map[string]any{"athlete": map[string]any{"displayName": "Sam Smith"}}, // same name, other team
+		}}}},
+	}}}
+	roster := rosterTeams(data)
+	for in, want := range map[string]string{
+		"Nikita Zadorov hit Noel Acciari":     "Nikita Zadorov (PHI) hit Noel Acciari (BOS)",
+		"Giveaway by Sean Walker":             "Giveaway by Sean Walker (PHI)",
+		"Sam Smith hit Noel Acciari":          "Sam Smith hit Noel Acciari (BOS)", // shared name left alone
+		"Icing":                               "Icing",
+		"Nikita Zadorovsky":                   "Nikita Zadorovsky", // inside a longer word
+		"Nikita Zadorov (PHI) already marked": "Nikita Zadorov (PHI) already marked",
+	} {
+		if got := annotateNames(in, roster); got != want {
+			t.Errorf("%q: got %q, want %q", in, got, want)
+		}
+	}
+}

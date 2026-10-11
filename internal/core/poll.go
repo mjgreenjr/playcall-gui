@@ -260,6 +260,11 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		}
 		slog.Debug("Play", "kind", kind, "id", espn.PlayKey(s.play), "text", text)
 		msg := rules.Message(s.play)
+		if msg.Display == "" && nameSports[p.Sport] {
+			if shown := annotateNames(msg.Body, rosterTeams(feed.Data)); shown != msg.Body {
+				msg.Display = shown
+			}
+		}
 		ev := Event{
 			GameID:   st.GameID,
 			PlayID:   espn.PlayKey(s.play),
