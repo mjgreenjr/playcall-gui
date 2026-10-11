@@ -622,7 +622,10 @@ func TestRevisablePlay(t *testing.T) {
 		{"nba", typ("Offensive Foul Turnover"), false},
 		{"nba", typ("Pullup Jump Shot"), false},
 		{"nhl", espn.Data{"type": map[string]any{"text": "Penalty", "penaltyMinutes": "2"}}, true},
-		{"nhl", typ("Shot"), false},
+		{"nhl", typ("Shot"), true},
+		{"nhl", typ("Missed"), true},
+		{"nhl", typ("Blocked"), true},
+		{"nhl", typ("Takeaway"), false},
 		{"mlb", typ("Substitution"), false},
 	} {
 		if got := revisablePlay(c.sport, c.play); got != c.want {

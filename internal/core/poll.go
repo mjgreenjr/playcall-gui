@@ -629,6 +629,12 @@ func revisablePlay(sport string, p espn.Data) bool {
 		kind := strings.ToLower(playType(p))
 		return kind == "substitution" || (strings.Contains(kind, "foul") && !strings.Contains(kind, "turnover"))
 	case "nhl":
+		// Shots go out as a bare "Missed Shot" and are filled in with the
+		// shooter, the shot and the goalie a poll or so later.
+		switch strings.ToLower(playType(p)) {
+		case "shot", "missed", "blocked":
+			return true
+		}
 		return espn.Truthy(espn.Map(p["type"])["penaltyMinutes"])
 	}
 	return false
