@@ -108,8 +108,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		// and ball. Football's timeouts sit under each score.
 		// Each team's record sits centered under its abbreviation.
 		container.NewBorder(nil, nil,
-			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(u.away, u.awayRecord), container.NewVBox(u.awayScore, u.awayTO)),
-			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO), container.NewVBox(u.home, u.homeRecord), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
+			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(u.away, u.awayRecord), scoreGap(), container.NewVBox(u.awayScore, u.awayTO)),
+			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO), scoreGap(), container.NewVBox(u.home, u.homeRecord), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
 			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.NewVBox(u.statusText, u.situation))),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
@@ -132,6 +132,14 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 
 	u.content = container.NewBorder(container.NewVBox(header, u.newBtn), nil, nil, nil, u.scroll)
 	return u
+}
+
+// scoreGap keeps a score off its abbreviation. It is a gap and not a space in
+// the score's text, so the score stays centered over the timeouts under it.
+func scoreGap() fyne.CanvasObject {
+	gap := canvas.NewRectangle(color.Transparent)
+	gap.SetMinSize(fyne.NewSize(theme.Padding()*3, 1))
+	return gap
 }
 
 // ballSlot puts the ball at the top of its column, vertically centered on a
@@ -173,9 +181,8 @@ func (u *ui) clearUnseen() {
 
 func (u *ui) setStatus(s core.GameStatus) {
 	u.status = s
-	// A leading space keeps the score off the abbreviation.
-	u.away.Text, u.awayScore.Text = s.Away.Abbr, " "+s.Away.Score
-	u.home.Text, u.homeScore.Text = s.Home.Abbr, " "+s.Home.Score
+	u.away.Text, u.awayScore.Text = s.Away.Abbr, s.Away.Score
+	u.home.Text, u.homeScore.Text = s.Home.Abbr, s.Home.Score
 	for _, t := range []*canvas.Text{u.away, u.home, u.awayScore, u.homeScore} {
 		t.Refresh()
 	}

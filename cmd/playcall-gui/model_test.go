@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/test"
+	"fyne.io/fyne/v2/widget"
 	"testing"
 	"time"
 
@@ -123,5 +126,30 @@ func TestFootballTimeoutsUnderScore(t *testing.T) {
 	}
 	if u.awayCounts.Visible() || u.homeCounts.Visible() {
 		t.Error("the basketball row is showing for football")
+	}
+}
+
+func TestFootballScoreCenteredOverTimeouts(t *testing.T) {
+	test.NewApp()
+	u := newUI(10*time.Second, nil, highlights[0], nil)
+	w := test.NewWindow(u.content)
+	w.Resize(fyne.NewSize(600, 200))
+	u.setStatus(core.GameStatus{Sport: "nfl", State: "in", Clock: "1:00", Period: "1st",
+		Away: core.TeamScore{Abbr: "DEN", Score: "0"}, Home: core.TeamScore{Abbr: "LAC", Score: "27"},
+		AwayCounts: &core.TeamCounts{Timeouts: 3, TimeoutSlots: 3}, HomeCounts: &core.TeamCounts{Timeouts: 1, TimeoutSlots: 3}})
+	w.Resize(fyne.NewSize(601, 200))
+	// Both are centered in one column, so they line up only if the score's text
+	// carries no padding of its own (a leading space pushed it off the dots).
+	for _, c := range []struct {
+		score *canvas.Text
+		to    *widget.Label
+		want  string
+	}{{u.awayScore, u.awayTO, "0"}, {u.homeScore, u.homeTO, "27"}} {
+		if c.score.Text != c.want || c.score.Alignment != fyne.TextAlignCenter || c.to.Alignment != fyne.TextAlignCenter {
+			t.Errorf("score %q (align %v), timeouts align %v", c.score.Text, c.score.Alignment, c.to.Alignment)
+		}
+		if absX(c.score) != absX(c.to) || c.score.Size().Width != c.to.Size().Width {
+			t.Errorf("score column %v+%v, timeouts column %v+%v", absX(c.score), c.score.Size().Width, absX(c.to), c.to.Size().Width)
+		}
 	}
 }
