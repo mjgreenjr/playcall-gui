@@ -16,6 +16,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 - `--version` on both binaries, and the version at the foot of the GUI's settings screen.
 
 ### Fixed
+- The settings screen scrolls when the window is too short to show it all, so the bottom (and the version) can still be reached.
 - NFL timeout circles are drawn shapes, so the filled and outlined ones are the same size and sit on one line.
 
 ## [0.1.0] - 2026-10-11

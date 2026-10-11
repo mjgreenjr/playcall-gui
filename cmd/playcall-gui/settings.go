@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"image/color"
 	"slices"
 	"strconv"
 	"strings"
@@ -39,6 +40,7 @@ type settingsEnv struct {
 // change is saved as soon as it is made.
 type settingsView struct {
 	content fyne.CanvasObject
+	tabs    *container.AppTabs
 	env     settingsEnv
 
 	interval *widget.Select
@@ -87,9 +89,10 @@ func newSettings(env settingsEnv, sport string) *settingsView {
 	top := container.NewVBox(container.NewBorder(nil, nil, back, layout.NewSpacer(), title), widget.NewSeparator())
 
 	tabs := container.NewAppTabs(
-		container.NewTabItem("General", v.generalTab()),
-		container.NewTabItem("Favorites", v.favoritesTab(sport)),
+		container.NewTabItem("General", container.NewVScroll(v.generalTab())),
+		container.NewTabItem("Favorites", container.NewVScroll(v.favoritesTab(sport))),
 	)
+	v.tabs = tabs
 	v.content = container.NewBorder(top, nil, nil, nil, tabs)
 	return v
 }
@@ -245,8 +248,16 @@ func (v *settingsView) favoritesTab(sport string) fyne.CanvasObject {
 		widget.NewLabelWithStyle("Favorite teams", fyne.TextAlignLeading, fyne.TextStyle{Bold: true}),
 		v.search, v.count, v.status,
 	)
-	return container.NewBorder(head, nil, nil, nil, v.list)
+	// The whole tab scrolls when the window is short, so the list is given a
+	// height of its own: without one it would shrink to nothing under the head.
+	room := canvas.NewRectangle(color.Transparent)
+	room.SetMinSize(fyne.NewSize(0, favoritesListHeight))
+	return container.NewBorder(head, nil, nil, nil, container.NewStack(room, v.list))
 }
+
+// favoritesListHeight is the least height the team list gets before the tab
+// starts to scroll.
+const favoritesListHeight = 320
 
 // label is the team's name; the abbreviation stands in only when ESPN's list
 // does not have the team (an unknown favorite) or gives it no name.

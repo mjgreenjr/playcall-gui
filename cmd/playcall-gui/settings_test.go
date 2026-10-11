@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fyne.io/fyne/v2/container"
 	"net/http"
 	"os"
 	"strings"
@@ -282,5 +283,32 @@ func TestFavoritesStillSearchableByAbbreviation(t *testing.T) {
 	v.search.SetText("DAL")
 	if len(v.rows) != 1 || v.rows[0].Abbr != "DAL" || v.rows[0].label() != "Dallas Cowboys" {
 		t.Errorf("rows %+v", v.rows)
+	}
+}
+
+// In a window too short for the content, each tab scrolls, so the last
+// setting (and the version below it) can still be reached.
+func TestSettingsTabsScrollInAShortWindow(t *testing.T) {
+	h := newHarness(t, core.DefaultConfig(), "nfl", false)
+	w := test.NewWindow(h.view.content)
+	w.Resize(fyne.NewSize(420, 260))
+	for _, item := range h.view.tabs.Items {
+		sc, ok := item.Content.(*container.Scroll)
+		if !ok {
+			t.Fatalf("%s is not scrollable", item.Text)
+		}
+		h.view.tabs.Select(item)
+		w.Resize(fyne.NewSize(421, 260))
+		if sc.Content.MinSize().Height <= sc.Size().Height {
+			t.Errorf("%s: content %v fits the %v viewport, so it would not scroll", item.Text, sc.Content.MinSize().Height, sc.Size().Height)
+		}
+		sc.ScrollToBottom()
+		if sc.Offset.Y <= 0 {
+			t.Errorf("%s: cannot scroll down", item.Text)
+		}
+	}
+	// The team list keeps a height of its own under the scrolling head.
+	if h := h.view.list.Size().Height; h < favoritesListHeight {
+		t.Errorf("team list is %v high, want at least %v", h, favoritesListHeight)
 	}
 }
