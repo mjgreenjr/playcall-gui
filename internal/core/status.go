@@ -41,6 +41,9 @@ type GameStatus struct {
 	// ("1st & 10 at WASH 39"), "" when there is none (other sports, kickoffs,
 	// between plays, not in play).
 	Situation string
+	// Bases is baseball's occupied bases ("1", "13", "123", "" for none),
+	// meaningful while Situation is not empty.
+	Bases string
 	// Pitcher and Batter are baseball's current at-bat, and BattingSide the
 	// side ("away" or "home") the batter is on; "" between half-innings.
 	Pitcher, Batter, BattingSide string
@@ -295,6 +298,7 @@ func (p *Poller) publishStatus(f *Feed) {
 		HomeRecord:   teamRecord(f, homeComp),
 		Possession:   possession(p.Sport, f),
 		Situation:    situation(p.Sport, f),
+		Bases:        mlbBasesNow(p.Sport, f),
 		UpdatedAt:    p.now(),
 	})
 }
@@ -416,7 +420,8 @@ func inPlay(f *Feed) bool {
 // baseball count, outs and runners ("1-2, 1 out, 2 on").
 func situation(sport string, f *Feed) string {
 	if sport == "mlb" {
-		return mlbSituation(f)
+		text, _ := mlbSituation(f)
+		return text
 	}
 	if (sport != "nfl" && sport != "cfb") || !inPlay(f) || len(f.Plays) == 0 {
 		return ""
@@ -450,22 +455,32 @@ func downDistanceFull(side espn.Data) string {
 	return espn.Str(side["shortDownDistanceText"])
 }
 
-// mlbSituation is what the newest play that has one says about the at-bat, the
-// way a play's title gives it, without the half-inning.
-func mlbSituation(f *Feed) string {
-	if !inPlay(f) || len(f.Plays) == 0 {
+// mlbBasesNow is the occupied bases the situation's runner count comes from.
+func mlbBasesNow(sport string, f *Feed) string {
+	if sport != "mlb" {
 		return ""
 	}
+	_, bases := mlbSituation(f)
+	return bases
+}
+
+// mlbSituation is what the newest play that has one says about the at-bat, the
+// way a play's title gives it, without the half-inning.
+func mlbSituation(f *Feed) (string, string) {
+	if !inPlay(f) || len(f.Plays) == 0 {
+		return "", ""
+	}
 	ctxs := mlbContexts(f.Plays)
-	best, text := int64(-1), ""
+	best, text, bases := int64(-1), "", ""
 	for _, p := range f.Plays {
 		id, ok := espn.PlayID(p)
-		_, status, found := strings.Cut(ctxs[espn.PlayKey(p)].status, " · ")
+		ctx := ctxs[espn.PlayKey(p)]
+		_, status, found := strings.Cut(ctx.status, " · ")
 		if ok && found && id > best {
-			best, text = id, status
+			best, text, bases = id, status, ctx.bases
 		}
 	}
-	return text
+	return text, bases
 }
 
 // mlbMatchup is the pitcher, the batter and the batting side ("away" in the top

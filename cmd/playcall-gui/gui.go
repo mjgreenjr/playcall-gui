@@ -39,7 +39,9 @@ type ui struct {
 	situation              *widget.RichText
 	awayCounts, homeCounts *widget.Label
 	// awayTO and homeTO are football's timeouts, under each team's score.
-	awayTO, homeTO         *dotRow
+	awayTO, homeTO *dotRow
+	// diamond is baseball's bases, under the count and outs.
+	diamond                *diamond
 	awayRecord, homeRecord *widget.RichText
 	// division is a team's division record for the header, from memory (it
 	// runs on the UI goroutine); nil shows none.
@@ -80,6 +82,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		l.Hide() // basketball only
 	}
 	u.awayTO, u.homeTO = newDotRow(), newDotRow()
+	u.diamond = newDiamond()
 	u.awayRecord, u.homeRecord = widget.NewRichText(), widget.NewRichText()
 	u.setRecords("", "")
 	u.series = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Italic: true})
@@ -109,7 +112,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		container.NewBorder(nil, nil,
 			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(rankedName(u.awayRank, u.away), u.awayRecord), scoreGap(), container.NewVBox(u.awayScore, u.awayTO.box)),
 			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO.box), scoreGap(), container.NewVBox(rankedName(u.homeRank, u.home), u.homeRecord), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
-			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.NewVBox(u.statusText, u.situation))),
+			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.NewVBox(u.statusText, u.situation, u.diamond.box))),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
 		u.series, u.stale,
@@ -161,6 +164,7 @@ func (u *ui) themeChanged() {
 	u.awayBadge.refresh(u.logos)
 	u.homeBadge.refresh(u.logos)
 	u.awayTO.recolor()
+	u.diamond.recolor()
 	u.homeTO.recolor()
 }
 
@@ -192,7 +196,13 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.awayRank.set(s.Away.Rank)
 	u.homeRank.set(s.Home.Rank)
 	u.setStatusLine(statusLine(s, time.Now()), false)
-	u.setSituation(s.Situation)
+	if s.Sport == "mlb" && s.Situation != "" {
+		u.setSituation(withoutRunnerCount(s.Situation))
+		u.diamond.set(true, s.Bases)
+	} else {
+		u.setSituation(s.Situation)
+		u.diamond.set(false, "")
+	}
 	u.awayBadge.setName(s.Away.Name)
 	u.homeBadge.setName(s.Home.Name)
 	u.awayBadge.setLogo(u.logos, s.Away.Logo)

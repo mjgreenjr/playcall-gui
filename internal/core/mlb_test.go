@@ -288,3 +288,18 @@ func TestMLBMessage(t *testing.T) {
 		t.Error(ids)
 	}
 }
+
+func TestMLBBases(t *testing.T) {
+	c := ctxsOf(
+		mp(t, "100", "start-batterpitcher", "A pitches to B", top6+`,"onFirst":{"x":1},"onThird":{"x":1}`),
+		mp(t, "101", "pitch", "Pitch 1 : Ball", top6+`,"onFirst":{"x":1},"onThird":{"x":1}`),
+		mp(t, "102", "play-result", "Sub something.", top6),
+		mp(t, "1990001", "play-result", "Walk.", top6+`,"outs":0,"onFirst":1,"onSecond":1,"onThird":1`),
+		mp(t, "1990002", "play-result", "Lineout.", top6+`,"outs":3,"onFirst":1`),
+	)
+	for id, want := range map[string]string{"100": "13", "101": "13", "102": "13", "1990001": "123", "1990002": ""} {
+		if got := c[id].bases; got != want {
+			t.Errorf("play %s: bases %q, want %q", id, got, want)
+		}
+	}
+}

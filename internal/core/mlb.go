@@ -57,6 +57,9 @@ type mlbContext struct {
 	status, body, batter string
 	urgent               bool
 	awayScore, homeScore any
+	// bases is the occupied bases the status's runner count comes from, as
+	// "1", "13", "123" ("" when empty).
+	bases string
 }
 
 // \w and \d are Unicode in the Python, so accented names must match.
@@ -77,6 +80,17 @@ func mlbRunners(p espn.Data) int {
 		}
 	}
 	return n
+}
+
+// mlbBases names the occupied bases on this play: "1", "13", "123", or "".
+func mlbBases(p espn.Data) string {
+	out := ""
+	for i, k := range []string{"onFirst", "onSecond", "onThird"} {
+		if espn.Truthy(p[k]) {
+			out += string(rune('1' + i))
+		}
+	}
+	return out
 }
 
 // mlbStatus is e.g. "Top 6 · 1-2, 1 out, 2 on". The count and runners are
@@ -120,6 +134,7 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 	})
 	ctxs := map[string]mlbContext{}
 	outs, on := 0, 0
+	bases := ""
 	batter := "" // the one named by the latest Start Batter/Pitcher
 	for _, p := range sorted {
 		typ := espn.Map(p["type"])
@@ -145,10 +160,10 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 		case kind == "start-inning" || kind == "end-batterpitcher":
 			ctx.announce = false
 			if kind == "start-inning" {
-				outs, on = 0, 0
+				outs, on, bases = 0, 0, ""
 			}
 		case kind == "end-inning":
-			outs, on = 0, 0
+			outs, on, bases = 0, 0, ""
 			// ESPN's "Mid"/"End" is a half-inning break: show the half that comes next.
 			isMid := espn.Str(period["type"]) == "Mid"
 			n := intOr(period["number"], 0)
@@ -165,10 +180,10 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 			if _, name, found := strings.Cut(text, " pitches to "); found {
 				batter = strings.TrimSpace(name)
 			}
-			on = mlbRunners(p)
+			on, bases = mlbRunners(p), mlbBases(p)
 			ctx.status = mlbStatus(label, outs, &on, &[2]int{0, 0})
 		case strings.HasPrefix(text, "Pitch "):
-			on = mlbRunners(p)
+			on, bases = mlbRunners(p), mlbBases(p)
 			ctx.body = mlbPitchPrefix.ReplaceAllString(text, "")
 			result := espn.Map(p["resultCount"])
 			count := [2]int{intOr(result["balls"], 0), intOr(result["strikes"], 0)}
@@ -192,7 +207,11 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 				if v, ok := p["outs"]; ok {
 					outsAfter = intOr(v, 0)
 				}
-				onAfter := mlbRunners(p)
+				onAfter, basesAfter := mlbRunners(p), mlbBases(p)
+				if outsAfter >= 3 {
+					basesAfter = ""
+				}
+				bases = basesAfter
 				if outsAfter >= 3 {
 					ctx.status = mlbStatus(label, 3, nil, nil)
 				} else {
@@ -213,6 +232,7 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 				ctx.announce = false
 			}
 		}
+		ctx.bases = bases
 		ctxs[espn.PlayKey(p)] = ctx
 	}
 	return ctxs
