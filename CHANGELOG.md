@@ -14,7 +14,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ### Changed
 - The game page's header keeps its middle (clock, count, bases) on the window's center instead of shifting with the names under the teams. In baseball the batter and pitcher names (now labeled "AB:" and "P:", not "At bat:" and "Pitcher:", with the first name as an initial: "P: Y. Yamamoto") get a fixed-width column under each team and a longer name is cut short with "..." (before, a long name widened the header and squeezed the middle).
-- Baseball's game page shows the bases as a small diamond of three circles (second on top), filled for each runner on, with home plate at the bottom (the bases are squares turned on a corner), in place of "2 on" under the count and outs. Toasts, titles and the CLI keep the "2 on" text.
+- Baseball's game page shows the bases as a small diamond (second on top, squares turned on a corner, filled for each runner on, home plate at the bottom), and the balls, strikes and outs as rows of circles (B, S, O) beside it, filled as they pile up, the two centered together under the status line. They replace the text "1-2, 1 out, 2 on" there. Toasts, titles and the CLI keep the text.
 
 ### Added
 - A `Makefile`: `make` builds both programs, `make install` copies them to `~/.local/bin` (or `PREFIX`), `make uninstall`, `make cli`, `make test`. The README has an Install section.

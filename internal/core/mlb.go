@@ -60,6 +60,19 @@ type mlbContext struct {
 	// bases is the occupied bases the status's runner count comes from, as
 	// "1", "13", "123" ("" when empty).
 	bases string
+	// balls, strikes and outs are the numbers the status text gives, for the
+	// window's dots; the count is 0-0 when the status has none (a result, an
+	// inning break), as it is for the next batter.
+	balls, strikes, outs int
+}
+
+// setStatus fills in the status text and the numbers it comes from.
+func (c *mlbContext) setStatus(label string, outs int, on *int, count *[2]int) {
+	c.status = mlbStatus(label, outs, on, count)
+	c.outs, c.balls, c.strikes = outs, 0, 0
+	if count != nil {
+		c.balls, c.strikes = count[0], count[1]
+	}
 }
 
 // \w and \d are Unicode in the Python, so accented names must match.
@@ -174,14 +187,14 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 			lead := intOr(p["homeScore"], 0) - intOr(p["awayScore"], 0)
 			gameOver := n >= 9 && ((isMid && lead > 0) || (!isMid && lead != 0))
 			ctx.announce = !gameOver
-			ctx.status = mlbStatus(next, 0, nil, nil)
+			ctx.setStatus(next, 0, nil, nil)
 			ctx.body = "Side retired"
 		case kind == "start-batterpitcher":
 			if _, name, found := strings.Cut(text, " pitches to "); found {
 				batter = strings.TrimSpace(name)
 			}
 			on, bases = mlbRunners(p), mlbBases(p)
-			ctx.status = mlbStatus(label, outs, &on, &[2]int{0, 0})
+			ctx.setStatus(label, outs, &on, &[2]int{0, 0})
 		case strings.HasPrefix(text, "Pitch "):
 			on, bases = mlbRunners(p), mlbBases(p)
 			ctx.body = mlbPitchPrefix.ReplaceAllString(text, "")
@@ -191,7 +204,7 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 			if mlbPitchEnd.MatchString(text) {
 				ctx.announce = false
 			}
-			ctx.status = mlbStatus(label, outs, &on, &count)
+			ctx.setStatus(label, outs, &on, &count)
 			ctx.batter = batter
 		case espn.Str(typ["text"]) == "Stolen Base":
 			// Duplicated by the Play Result with the same text.
@@ -213,9 +226,9 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 				}
 				bases = basesAfter
 				if outsAfter >= 3 {
-					ctx.status = mlbStatus(label, 3, nil, nil)
+					ctx.setStatus(label, 3, nil, nil)
 				} else {
-					ctx.status = mlbStatus(label, outsAfter, &onAfter, nil)
+					ctx.setStatus(label, outsAfter, &onAfter, nil)
 				}
 				ctx.urgent = espn.Truthy(p["scoringPlay"]) || outsAfter > outs || onAfter > on
 				outs, on = outsAfter, onAfter
@@ -223,11 +236,11 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 				if mlbOutEvent.MatchString(text) {
 					outs++
 				}
-				ctx.status = mlbStatus(label, outs, &on, nil)
+				ctx.setStatus(label, outs, &on, nil)
 				ctx.urgent = espn.Truthy(p["scoringPlay"]) || mlbNormalEvent.MatchString(text)
 			}
 		default:
-			ctx.status = mlbStatus(label, outs, &on, nil)
+			ctx.setStatus(label, outs, &on, nil)
 			if text == "" {
 				ctx.announce = false
 			}

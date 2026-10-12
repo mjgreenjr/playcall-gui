@@ -44,6 +44,9 @@ type GameStatus struct {
 	// Bases is baseball's occupied bases ("1", "13", "123", "" for none),
 	// meaningful while Situation is not empty.
 	Bases string
+	// Balls, Strikes and Outs are baseball's count and outs, meaningful while
+	// Situation is not empty.
+	Balls, Strikes, Outs int
 	// Pitcher and Batter are baseball's current at-bat, and BattingSide the
 	// side ("away" or "home") the batter is on; "" between half-innings.
 	Pitcher, Batter, BattingSide string
@@ -272,6 +275,10 @@ func (p *Poller) publishStatus(f *Feed) {
 		series = seriesText(f.Data, p.State.GameID, true)
 	}
 	pitcher, batter, side := mlbMatchup(p.Sport, f)
+	var sit mlbNow
+	if p.Sport == "mlb" {
+		sit = mlbSituation(f)
+	}
 	p.StatusSink.Status(GameStatus{
 		Pitcher:      pitcher,
 		Batter:       batter,
@@ -298,7 +305,10 @@ func (p *Poller) publishStatus(f *Feed) {
 		HomeRecord:   teamRecord(f, homeComp),
 		Possession:   possession(p.Sport, f),
 		Situation:    situation(p.Sport, f),
-		Bases:        mlbBasesNow(p.Sport, f),
+		Bases:        sit.bases,
+		Balls:        sit.balls,
+		Strikes:      sit.strikes,
+		Outs:         sit.outs,
 		UpdatedAt:    p.now(),
 	})
 }
@@ -420,8 +430,7 @@ func inPlay(f *Feed) bool {
 // baseball count, outs and runners ("1-2, 1 out, 2 on").
 func situation(sport string, f *Feed) string {
 	if sport == "mlb" {
-		text, _ := mlbSituation(f)
-		return text
+		return mlbSituation(f).text
 	}
 	if (sport != "nfl" && sport != "cfb") || !inPlay(f) || len(f.Plays) == 0 {
 		return ""
@@ -455,32 +464,31 @@ func downDistanceFull(side espn.Data) string {
 	return espn.Str(side["shortDownDistanceText"])
 }
 
-// mlbBasesNow is the occupied bases the situation's runner count comes from.
-func mlbBasesNow(sport string, f *Feed) string {
-	if sport != "mlb" {
-		return ""
-	}
-	_, bases := mlbSituation(f)
-	return bases
+// mlbNow is the at-bat the newest play describes: its status text without the
+// half-inning, and the numbers behind it.
+type mlbNow struct {
+	text, bases          string
+	balls, strikes, outs int
 }
 
 // mlbSituation is what the newest play that has one says about the at-bat, the
 // way a play's title gives it, without the half-inning.
-func mlbSituation(f *Feed) (string, string) {
+func mlbSituation(f *Feed) mlbNow {
 	if !inPlay(f) || len(f.Plays) == 0 {
-		return "", ""
+		return mlbNow{}
 	}
 	ctxs := mlbContexts(f.Plays)
-	best, text, bases := int64(-1), "", ""
+	best, now := int64(-1), mlbNow{}
 	for _, p := range f.Plays {
 		id, ok := espn.PlayID(p)
 		ctx := ctxs[espn.PlayKey(p)]
 		_, status, found := strings.Cut(ctx.status, " · ")
 		if ok && found && id > best {
-			best, text, bases = id, status, ctx.bases
+			best = id
+			now = mlbNow{status, ctx.bases, ctx.balls, ctx.strikes, ctx.outs}
 		}
 	}
-	return text, bases
+	return now
 }
 
 // mlbMatchup is the pitcher, the batter and the batting side ("away" in the top

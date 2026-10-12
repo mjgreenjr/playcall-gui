@@ -303,3 +303,22 @@ func TestMLBBases(t *testing.T) {
 		}
 	}
 }
+
+func TestMLBCountNumbers(t *testing.T) {
+	c := ctxsOf(
+		mp(t, "100", "start-batterpitcher", "A pitches to B", top6+`,"outs":1`),
+		mp(t, "101", "pitch", "Pitch 1 : Strike 2 Foul", top6+`,"outs":1,"resultCount":{"balls":3,"strikes":2}`),
+		mp(t, "1990001", "play-result", "B flied out", top6+`,"outs":2`),
+		mp(t, "1990002", "play-result", "C flied out", top6+`,"outs":3`),
+	)
+	for id, want := range map[string][3]int{
+		"100":     {0, 0, 0}, // outs are tracked: ESPN's 1 is the count after the at-bat
+		"101":     {3, 2, 0},
+		"1990001": {0, 0, 2}, // a result carries no count
+		"1990002": {0, 0, 3},
+	} {
+		if got := c[id]; [3]int{got.balls, got.strikes, got.outs} != want {
+			t.Errorf("play %s: balls %d strikes %d outs %d, want %v", id, got.balls, got.strikes, got.outs, want)
+		}
+	}
+}

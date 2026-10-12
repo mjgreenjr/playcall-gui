@@ -40,8 +40,11 @@ type ui struct {
 	awayCounts, homeCounts *widget.Label
 	// awayTO and homeTO are football's timeouts, under each team's score.
 	awayTO, homeTO *dotRow
-	// diamond is baseball's bases, under the count and outs.
+	// diamond is baseball's bases, counts its balls, strikes and outs beside
+	// it, and baseball holds the two centered together under the status line.
 	diamond                *diamond
+	counts                 *countBox
+	baseball               *fyne.Container
 	awayRecord, homeRecord *widget.RichText
 	// awayRoom and homeRoom hold the width of the record column fixed in
 	// baseball, where the batter and pitcher names change under the teams.
@@ -86,6 +89,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	}
 	u.awayTO, u.homeTO = newDotRow(), newDotRow()
 	u.diamond = newDiamond()
+	u.counts = newCountBox()
+	u.baseball = container.NewCenter(container.NewHBox(u.diamond.box, u.counts.box))
 	u.awayRecord, u.homeRecord = widget.NewRichText(), widget.NewRichText()
 	for _, r := range []*widget.RichText{u.awayRecord, u.homeRecord} {
 		r.Truncation = fyne.TextTruncateEllipsis // a long name is cut, not allowed to push the header wider
@@ -119,7 +124,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		container.New(headerRow{},
 			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(container.NewCenter(rankedName(u.awayRank, u.away)), container.NewStack(u.awayRoom, u.awayRecord)), scoreGap(), container.NewVBox(u.awayScore, u.awayTO.box)),
 			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO.box), scoreGap(), container.NewVBox(container.NewCenter(rankedName(u.homeRank, u.home)), container.NewStack(u.homeRoom, u.homeRecord)), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
-			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.New(layout.NewCustomPaddedVBoxLayout(0), u.statusText, u.situation, u.diamond.box))),
+			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.New(layout.NewCustomPaddedVBoxLayout(0), u.statusText, u.situation, u.baseball))),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
 		u.series, u.stale,
@@ -172,6 +177,7 @@ func (u *ui) themeChanged() {
 	u.homeBadge.refresh(u.logos)
 	u.awayTO.recolor()
 	u.diamond.recolor()
+	u.counts.recolor()
 	u.homeTO.recolor()
 }
 
@@ -204,11 +210,13 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.homeRank.set(s.Home.Rank)
 	u.setStatusLine(statusLine(s, time.Now()), false)
 	if s.Sport == "mlb" && s.Situation != "" {
-		u.setSituation(withoutRunnerCount(s.Situation))
+		u.setSituation("") // the count and outs are the circles
 		u.diamond.set(true, s.Bases)
+		u.counts.set(true, s.Balls, s.Strikes, s.Outs)
 	} else {
 		u.setSituation(s.Situation)
 		u.diamond.set(false, "")
+		u.counts.set(false, 0, 0, 0)
 	}
 	u.awayBadge.setName(s.Away.Name)
 	u.homeBadge.setName(s.Home.Name)

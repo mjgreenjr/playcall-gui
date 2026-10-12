@@ -3,7 +3,6 @@ package main
 import (
 	"image"
 	"image/color"
-	"regexp"
 	"strings"
 
 	"fyne.io/fyne/v2"
@@ -138,12 +137,4 @@ func (d *diamond) render(w, h int) image.Image {
 		}
 	}
 	return img
-}
-
-var onSuffix = regexp.MustCompile(`, \d+ on$`)
-
-// withoutRunnerCount drops ", 2 on" from a baseball situation: the diamond
-// says it instead.
-func withoutRunnerCount(situation string) string {
-	return onSuffix.ReplaceAllString(situation, "")
 }
