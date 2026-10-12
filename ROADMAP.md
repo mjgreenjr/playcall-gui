@@ -63,6 +63,20 @@ promise.
   written as goals, behinds and a total ("12.8.80", a goal is six points and a
   behind one), so the score display and the title format need a new shape.
 
+- **Cricket.** ESPN files it by competition id, not by league name (one id
+  answered when checked, labelled "World Cup"; the list of ids has not been
+  collected). Three formats with very different lengths (Twenty20, one-day and
+  Test matches), scores written as runs for wickets ("250/6"), and overs
+  instead of a clock; a Test match runs for days. Ball-by-ball events are the
+  natural plays. Almost everything about the display would be new.
+- **Motor racing.** Like golf, a race is a field of drivers ordered on a
+  leaderboard, not two teams, so it shares golf's problem of needing a
+  different header and event model. ESPN answered for Formula 1, NASCAR (the
+  Cup, O'Reilly and Truck series), IndyCar and the NHRA; it did not for
+  MotoGP, WEC or IMSA under the names tried. Likely events: lead changes,
+  cautions and safety cars, pit stops, crashes and the finish. Start with one
+  series, probably NASCAR or Formula 1, and treat the others as variants.
+
 ## Larger changes
 
 - **Following several games at once.** This reverses the current "one game at
