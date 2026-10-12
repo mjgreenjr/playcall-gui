@@ -2,8 +2,9 @@
 
 Instructions for a Claude Code cloud session (`claude --cloud`) on a clean
 Linux machine. The goal is to run the GUI where Omarchy and Hyprland do not
-exist and report what happens. **Do not change code, commit or push.** Report
-in your final message only.
+exist and report what happens. **Do not change any code.** Write your report
+as a file and push only that (see "Report" at the end), so the author's own
+session can fetch it.
 
 ## 0. Check the environment first
 
@@ -101,5 +102,14 @@ keeps running until `timeout` kills it (exit 124).
 
 ## 5. Report
 
-A table of scenario against result, then each anomaly with the exact log lines
-or what the screenshots show. One sentence per suggested fix at most.
+Write the report to `tools/cloud-tests/results/notifier-fallback-YYYYMMDD.md`
+(today's date): a table of scenario against result, then each anomaly with the
+exact log lines or what the screenshots show, one sentence per suggested fix
+at most. Put the screenshots you looked at next to it (PNG, keep them small).
+
+Then, on a new branch `cloud-tests/notifier-fallback` made from the current
+master, commit only the files under `tools/cloud-tests/results/` and push that
+branch. Do not push to master, do not open a pull request, and do not touch
+any other file. If you cannot push, say so and give the whole report in your
+final message instead. Either way, finish with a short summary in your final
+message.
