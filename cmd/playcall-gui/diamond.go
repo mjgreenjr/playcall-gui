@@ -13,20 +13,24 @@ import (
 
 // Baseball's bases, drawn like a broadcast's: a circle for each base laid out
 // as a diamond (second on top, third left, first right), filled while a
-// runner is on it. Drawn rather than kept as images, so it follows the theme
+// runner is on it, and home plate, an outline, at the bottom. Drawn rather than kept as images, so it follows the theme
 // and has no files to cache; all eight combinations come from the same three
 // circles.
 const (
-	diamondW, diamondH = 48, 34
-	baseSize           = 14
+	diamondW, diamondH = 44, 36
+	baseSize           = 12
 )
 
 // baseCenters are the circles' centers: first, second, third.
-var baseCenters = [3]fyne.Position{{X: 40, Y: 25}, {X: 24, Y: 9}, {X: 8, Y: 25}}
+var baseCenters = [3]fyne.Position{{X: 38, Y: 19}, {X: 22, Y: 7}, {X: 6, Y: 19}}
+
+// plate is home plate's corners, point down.
+var plate = [5]fyne.Position{{X: 17, Y: 26}, {X: 27, Y: 26}, {X: 27, Y: 30}, {X: 22, Y: 35}, {X: 17, Y: 30}}
 
 type diamond struct {
 	box    *fyne.Container
 	bases  [3]*canvas.Circle
+	plate  [5]*canvas.Line
 	filled [3]bool
 }
 
@@ -41,6 +45,12 @@ func newDiamond() *diamond {
 		b.Move(fyne.NewPos(c.X-baseSize/2, c.Y-baseSize/2))
 		d.bases[i] = b
 		objs = append(objs, b)
+	}
+	for i, from := range plate {
+		l := canvas.NewLine(color.Transparent)
+		l.Position1, l.Position2 = from, plate[(i+1)%len(plate)]
+		d.plate[i] = l
+		objs = append(objs, l)
 	}
 	d.box = container.NewCenter(container.NewWithoutLayout(objs...))
 	d.box.Hide()
@@ -71,6 +81,10 @@ func (d *diamond) recolor() {
 			b.FillColor, b.StrokeColor, b.StrokeWidth = nil, fg, 1.5
 		}
 		b.Refresh()
+	}
+	for _, l := range d.plate {
+		l.StrokeColor, l.StrokeWidth = fg, 1.5
+		l.Refresh()
 	}
 }
 

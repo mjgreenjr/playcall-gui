@@ -112,7 +112,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		container.NewBorder(nil, nil,
 			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(rankedName(u.awayRank, u.away), u.awayRecord), scoreGap(), container.NewVBox(u.awayScore, u.awayTO.box)),
 			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO.box), scoreGap(), container.NewVBox(rankedName(u.homeRank, u.home), u.homeRecord), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
-			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.NewVBox(u.statusText, u.situation, u.diamond.box))),
+			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.New(layout.NewCustomPaddedVBoxLayout(0), u.statusText, u.situation, u.diamond.box))),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
 		u.series, u.stale,
