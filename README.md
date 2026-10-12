@@ -55,10 +55,11 @@ How the pieces pick what to use:
 The OS-specific code is kept in its own files behind small interfaces so that
 other platforms can be added later.
 
-## Build
+## Install
 
-You need Go 1.24 or newer. The GUI also needs cgo and Fyne's system libraries
-(a C compiler plus OpenGL and windowing headers; see
+There is no package or download yet: you build it from source. You need Go 1.24
+or newer. The GUI also needs cgo and Fyne's system libraries (a C compiler plus
+OpenGL and windowing headers; see
 [Fyne's prerequisites](https://docs.fyne.io/started/)). On Debian or Ubuntu
 that is `gcc libgl1-mesa-dev xorg-dev libwayland-dev libxkbcommon-dev
 wayland-protocols`; the Wayland headers are needed to build even on X11,
@@ -66,9 +67,28 @@ because GLFW compiles both backends. (These were checked on Ubuntu 24.04 with
 Go 1.24.)
 
 ```sh
+git clone https://github.com/mjgreenjr/playcall-gui.git
+cd playcall-gui
+make install            # builds both programs and copies them to ~/.local/bin
+```
+
+`make install` puts `playcall` (the CLI) and `playcall-gui` in
+`$(PREFIX)/bin`, which is `~/.local/bin` unless you give another prefix
+(`make install PREFIX=/usr/local`, with `sudo` if that folder needs it). Make
+sure that folder is on your `PATH`. `make uninstall` removes them again.
+
+Other targets: `make` or `make build` builds in the repo folder without
+installing, `make cli` / `make install-cli` do the command-line program only
+(it needs nothing but Go, so it works where the GUI's libraries are missing),
+and `make test` runs `go vet` and the tests. Without `make`:
+
+```sh
 go build -o playcall ./cmd/playcall          # CLI, static, stdlib only
 go build -o playcall-gui ./cmd/playcall-gui  # GUI, needs cgo
 ```
+
+The GUI does not add itself to a launcher: start it from a terminal, or point a
+launcher entry or key binding at `playcall-gui`.
 
 ## Use
 

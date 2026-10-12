@@ -12,6 +12,9 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Added
+- A `Makefile`: `make` builds both programs, `make install` copies them to `~/.local/bin` (or `PREFIX`), `make uninstall`, `make cli`, `make test`. The README has an Install section.
+
 ## [0.3.0] - 2026-10-12
 
 ### Added
