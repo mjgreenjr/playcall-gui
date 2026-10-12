@@ -79,11 +79,25 @@ without a game on:
 ./playcall teams --sport nfl
 ./playcall addfavorite BUF --sport nfl
 ./playcall follow BUF --sport nfl --dry-run --once   # print, don't notify
+./playcall follow BUF --sport nfl                    # keep following in this terminal
+./playcall follow BUF --sport nfl --out buf.txt      # same, appended to a file (tail -f it)
 ```
 
 `follow` takes a game id or a team abbreviation. `--dry-run` prints to stdout
 instead of sending toasts, and `--once` does a single poll and exits; together
 they never touch your state file or the systemd unit.
+
+Without `--once`, `follow` keeps going until the game ends (or Ctrl-C) and
+prints one line per play and one per change of the header (score, clock, down
+and distance, timeouts, series), each with a time stamp, to stdout or, with
+`--out FILE`, appended to that file (made if it is missing, never emptied).
+It sends no toasts and writes no state file, and the log stays in
+`playcall.log`, so the output is only the game:
+
+```
+21:40:54 HEADER BAL 21 (4-1) @ ATL 23 (2-3) · 0:40 4th · 1st & 10 at ATL 25 · Timeouts BAL 1, ATL 0
+21:40:54 PLAY   BAL 21 · 0:40 4th · ATL 23 | T.Huntley pass short right to M.Andrews ...
+```
 
 ### Files
 

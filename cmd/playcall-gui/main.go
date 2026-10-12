@@ -50,10 +50,13 @@ func run() int {
 	if *debug {
 		level = slog.LevelDebug
 	}
-	if paths, err := core.DefaultPaths(); err == nil {
-		if closeLog, err := core.SetupLogging(paths, os.Stderr, level); err == nil {
-			defer closeLog()
-		}
+	// The log goes to its file only; stderr is for what a user must see now.
+	if paths, err := core.DefaultPaths(); err != nil {
+		fmt.Fprintln(os.Stderr, "playcall-gui: no log:", err)
+	} else if closeLog, err := core.SetupLogging(paths, nil, level); err != nil {
+		fmt.Fprintln(os.Stderr, "playcall-gui: no log:", err)
+	} else {
+		defer closeLog()
 	}
 
 	root, cancel := context.WithCancel(context.Background())

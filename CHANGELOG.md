@@ -13,11 +13,13 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Added
+- `playcall follow GAME` without `--once` keeps following in the terminal and prints each play and each header change as a time-stamped line, to stdout or appended to a file with `--out FILE`. It sends no toasts and writes no state file. (It used to exit with "not implemented".)
 - `--version` on both binaries, and the version at the foot of the GUI's settings screen.
 - Football halftime shows an estimated countdown ("Halftime · ~9:40"): the end-of-half play's time plus the usual break (14:15 NFL, 20:45 college). It goes back to plain "Halftime" when the estimate runs out, and works when you start mid-break.
 
 ### Changed
 
+- The GUI no longer echoes its log to the terminal; it goes to `~/.cache/playcall/playcall.log` only (stderr still gets startup errors).
 - The game picker shows a playoff series as one statement on the right of the row ("Series: LAD 2-1", "Series: Tied 2-2", "Series: LAD WINS" once it is won; nothing at 0-0) instead of a "series 2-1" record under each team.
 
 ### Fixed

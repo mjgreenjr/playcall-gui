@@ -183,7 +183,6 @@ func TestFollowOnceTouchesNothing(t *testing.T) {
 func TestServiceCommandsNotImplemented(t *testing.T) {
 	for _, args := range [][]string{
 		{"stop"},
-		{"follow", "999"}, {"follow", "BUF"}, {"follow", "BUF", "--dry-run"}, // no --once
 	} {
 		h := newHarness(t)
 		code := h.run(t, args...)
@@ -252,4 +251,104 @@ func readConfig(t *testing.T, h *harness) string {
 		t.Fatal(err)
 	}
 	return strings.Join(strings.Fields(string(b)), "")
+}
+
+func TestFollowFeedPrintsPlaysAndHeaderToStdout(t *testing.T) {
+	h := newHarness(t)
+	code := h.run(t, "follow", "999", "--sport", "wnba", "--mock", fixtures+"playbyplay_wnba_multi_plays.json")
+	if code != 0 {
+		t.Fatalf("exit %d: %s", code, h.stderr.String())
+	}
+	lines := strings.Split(strings.TrimSpace(h.stdout.String()), "\n")
+	var kinds []string
+	for _, l := range lines {
+		fields := strings.Fields(l)
+		if len(fields) < 2 {
+			t.Fatalf("odd line %q", l)
+		}
+		kinds = append(kinds, fields[1])
+	}
+	if got := strings.Join(kinds, " "); got != "NOTE HEADER PLAY FINAL" {
+		t.Errorf("kinds %q:\n%s", got, h.stdout.String())
+	}
+	if !strings.Contains(h.stdout.String(), "Game over") {
+		t.Errorf("no final line:\n%s", h.stdout.String())
+	}
+	// Only the feed: no log lines, no state file, no toasts.
+	for _, l := range lines {
+		if strings.Contains(l, " INFO ") || strings.Contains(l, " DEBUG ") {
+			t.Errorf("log line on stdout: %q", l)
+		}
+	}
+	if _, err := os.Stat(filepath.Join(h.home, ".cache", "playcall", "state.json")); err == nil {
+		t.Error("follow wrote state.json")
+	}
+	if len(h.runner.calls) != 0 {
+		t.Errorf("ran %v", h.runner.calls)
+	}
+}
+
+func TestFollowFeedOutAppendsToTheFile(t *testing.T) {
+	h := newHarness(t)
+	out := filepath.Join(t.TempDir(), "feed.txt")
+	if err := os.WriteFile(out, []byte("earlier\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	code := h.run(t, "follow", "999", "--sport", "wnba", "--out", out, "--mock", fixtures+"playbyplay_wnba_multi_plays.json")
+	if code != 0 || h.stdout.Len() != 0 {
+		t.Fatalf("exit %d, stdout %q, stderr %q", code, h.stdout.String(), h.stderr.String())
+	}
+	got, _ := os.ReadFile(out)
+	if !strings.HasPrefix(string(got), "earlier\n") || !strings.Contains(string(got), " HEADER ") || !strings.Contains(string(got), " FINAL ") {
+		t.Errorf("file:\n%s", got)
+	}
+}
+
+func TestFollowFeedBadOutFileFails(t *testing.T) {
+	h := newHarness(t)
+	code := h.run(t, "follow", "999", "--sport", "wnba", "--out", filepath.Join(t.TempDir(), "no", "such", "dir", "f.txt"),
+		"--mock", fixtures+"playbyplay_wnba_multi_plays.json")
+	if code != 1 || !strings.Contains(h.stderr.String(), "cannot open") {
+		t.Errorf("exit %d, stderr %q", code, h.stderr.String())
+	}
+}
+
+func TestOutOnlyWorksWithContinuousFollow(t *testing.T) {
+	for _, args := range [][]string{
+		{"list", "--out", "x"},
+		{"follow", "999", "--once", "--out", "x"},
+		{"addfavorite", "BUF", "--out", "x"},
+	} {
+		_, stderr, code := runCLI(t, args...)
+		if code != 2 || !strings.Contains(stderr, "--out") {
+			t.Errorf("%v: exit %d, stderr %q", args, code, stderr)
+		}
+	}
+}
+
+func TestFollowFeedKeepsTheLogOffStdout(t *testing.T) {
+	for _, c := range []struct {
+		args        []string
+		logOnStdout bool
+	}{
+		{[]string{"follow", "999", "--sport", "wnba", "--mock", fixtures + "playbyplay_wnba_multi_plays.json"}, false},
+		{[]string{"follow", "999", "--sport", "wnba", "--once", "--dry-run", "--mock", fixtures + "playbyplay_wnba_multi_plays.json"}, true},
+	} {
+		h := newHarness(t)
+		var logOut io.Writer
+		old := slog.Default()
+		run(context.Background(), deps{
+			Source: h.src, Now: fixedNow, Runner: h.runner, Stdout: &h.stdout, Stderr: &h.stderr,
+			Paths: func() (core.Paths, error) { return core.PathsFromHome(h.home), nil },
+			Sleep: func(ctx context.Context, d time.Duration) error { return ctx.Err() },
+			SetupLog: func(_ core.Paths, w io.Writer) (func() error, error) {
+				logOut = w
+				return func() error { return nil }, nil
+			},
+		}, c.args)
+		slog.SetDefault(old)
+		if (logOut != nil) != c.logOnStdout {
+			t.Errorf("%v: log writer %v, want on stdout %v", c.args, logOut, c.logOnStdout)
+		}
+	}
 }

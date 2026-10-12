@@ -86,17 +86,21 @@ type options struct {
 	dryRun, once, all bool
 	interval          *int
 	mock, group       string
+	out               string
 	sport             string
 	given             map[string]bool
 }
 
 const usageText = `usage: playcall [--dry-run] [--once] [--interval N] [--mock FILE] [--sport S] COMMAND ...
+       playcall [--out FILE] [--interval N] [--sport S] follow GAME_ID|TEAM
        playcall --version
 
 commands:
   list [--all] [--group G]   show today's games
   teams [--group G]          list team names and abbreviations
-  follow GAME_ID|TEAM        follow a specific game
+  follow GAME_ID|TEAM        follow a specific game: with --once one poll, otherwise
+                             keep going and print the plays and header changes
+                             (to stdout, or appended to --out FILE) until it ends
   stop                       stop following a game
   resume                     resume following from state
   addfavorite TEAM           add a favorite team for a sport
@@ -116,6 +120,7 @@ func parse(args []string) (opts options, positional []string, err error) {
 	fs.StringVar(&opts.mock, "mock", "", "mock JSON file for play-by-play")
 	fs.StringVar(&opts.sport, "sport", sports.DefaultSport, "sport to follow")
 	fs.StringVar(&opts.group, "group", "", "conference or division")
+	fs.StringVar(&opts.out, "out", "", "file to append the followed game's feed to")
 	fs.BoolVar(&opts.all, "all", false, "show all games")
 	for len(args) > 0 {
 		if err := fs.Parse(args); err != nil {
@@ -176,6 +181,9 @@ func run(ctx context.Context, d deps, args []string) int {
 			return usageErr("unrecognized argument --%s for %s", name, cmd)
 		}
 	}
+	if opts.given["out"] && (cmd != "follow" || opts.once) {
+		return usageErr("argument --out only works with follow, without --once")
+	}
 	want := 0
 	if cmd == "follow" || cmd == "addfavorite" {
 		want = 1
@@ -187,11 +195,6 @@ func run(ctx context.Context, d deps, args []string) int {
 	switch cmd {
 	case "stop":
 		return notImplemented(stderr, cmd)
-	case "follow":
-		if !opts.once {
-			// The service code is slice 7. Checked before any lookup, so no requests.
-			return notImplemented(stderr, "follow without --once")
-		}
 	}
 
 	// Like the Python, everything logs to the log file and stdout from here.
@@ -210,7 +213,12 @@ func run(ctx context.Context, d deps, args []string) int {
 		fmt.Fprintf(stderr, "playcall: %v\n", err)
 		return exitError
 	}
-	closeLog, err := d.SetupLog(paths, stdout)
+	// A continuous follow prints the feed on stdout, so the log stays in its file.
+	logOut := stdout
+	if cmd == "follow" && !opts.once {
+		logOut = nil
+	}
+	closeLog, err := d.SetupLog(paths, logOut)
 	if err != nil {
 		fmt.Fprintf(stderr, "playcall: %v\n", err)
 		return exitError
@@ -224,6 +232,9 @@ func run(ctx context.Context, d deps, args []string) int {
 	case "teams":
 		return c.teams(ctx, group)
 	case "follow":
+		if !opts.once {
+			return c.followFeed(ctx, rest[0])
+		}
 		return c.follow(ctx, rest[0])
 	case "resume":
 		return c.resume(ctx)
