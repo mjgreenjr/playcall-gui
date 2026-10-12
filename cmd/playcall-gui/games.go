@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode/utf8"
 
 	"playcall/internal/core"
 	"playcall/internal/espn"
@@ -224,11 +225,23 @@ func atBatRoles(s core.GameStatus) (away, home string) {
 	if s.Batter == "" || s.BattingSide == "" {
 		return "", ""
 	}
-	bat, pitch := "AB: "+s.Batter, "P: "+s.Pitcher
+	bat, pitch := "AB: "+initialName(s.Batter), "P: "+initialName(s.Pitcher)
 	if s.BattingSide == "away" {
 		return bat, pitch
 	}
 	return pitch, bat
+}
+
+// initialName shortens "Yoshinobu Yamamoto" to "Y. Yamamoto", as a broadcast
+// does, to save width. A name that is one word, or whose first word already
+// has a period ("J.T. Realmuto", "A.J. Pollock"), is left as it is.
+func initialName(name string) string {
+	first, rest, found := strings.Cut(name, " ")
+	if !found || strings.Contains(first, ".") {
+		return name
+	}
+	r, _ := utf8.DecodeRuneInString(first)
+	return string(r) + ". " + rest
 }
 
 // joinLines puts the non-empty parts on separate lines.

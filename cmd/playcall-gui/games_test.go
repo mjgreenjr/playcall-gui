@@ -229,12 +229,12 @@ func TestSeriesStandingIsOneStatement(t *testing.T) {
 func TestAtBatRoles(t *testing.T) {
 	s := core.GameStatus{Pitcher: "Sean Burke", Batter: "Sam Antonacci", BattingSide: "away"}
 	away, home := atBatRoles(s)
-	if away != "AB: Sam Antonacci" || home != "P: Sean Burke" {
+	if away != "AB: S. Antonacci" || home != "P: S. Burke" {
 		t.Errorf("top: %q, %q", away, home)
 	}
 	s.BattingSide = "home"
 	away, home = atBatRoles(s)
-	if away != "P: Sean Burke" || home != "AB: Sam Antonacci" {
+	if away != "P: S. Burke" || home != "AB: S. Antonacci" {
 		t.Errorf("bottom: %q, %q", away, home)
 	}
 	if away, home = atBatRoles(core.GameStatus{}); away != "" || home != "" {
@@ -242,5 +242,21 @@ func TestAtBatRoles(t *testing.T) {
 	}
 	if got := joinLines("84-78", "", "AB: X"); got != "84-78\nAB: X" {
 		t.Errorf("joinLines %q", got)
+	}
+}
+
+func TestInitialName(t *testing.T) {
+	for in, want := range map[string]string{
+		"Yoshinobu Yamamoto": "Y. Yamamoto",
+		"Ronald Acuna Jr.":   "R. Acuna Jr.",
+		"Ha-Seong Kim":       "H. Kim",
+		"J.T. Realmuto":      "J.T. Realmuto",
+		"Ohtani":             "Ohtani",
+		"Élie Kelly":         "É. Kelly",
+		"":                   "",
+	} {
+		if got := initialName(in); got != want {
+			t.Errorf("%q -> %q, want %q", in, got, want)
+		}
 	}
 }
