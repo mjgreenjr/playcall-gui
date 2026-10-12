@@ -493,30 +493,42 @@ func mlbSituation(f *Feed) mlbNow {
 
 // mlbMatchup is the pitcher, the batter and the batting side ("away" in the top
 // of an inning) from the newest Start Batter/Pitcher play ("Sean Burke pitches
-// to Travis Bazzana"), none once an inning has ended since.
+// to Travis Bazzana"). Once that at-bat has a result the batter is blank until
+// the next one is announced (the pitcher and side stay), and once an inning has
+// ended all three are.
 func mlbMatchup(sport string, f *Feed) (pitcher, batter, side string) {
 	if sport != "mlb" || !inPlay(f) {
 		return "", "", ""
 	}
-	var newest espn.Data
-	best := int64(-1)
+	var start espn.Data
+	startID, endID, resultID := int64(-1), int64(-1), int64(-1)
 	for _, p := range f.Plays {
-		kind := espn.Str(espn.Map(p["type"])["type"])
 		id, ok := espn.PlayID(p)
-		if ok && id > best && (kind == "start-batterpitcher" || kind == "end-inning") {
-			best, newest = id, p
+		if !ok {
+			continue
+		}
+		switch kind := espn.Str(espn.Map(p["type"])["type"]); {
+		case kind == "start-batterpitcher" && id > startID:
+			startID, start = id, p
+		case kind == "end-inning" && id > endID:
+			endID = id
+		case kind == "play-result" && lastChars(espn.PlayKey(p), 6) >= "990000" && id > resultID: // an at-bat's result
+			resultID = id
 		}
 	}
-	if newest == nil || espn.Str(espn.Map(newest["type"])["type"]) != "start-batterpitcher" {
+	if start == nil || endID > startID {
 		return "", "", ""
 	}
-	pitcher, batter, found := strings.Cut(espn.PlayText(newest), " pitches to ")
+	pitcher, batter, found := strings.Cut(espn.PlayText(start), " pitches to ")
 	if !found {
 		return "", "", ""
 	}
 	side = "home"
-	if espn.Str(espn.Map(newest["period"])["type"]) == "Top" {
+	if espn.Str(espn.Map(start["period"])["type"]) == "Top" {
 		side = "away"
+	}
+	if resultID > startID {
+		batter = ""
 	}
 	return strings.TrimSpace(pitcher), strings.TrimSpace(batter), side
 }

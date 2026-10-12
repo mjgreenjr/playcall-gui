@@ -14,14 +14,18 @@ unofficial and undocumented, so it can change without notice.
 
 ![The game picker on college football's Top 25, with rankings, records and kickoff times](docs/screenshots/picker-top25.png)
 
+![A baseball game in progress: the score, the bases, the count and outs, the batter and pitcher, and the newest plays](docs/screenshots/game-baseball.png)
+
 - **A GUI** (`playcall-gui`, built with [Fyne](https://fyne.io)): pick a game
   from today's scoreboard, then watch a header with both teams' logos, the
   score, clock and situation, over a list of plays, newest first. Urgent plays
   (scores, turnovers, penalties and so on) are highlighted in a color you
   choose. Settings cover favorite teams, a default conference per sport and
   the poll interval.
-- **Possession markers** for football, baseball and basketball. ESPN does not
-  report possession in basketball, so it is inferred from the plays.
+- **Possession markers** for football and basketball. ESPN does not report
+  possession in basketball, so it is inferred from the plays. Baseball shows
+  the bases as a diamond, the balls, strikes and outs as circles, and the
+  batter and pitcher under the teams.
 - **Series standings** in the title during a playoff series, such as
   `(LAD 2-1)` or `(BOS WINS)`.
 - **Toasts**: when the window is not on screen (another workspace, hidden or

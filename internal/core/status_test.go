@@ -537,6 +537,18 @@ func TestMLBMatchup(t *testing.T) {
 	if p, b, side := mlbMatchup("mlb", feed(top, bot, end)); p != "" || b != "" || side != "" {
 		t.Errorf("after the inning: %q %q %q", p, b, side)
 	}
+	result := play("1990001", "play-result", "Top", "Antonacci walked.")
+	if p, b, side := mlbMatchup("mlb", feed(top, pitch, result)); p != "Gavin Williams" || b != "" || side != "away" {
+		t.Errorf("after the result: %q %q %q (the batter goes, the pitcher stays)", p, b, side)
+	}
+	steal := play("103", "play-result", "Top", "Antonacci stole second.")
+	if _, b, _ := mlbMatchup("mlb", feed(top, pitch, steal)); b != "Sam Antonacci" {
+		t.Errorf("after a steal mid at-bat: batter %q", b)
+	}
+	next := play("2000000", "start-batterpitcher", "Top", "Gavin Williams pitches to Brenton Doyle")
+	if _, b, _ := mlbMatchup("mlb", feed(top, pitch, result, next)); b != "Brenton Doyle" {
+		t.Errorf("the next batter: %q", b)
+	}
 	if p, _, _ := mlbMatchup("nfl", feed(top)); p != "" {
 		t.Error("another sport")
 	}

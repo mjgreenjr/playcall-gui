@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Changed
+- In baseball, the batter's name under the team is blank between an at-bat's result and the announcement of the next batter (the pitcher stays), so it no longer names the batter who just walked or made an out.
 - The game page's header keeps its middle (clock, count, bases) on the window's center instead of shifting with the names under the teams. In baseball the batter and pitcher names (now labeled "AB:" and "P:", not "At bat:" and "Pitcher:", with the first name as an initial: "P: Y. Yamamoto") get a fixed-width column under each team and a longer name is cut short with "..." (before, a long name widened the header and squeezed the middle).
 - Baseball's game page shows the bases as a small diamond (second on top, squares turned on a corner, filled for each runner on, home plate at the bottom), and the balls, strikes and outs as rows of circles (B, S, O) beside it, filled as they pile up, the two centered together under the status line. They replace the text "1-2, 1 out, 2 on" there. Toasts, titles and the CLI keep the text.
 

@@ -237,6 +237,10 @@ func TestAtBatRoles(t *testing.T) {
 	if away != "P: S. Burke" || home != "AB: S. Antonacci" {
 		t.Errorf("bottom: %q, %q", away, home)
 	}
+	away, home = atBatRoles(core.GameStatus{Pitcher: "Sean Burke", BattingSide: "away"})
+	if away != "" || home != "P: S. Burke" {
+		t.Errorf("between batters: %q / %q", away, home)
+	}
 	if away, home = atBatRoles(core.GameStatus{}); away != "" || home != "" {
 		t.Errorf("none: %q, %q", away, home)
 	}
