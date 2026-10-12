@@ -182,13 +182,23 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		if unseen, err = unseenPlays(plays, st.LastPlayID); err != nil {
 			return out, err
 		}
-		if _, ok := p.Rules.(footballRules); ok {
+		switch p.Rules.(type) {
+		case footballRules:
 			unseen = p.addLatePlays(plays, unseen, st.LastPlayID)
 			unseen = p.dropReplaced(plays, unseen)
 			unseen = p.dropAfterPeriodEnd(plays, unseen)
+		case mlbRules:
+			// ESPN posted "Vesia relieved Yamamoto" after the batter's "pitches
+			// to" play, under a lower id.
+			unseen = p.addLatePlays(plays, unseen, st.LastPlayID)
 		}
 	}
 	rules := p.Rules.Prepare(feed)
+	for _, pl := range unseen {
+		if !rules.Announced(pl) {
+			p.markKnown(pl) // a late play that is never announced is not late again next poll
+		}
+	}
 	unseen = filterPlays(unseen, rules.Announced)
 
 	// First poll announces only the latest play; after a gap, the newest few.
@@ -420,13 +430,18 @@ func unseenPlays(plays []espn.Data, last *PlayID) ([]espn.Data, error) {
 	return out, nil
 }
 
-// advanceLast records id as the last play handled. For football it only moves
+// advanceLast records id as the last play handled. For football and baseball it only moves
 // up: a late play with a lower id leaves it where it is. Other sports keep the
 // last id sent, whatever it is (their ids are not chronological and last_play_id
 // is only for the log).
 func (p *Poller) advanceLast(id int64) {
 	st := p.State
-	if _, football := p.Rules.(footballRules); football && st.LastPlayID != nil && id <= int64(*st.LastPlayID) {
+	onlyUp := false
+	switch p.Rules.(type) {
+	case footballRules, mlbRules:
+		onlyUp = true
+	}
+	if onlyUp && st.LastPlayID != nil && id <= int64(*st.LastPlayID) {
 		return
 	}
 	last := PlayID(id)
@@ -643,6 +658,10 @@ func revisablePlay(sport string, p espn.Data) bool {
 	case "nba", "wnba", "cbb":
 		kind := strings.ToLower(playType(p))
 		return kind == "substitution" || (strings.Contains(kind, "foul") && !strings.Contains(kind, "turnover"))
+	case "mlb":
+		// ESPN rewrites the pitcher in a "pitches to" play once a pitching
+		// change is entered ("Yamamoto pitches to Mitchell" became "Vesia ...").
+		return strings.Contains(strings.ToLower(playType(p)), "start batter")
 	case "nhl":
 		// Shots go out as a bare "Missed Shot" and are filled in with the
 		// shooter, the shot and the goalie a poll or so later.

@@ -627,6 +627,8 @@ func TestRevisablePlay(t *testing.T) {
 		{"nhl", typ("Blocked"), true},
 		{"nhl", typ("Takeaway"), false},
 		{"mlb", typ("Substitution"), false},
+		{"mlb", typ("Start Batter/Pitcher"), true},
+		{"mlb", typ("Ball"), false},
 	} {
 		if got := revisablePlay(c.sport, c.play); got != c.want {
 			t.Errorf("%s %v: got %v", c.sport, c.play["type"], got)
@@ -766,5 +768,117 @@ func TestFootballRestartDoesNotReplayOldPlays(t *testing.T) {
 	}
 	if len(sink.events) != 0 {
 		t.Errorf("resumed game replayed %d plays", len(sink.events))
+	}
+}
+
+// Seen in NLCS game 2: ESPN posted "Vesia relieved Yamamoto" after the next
+// batter's "pitches to" play, under a lower id, so it was never announced.
+func TestMLBLatePlayWithALowerIDIsSent(t *testing.T) {
+	data := loadFixture(t, "playbyplay_mlb_multi_plays.json")
+	typ := espn.Map(espn.Status(data)["type"])
+	typ["state"] = "in"
+	typ["name"] = "STATUS_IN_PROGRESS"
+	var late espn.Data
+	at := 0
+	for i, p := range espn.ExtractPlays(data) {
+		if strings.Contains(espn.PlayText(p), "Iglesias relieved Suter") {
+			late, at = p, i
+		}
+	}
+	if late == nil {
+		t.Fatal("no relief play in the fixture")
+	}
+	data = reveal(t, data, at+20, false) // some plays after the relief
+	lateKey := espn.PlayKey(late)
+	without := deepCopy(t, data)
+	for _, h := range espn.PlayHolders(without) {
+		var kept []any
+		for _, v := range h["plays"].([]any) {
+			if espn.PlayKey(espn.Map(v)) != lateKey {
+				kept = append(kept, v)
+			}
+		}
+		h["plays"] = kept
+	}
+	feed := without
+	sink := &recordSink{}
+	state := &State{GameID: "999", Sport: "mlb"}
+	poller, err := NewPoller(state, sink, func(context.Context) (espn.Data, error) { return feed, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	poll := func() {
+		t.Helper()
+		if _, err := poller.Poll(context.Background()); err != nil {
+			t.Fatal(err)
+		}
+	}
+	poll()
+	poll()
+	sent := len(sink.events)
+	lastBefore := *state.LastPlayID
+	feed = data
+	poll()
+	if len(sink.events) != sent+1 || !strings.Contains(sink.events[sent].Body, "relieved") {
+		t.Fatalf("late relief not sent: %+v", sink.events[sent:])
+	}
+	if *state.LastPlayID != lastBefore {
+		t.Errorf("last_play_id moved from %d to %d", lastBefore, *state.LastPlayID)
+	}
+	poll()
+	poll()
+	if len(sink.events) != sent+1 {
+		t.Errorf("late play sent again: %d events", len(sink.events)-sent)
+	}
+}
+
+// A "pitches to" play whose pitcher ESPN rewrites after a pitching change is
+// corrected in place.
+func TestMLBRevisedStartBatterIsResent(t *testing.T) {
+	data := loadFixture(t, "playbyplay_mlb_multi_plays.json")
+	typ := espn.Map(espn.Status(data)["type"])
+	typ["state"] = "in"
+	typ["name"] = "STATUS_IN_PROGRESS"
+	all := espn.ExtractPlays(data)
+	n := 0
+	for i, p := range all {
+		if i > 40 && playType(p) == "Start Batter/Pitcher" {
+			n = i + 1
+			break
+		}
+	}
+	first := reveal(t, data, n, false)
+	edited := deepCopy(t, first)
+	var key string
+	for _, h := range espn.PlayHolders(edited) {
+		vs := h["plays"].([]any)
+		p := espn.Map(vs[len(vs)-1])
+		key = espn.PlayKey(p)
+		p["text"] = "Alex Vesia pitches to Garrett Mitchell"
+	}
+	feed := first
+	sink := &recordSink{}
+	poller, err := NewPoller(&State{GameID: "999", Sport: "mlb"}, sink, func(context.Context) (espn.Data, error) { return feed, nil })
+	if err != nil {
+		t.Fatal(err)
+	}
+	poll := func() {
+		t.Helper()
+		if _, err := poller.Poll(context.Background()); err != nil {
+			t.Fatal(err)
+		}
+	}
+	poll()
+	if len(sink.events) != 1 {
+		t.Fatalf("first poll: %+v", sink.events)
+	}
+	feed = edited
+	poll()
+	if len(sink.events) != 2 || !sink.events[1].Revision || sink.events[1].PlayID != key || !strings.Contains(sink.events[1].Body, "Alex Vesia") {
+		t.Fatalf("after the edit: %+v", sink.events[1:])
+	}
+	poll()
+	if len(sink.events) != 2 {
+		t.Errorf("edit re-sent: %d events", len(sink.events))
 	}
 }
