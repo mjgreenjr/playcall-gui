@@ -234,7 +234,7 @@ Extra checks by hand:
 To add a new sport, use the `add-sport` skill (`.claude/skills/add-sport/`).
 
 ## Versioning and changelog
-- Semantic Versioning, pre-1.0 (now 0.1.0): a minor bump for new features and for changes to what users see or store, a patch for fixes. The one source of truth is `Version` in `internal/version/version.go`; both binaries' `--version` and the GUI's settings screen read it, and a test fails if `CHANGELOG.md`'s newest `## [x.y.z]` heading differs from it.
+- Semantic Versioning, pre-1.0 (now 0.2.0): a minor bump for new features and for changes to what users see or store, a patch for fixes. The one source of truth is `Version` in `internal/version/version.go`; both binaries' `--version` and the GUI's settings screen read it, and a test fails if `CHANGELOG.md`'s newest `## [x.y.z]` heading differs from it.
 - `CHANGELOG.md` (Keep a Changelog format) lists anything a user could notice, or that could break a config, state file, flag or exit code they depend on: new features and layout changes under Added/Changed, anything a user would complain about and then get fixed under Fixed. Put the entry under `## [Unreleased]` in the same commit as the change. Refactors, tests and docs are not listed.
 - A change that renames or removes a config key, changes `state.json`'s layout, a flag or an exit code needs a migration or compatibility path and a note in the changelog; say so before making it. (Everything so far has been additive: new keys the CLI and the Python ignore.)
 - Tell Mike which part of the number (minor or patch) the Unreleased entries call for. Do not bump `Version`, tag or publish unless asked: a release turns "Unreleased" into the new `## [x.y.z] - date` heading and changes `Version` in the same commit.
