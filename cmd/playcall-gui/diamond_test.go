@@ -6,6 +6,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/test"
+	"fyne.io/fyne/v2/theme"
 
 	"playcall/internal/core"
 )
@@ -94,5 +95,26 @@ func TestMiddleStaysPutWhenTheNamesChange(t *testing.T) {
 	mid := w.Canvas().Size().Width / 2
 	if centers["short"] != centers["long"] || centers["short"] < mid-1 || centers["short"] > mid+1 {
 		t.Errorf("the bases and count's center is %v with short names and %v with long ones, window center %v", centers["short"], centers["long"], mid)
+	}
+}
+
+func TestRecordsAreNotCutOutsideBaseball(t *testing.T) {
+	test.NewApp()
+	u := newUI(10*time.Second, nil, highlights[0], nil)
+	w := test.NewWindow(u.content)
+	u.setStatus(core.GameStatus{Sport: "nfl", State: "in", Clock: "3:07", Period: "2nd",
+		Away: core.TeamScore{Abbr: "ATL", Score: "24"}, Home: core.TeamScore{Abbr: "NO", Score: "0"},
+		AwayRecord: core.TeamRecord{Overall: "1-2", Conf: "0-1"}, HomeRecord: core.TeamRecord{Overall: "0-3"}})
+	for i := 0; i < 4; i++ {
+		w.Resize(fyne.NewSize(560+float32(i), 300))
+		u.content.Refresh()
+	}
+	want := fyne.MeasureText(u.awayRecord.String(), theme.Size(theme.SizeNameCaptionText), fyne.TextStyle{}).Width
+	if u.awayRecord.Truncation != fyne.TextTruncateOff || u.awayRecord.Size().Width < want {
+		t.Errorf("football record %q is %v wide for %v of text (truncation %v)", u.awayRecord.String(), u.awayRecord.Size().Width, want, u.awayRecord.Truncation)
+	}
+	u.setStatus(core.GameStatus{Sport: "mlb", State: "in", Situation: "0 outs"})
+	if u.awayRecord.Truncation != fyne.TextTruncateEllipsis {
+		t.Error("baseball's name column is not cut to its width")
 	}
 }

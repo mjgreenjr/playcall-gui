@@ -92,9 +92,6 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	u.counts = newCountBox()
 	u.baseball = container.NewCenter(container.NewHBox(u.diamond.box, u.counts.box))
 	u.awayRecord, u.homeRecord = widget.NewRichText(), widget.NewRichText()
-	for _, r := range []*widget.RichText{u.awayRecord, u.homeRecord} {
-		r.Truncation = fyne.TextTruncateEllipsis // a long name is cut, not allowed to push the header wider
-	}
 	u.awayRoom, u.homeRoom = canvas.NewRectangle(color.Transparent), canvas.NewRectangle(color.Transparent)
 	u.setRecords("", "")
 	u.series = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Italic: true})
@@ -314,10 +311,13 @@ func (u *ui) refreshRecords() {
 
 // setRecords shows each team's record under its side, in the situation's size.
 func (u *ui) setRecords(away, home string) {
-	width := float32(0)
+	// Baseball's column has a fixed width and a long name is cut to fit it. Any
+	// other sport's column is only as wide as its text, which must not be cut.
+	width, truncation := float32(0), fyne.TextTruncateOff
 	if u.status.Sport == "mlb" {
-		width = roleWidth
+		width, truncation = roleWidth, fyne.TextTruncateEllipsis
 	}
+	u.awayRecord.Truncation, u.homeRecord.Truncation = truncation, truncation
 	for _, room := range []*canvas.Rectangle{u.awayRoom, u.homeRoom} {
 		room.SetMinSize(fyne.NewSize(width, 1))
 	}

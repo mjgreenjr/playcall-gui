@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Fixed
+- The game page no longer cuts the record under a team short ("1-2 (...") in football, hockey and the other sports: only baseball's fixed-width name column truncates.
 - Baseball: a play ESPN adds late under a lower id than the play before it, such as "Vesia relieved Yamamoto" posted after the next batter's "pitches to" play, is now announced instead of being dropped. A "pitches to" play whose pitcher ESPN rewrites after a pitching change is corrected in place in the window (no toast).
 - Baseball's game page: a play in the middle of an at-bat (a steal, a pickoff, a wild pitch) no longer resets the ball and strike circles to 0-0, and it moves the runners on the diamond to where the play leaves them. A pickoff that ends in an error ("Edman scored on pickoff error by pitcher Henderson, Betts picked off second") is no longer counted as an out in the window's outs or in the title's outs. Substitutions leave the diamond alone.
 
