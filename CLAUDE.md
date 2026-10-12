@@ -253,4 +253,6 @@ The `Makefile` builds and installs both programs (`make`, `make install [PREFIX=
 - Commit directly on master. Do not create branches or pull requests unless the user asks for one. Commit when a piece of work is done and verified; push only when asked.
 
 ## Out of scope
+(`ROADMAP.md` lists ideas for later, some of which, like several games at once, reverse an item below; change this list first if one is taken up.)
+
 - Windows and macOS, following several games at once, shot-clock tracking.

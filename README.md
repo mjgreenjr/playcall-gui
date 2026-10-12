@@ -172,6 +172,11 @@ Tests need neither the network nor a notification daemon. Golden files in
 `test/golden/` pin the exact output for every fixture; see `CLAUDE.md` for the
 rules around them and for the message contract per sport.
 
+## What's next
+
+See the [roadmap](ROADMAP.md): a waybar module, a compact window, more sports
+(golf, tennis, soccer) and following several games at once.
+
 ## Credits and data
 
 Game data and logos come from ESPN and belong to ESPN and the leagues and
