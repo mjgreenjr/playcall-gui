@@ -381,7 +381,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 			case <-ctx.Done():
 				return
 			case <-t.C:
-				fyne.Do(view.refreshStale)
+				fyne.Do(func() { view.refreshStale(); view.refreshHalftime() })
 			}
 		}
 	}()

@@ -48,7 +48,7 @@ func (m *Model) Apply(e core.Event) (added bool) {
 }
 
 // statusLine is the header's second line: what ESPN says the game is doing.
-func statusLine(s core.GameStatus) string {
+func statusLine(s core.GameStatus, now time.Time) string {
 	switch {
 	case s.Final:
 		if s.Detail != "" {
@@ -56,6 +56,10 @@ func statusLine(s core.GameStatus) string {
 		}
 		return "Final"
 	case s.Halftime:
+		if left := s.HalftimeEnds.Sub(now); !s.HalftimeEnds.IsZero() && left > 0 {
+			// An estimate (the usual break), so it carries a tilde and stops at zero.
+			return fmt.Sprintf("Halftime · ~%d:%02d", int(left/time.Minute), int(left%time.Minute/time.Second))
+		}
 		return "Halftime"
 	case s.Break:
 		return s.Detail // "End of 3rd", not a clock stuck at 0.0

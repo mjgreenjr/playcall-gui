@@ -185,7 +185,7 @@ func (u *ui) setStatus(s core.GameStatus) {
 	for _, t := range []*canvas.Text{u.away, u.home, u.awayScore, u.homeScore} {
 		t.Refresh()
 	}
-	u.setStatusLine(statusLine(s), false)
+	u.setStatusLine(statusLine(s, time.Now()), false)
 	u.setSituation(s.Situation)
 	u.awayBadge.setName(s.Away.Name)
 	u.homeBadge.setName(s.Home.Name)
@@ -293,6 +293,14 @@ func (u *ui) setRecords(away, home string) {
 			Style: widget.RichTextStyle{Alignment: r.align, SizeName: theme.SizeNameCaptionText},
 		}}
 		r.w.Refresh()
+	}
+}
+
+// refreshHalftime redraws the status line each second while a halftime
+// countdown is running.
+func (u *ui) refreshHalftime() {
+	if u.status.Halftime && !u.status.HalftimeEnds.IsZero() {
+		u.setStatusLine(statusLine(u.status, time.Now()), false)
 	}
 }
 

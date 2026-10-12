@@ -22,6 +22,9 @@ type GameStatus struct {
 	Detail string
 	// Halftime is true for the whole break, not just the end-of-half play.
 	Halftime bool
+	// HalftimeEnds is when the break is expected to end (NFL only: the
+	// end-of-half play's wall-clock time plus the usual break); zero if unknown.
+	HalftimeEnds time.Time
 	// Break is true between periods ("End of 3rd"), when ESPN's clock sits at
 	// zero until the next one starts; Detail then says what to show.
 	Break bool
@@ -267,32 +270,58 @@ func (p *Poller) publishStatus(f *Feed) {
 	}
 	pitcher, batter, side := mlbMatchup(p.Sport, f)
 	p.StatusSink.Status(GameStatus{
-		Pitcher:     pitcher,
-		Batter:      batter,
-		BattingSide: side,
-		GameID:      p.State.GameID,
-		Sport:       p.Sport,
-		Away:        f.Away,
-		Home:        f.Home,
-		State:       espn.Str(st["state"]),
-		Clock:       f.Clock,
-		Period:      period,
-		AwayCounts:  awayCounts,
-		HomeCounts:  homeCounts,
-		Detail:      detail,
-		Halftime:    espn.Str(st["name"]) == "STATUS_HALFTIME",
-		Break:       espn.Str(st["name"]) == "STATUS_END_PERIOD" || footballPeriodBreak(p.Sport, f),
-		Final:       f.Finished,
-		Series:      series,
-		SeriesInfo:  seriesInfo(f.Data, p.State.GameID),
-		Preseason:   espn.SeasonType(f.Data) == "1",
-		Postseason:  espn.SeasonType(f.Data) == "3",
-		AwayRecord:  teamRecord(f, awayComp),
-		HomeRecord:  teamRecord(f, homeComp),
-		Possession:  possession(p.Sport, f),
-		Situation:   situation(p.Sport, f),
-		UpdatedAt:   p.now(),
+		Pitcher:      pitcher,
+		Batter:       batter,
+		BattingSide:  side,
+		GameID:       p.State.GameID,
+		Sport:        p.Sport,
+		Away:         f.Away,
+		Home:         f.Home,
+		State:        espn.Str(st["state"]),
+		Clock:        f.Clock,
+		Period:       period,
+		AwayCounts:   awayCounts,
+		HomeCounts:   homeCounts,
+		Detail:       detail,
+		Halftime:     espn.Str(st["name"]) == "STATUS_HALFTIME",
+		HalftimeEnds: halftimeEnds(p.Sport, f),
+		Break:        espn.Str(st["name"]) == "STATUS_END_PERIOD" || footballPeriodBreak(p.Sport, f),
+		Final:        f.Finished,
+		Series:       series,
+		SeriesInfo:   seriesInfo(f.Data, p.State.GameID),
+		Preseason:    espn.SeasonType(f.Data) == "1",
+		Postseason:   espn.SeasonType(f.Data) == "3",
+		AwayRecord:   teamRecord(f, awayComp),
+		HomeRecord:   teamRecord(f, homeComp),
+		Possession:   possession(p.Sport, f),
+		Situation:    situation(p.Sport, f),
+		UpdatedAt:    p.now(),
 	})
+}
+
+// nflHalftime is how long the break usually lasts, counted from the
+// end-of-half play's wall-clock stamp to the kickoff play's (seven games:
+// 13:57 to 15:37 with most near 14:15; the one in London took 19:45).
+const nflHalftime = 14*time.Minute + 15*time.Second
+
+// halftimeEnds estimates when the NFL halftime break ends: the newest End of
+// Half play's `wallclock` plus nflHalftime. Zero outside NFL halftime or when
+// ESPN gives no stamp. It comes from the feed, so a late start has it too.
+func halftimeEnds(sport string, f *Feed) time.Time {
+	if sport != "nfl" || espn.Str(espn.Map(espn.Status(f.Data)["type"])["name"]) != "STATUS_HALFTIME" {
+		return time.Time{}
+	}
+	for i := len(f.Plays) - 1; i >= 0; i-- {
+		if !strings.EqualFold(playType(f.Plays[i]), "End of Half") {
+			continue
+		}
+		t, err := time.Parse(time.RFC3339, espn.Str(f.Plays[i]["wallclock"]))
+		if err != nil {
+			return time.Time{}
+		}
+		return t.Add(nflHalftime)
+	}
+	return time.Time{}
 }
 
 // footballPeriodBreak is true between quarters in football. ESPN does not use

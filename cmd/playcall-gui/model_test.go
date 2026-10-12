@@ -66,9 +66,24 @@ func TestStatusLine(t *testing.T) {
 		{core.GameStatus{State: "pre", Detail: "10/10 - 8:00 PM EDT", Clock: "0:00"}, "10/10 - 8:00 PM EDT"},
 	}
 	for _, c := range cases {
-		if got := statusLine(c.s); got != c.want {
+		if got := statusLine(c.s, time.Now()); got != c.want {
 			t.Errorf("%+v: got %q, want %q", c.s, got, c.want)
 		}
+	}
+}
+
+func TestHalftimeCountdown(t *testing.T) {
+	now := time.Date(2026, 10, 12, 1, 50, 0, 0, time.UTC)
+	s := core.GameStatus{State: "in", Halftime: true, HalftimeEnds: now.Add(9*time.Minute + 5*time.Second)}
+	if got := statusLine(s, now); got != "Halftime · ~9:05" {
+		t.Errorf("counting: %q", got)
+	}
+	if got := statusLine(s, now.Add(10*time.Minute)); got != "Halftime" {
+		t.Errorf("past the estimate: %q", got)
+	}
+	s.HalftimeEnds = time.Time{}
+	if got := statusLine(s, now); got != "Halftime" {
+		t.Errorf("no estimate: %q", got)
 	}
 }
 

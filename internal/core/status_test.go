@@ -686,3 +686,31 @@ func TestFootballCounts(t *testing.T) {
 		t.Errorf("final game has counts: %+v %+v", away, home)
 	}
 }
+
+func TestHalftimeEnds(t *testing.T) {
+	feed := func(status string, plays ...espn.Data) *Feed {
+		f := &Feed{Data: espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+			"status": espn.Data{"type": espn.Data{"name": status}},
+		}}}}}
+		f.Plays = plays
+		return f
+	}
+	half := func(typ, wallclock string) espn.Data {
+		return espn.Data{"type": espn.Data{"text": typ}, "wallclock": wallclock}
+	}
+	start := time.Date(2026, 10, 12, 1, 47, 26, 0, time.UTC)
+	want := start.Add(nflHalftime)
+	if got := halftimeEnds("nfl", feed("STATUS_HALFTIME", half("Pass", "2026-10-12T01:40:00Z"), half("End of Half", "2026-10-12T01:47:26Z"))); !got.Equal(want) {
+		t.Errorf("halftime: got %v, want %v", got, want)
+	}
+	for name, got := range map[string]time.Time{
+		"not halftime": halftimeEnds("nfl", feed("STATUS_IN_PROGRESS", half("End of Half", "2026-10-12T01:47:26Z"))),
+		"college":      halftimeEnds("cfb", feed("STATUS_HALFTIME", half("End of Half", "2026-10-12T01:47:26Z"))),
+		"no end play":  halftimeEnds("nfl", feed("STATUS_HALFTIME", half("Pass", "2026-10-12T01:40:00Z"))),
+		"no stamp":     halftimeEnds("nfl", feed("STATUS_HALFTIME", half("End of Half", ""))),
+	} {
+		if !got.IsZero() {
+			t.Errorf("%s: got %v, want none", name, got)
+		}
+	}
+}
