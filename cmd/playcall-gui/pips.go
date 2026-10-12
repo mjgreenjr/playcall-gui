@@ -10,9 +10,9 @@ import (
 )
 
 const (
-	pipSize  = 9
-	pipLabel = 10 // text size of the B, S and O
-	pipRowH  = 11 // distance from one row of circles to the next
+	pipSize  = 7
+	pipLabel = 9  // text size of the B, S and O
+	pipRowH  = 10 // distance from one row of circles to the next
 	pipDrop  = 1  // how far the circles sit below their row's center
 )
 
@@ -56,7 +56,7 @@ func (r *pipRow) recolor() {
 		if i < r.filled {
 			c.FillColor, c.StrokeWidth = fg, 0
 		} else {
-			c.FillColor, c.StrokeColor, c.StrokeWidth = nil, fg, 1.25
+			c.FillColor, c.StrokeColor, c.StrokeWidth = nil, fg, 1
 		}
 		c.Refresh()
 	}
@@ -68,14 +68,14 @@ type pipLayout struct{}
 func newPipLayout() fyne.Layout { return pipLayout{} }
 
 func (pipLayout) MinSize(objs []fyne.CanvasObject) fyne.Size {
-	return fyne.NewSize(float32(len(objs))*pipSize+float32(max(len(objs)-1, 0))*3, pipSize)
+	return fyne.NewSize(float32(len(objs))*pipSize+float32(max(len(objs)-1, 0))*2, pipSize)
 }
 
 func (pipLayout) Layout(objs []fyne.CanvasObject, size fyne.Size) {
 	y := (size.Height-pipSize)/2 + pipDrop // centered on the row, then a hair lower to sit level with the letter
 	for i, o := range objs {
 		o.Resize(fyne.NewSize(pipSize, pipSize))
-		o.Move(fyne.NewPos(float32(i)*(pipSize+3), y))
+		o.Move(fyne.NewPos(float32(i)*(pipSize+2), y))
 	}
 }
 
