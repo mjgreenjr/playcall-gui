@@ -174,9 +174,9 @@ rules around them and for the message contract per sport.
 
 ## What's next
 
-See the [roadmap](ROADMAP.md): a waybar module, a compact window, more sports
-(golf, tennis, soccer, rugby, Australian rules, the CFL, cricket and motor
-racing) and following several games at once.
+See the [roadmap](ROADMAP.md): a waybar module, then golf and tennis, then a
+compact window, the CFL and soccer, and further out rugby, Australian rules,
+cricket, motor racing and following several games at once.
 
 ## Credits and data
 
