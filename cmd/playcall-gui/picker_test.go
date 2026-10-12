@@ -456,6 +456,12 @@ func TestPickerRowsShowRankingsBeforeTheAbbreviation(t *testing.T) {
 	text := func(col fyne.CanvasObject) string {
 		return col.(*fyne.Container).Objects[0].(*fyne.Container).Objects[1].(*canvas.Text).Text
 	}
+	for _, i := range []int{1, 6} {
+		got := teams()[i].(*fyne.Container).Objects[0].(*fyne.Container).Objects[1].(*canvas.Text).Alignment
+		if got != fyne.TextAlignTrailing {
+			t.Errorf("column %d aligns %v; a ranking sits against its abbreviation", i, got)
+		}
+	}
 	p.list.UpdateItem(0, row)
 	if text(teams()[1]) != "" || text(teams()[6]) != "1" {
 		t.Errorf("row 0 ranks %q / %q", text(teams()[1]), text(teams()[6]))

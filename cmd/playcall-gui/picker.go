@@ -140,15 +140,22 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			column := func(l *widget.Label) fyne.CanvasObject {
 				return container.New(columnLayout{width: func() float32 { return p.abbrWidth }}, l)
 			}
-			small := func(width func() float32) fyne.CanvasObject {
+			small := func(width func() float32, align fyne.TextAlign) fyne.CanvasObject {
 				t := canvas.NewText("", theme.Color(theme.ColorNamePlaceHolder))
 				t.TextSize = theme.TextSize() * recordTextScale
+				t.Alignment = align
 				// Centered up and down; the column's width is shared by all rows.
 				return container.New(columnLayout{width: width},
 					container.NewVBox(layout.NewSpacer(), t, layout.NewSpacer()))
 			}
-			record := func() fyne.CanvasObject { return small(func() float32 { return p.recWidth }) }
-			rank := func() fyne.CanvasObject { return small(func() float32 { return p.rankWidth }) }
+			record := func() fyne.CanvasObject {
+				return small(func() float32 { return p.recWidth }, fyne.TextAlignLeading)
+			}
+			// A ranking sits against the abbreviation after it, so a single digit
+			// does not leave a gap there.
+			rank := func() fyne.CanvasObject {
+				return small(func() float32 { return p.rankWidth }, fyne.TextAlignTrailing)
+			}
 			// Each team: logo, ranking, abbreviation, record. The ranking comes
 			// before the abbreviation, as on a broadcast.
 			teams := container.NewHBox(rowLogo(), rank(), column(bold()), record(), widget.NewLabel("@"),
