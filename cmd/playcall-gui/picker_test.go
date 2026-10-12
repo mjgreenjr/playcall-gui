@@ -381,3 +381,19 @@ func TestPickerContinueHidesForFinishedGame(t *testing.T) {
 		t.Error("a list for another sport hid the button")
 	}
 }
+
+func TestPickerRemembersThePickedSport(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_nfl_week.json")}
+	var saved []string
+	prefs := groupPrefs{setSport: func(sport string) { saved = append(saved, sport) }}
+	p := newPicker(context.Background(), f, nil, prefs, "nfl", func(string, espn.Game) {})
+	if len(saved) != 0 {
+		t.Errorf("starting up saved the sport: %v", saved)
+	}
+	p.sport.SetSelected(sportLabel("cfb"))
+	p.sport.SetSelected(sportLabel("mlb"))
+	if len(saved) != 2 || saved[0] != "cfb" || saved[1] != "mlb" {
+		t.Errorf("saved %v, want [cfb mlb]", saved)
+	}
+}

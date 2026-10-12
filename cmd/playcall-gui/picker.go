@@ -61,6 +61,14 @@ type picker struct {
 type groupPrefs struct {
 	get func(sport string) string
 	set func(sport, group string)
+	// setSport remembers the sport the user picked, for the next start.
+	setSport func(sport string)
+}
+
+func (g groupPrefs) saveSport(sport string) {
+	if g.setSport != nil {
+		g.setSport(sport)
+	}
 }
 
 func (g groupPrefs) saved(sport string) string {
@@ -104,7 +112,8 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 		if p.quiet {
 			return
 		}
-		p.setGroups() // the new sport's remembered group; favorites apply as usual
+		p.prefs.saveSport(p.currentSport()) // the next start opens on this sport
+		p.setGroups()                       // the new sport's remembered group; favorites apply as usual
 		p.load()
 	})
 	p.all = widget.NewCheck("All games", func(bool) {

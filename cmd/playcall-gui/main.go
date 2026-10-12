@@ -37,6 +37,8 @@ func run() int {
 	debug := flag.Bool("debug", false, "log at DEBUG level this run, whatever the settings say")
 	showVersion := flag.Bool("version", false, "print the version and exit")
 	flag.Parse()
+	sportGiven := false
+	flag.Visit(func(f *flag.Flag) { sportGiven = sportGiven || f.Name == "sport" })
 	if *showVersion {
 		fmt.Println("playcall-gui", version.Version)
 		return 0
@@ -86,7 +88,7 @@ func run() int {
 	case *game != "":
 		start = func() { s.follow(*sport, *game, liveFetcher(*sport, *game), s.liveInterval(), false) }
 	default:
-		start = func() { s.showPicker(*sport) }
+		start = func() { s.showPicker(startSport(*sport, sportGiven, s.cfg)) }
 	}
 
 	s.app = app.New() // before any widget: they read the theme from it
@@ -204,6 +206,12 @@ func (s *shell) liveInterval() time.Duration {
 
 func (s *shell) showPicker(sport string) {
 	s.endGame()
+	// Coming back from a game of another sport shows that sport's picker; the
+	// next start should open on what was on screen last. (Nothing is saved
+	// before the user has picked a sport once: first run stays at the default.)
+	if last := s.cfg.LastSport(); last != "" && last != sport {
+		s.update(func(c *core.Config) { c.SetLastSport(sport) })
+	}
 	s.win.SetTitle("playcall")
 	p := newPicker(s.root, s.fetcher, s.cfg.FavoriteTeams, s.groupPrefs(), sport, func(sport string, g espn.Game) {
 		s.followPicked(core.LastGame{Sport: sport, ID: g.ID, Label: matchup(g)})
@@ -289,12 +297,27 @@ func (s *shell) gameVisible(ctx context.Context) (bool, error) {
 	return vis, nil
 }
 
+// startSport is the sport the picker opens on: --sport when it was given, else
+// the one the user last picked, else the flag's default.
+func startSport(flagSport string, given bool, cfg core.Config) string {
+	if given {
+		return flagSport
+	}
+	if last := cfg.LastSport(); last != "" && sports.Validate(last) == nil {
+		return last
+	}
+	return flagSport
+}
+
 // groupPrefs reads and writes each sport's remembered group in config.json.
 func (s *shell) groupPrefs() groupPrefs {
 	return groupPrefs{
 		get: func(sport string) string { return s.cfg.FavoriteGroup(sport) },
 		set: func(sport, group string) {
 			s.update(func(c *core.Config) { c.SetFavoriteGroup(sport, group) })
+		},
+		setSport: func(sport string) {
+			s.update(func(c *core.Config) { c.SetLastSport(sport) })
 		},
 	}
 }

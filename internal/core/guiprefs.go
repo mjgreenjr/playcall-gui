@@ -32,6 +32,15 @@ func (c *Config) setExtraString(key, value string) {
 	c.Extra[key] = b
 }
 
+const lastSportKey = "last_sport"
+
+// LastSport is the sport the GUI's picker was last showing ("nfl", "cfb", ...),
+// "" when none has been picked yet. It is not checked against the known sports.
+func (c Config) LastSport() string { return c.extraString(lastSportKey) }
+
+// SetLastSport remembers the picker's sport; "" forgets it.
+func (c *Config) SetLastSport(sport string) { c.setExtraString(lastSportKey, sport) }
+
 const highlightColorKey = "highlight_color"
 
 // HighlightColor is the GUI's color for scoring plays and turnovers, a name

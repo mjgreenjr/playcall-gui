@@ -229,3 +229,64 @@ func TestShellContinueLastGame(t *testing.T) {
 	}
 	s.endGame()
 }
+
+func TestStartSport(t *testing.T) {
+	var none, cfb, bogus core.Config
+	cfb.SetLastSport("cfb")
+	bogus.SetLastSport("curling")
+	for _, c := range []struct {
+		name  string
+		cfg   core.Config
+		given bool
+		want  string
+	}{
+		{"first run: the default", none, false, "nfl"},
+		{"the remembered sport", cfb, false, "cfb"},
+		{"--sport wins over it", cfb, true, "nfl"},
+		{"an unknown remembered sport is ignored", bogus, false, "nfl"},
+	} {
+		if got := startSport("nfl", c.given, c.cfg); got != c.want {
+			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
+		}
+	}
+}
+
+func TestShellRemembersTheSportAcrossStarts(t *testing.T) {
+	useHome(t, t.TempDir())
+	s := &shell{root: context.Background(), fetcher: urlFetcher{t}}
+	s.loadConfig()
+	s.app = test.NewApp()
+	s.win = s.app.NewWindow("playcall")
+
+	s.showPicker("nfl") // first run: nothing is saved yet
+	paths, _ := core.DefaultPaths()
+	if saved, _ := core.LoadConfig(paths); saved.LastSport() != "" {
+		t.Errorf("first run saved %q", saved.LastSport())
+	}
+	s.pickerView.sport.SetSelected(sportLabel("cfb"))
+	s.pickerView.group.SetSelected("Big Ten")
+	saved, err := core.LoadConfig(paths)
+	if err != nil || saved.LastSport() != "cfb" || saved.FavoriteGroup("cfb") != "Big Ten" {
+		t.Fatalf("saved %q / %q, %v", saved.LastSport(), saved.FavoriteGroup("cfb"), err)
+	}
+
+	// The next start: the picker opens on that sport and its group.
+	s2 := &shell{root: context.Background(), fetcher: urlFetcher{t}}
+	s2.loadConfig()
+	s2.app = s.app
+	s2.win = s.app.NewWindow("playcall")
+	s2.showPicker(startSport("nfl", false, s2.cfg))
+	if got := s2.pickerView.sport.Selected; got != sportLabel("cfb") {
+		t.Errorf("restored sport %q", got)
+	}
+	if got := s2.pickerView.group.Selected; got != "Big Ten" {
+		t.Errorf("restored group %q", got)
+	}
+
+	// Coming back from a game of another sport leaves the next start on that picker.
+	s2.showPicker("mlb")
+	saved, _ = core.LoadConfig(paths)
+	if saved.LastSport() != "mlb" {
+		t.Errorf("after showing the mlb picker: %q", saved.LastSport())
+	}
+}

@@ -83,3 +83,26 @@ func TestLastGame(t *testing.T) {
 		t.Error("junk is no game")
 	}
 }
+
+func TestLastSportRoundTrip(t *testing.T) {
+	p := PathsFromHome(t.TempDir())
+	cfg, err := LoadConfig(p)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.LastSport() != "" {
+		t.Errorf("fresh config has %q", cfg.LastSport())
+	}
+	cfg.SetLastSport("cfb")
+	if err := SaveConfig(p, cfg); err != nil {
+		t.Fatal(err)
+	}
+	again, _ := LoadConfig(p)
+	if again.LastSport() != "cfb" {
+		t.Errorf("reloaded %q", again.LastSport())
+	}
+	again.SetLastSport("")
+	if _, ok := again.Extra[lastSportKey]; ok {
+		t.Error("an empty sport should drop the key")
+	}
+}
