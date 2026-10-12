@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Added
+- College football's group list in the picker has a "Top 25" choice, after All: the games with a ranked team, from ESPN's own default scoreboard (no teams-without-a-game rows for it).
 - The picker opens on the sport you last used, with that sport's remembered group (it already remembered a group per sport). A first run still starts on NFL and All; `--sport` still wins for that run.
 - Config, state, log and cache files follow `XDG_CONFIG_HOME` and `XDG_CACHE_HOME` when they are set (the same `~/.config/playcall` and `~/.cache/playcall` as before when they are not). If they are set and the old folders still hold your files, the old ones keep being used until the new folders exist, so nothing is lost.
 - Toasts work without Omarchy: when `omarchy-notification-send` is not installed, `notify-send` is used (no click-to-open), and when neither works the GUI shows the play in the window only (one warning in the log). Before, a missing notifier kept every play out of the window.

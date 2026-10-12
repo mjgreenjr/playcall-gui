@@ -25,14 +25,15 @@ func format(f string, args ...string) string {
 // ScoreboardURL builds the scoreboard URL for a sport. date is YYYYMMDD
 // ("" for ESPN's default day; ESPN ignores `date=`, so the param is `dates=`).
 // group overrides the sport's default group; sports with a default group
-// (cfb: 80) always send `groups=`, others only when group is set.
+// (cfb: 80) always send `groups=`, others only when group is set. The
+// sports.RankedGroupID "group" sends none, to get ESPN's default list.
 func ScoreboardURL(sport, date, group string) string {
 	u := format(scoreboardFmt, sports.Path(sport))
 	var params []string
 	if group == "" {
 		group, _ = sports.DefaultGroup(sport)
 	}
-	if group != "" {
+	if group != "" && group != sports.RankedGroupID {
 		params = append(params, "groups="+url.QueryEscape(group))
 	}
 	if date != "" {

@@ -67,7 +67,7 @@ func TestGameLines(t *testing.T) {
 
 func TestGroupChoices(t *testing.T) {
 	cfb := groupChoices("cfb")
-	if cfb[0] != "All" || cfb[1] != "ACC" || len(cfb) != 9 {
+	if cfb[0] != "All" || cfb[1] != "Top 25" || cfb[2] != "ACC" || len(cfb) != 10 {
 		t.Errorf("cfb: %v", cfb)
 	}
 	for _, c := range cfb {

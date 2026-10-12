@@ -6,7 +6,11 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
+	"strings"
 	"testing"
+	"time"
+
+	"playcall/internal/sports"
 )
 
 const fixtures = "../../test/fixtures/"
@@ -408,5 +412,44 @@ func TestScoreboardRecordsAndSeries(t *testing.T) {
 	}
 	if g.SeriesLength != "7" {
 		t.Errorf("series length %q", g.SeriesLength)
+	}
+}
+
+type urlRecorder struct{ urls []string }
+
+func (r *urlRecorder) Fetch(_ context.Context, url string) (Data, error) {
+	r.urls = append(r.urls, url)
+	return Data{"events": []any{}}, nil
+}
+
+func TestRankedGroupSendsNoGroups(t *testing.T) {
+	const base = "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard"
+	for _, c := range []struct{ date, group, want string }{
+		{"", "", base + "?groups=80"},    // the default is still all FBS
+		{"", "5", base + "?groups=5"},    // a conference
+		{"", sports.RankedGroupID, base}, // ESPN's own list: no query at all
+		{"20261017", sports.RankedGroupID, base + "?dates=20261017"},
+	} {
+		if got := ScoreboardURL("cfb", c.date, c.group); got != c.want {
+			t.Errorf("ScoreboardURL(cfb, %q, %q) = %s, want %s", c.date, c.group, got, c.want)
+		}
+	}
+}
+
+func TestRankedGroupIsNeverRetriedWithADate(t *testing.T) {
+	// With a date ESPN answers with every game, so an empty ranked list must
+	// stay empty instead of coming back unfiltered.
+	r := &urlRecorder{}
+	if _, err := FetchScoreboard(context.Background(), r, "cfb", sports.RankedGroupID, true, time.Now()); err != nil {
+		t.Fatal(err)
+	}
+	if len(r.urls) != 1 || strings.Contains(r.urls[0], "groups=") || strings.Contains(r.urls[0], "dates=") {
+		t.Errorf("requests %v", r.urls)
+	}
+	// A conference with no games still gets its retries.
+	r = &urlRecorder{}
+	FetchScoreboard(context.Background(), r, "cfb", "5", true, time.Now())
+	if len(r.urls) < 2 {
+		t.Errorf("a conference was not retried: %v", r.urls)
 	}
 }

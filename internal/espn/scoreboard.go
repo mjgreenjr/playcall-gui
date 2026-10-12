@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"strings"
 	"time"
+
+	"playcall/internal/sports"
 )
 
 // Fetcher gets ESPN JSON by URL. *Client is one; tests and the CLI supply
@@ -188,12 +190,16 @@ func FetchScoreboard(ctx context.Context, f Fetcher, sport, group string, allowE
 	if data == nil {
 		return nil, ErrScoreboardFetch
 	}
-	if !Truthy(data["events"]) {
+	// ESPN's default list is the ranked games only when asked for without a
+	// date, so a ranked request is never retried with one (that would answer
+	// with every game): empty is empty.
+	ranked := group == sports.RankedGroupID
+	if !Truthy(data["events"]) && !ranked {
 		today := now.Format("20060102")
 		slog.Debug("No events in default scoreboard; retrying", "date", today)
 		data = fetch(ScoreboardURL(sport, today, group))
 	}
-	if group != "" && data != nil && !Truthy(data["events"]) {
+	if group != "" && !ranked && data != nil && !Truthy(data["events"]) {
 		day := Str(Map(fetch(ScoreboardURL(sport, "", ""))["day"])["date"])
 		if day != "" {
 			slog.Debug("No events in group; retrying", "group", group, "date", day)

@@ -334,9 +334,12 @@ func (p *picker) load() {
 	runAsync(func() {
 		games, err := core.TodaysGames(p.ctx, p.fetcher, sport, group, time.Now())
 		if err == nil {
-			// Teams in the group with no game on this scoreboard, after the games.
-			if teams, terr := espn.FetchStandingTeams(p.ctx, p.fetcher, sport, group); terr == nil {
-				games = append(games, core.IdleGames(sport, games, teams)...)
+			// Teams in the group with no game on this scoreboard, after the games
+			// (not for Top 25, which is no group of teams).
+			if group != sports.RankedGroupID {
+				if teams, terr := espn.FetchStandingTeams(p.ctx, p.fetcher, sport, group); terr == nil {
+					games = append(games, core.IdleGames(sport, games, teams)...)
+				}
 			}
 		}
 		if err == nil && p.divisions != nil {

@@ -75,6 +75,18 @@ var groups = map[string][]Group{
 // all FBS; without it ESPN returns only the top 25).
 var defaultGroups = map[string]string{"cfb": "80"}
 
+// RankedGroupID is not an ESPN group id but a request for ESPN's own default
+// college football scoreboard, which is sent without `groups=` and holds only
+// the games with a ranked team (checked: 16 of the week's 62 games, every one
+// with a team in the top 25). It is the GUI's "Top 25" choice (cfb only for
+// now) and is left out of the `groups` table, so the CLI's group lists, the
+// standings lookups and the goldens do not change. It only works on the default
+// request: with a `dates=` parameter ESPN answers with every game.
+const RankedGroupID = "ranked"
+
+// RankedGroupName is how the picker shows RankedGroupID.
+const RankedGroupName = "Top 25"
+
 // allGroupSports start their groups with an "All ..." entry, the default for `teams`.
 var allGroupSports = map[string]bool{"cfb": true, "cbb": true}
 

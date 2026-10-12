@@ -155,8 +155,8 @@ func gameStatusText(g espn.Game, now time.Time) string {
 // anyGroup is the picker's "no conference or division" choice.
 const anyGroup = "All"
 
-// groupChoices are the picker's group names for a sport: "All", then the
-// conferences and divisions. A leading "All ..." entry (college sports) is
+// groupChoices are the picker's group names for a sport: "All", then (college
+// football) "Top 25", then the conferences and divisions. A leading "All ..." entry (college sports) is
 // left out, since "All" already means that.
 func groupChoices(sport string) []string {
 	list := sports.Groups(sport)
@@ -164,6 +164,9 @@ func groupChoices(sport string) []string {
 		list = list[1:]
 	}
 	out := []string{anyGroup}
+	if sport == "cfb" {
+		out = append(out, sports.RankedGroupName)
+	}
 	for _, g := range list {
 		out = append(out, g.Name)
 	}
@@ -174,6 +177,9 @@ func groupChoices(sport string) []string {
 func groupID(sport, name string) string {
 	if name == anyGroup {
 		return ""
+	}
+	if sport == "cfb" && name == sports.RankedGroupName {
+		return sports.RankedGroupID
 	}
 	for _, g := range sports.Groups(sport) {
 		if g.Name == name {

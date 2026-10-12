@@ -12,6 +12,7 @@ import (
 
 	"playcall/internal/core"
 	"playcall/internal/espn"
+	"playcall/internal/sports"
 )
 
 func init() {
@@ -396,4 +397,43 @@ func TestPickerRemembersThePickedSport(t *testing.T) {
 	if len(saved) != 2 || saved[0] != "cfb" || saved[1] != "mlb" {
 		t.Errorf("saved %v, want [cfb mlb]", saved)
 	}
+}
+
+func TestTopTwentyFiveIsACollegeFootballChoice(t *testing.T) {
+	got := groupChoices("cfb")
+	if len(got) < 4 || got[0] != anyGroup || got[1] != "Top 25" || got[2] != "ACC" {
+		t.Errorf("cfb choices %v", got)
+	}
+	for _, sport := range []string{"nfl", "nba", "mlb", "nhl", "cbb", "wnba"} {
+		for _, name := range groupChoices(sport) {
+			if name == "Top 25" {
+				t.Errorf("%s offers Top 25", sport)
+			}
+		}
+	}
+	if id := groupID("cfb", "Top 25"); id != sports.RankedGroupID {
+		t.Errorf("Top 25 id %q", id)
+	}
+	if id := groupID("cfb", "Big Ten"); id != "5" {
+		t.Errorf("Big Ten id %q", id)
+	}
+}
+
+func TestPickingTopTwentyFiveAsksForTheDefaultList(t *testing.T) {
+	test.NewApp()
+	f := &recordingFetcher{data: scoreboard(t, "scoreboard_cfb_fbs.json")}
+	prefs, m, _ := memoryPrefs(nil)
+	p := newPicker(context.Background(), f, nil, prefs, "cfb", func(string, espn.Game) {})
+	p.group.SetSelected("Top 25")
+	waitFor(t, "the Top 25 request", func() bool { return f.has("college-football/scoreboard") && !f.has("groups=") })
+	if m["cfb"] != "Top 25" {
+		t.Errorf("remembered %q", m["cfb"])
+	}
+	// No standings lookup: Top 25 is no group of teams, and its id is no ESPN id.
+	if f.has("standings") {
+		t.Errorf("asked for standings: %v", f.urls)
+	}
+	// A conference still sends its id.
+	p.group.SetSelected("Big Ten")
+	waitFor(t, "the Big Ten request", func() bool { return f.has("groups=5") })
 }
