@@ -26,18 +26,29 @@ unofficial and undocumented, so it can change without notice.
   covered by the settings screen), plays go to a desktop notification instead,
   with the ball for the team that has it.
 - **A CLI** (`playcall`) that prints the same text, with no dependencies
-  beyond the Go standard library.
+  beyond the Go standard library, and can follow a game in a terminal,
+  printing each play and each change of the header as a time-stamped line.
 
 ## Platform
 
-Linux only for now. Parts of it assume an [Omarchy](https://omarchy.org)
-setup:
+Linux only for now. This is what has actually been run, and what has not:
 
-| Feature | Needs |
+| Setup | Status |
 | --- | --- |
-| Toasts | `omarchy-notification-send`, else `notify-send` (no click-to-open), else the window alone |
-| Window-or-toast routing | Hyprland (`hyprctl`); elsewhere the window's focus decides |
-| CLI autostart (`follow`, `stop`, `resume`) | a systemd user unit |
+| Omarchy (Arch, Hyprland, Wayland): GUI, toasts with click-to-open, window-or-toast routing by workspace | Used daily on live games |
+| Clean Ubuntu 24.04 container, Xvfb (X11), no Hyprland: tests and both builds pass; the GUI follows a mock game; with no notification program the plays go to the window with one warning in the log; with `notify-send` and `dunst` unfocused plays toast and are also in the window; window focus decides window or toast, with and without `openbox` | Tested on 2026-10-12 (fixtures only, no live game) |
+| The CLI (`list`, `teams`, `follow`, the terminal feed) | Run on both of the above, with and without `--out` |
+| GNOME, KDE, Sway and other desktops, any Wayland session but Hyprland | Not tested. The focus-based routing should work, but nobody has seen it |
+| Windows, macOS | Not supported, not tested |
+
+How the pieces pick what to use:
+
+| Feature | Uses |
+| --- | --- |
+| Toasts | `omarchy-notification-send`; if it is not installed, `notify-send` (no click-to-open); if neither works, the window alone and one warning in the log |
+| Window-or-toast routing | Hyprland (`hyprctl`) when it answers; otherwise a window with focus counts as visible and one without gets toasts |
+| Files | `$XDG_CONFIG_HOME` and `$XDG_CACHE_HOME` (see Files below) |
+| Autostart | Not built. `playcall resume` can run from a systemd user unit that you write yourself; the CLI does not create one |
 
 The OS-specific code is kept in its own files behind small interfaces so that
 other platforms can be added later.
@@ -46,7 +57,11 @@ other platforms can be added later.
 
 You need Go 1.24 or newer. The GUI also needs cgo and Fyne's system libraries
 (a C compiler plus OpenGL and windowing headers; see
-[Fyne's prerequisites](https://docs.fyne.io/started/)).
+[Fyne's prerequisites](https://docs.fyne.io/started/)). On Debian or Ubuntu
+that is `gcc libgl1-mesa-dev xorg-dev libwayland-dev libxkbcommon-dev
+wayland-protocols`; the Wayland headers are needed to build even on X11,
+because GLFW compiles both backends. (These were checked on Ubuntu 24.04 with
+Go 1.24.)
 
 ```sh
 go build -o playcall ./cmd/playcall          # CLI, static, stdlib only
