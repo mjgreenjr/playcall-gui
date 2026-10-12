@@ -293,7 +293,7 @@ func TestMLBBases(t *testing.T) {
 	c := ctxsOf(
 		mp(t, "100", "start-batterpitcher", "A pitches to B", top6+`,"onFirst":{"x":1},"onThird":{"x":1}`),
 		mp(t, "101", "pitch", "Pitch 1 : Ball", top6+`,"onFirst":{"x":1},"onThird":{"x":1}`),
-		mp(t, "102", "play-result", "Sub something.", top6),
+		mp(t, "102", "play-result", "Sub something.", top6+`,"onFirst":{"x":1},"onThird":{"x":1}`),
 		mp(t, "1990001", "play-result", "Walk.", top6+`,"outs":0,"onFirst":1,"onSecond":1,"onThird":1`),
 		mp(t, "1990002", "play-result", "Lineout.", top6+`,"outs":3,"onFirst":1`),
 	)
@@ -319,6 +319,55 @@ func TestMLBCountNumbers(t *testing.T) {
 	} {
 		if got := c[id]; [3]int{got.balls, got.strikes, got.outs} != want {
 			t.Errorf("play %s: balls %d strikes %d outs %d, want %v", id, got.balls, got.strikes, got.outs, want)
+		}
+	}
+}
+
+// The sequence from NLCS game 2 (401908031): a runner on first and third, a
+// strike, then a pickoff error that scored the runner from third.
+func TestMLBMidAtBatResultKeepsCountAndMovesRunners(t *testing.T) {
+	c := ctxsOf(
+		mp(t, "4010001", "start-batterpitcher", "A pitches to B", top6+`,"outs":1,"onFirst":1,"onThird":1`),
+		mp(t, "4020037", "pitch", "Pitch 1 : Strike 1 Swinging", top6+`,"outs":1,"onFirst":1,"onThird":1,"resultCount":{"balls":0,"strikes":1}`),
+		mp(t, "4020398", "play-result", "Edman scored on pickoff error by pitcher Henderson, Betts picked off second.", top6+`,"outs":1,"onSecond":1,"resultCount":{"balls":0,"strikes":0}`),
+		mp(t, "4030021", "pitch", "Pitch 2 : Strike 2 Foul", top6+`,"outs":1,"onSecond":1,"resultCount":{"balls":0,"strikes":2}`),
+	)
+	got := c["4020398"]
+	if got.balls != 0 || got.strikes != 1 {
+		t.Errorf("the count after the pickoff is %d-%d, want 0-1 (the at-bat goes on)", got.balls, got.strikes)
+	}
+	if before := c["4020037"].outs; got.outs != before {
+		t.Errorf("outs %d, was %d before the play: a pickoff error is no out", got.outs, before)
+	}
+	if got.bases != "2" {
+		t.Errorf("bases %q, want the runner on second", got.bases)
+	}
+	if c["4030021"].strikes != 2 || c["4030021"].bases != "2" {
+		t.Errorf("next pitch: %+v", c["4030021"])
+	}
+}
+
+func TestMLBPickoffStillCountsAsAnOut(t *testing.T) {
+	c := ctxsOf(
+		mp(t, "4010001", "start-batterpitcher", "A pitches to B", top6+`,"onFirst":1`),
+		mp(t, "4020398", "play-result", "Smith picked off first.", top6+`,"outs":0`),
+	)
+	if got := c["4020398"]; got.outs != 1 || got.bases != "" {
+		t.Errorf("a clean pickoff: outs %d, bases %q", got.outs, got.bases)
+	}
+}
+
+func TestMLBSubstitutionsLeaveTheRunnersAlone(t *testing.T) {
+	// ESPN's substitution plays carry no runner flags at all.
+	c := ctxsOf(
+		mp(t, "4010001", "start-batterpitcher", "A pitches to B", top6+`,"onFirst":1,"onSecond":1`),
+		mp(t, "4020001", "play-result", "Tellez hit for Kim.", top6),
+		mp(t, "4020002", "play-result", "Hicklen ran for Tellez.", top6),
+		mp(t, "4020003", "play-result", "Tucker stole third.", top6+`,"onFirst":1,"onThird":1`),
+	)
+	for id, want := range map[string]string{"4020001": "12", "4020002": "12", "4020003": "13"} {
+		if got := c[id].bases; got != want {
+			t.Errorf("play %s: bases %q, want %q", id, got, want)
 		}
 	}
 }

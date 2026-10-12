@@ -77,11 +77,12 @@ func (c *mlbContext) setStatus(label string, outs int, on *int, count *[2]int) {
 
 // \w and \d are Unicode in the Python, so accented names must match.
 var (
-	mlbPitchPrefix = regexp.MustCompile(`^Pitch \p{Nd}+[\s\p{Z}]*:[\s\p{Z}]*`)
-	mlbFielderSub  = regexp.MustCompile(`^[\p{L}\p{N}_.' -]+ (at|in) (pitcher|catcher|first base|second base|third base|shortstop|left field|center field|right field|designated hitter)\.?$`)
-	mlbNormalEvent = regexp.MustCompile(`(?i)ran for|relieved|caught stealing|picked off|thrown out`)
-	mlbOutEvent    = regexp.MustCompile(`(?i)caught stealing|picked off|thrown out`)
-	mlbPitchEnd    = regexp.MustCompile(`Ball In Play|Strike 3|Ball 4`)
+	mlbPitchPrefix  = regexp.MustCompile(`^Pitch \p{Nd}+[\s\p{Z}]*:[\s\p{Z}]*`)
+	mlbFielderSub   = regexp.MustCompile(`^[\p{L}\p{N}_.' -]+ (at|in) (pitcher|catcher|first base|second base|third base|shortstop|left field|center field|right field|designated hitter)\.?$`)
+	mlbNormalEvent  = regexp.MustCompile(`(?i)ran for|relieved|caught stealing|picked off|thrown out`)
+	mlbSubstitution = regexp.MustCompile(`(?i)\b(hit for|ran for|relieved|replaces)\b`)
+	mlbOutEvent     = regexp.MustCompile(`(?i)caught stealing|picked off|thrown out`)
+	mlbPitchEnd     = regexp.MustCompile(`Ball In Play|Strike 3|Ball 4`)
 )
 
 // mlbRunners counts the runners on base on this play.
@@ -148,7 +149,8 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 	ctxs := map[string]mlbContext{}
 	outs, on := 0, 0
 	bases := ""
-	batter := "" // the one named by the latest Start Batter/Pitcher
+	balls, strikes := 0, 0 // the count of the at-bat in progress
+	batter := ""           // the one named by the latest Start Batter/Pitcher
 	for _, p := range sorted {
 		typ := espn.Map(p["type"])
 		kind := espn.Str(typ["type"])
@@ -174,9 +176,11 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 			ctx.announce = false
 			if kind == "start-inning" {
 				outs, on, bases = 0, 0, ""
+				balls, strikes = 0, 0
 			}
 		case kind == "end-inning":
 			outs, on, bases = 0, 0, ""
+			balls, strikes = 0, 0
 			// ESPN's "Mid"/"End" is a half-inning break: show the half that comes next.
 			isMid := espn.Str(period["type"]) == "Mid"
 			n := intOr(period["number"], 0)
@@ -200,6 +204,7 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 			ctx.body = mlbPitchPrefix.ReplaceAllString(text, "")
 			result := espn.Map(p["resultCount"])
 			count := [2]int{intOr(result["balls"], 0), intOr(result["strikes"], 0)}
+			balls, strikes = count[0], count[1]
 			// The at-bat ends on this pitch; its Play Result carries the outcome.
 			if mlbPitchEnd.MatchString(text) {
 				ctx.announce = false
@@ -232,8 +237,17 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 				}
 				ctx.urgent = espn.Truthy(p["scoringPlay"]) || outsAfter > outs || onAfter > on
 				outs, on = outsAfter, onAfter
+				balls, strikes = 0, 0
 			} else {
-				if mlbOutEvent.MatchString(text) {
+				// The play after it carries who is on base now (a steal, a
+				// pickoff, a wild pitch).
+				// Substitutions carry no runners at all, so they leave it alone.
+				if !mlbSubstitution.MatchString(text) {
+					bases = mlbBases(p)
+				}
+				// "Betts picked off second" is no out when an error is in
+				// the same line ("scored on pickoff error by the pitcher").
+				if mlbOutEvent.MatchString(text) && !strings.Contains(strings.ToLower(text), "error") {
 					outs++
 				}
 				ctx.setStatus(label, outs, &on, nil)
@@ -246,6 +260,7 @@ func mlbContexts(plays []espn.Data) map[string]mlbContext {
 			}
 		}
 		ctx.bases = bases
+		ctx.balls, ctx.strikes = balls, strikes
 		ctxs[espn.PlayKey(p)] = ctx
 	}
 	return ctxs

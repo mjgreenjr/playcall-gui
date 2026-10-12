@@ -12,6 +12,9 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Fixed
+- Baseball's game page: a play in the middle of an at-bat (a steal, a pickoff, a wild pitch) no longer resets the ball and strike circles to 0-0, and it moves the runners on the diamond to where the play leaves them. A pickoff that ends in an error ("Edman scored on pickoff error by pitcher Henderson, Betts picked off second") is no longer counted as an out in the window's outs or in the title's outs. Substitutions leave the diamond alone.
+
 ### Changed
 - In baseball, the batter's name under the team is blank between an at-bat's result and the announcement of the next batter (the pitcher stays), so it no longer names the batter who just walked or made an out.
 - The game page's header keeps its middle (clock, count, bases) on the window's center instead of shifting with the names under the teams. In baseball the batter and pitcher names (now labeled "AB:" and "P:", not "At bat:" and "Pitcher:", with the first name as an initial: "P: Y. Yamamoto") get a fixed-width column under each team and a longer name is cut short with "..." (before, a long name widened the header and squeezed the middle).
