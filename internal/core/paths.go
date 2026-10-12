@@ -23,13 +23,48 @@ func PathsFromHome(home string) Paths {
 	}
 }
 
-// DefaultPaths uses the current user's home directory.
+// DefaultPaths puts the files where the system keeps them: under
+// os.UserConfigDir and os.UserCacheDir, which follow XDG_CONFIG_HOME and
+// XDG_CACHE_HOME and are ~/.config and ~/.cache when those are not set (the
+// same place as always on a normal Linux setup). A user who has set them to
+// somewhere else but still has files in the old ~/.config/playcall or
+// ~/.cache/playcall keeps using those until the new folder exists, so nothing
+// they already have is lost.
 func DefaultPaths() (Paths, error) {
-	home, err := os.UserHomeDir()
+	return resolvePaths(os.UserConfigDir, os.UserCacheDir, os.UserHomeDir, dirExists)
+}
+
+func dirExists(path string) bool {
+	st, err := os.Stat(path)
+	return err == nil && st.IsDir()
+}
+
+// resolvePaths is DefaultPaths with the system lookups injected for tests.
+func resolvePaths(userConfig, userCache, userHome func() (string, error), exists func(string) bool) (Paths, error) {
+	cfg, err := userConfig()
 	if err != nil {
 		return Paths{}, err
 	}
-	return PathsFromHome(home), nil
+	cache, err := userCache()
+	if err != nil {
+		return Paths{}, err
+	}
+	p := Paths{ConfigDir: filepath.Join(cfg, "playcall"), CacheDir: filepath.Join(cache, "playcall")}
+	if home, err := userHome(); err == nil {
+		legacy := PathsFromHome(home)
+		p.ConfigDir = keepLegacy(p.ConfigDir, legacy.ConfigDir, exists)
+		p.CacheDir = keepLegacy(p.CacheDir, legacy.CacheDir, exists)
+	}
+	return p, nil
+}
+
+// keepLegacy is the old folder when the new one does not exist yet and the old
+// one does, else the new one.
+func keepLegacy(dir, legacy string, exists func(string) bool) string {
+	if dir != legacy && !exists(dir) && exists(legacy) {
+		return legacy
+	}
+	return dir
 }
 
 // ConfigFile is config.json.

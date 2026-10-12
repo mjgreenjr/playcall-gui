@@ -3,6 +3,7 @@ package core
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"os"
 	"path/filepath"
@@ -339,5 +340,67 @@ func TestConfigKeepsUnknownKeys(t *testing.T) {
 	again, err := LoadConfig(p)
 	if err != nil || len(again.FavoriteTeams["nfl"]) != 2 || ResolveInterval(nil, again) != 30 || len(again.Extra) != 2 {
 		t.Errorf("reload: %+v %v", again, err)
+	}
+}
+
+func TestResolvePaths(t *testing.T) {
+	ok := func(v string) func() (string, error) { return func() (string, error) { return v, nil } }
+	fail := func() (string, error) { return "", errors.New("$HOME is not defined") }
+	has := func(dirs ...string) func(string) bool {
+		return func(p string) bool {
+			for _, d := range dirs {
+				if p == d {
+					return true
+				}
+			}
+			return false
+		}
+	}
+	cases := []struct {
+		name                  string
+		cfg, cache, home      func() (string, error)
+		exists                func(string) bool
+		wantConfig, wantCache string
+		wantErr               bool
+	}{
+		{"normal setup", ok("/h/.config"), ok("/h/.cache"), ok("/h"), has(),
+			"/h/.config/playcall", "/h/.cache/playcall", false},
+		{"XDG set, nothing there yet", ok("/x/cfg"), ok("/x/cache"), ok("/h"), has(),
+			"/x/cfg/playcall", "/x/cache/playcall", false},
+		{"XDG set, old folders have the user's files", ok("/x/cfg"), ok("/x/cache"), ok("/h"),
+			has("/h/.config/playcall", "/h/.cache/playcall"),
+			"/h/.config/playcall", "/h/.cache/playcall", false},
+		{"XDG set, new folders exist too: the new ones win", ok("/x/cfg"), ok("/x/cache"), ok("/h"),
+			has("/h/.config/playcall", "/h/.cache/playcall", "/x/cfg/playcall", "/x/cache/playcall"),
+			"/x/cfg/playcall", "/x/cache/playcall", false},
+		{"only the config folder is old", ok("/x/cfg"), ok("/x/cache"), ok("/h"), has("/h/.config/playcall"),
+			"/h/.config/playcall", "/x/cache/playcall", false},
+		{"no home, XDG set", ok("/x/cfg"), ok("/x/cache"), fail, has(),
+			"/x/cfg/playcall", "/x/cache/playcall", false},
+		{"no config folder known", fail, ok("/x/cache"), ok("/h"), has(), "", "", true},
+		{"no cache folder known", ok("/x/cfg"), fail, ok("/h"), has(), "", "", true},
+	}
+	for _, c := range cases {
+		got, err := resolvePaths(c.cfg, c.cache, c.home, c.exists)
+		if (err != nil) != c.wantErr || got.ConfigDir != c.wantConfig || got.CacheDir != c.wantCache {
+			t.Errorf("%s: got %+v, %v; want %s and %s (error %v)", c.name, got, err, c.wantConfig, c.wantCache, c.wantErr)
+		}
+	}
+}
+
+func TestDefaultPathsFollowsXDG(t *testing.T) {
+	cfg, cache, home := t.TempDir(), t.TempDir(), t.TempDir()
+	t.Setenv("HOME", home)
+	t.Setenv("XDG_CONFIG_HOME", cfg)
+	t.Setenv("XDG_CACHE_HOME", cache)
+	p, err := DefaultPaths()
+	if err != nil || p.ConfigDir != cfg+"/playcall" || p.CacheDir != cache+"/playcall" {
+		t.Errorf("got %+v, %v", p, err)
+	}
+	t.Setenv("XDG_CONFIG_HOME", "")
+	t.Setenv("XDG_CACHE_HOME", "")
+	p, err = DefaultPaths()
+	if err != nil || p.ConfigDir != home+"/.config/playcall" || p.CacheDir != home+"/.cache/playcall" {
+		t.Errorf("unset: got %+v, %v", p, err)
 	}
 }

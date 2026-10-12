@@ -231,7 +231,12 @@ func (s *shell) followPicked(g core.LastGame) {
 // openSettings shows the settings screen in place of whatever is on screen;
 // back puts that screen back. The sport is the one the favorites page opens on.
 func (s *shell) openSettings(sport string, back func()) {
+	var logFile string
+	if p, err := core.DefaultPaths(); err == nil {
+		logFile = p.LogFile()
+	}
 	v := newSettings(settingsEnv{
+		logFile: logFile,
 		ctx:     s.root,
 		fetcher: s.fetcher,
 		cfg:     func() core.Config { return s.cfg },

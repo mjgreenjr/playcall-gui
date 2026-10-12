@@ -33,6 +33,8 @@ type settingsEnv struct {
 	back func()
 	// logos supplies team logos for the favorites list; nil shows none.
 	logos *logoCache
+	// logFile is where the log is, shown in the log level note; "" if unknown.
+	logFile string
 }
 
 // settingsView is the settings screen: General (poll interval, highlight
@@ -80,6 +82,15 @@ func logLevelLabel(name string) string {
 }
 
 func intervalLabel(seconds int) string { return fmt.Sprintf("%d seconds", seconds) }
+
+// logLevelNote explains what Debug records and where the log is.
+func logLevelNote(logFile string) string {
+	where := "the playcall log"
+	if logFile != "" {
+		where = logFile
+	}
+	return "Debug also records every fetch and any play whose text changes, in " + where + ". The log grows quickly; use it to chase a problem."
+}
 
 func newSettings(env settingsEnv, sport string) *settingsView {
 	v := &settingsView{env: env}
@@ -149,7 +160,7 @@ func (v *settingsView) generalTab() fyne.CanvasObject {
 	v.quiet = true
 	v.logLevel.SetSelected(logLevelLabel(cfg.LogLevel()))
 	v.quiet = false
-	logNote := widget.NewLabel("Debug also records every fetch and any play whose text changes, in ~/.cache/playcall/playcall.log. The log grows quickly; use it to chase a problem.")
+	logNote := widget.NewLabel(logLevelNote(v.env.logFile))
 	logNote.Wrapping = fyne.TextWrapWord
 	logNote.Importance = widget.LowImportance
 

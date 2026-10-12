@@ -312,3 +312,12 @@ func TestSettingsTabsScrollInAShortWindow(t *testing.T) {
 		t.Errorf("team list is %v high, want at least %v", h, favoritesListHeight)
 	}
 }
+
+func TestLogLevelNoteNamesTheLogFile(t *testing.T) {
+	if got := logLevelNote("/x/cache/playcall/playcall.log"); !strings.Contains(got, "in /x/cache/playcall/playcall.log.") {
+		t.Errorf("note %q", got)
+	}
+	if got := logLevelNote(""); !strings.Contains(got, "in the playcall log.") {
+		t.Errorf("note without a path %q", got)
+	}
+}

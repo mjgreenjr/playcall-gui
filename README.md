@@ -101,6 +101,8 @@ It sends no toasts and writes no state file, and the log stays in
 
 ### Files
 
+Under `$XDG_CONFIG_HOME` and `$XDG_CACHE_HOME` when those are set (`~/.config` and `~/.cache` otherwise). If you set them but already have the old `~/.config/playcall` or `~/.cache/playcall`, those keep being used until the new folders exist.
+
 | Path | Contents |
 | --- | --- |
 | `~/.config/playcall/config.json` | favorite teams per sport, poll interval (default 10 s, minimum 5 s), GUI settings |

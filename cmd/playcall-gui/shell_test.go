@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -31,9 +32,19 @@ func (f urlFetcher) Fetch(_ context.Context, url string) (espn.Data, error) {
 	return espn.Decode(b)
 }
 
+// useHome points every file the app uses at home: HOME, and the XDG variables
+// that would otherwise override it (a desktop that sets them, as most do, made
+// these tests write the real config file).
+func useHome(t *testing.T, home string) {
+	t.Helper()
+	t.Setenv("HOME", home)
+	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
+	t.Setenv("XDG_CACHE_HOME", filepath.Join(home, ".cache"))
+}
+
 func TestShellSettingsRoundTrip(t *testing.T) {
 	home := t.TempDir()
-	t.Setenv("HOME", home) // the shell saves to the real config path
+	useHome(t, home) // the shell saves to the real config path
 	s := &shell{root: context.Background(), fetcher: urlFetcher{t}}
 	s.loadConfig()
 	s.app = test.NewApp()
@@ -149,7 +160,7 @@ func TestGameViewGearAndHighlightRecolor(t *testing.T) {
 
 func TestShellSettingsFromAGameReturnsToTheGame(t *testing.T) {
 	home := t.TempDir()
-	t.Setenv("HOME", home)
+	useHome(t, home)
 	s := &shell{root: context.Background(), fetcher: urlFetcher{t}}
 	s.loadConfig()
 	s.app = test.NewApp()
@@ -189,7 +200,7 @@ func TestShellSettingsFromAGameReturnsToTheGame(t *testing.T) {
 // Following a game from the picker remembers it, and the next picker offers
 // to continue it.
 func TestShellContinueLastGame(t *testing.T) {
-	t.Setenv("HOME", t.TempDir())
+	useHome(t, t.TempDir())
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel() // follow() starts its polling, which stops at once
 	s := &shell{root: ctx, fetcher: urlFetcher{t}}
