@@ -48,6 +48,9 @@ type Game struct {
 	AwaySeries, HomeSeries string
 	// SeriesLength is the series' best-of number ("7"), "" when ESPN gives none.
 	SeriesLength string
+	// AwayRank and HomeRank are the teams' rankings ("1" to "25"), "" when
+	// unranked. Only college sports have them (TodaysGames clears the rest).
+	AwayRank, HomeRank string
 }
 
 // ParseScoreboardEvent reads a scoreboard event. ok is false when the event
@@ -88,6 +91,8 @@ func ParseScoreboardEvent(event Data) (g Game, ok bool) {
 		AwaySeries:   SeriesWins(Competition(event), away),
 		HomeSeries:   SeriesWins(Competition(event), home),
 		SeriesLength: SeriesLength(Competition(event)),
+		AwayRank:     Rank(away),
+		HomeRank:     Rank(home),
 	}, true
 }
 

@@ -31,6 +31,7 @@ type ui struct {
 
 	away, home             *canvas.Text // abbreviations
 	awayScore, homeScore   *canvas.Text
+	awayRank, homeRank     *rankBox
 	awayBadge, homeBadge   *badge
 	awayBall, homeBall     *canvas.Image
 	logos                  *logoCache
@@ -64,6 +65,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		return t
 	}
 	u.away, u.home = big(), big()
+	u.awayRank, u.homeRank = newRankBox(), newRankBox()
 	u.awayScore, u.homeScore = big(), big()
 	u.awayBadge, u.homeBadge = newBadge(), newBadge()
 	u.awayBall, u.homeBall = newBall(), newBall()
@@ -105,8 +107,8 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		// and ball. Football's timeouts sit under each score.
 		// Each team's record sits centered under its abbreviation.
 		container.NewBorder(nil, nil,
-			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(u.away, u.awayRecord), scoreGap(), container.NewVBox(u.awayScore, u.awayTO.box)),
-			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO.box), scoreGap(), container.NewVBox(u.home, u.homeRecord), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
+			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(rankedName(u.awayRank, u.away), u.awayRecord), scoreGap(), container.NewVBox(u.awayScore, u.awayTO.box)),
+			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO.box), scoreGap(), container.NewVBox(rankedName(u.homeRank, u.home), u.homeRecord), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
 			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.NewVBox(u.statusText, u.situation))),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
@@ -154,6 +156,8 @@ func (u *ui) themeChanged() {
 		t.Color = theme.Color(theme.ColorNameForeground)
 		t.Refresh()
 	}
+	u.awayRank.recolor()
+	u.homeRank.recolor()
 	u.awayBadge.refresh(u.logos)
 	u.homeBadge.refresh(u.logos)
 	u.awayTO.recolor()
@@ -185,6 +189,8 @@ func (u *ui) setStatus(s core.GameStatus) {
 	for _, t := range []*canvas.Text{u.away, u.home, u.awayScore, u.homeScore} {
 		t.Refresh()
 	}
+	u.awayRank.set(s.Away.Rank)
+	u.homeRank.set(s.Home.Rank)
 	u.setStatusLine(statusLine(s, time.Now()), false)
 	u.setSituation(s.Situation)
 	u.awayBadge.setName(s.Away.Name)
@@ -384,4 +390,10 @@ func (l scoreLineCenter) Layout(objs []fyne.CanvasObject, size fyne.Size) {
 	y := (l.height() - min.Height) / 2 // negative when taller than the scores: it grows both ways
 	objs[0].Resize(fyne.NewSize(size.Width, min.Height))
 	objs[0].Move(fyne.NewPos(0, y))
+}
+
+// rankedName is a team's ranking and abbreviation side by side, closer together
+// than a normal row (the header is tight on width).
+func rankedName(r *rankBox, abbr *canvas.Text) fyne.CanvasObject {
+	return container.New(layout.NewCustomPaddedHBoxLayout(2), r.box, abbr)
 }

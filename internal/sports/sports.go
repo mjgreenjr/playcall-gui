@@ -90,6 +90,10 @@ const RankedGroupName = "Top 25"
 // allGroupSports start their groups with an "All ..." entry, the default for `teams`.
 var allGroupSports = map[string]bool{"cfb": true, "cbb": true}
 
+// HasRankings reports whether the sport's teams are ranked (college only; the
+// pro feeds carry other numbers in the same fields, such as seeds).
+func HasRankings(sport string) bool { return sport == "cfb" || sport == "cbb" }
+
 // Valid reports whether sport is a supported sport key.
 func Valid(sport string) bool {
 	_, ok := paths[sport]

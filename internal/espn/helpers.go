@@ -242,3 +242,16 @@ func SeasonType(data Data) string {
 	}
 	return Str(Map(header["season"])["type"])
 }
+
+// Rank is a college team's ranking, "1" to "25", or "" when it is unranked or
+// ESPN gives none. The scoreboard sends it as `curatedRank.current` (99 means
+// unranked), the game summary as `rank` (absent when unranked). Whether a sport
+// has rankings at all is for the caller (sports.HasRankings).
+func Rank(competitor Data) string {
+	for _, v := range []any{Map(competitor["curatedRank"])["current"], competitor["rank"]} {
+		if n, ok := Int64(v); ok && n >= 1 && n <= 25 {
+			return Str(v)
+		}
+	}
+	return ""
+}

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"playcall/internal/espn"
+	"playcall/internal/sports"
 )
 
 // TodaysGames is the sport's current scoreboard, earliest start first (games
@@ -22,6 +23,9 @@ func TodaysGames(ctx context.Context, f espn.Fetcher, sport, groupID string, now
 	var games []espn.Game
 	for _, ev := range espn.List(data["events"]) {
 		if g, ok := espn.ParseScoreboardEvent(espn.Map(ev)); ok {
+			if !sports.HasRankings(sport) {
+				g.AwayRank, g.HomeRank = "", ""
+			}
 			games = append(games, g)
 		}
 	}

@@ -21,6 +21,7 @@ type TeamScore struct {
 	Abbr      string
 	Name      string // full team name, e.g. "Washington Huskies"; "" if unknown
 	Score     string
+	Rank      string    // college ranking "1" to "25"; "" if unranked or not a college sport
 	PowerPlay bool      // NHL: this side has the man advantage
 	Logo      espn.Logo // logo URLs for light and dark backgrounds
 }

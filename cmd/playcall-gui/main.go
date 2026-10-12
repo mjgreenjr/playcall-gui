@@ -110,7 +110,7 @@ func run() int {
 		}
 	}()
 	s.win = s.app.NewWindow("playcall")
-	s.win.Resize(fyne.NewSize(480, 700))
+	s.win.Resize(fyne.NewSize(540, 700))
 	s.win.SetOnClosed(cancel)
 	s.app.Lifecycle().SetOnStarted(func() { fyne.Do(start) })
 	s.win.ShowAndRun()

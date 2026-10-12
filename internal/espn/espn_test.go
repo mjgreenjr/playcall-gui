@@ -453,3 +453,40 @@ func TestRankedGroupIsNeverRetriedWithADate(t *testing.T) {
 		t.Errorf("a conference was not retried: %v", r.urls)
 	}
 }
+
+func TestRank(t *testing.T) {
+	d := func(s string) Data {
+		out, err := Decode([]byte(s))
+		if err != nil {
+			t.Fatal(err)
+		}
+		return out
+	}
+	for _, c := range []struct{ name, json, want string }{
+		{"scoreboard, ranked", `{"curatedRank":{"current":7}}`, "7"},
+		{"scoreboard, unranked", `{"curatedRank":{"current":99}}`, ""},
+		{"summary, ranked", `{"rank":1}`, "1"},
+		{"summary, unranked", `{"team":{}}`, ""},
+		{"outside the top 25", `{"rank":26}`, ""},
+		{"zero", `{"rank":0}`, ""},
+		{"a string", `{"rank":"12"}`, "12"},
+		{"nothing", `{}`, ""},
+	} {
+		if got := Rank(d(c.json)); got != c.want {
+			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
+		}
+	}
+}
+
+func TestScoreboardEventCarriesRanks(t *testing.T) {
+	event, err := Decode([]byte(`{"id":"1","date":"2026-10-10T19:00Z","competitions":[{"competitors":[
+		{"id":"5","homeAway":"home","team":{"abbreviation":"TEX"},"score":"0","curatedRank":{"current":1}},
+		{"id":"4","homeAway":"away","team":{"abbreviation":"OU"},"score":"0","curatedRank":{"current":99}}]}]}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	g, _ := ParseScoreboardEvent(event)
+	if g.HomeRank != "1" || g.AwayRank != "" {
+		t.Errorf("ranks: home %q away %q", g.HomeRank, g.AwayRank)
+	}
+}

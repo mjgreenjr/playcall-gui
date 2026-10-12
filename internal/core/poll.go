@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"playcall/internal/espn"
+	"playcall/internal/sports"
 )
 
 // Status is the three-state result of one poll (Python's None/False/True).
@@ -322,6 +323,14 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 	return out, nil
 }
 
+// rank is a team's ranking, for the sports that rank their teams.
+func (p *Poller) rank(competitor espn.Data) string {
+	if !sports.HasRankings(p.Sport) {
+		return ""
+	}
+	return espn.Rank(competitor)
+}
+
 // newFeed collects the game-level values: team abbreviations and scores, and
 // the clock and period (top-level if present, else the status').
 func (p *Poller) newFeed(data espn.Data, plays []espn.Data, finished bool) *Feed {
@@ -331,8 +340,8 @@ func (p *Poller) newFeed(data espn.Data, plays []espn.Data, finished bool) *Feed
 		f.Away = TeamScore{Abbr: "UNK", Score: "0"}
 		f.Home = TeamScore{Abbr: "UNK", Score: "0"}
 	} else {
-		f.Away = TeamScore{Abbr: espn.TeamAbbr(away), Name: espn.Str(espn.Map(away["team"])["displayName"]), Score: espn.ScoreText(away["score"]), Logo: espn.TeamLogos(espn.Map(away["team"]))}
-		f.Home = TeamScore{Abbr: espn.TeamAbbr(home), Name: espn.Str(espn.Map(home["team"])["displayName"]), Score: espn.ScoreText(home["score"]), Logo: espn.TeamLogos(espn.Map(home["team"]))}
+		f.Away = TeamScore{Abbr: espn.TeamAbbr(away), Name: espn.Str(espn.Map(away["team"])["displayName"]), Score: espn.ScoreText(away["score"]), Logo: espn.TeamLogos(espn.Map(away["team"])), Rank: p.rank(away)}
+		f.Home = TeamScore{Abbr: espn.TeamAbbr(home), Name: espn.Str(espn.Map(home["team"])["displayName"]), Score: espn.ScoreText(home["score"]), Logo: espn.TeamLogos(espn.Map(home["team"])), Rank: p.rank(home)}
 	}
 	status := espn.Status(data)
 	f.Clock = firstText(data["clock"], status["displayClock"])

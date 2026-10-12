@@ -203,3 +203,21 @@ func TestSeriesTagShowsGameAndLength(t *testing.T) {
 		t.Errorf("with a standing: %q", u.series.Text)
 	}
 }
+
+func TestHeaderShowsRankingsOnlyForRankedTeams(t *testing.T) {
+	test.NewApp()
+	u := newUI(10*time.Second, nil, highlights[0], nil)
+	u.setStatus(core.GameStatus{Sport: "cfb", State: "in",
+		Away: core.TeamScore{Abbr: "OU"}, Home: core.TeamScore{Abbr: "TEX", Rank: "1"}})
+	if u.awayRank.box.Visible() || u.awayRank.text.Text != "" {
+		t.Error("an unranked team shows a ranking")
+	}
+	if !u.homeRank.box.Visible() || u.homeRank.text.Text != "1" {
+		t.Errorf("home ranking %q visible=%v", u.homeRank.text.Text, u.homeRank.box.Visible())
+	}
+	// The next status can drop it again (a new game, or the sport changed).
+	u.setStatus(core.GameStatus{Sport: "cfb", State: "in", Away: core.TeamScore{Abbr: "OU"}, Home: core.TeamScore{Abbr: "TEX"}})
+	if u.homeRank.box.Visible() {
+		t.Error("ranking stayed after the team lost it")
+	}
+}

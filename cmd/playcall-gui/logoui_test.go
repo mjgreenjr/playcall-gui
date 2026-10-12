@@ -95,7 +95,7 @@ func TestPickerRowsShowLogosAndStayCorrectWhenRecycled(t *testing.T) {
 	row := p.list.CreateItem()
 	parts := func() (away, home *canvas.Image) {
 		teams := row.(*fyne.Container).Objects[1].(*fyne.Container).Objects
-		return teams[0].(*canvas.Image), teams[4].(*canvas.Image)
+		return teams[0].(*canvas.Image), teams[5].(*canvas.Image)
 	}
 
 	p.list.UpdateItem(0, row)
@@ -190,12 +190,12 @@ func TestPickerRowsAlignInColumns(t *testing.T) {
 		return absX(row.(*fyne.Container).Objects[1].(*fyne.Container).Objects[i])
 	}
 	for i := 1; i < len(rows); i++ {
-		if logo(rows[i], 0) != logo(rows[0], 0) || logo(rows[i], 3) != logo(rows[0], 3) {
-			t.Errorf("row %d logos at %v / %v, row 0 at %v / %v", i, logo(rows[i], 0), logo(rows[i], 3), logo(rows[0], 0), logo(rows[0], 3))
+		if logo(rows[i], 0) != logo(rows[0], 0) || logo(rows[i], 5) != logo(rows[0], 5) {
+			t.Errorf("row %d logos at %v / %v, row 0 at %v / %v", i, logo(rows[i], 0), logo(rows[i], 5), logo(rows[0], 0), logo(rows[0], 5))
 		}
 	}
-	if logo(rows[0], 3) <= logo(rows[0], 0) {
-		t.Errorf("home logo %v is not right of away logo %v", logo(rows[0], 3), logo(rows[0], 0))
+	if logo(rows[0], 5) <= logo(rows[0], 0) {
+		t.Errorf("home logo %v is not right of away logo %v", logo(rows[0], 5), logo(rows[0], 0))
 	}
 }
 

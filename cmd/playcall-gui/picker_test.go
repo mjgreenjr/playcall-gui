@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/test"
 
 	"playcall/internal/core"
@@ -436,4 +438,41 @@ func TestPickingTopTwentyFiveAsksForTheDefaultList(t *testing.T) {
 	// A conference still sends its id.
 	p.group.SetSelected("Big Ten")
 	waitFor(t, "the Big Ten request", func() bool { return f.has("groups=5") })
+}
+
+func TestPickerRowsShowRankingsBeforeTheAbbreviation(t *testing.T) {
+	test.NewApp()
+	p := newPicker(context.Background(), &recordingFetcher{}, nil, groupPrefs{}, "cfb", func(string, espn.Game) {})
+	p.games = []espn.Game{
+		{ID: "1", Away: "OU ", Home: "TEX", AwayRank: "", HomeRank: "1", State: "pre", Status: "10/10"},
+		{ID: "2", Away: "BYU", Home: "ISU", AwayRank: "12", HomeRank: "25", State: "pre", Status: "10/10"},
+	}
+	p.rankWidth = widestRank(p.games)
+	if p.rankWidth <= 0 {
+		t.Fatal("ranked games need a ranking column")
+	}
+	row := p.list.CreateItem()
+	teams := func() []fyne.CanvasObject { return row.(*fyne.Container).Objects[1].(*fyne.Container).Objects }
+	text := func(col fyne.CanvasObject) string {
+		return col.(*fyne.Container).Objects[0].(*fyne.Container).Objects[1].(*canvas.Text).Text
+	}
+	p.list.UpdateItem(0, row)
+	if text(teams()[1]) != "" || text(teams()[6]) != "1" {
+		t.Errorf("row 0 ranks %q / %q", text(teams()[1]), text(teams()[6]))
+	}
+	p.list.UpdateItem(1, row)
+	if text(teams()[1]) != "12" || text(teams()[6]) != "25" {
+		t.Errorf("row 1 ranks %q / %q", text(teams()[1]), text(teams()[6]))
+	}
+
+	// Nothing ranked: the columns are gone, not empty.
+	p.games = []espn.Game{{ID: "3", Away: "TB ", Home: "DAL", State: "pre", Status: "10/11"}}
+	p.rankWidth = widestRank(p.games)
+	if p.rankWidth != 0 {
+		t.Errorf("no ranked team but width %v", p.rankWidth)
+	}
+	p.list.UpdateItem(0, row)
+	if teams()[1].Visible() || teams()[6].Visible() {
+		t.Error("ranking columns shown with no ranked team")
+	}
 }

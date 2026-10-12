@@ -33,6 +33,7 @@ type picker struct {
 	slots     logoSlots
 	abbrWidth float32 // width of the abbreviation columns, so every row lines up
 	recWidth  float32 // width of the record columns
+	rankWidth float32 // width of the ranking columns; 0 when no team in the list is ranked
 
 	ctx       context.Context
 	fetcher   espn.Fetcher
@@ -139,14 +140,19 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			column := func(l *widget.Label) fyne.CanvasObject {
 				return container.New(columnLayout{width: func() float32 { return p.abbrWidth }}, l)
 			}
-			record := func() fyne.CanvasObject {
+			small := func(width func() float32) fyne.CanvasObject {
 				t := canvas.NewText("", theme.Color(theme.ColorNamePlaceHolder))
 				t.TextSize = theme.TextSize() * recordTextScale
 				// Centered up and down; the column's width is shared by all rows.
-				return container.New(columnLayout{width: func() float32 { return p.recWidth }},
+				return container.New(columnLayout{width: width},
 					container.NewVBox(layout.NewSpacer(), t, layout.NewSpacer()))
 			}
-			teams := container.NewHBox(rowLogo(), column(bold()), record(), widget.NewLabel("@"), rowLogo(), column(bold()), record())
+			record := func() fyne.CanvasObject { return small(func() float32 { return p.recWidth }) }
+			rank := func() fyne.CanvasObject { return small(func() float32 { return p.rankWidth }) }
+			// Each team: logo, ranking, abbreviation, record. The ranking comes
+			// before the abbreviation, as on a broadcast.
+			teams := container.NewHBox(rowLogo(), rank(), column(bold()), record(), widget.NewLabel("@"),
+				rowLogo(), rank(), column(bold()), record())
 			return container.NewBorder(nil, nil, teams, widget.NewLabel(""), layout.NewSpacer())
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
@@ -158,19 +164,30 @@ func newPicker(ctx context.Context, f espn.Fetcher, favorites map[string][]strin
 			box := o.(*fyne.Container)
 			teams := box.Objects[1].(*fyne.Container).Objects
 			// An idle team (bye, no game) is one team on the left; hide the "@" and the home side.
-			for _, o := range teams[3:] {
+			for _, o := range teams[4:] {
 				if g.State == core.IdleState {
 					o.Hide()
 				} else {
 					o.Show()
 				}
 			}
+			// With no ranked team in the list the ranking columns are not there
+			// at all (an empty column would still add its gap).
+			for _, i := range []int{1, 6} {
+				if p.rankWidth == 0 {
+					teams[i].Hide()
+				} else if i == 1 || g.State != core.IdleState {
+					teams[i].Show()
+				}
+			}
 			p.slots.show(p.logos, teams[0].(*canvas.Image), g.AwayLogo, isDark())
-			teams[1].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Away))
-			setRecord(teams[2], awayRecord(g))
-			p.slots.show(p.logos, teams[4].(*canvas.Image), g.HomeLogo, isDark())
-			teams[5].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Home))
-			setRecord(teams[6], homeRecord(g))
+			setRecord(teams[1], g.AwayRank)
+			teams[2].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Away))
+			setRecord(teams[3], awayRecord(g))
+			p.slots.show(p.logos, teams[5].(*canvas.Image), g.HomeLogo, isDark())
+			setRecord(teams[6], g.HomeRank)
+			teams[7].(*fyne.Container).Objects[0].(*widget.Label).SetText(strings.TrimSpace(g.Home))
+			setRecord(teams[8], homeRecord(g))
 			box.Objects[2].(*widget.Label).SetText(gameDetail(g, time.Now()))
 		},
 	)
@@ -286,6 +303,24 @@ func widestRecord(games []espn.Game) float32 {
 	return w
 }
 
+// widestRank is how wide the ranking columns need to be for these games: the
+// widest ranking in the list, 0 when none of the teams is ranked.
+func widestRank(games []espn.Game) float32 {
+	var w float32
+	t := canvas.NewText("", theme.Color(theme.ColorNamePlaceHolder))
+	t.TextSize = theme.TextSize() * recordTextScale
+	for _, g := range games {
+		for _, r := range []string{g.AwayRank, g.HomeRank} {
+			if r == "" {
+				continue
+			}
+			t.Text = r
+			w = max(w, t.MinSize().Width)
+		}
+	}
+	return w
+}
+
 // widestAbbreviation is how wide the abbreviation column needs to be for
 // these games: the widest team abbreviation, in the row's bold label style.
 func widestAbbreviation(games []espn.Game) float32 {
@@ -395,6 +430,7 @@ func (p *picker) show(games []espn.Game) {
 		"shown", countGames(shown), "shown_idle", idleTeams(shown))
 	p.abbrWidth = widestAbbreviation(p.games)
 	p.recWidth = widestRecord(p.games)
+	p.rankWidth = widestRank(p.games)
 	p.list.Refresh()
 	switch {
 	case len(games) == 0 && p.group.Selected != anyGroup:

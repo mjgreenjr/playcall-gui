@@ -89,3 +89,34 @@ func TestTodaysGamesSendsTheGroup(t *testing.T) {
 		t.Errorf("cfb default group not sent: %v", r.urls)
 	}
 }
+
+func TestTodaysGamesRanksOnlyCollegeSports(t *testing.T) {
+	board, err := espn.Decode([]byte(`{"events":[{"id":"1","date":"2026-10-10T19:00Z","competitions":[{"competitors":[
+		{"id":"5","homeAway":"home","team":{"abbreviation":"TEX"},"score":"0","curatedRank":{"current":1}},
+		{"id":"4","homeAway":"away","team":{"abbreviation":"OU"},"score":"0","curatedRank":{"current":12}}]}]}]}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for sport, want := range map[string][2]string{"cfb": {"12", "1"}, "cbb": {"12", "1"}, "nfl": {"", ""}, "nba": {"", ""}} {
+		games, err := TodaysGames(context.Background(), staticBoard{board}, sport, "", time.Now())
+		if err != nil || len(games) != 1 {
+			t.Fatalf("%s: %v, %d games", sport, err, len(games))
+		}
+		if games[0].AwayRank != want[0] || games[0].HomeRank != want[1] {
+			t.Errorf("%s: ranks %q / %q, want %q / %q", sport, games[0].AwayRank, games[0].HomeRank, want[0], want[1])
+		}
+	}
+}
+
+type staticBoard struct{ data espn.Data }
+
+func (s staticBoard) Fetch(context.Context, string) (espn.Data, error) { return s.data, nil }
+
+func TestPollerRanksOnlyCollegeSports(t *testing.T) {
+	c, _ := espn.Decode([]byte(`{"rank":3}`))
+	for sport, want := range map[string]string{"cfb": "3", "cbb": "3", "nfl": "", "nhl": ""} {
+		if got := (&Poller{Sport: sport}).rank(c); got != want {
+			t.Errorf("%s: %q, want %q", sport, got, want)
+		}
+	}
+}
