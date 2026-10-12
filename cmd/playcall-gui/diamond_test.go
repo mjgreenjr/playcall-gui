@@ -20,8 +20,19 @@ func TestDiamondShowsOccupiedBases(t *testing.T) {
 	if got := u.diamond.filled; got != [3]bool{true, false, true} {
 		t.Errorf("filled %v, want first and third", got)
 	}
-	if u.diamond.bases[0].StrokeWidth != 0 || u.diamond.bases[1].StrokeWidth == 0 {
-		t.Error("occupied base not solid, or empty base not outlined")
+	img := u.diamond.render(diamondW*4, diamondH*4)
+	alpha := func(c pt) uint8 { _, _, _, a := img.At(int(c.x*4), int(c.y*4)).RGBA(); return uint8(a >> 8) }
+	if alpha(baseCenters[0]) != 255 || alpha(baseCenters[2]) != 255 {
+		t.Error("an occupied base is not solid")
+	}
+	if alpha(baseCenters[1]) != 0 {
+		t.Error("an empty base is not hollow")
+	}
+	if alpha(pt{baseCenters[1].x, baseCenters[1].y - baseRadius + 1}) == 0 {
+		t.Error("an empty base has no outline")
+	}
+	if alpha(pt{18, 25}) != 0 || alpha(pt{13.3, 22}) == 0 {
+		t.Error("home plate is not an outline")
 	}
 	if got := u.situation.Segments[0].(interface{ Textual() string }).Textual(); got != "1-2, 1 out" {
 		t.Errorf("situation %q: the diamond replaces the runner count", got)

@@ -13,7 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Changed
-- Baseball's game page shows the bases as a small diamond of three circles (second on top), filled for each runner on, with home plate at the bottom, in place of "2 on" under the count and outs. Toasts, titles and the CLI keep the "2 on" text.
+- Baseball's game page shows the bases as a small diamond of three circles (second on top), filled for each runner on, with home plate at the bottom (the bases are squares turned on a corner), in place of "2 on" under the count and outs. Toasts, titles and the CLI keep the "2 on" text.
 
 ### Added
 - A `Makefile`: `make` builds both programs, `make install` copies them to `~/.local/bin` (or `PREFIX`), `make uninstall`, `make cli`, `make test`. The README has an Install section.
