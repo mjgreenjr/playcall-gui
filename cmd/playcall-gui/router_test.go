@@ -105,22 +105,15 @@ func TestGameVisibleNeedsGameScreen(t *testing.T) {
 
 func TestRouterWithNoNotifierUsesTheWindow(t *testing.T) {
 	win, toast := &countSink{}, &countSink{err: fmt.Errorf("%w (nothing installed)", core.ErrNoNotifier)}
-	var fallback int
 	r := routerSink{win: win, toast: toast, noToast: new(sync.Once),
-		Visible:  func(context.Context) (bool, error) { return false, nil },
-		Fallback: func(core.Event) { fallback++ }}
+		Visible: func(context.Context) (bool, error) { return false, nil }}
 	for i := 0; i < 3; i++ {
 		if err := r.Send(context.Background(), core.Event{PlayID: "1"}); err != nil {
 			t.Fatalf("a desktop with no way to toast must not fail the play: %v", err)
 		}
 	}
-	if win.n != 3 || fallback != 3 {
-		t.Errorf("window got %d, fallback %d; want 3 each", win.n, fallback)
-	}
-	// Without a Fallback the window alone has the play.
-	r.Fallback = nil
-	if err := r.Send(context.Background(), core.Event{PlayID: "2"}); err != nil || win.n != 4 {
-		t.Errorf("no fallback: err=%v window=%d", err, win.n)
+	if win.n != 3 {
+		t.Errorf("window got %d plays, want 3", win.n)
 	}
 }
 

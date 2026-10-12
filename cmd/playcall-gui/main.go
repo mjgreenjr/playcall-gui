@@ -284,16 +284,6 @@ func (s *shell) gameVisible(ctx context.Context) (bool, error) {
 	return vis, nil
 }
 
-// fyneToast is the last way to show a toast, for a desktop without
-// omarchy-notification-send or notify-send: Fyne's own notification (the
-// freedesktop D-Bus service, so it needs a notification daemon but no program).
-// It cannot open the game page and says nothing if there is no daemon; the
-// play is in the window either way.
-func (s *shell) fyneToast(e core.Event) {
-	title, body := e.MarkedTitle(), e.BodyText()
-	fyne.Do(func() { s.app.SendNotification(fyne.NewNotification(title, body)) })
-}
-
 // groupPrefs reads and writes each sport's remembered group in config.json.
 func (s *shell) groupPrefs() groupPrefs {
 	return groupPrefs{
@@ -384,7 +374,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 	view.onSettings = func() { s.settingsFromGame(sport, view) }
 	win := guiSink{view}
 	sink := routerSink{win: win, toast: core.ToastSink{Runner: core.ExecRunner{}}, Visible: s.gameVisible,
-		Fallback: s.fyneToast, noToast: new(sync.Once)}
+		noToast: new(sync.Once)}
 	state := &core.State{GameID: gameID, Sport: sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, sink, fetch)
 	if err != nil {

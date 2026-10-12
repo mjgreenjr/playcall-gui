@@ -154,7 +154,7 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
 - The loop stops cleanly when its context is cancelled.
 
 ## Toast contract (ToastSink, Linux, optional)
-- Use `omarchy-notification-send`. `notify-send` is only the fallback `ToastSink` runs when `omarchy-notification-send` is not installed (`exec.ErrNotFound`; no `--exec`, so no click-to-open); when neither works `Send` returns `ErrNoNotifier`, which the GUI router treats as "no toasts here" (the play goes to the window, plus Fyne's own `SendNotification`, with one WARN in the log). Any other failure of `omarchy-notification-send` is still returned and retried.
+- Use `omarchy-notification-send`. `notify-send` is only the fallback `ToastSink` runs when `omarchy-notification-send` is not installed (`exec.ErrNotFound`; no `--exec`, so no click-to-open); when neither works `Send` returns `ErrNoNotifier`, which the GUI router treats as "no toasts here" (the play goes to the window, with one WARN in the log; Fyne's own `SendNotification` was tried and dropped: its success path was never tested, and without a daemon it added about two log lines per play). Any other failure of `omarchy-notification-send` is still returned and retried.
 - `--exec` must be LAST, with the command as separate words (not a quoted string).
 - Example: `omarchy-notification-send -u low -t 15000 "Bills 17, Jets 14" "Mahomes 45yd TD" --exec xdg-open https://www.espn.com/nfl/game/_/gameId/401872925`
 - Urgency flag: `-u normal` or `-u low` from `Event.Urgent`. Duration `-t 15000` (`NOTIF_EXPIRE_MS`). Always include `--exec xdg-open <game page url>`.

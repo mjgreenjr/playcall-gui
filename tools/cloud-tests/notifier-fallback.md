@@ -18,13 +18,28 @@ Also run `go version` (1.24 or newer is needed) and `git log -1 --oneline`.
 
 ## 1. Install
 
-Debian or Ubuntu names (adapt for other systems):
+Debian or Ubuntu names (adapt for other systems). The Wayland packages are
+needed to build even though the test runs on X11 (GLFW compiles both
+backends):
 
 ```sh
 sudo apt-get update
 sudo apt-get install -y gcc libgl1-mesa-dev libgl1-mesa-dri xorg-dev xvfb \
-    dbus-x11 dunst libnotify-bin openbox x11-apps imagemagick
+    libwayland-dev libxkbcommon-dev wayland-protocols \
+    dbus-x11 dunst libnotify-bin openbox x11-apps xdotool imagemagick
 ```
+
+Installing `dunst` adds a D-Bus service file that starts it on demand for any
+notification, which would turn a "no daemon" scenario into a daemon one. Move
+it aside for scenarios A, B and E and put it back for C and D:
+
+```sh
+sudo mv /usr/share/dbus-1/services/org.knopwob.dunst.service /tmp/   # before A, B, E
+sudo mv /tmp/org.knopwob.dunst.service /usr/share/dbus-1/services/   # before C, D
+```
+
+(The sandbox may block the ESPN standings fetch; two WARN lines about
+standings in the log are harmless.)
 
 ## 2. Tests and builds
 
@@ -43,6 +58,11 @@ works (`core.ErrNoNotifier`) the play goes to the window and the log gets one
 `No notification program works` warning. Without Hyprland the window counts
 as visible when it has keyboard focus (`cmd/playcall-gui/focus.go`).
 
+Under Xvfb the app window takes focus by itself, so every play goes to the
+window and no toast is attempted. Each scenario therefore has two phases: the
+window focused for the first ~8 seconds, then another window (`xclock`) given
+focus so the app is "not visible" and the toast path runs.
+
 Each scenario uses a fresh home and a fresh D-Bus session:
 
 ```sh
@@ -52,8 +72,9 @@ xvfb-run -a -s "-screen 0 1280x800x24" dbus-run-session -- bash -c '
   ./playcall-gui --debug --sport nhl \
       --mock test/fixtures/playbyplay_nhl_multi_plays.json --step 2 &
   APP=$!
-  sleep 15; import -window root /tmp/shot1.png
-  sleep 20; import -window root /tmp/shot2.png
+  sleep 8; import -window root /tmp/shot1.png      # focused phase
+  xclock & sleep 1; xdotool search --class xclock windowfocus
+  sleep 25; import -window root /tmp/shot2.png     # unfocused phase
   kill $APP
 '
 ```
@@ -63,7 +84,8 @@ window? The log is `$HOME/.cache/playcall/playcall.log`.
 
 Scenarios (check with `which` that the programs are really absent or present;
 to make `notify-send` absent, run the app with a PATH that does not contain
-it, keeping `go`, `Xvfb`, `dbus-run-session` and `import` reachable):
+it, keeping `go`, `Xvfb`, `dbus-run-session`, `xclock`, `xdotool` and `import`
+reachable):
 
 | | notify-send | notification daemon | window manager |
 | --- | --- | --- | --- |
@@ -71,22 +93,26 @@ it, keeping `go`, `Xvfb`, `dbus-run-session` and `import` reachable):
 | B | present | none | none |
 | C | present | `dunst &` started before the app | none |
 | D | present | `dunst &` | `openbox &` started before the app |
+| E | absent | `dunst &` | none |
 
-For each, report:
+For each scenario and phase, report:
 1. Do play rows appear in the window (screenshots)?
 2. The log lines matching `notification`, `Sent notification`,
    `No notification program`, `window manager can't say`, `hyprctl`,
-   `Failed to send`, `focused`.
-3. In C and D, what `dunstctl history` shows.
+   `Failed to send`, `focused`, `Fyne error`, and how many of each.
+3. In C, D and E, what `dunstctl history` shows.
 4. Any panic, crash, hang, or error that repeats every few seconds.
 
-Expected, as a guide only (describe what you actually saw): A and B give one
-`No notification program works` warning, with plays still in the window and no
-retry spam. C gives `Sent notification with notify-send` lines, the same plays
-in dunst's history and in the window. D is like C, and when the window has
-focus the log line `window manager can't say ... focused=true` shows plays
-going to the window without toasts. If the window never gets focus in D, say
-so.
+Expected, as a guide only (describe what you actually saw): in the focused
+phase every play goes to the window, the log says `focused=true`, and nothing
+is toasted. In the unfocused phase: A, B and E give one `No notification
+program works` warning, plays still in the window, and no `Fyne error` lines
+(the app no longer uses Fyne's own notification) and no retry spam; in E dunst
+has nothing because `notify-send` is absent. C and D give
+`Sent notification with notify-send` lines, the same plays in dunst's history,
+and the window list also has them (a play is added to the window after its
+toast succeeds). In D the app window keeps focus under openbox until `xclock`
+takes it. If anything differs, say exactly how.
 
 ## 4. The terminal feed
 
