@@ -22,7 +22,7 @@ type GameStatus struct {
 	Detail string
 	// Halftime is true for the whole break, not just the end-of-half play.
 	Halftime bool
-	// HalftimeEnds is when the break is expected to end (NFL only: the
+	// HalftimeEnds is when the break is expected to end (football: the
 	// end-of-half play's wall-clock time plus the usual break); zero if unknown.
 	HalftimeEnds time.Time
 	// Break is true between periods ("End of 3rd"), when ESPN's clock sits at
@@ -299,27 +299,41 @@ func (p *Poller) publishStatus(f *Feed) {
 	})
 }
 
-// nflHalftime is how long the break usually lasts, counted from the
-// end-of-half play's wall-clock stamp to the kickoff play's (seven games:
-// 13:57 to 15:37 with most near 14:15; the one in London took 19:45).
-const nflHalftime = 14*time.Minute + 15*time.Second
+// The usual halftime break, counted from the first half's last play stamp to
+// the kickoff play's. NFL: seven games, 13:57 to 15:37 with most near 14:15
+// (the one in London took 19:45). College: 45 finished games, median 20:40,
+// 40 of them between 19:36 and 21:36 (the rest were delays).
+const (
+	nflHalftime = 14*time.Minute + 15*time.Second
+	cfbHalftime = 20*time.Minute + 45*time.Second
+)
 
-// halftimeEnds estimates when the NFL halftime break ends: the newest End of
-// Half play's `wallclock` plus nflHalftime. Zero outside NFL halftime or when
-// ESPN gives no stamp. It comes from the feed, so a late start has it too.
+// halftimeEnds estimates when the football halftime break ends: the first
+// half's last play's `wallclock` plus the usual break. The NFL ends the half
+// with an End of Half play, college with the 2nd quarter's End Period. Zero
+// outside halftime or when ESPN gives no stamp. It comes from the feed, so a
+// late start has it too.
 func halftimeEnds(sport string, f *Feed) time.Time {
-	if sport != "nfl" || espn.Str(espn.Map(espn.Status(f.Data)["type"])["name"]) != "STATUS_HALFTIME" {
+	if (sport != "nfl" && sport != "cfb") || espn.Str(espn.Map(espn.Status(f.Data)["type"])["name"]) != "STATUS_HALFTIME" {
 		return time.Time{}
 	}
 	for i := len(f.Plays) - 1; i >= 0; i-- {
-		if !strings.EqualFold(playType(f.Plays[i]), "End of Half") {
+		p := f.Plays[i]
+		typ := playType(p)
+		var length time.Duration
+		switch {
+		case sport == "nfl" && strings.EqualFold(typ, "End of Half"):
+			length = nflHalftime
+		case sport == "cfb" && strings.EqualFold(typ, "End Period") && espn.Str(espn.Map(p["period"])["number"]) == "2":
+			length = cfbHalftime
+		default:
 			continue
 		}
-		t, err := time.Parse(time.RFC3339, espn.Str(f.Plays[i]["wallclock"]))
+		t, err := time.Parse(time.RFC3339, espn.Str(p["wallclock"]))
 		if err != nil {
 			return time.Time{}
 		}
-		return t.Add(nflHalftime)
+		return t.Add(length)
 	}
 	return time.Time{}
 }

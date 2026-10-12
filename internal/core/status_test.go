@@ -698,16 +698,24 @@ func TestHalftimeEnds(t *testing.T) {
 	half := func(typ, wallclock string) espn.Data {
 		return espn.Data{"type": espn.Data{"text": typ}, "wallclock": wallclock}
 	}
+	quarter := func(n int, wallclock string) espn.Data {
+		return espn.Data{"type": espn.Data{"text": "End Period"}, "period": espn.Data{"number": json.Number(strconv.Itoa(n))}, "wallclock": wallclock}
+	}
 	start := time.Date(2026, 10, 12, 1, 47, 26, 0, time.UTC)
 	want := start.Add(nflHalftime)
+	if got := halftimeEnds("cfb", feed("STATUS_HALFTIME", quarter(1, "2026-10-12T01:00:00Z"), quarter(2, "2026-10-12T01:47:26Z"))); !got.Equal(start.Add(cfbHalftime)) {
+		t.Errorf("college halftime: got %v", got)
+	}
 	if got := halftimeEnds("nfl", feed("STATUS_HALFTIME", half("Pass", "2026-10-12T01:40:00Z"), half("End of Half", "2026-10-12T01:47:26Z"))); !got.Equal(want) {
 		t.Errorf("halftime: got %v, want %v", got, want)
 	}
 	for name, got := range map[string]time.Time{
-		"not halftime": halftimeEnds("nfl", feed("STATUS_IN_PROGRESS", half("End of Half", "2026-10-12T01:47:26Z"))),
-		"college":      halftimeEnds("cfb", feed("STATUS_HALFTIME", half("End of Half", "2026-10-12T01:47:26Z"))),
-		"no end play":  halftimeEnds("nfl", feed("STATUS_HALFTIME", half("Pass", "2026-10-12T01:40:00Z"))),
-		"no stamp":     halftimeEnds("nfl", feed("STATUS_HALFTIME", half("End of Half", ""))),
+		"not halftime":               halftimeEnds("nfl", feed("STATUS_IN_PROGRESS", half("End of Half", "2026-10-12T01:47:26Z"))),
+		"college has no End of Half": halftimeEnds("cfb", feed("STATUS_HALFTIME", half("End of Half", "2026-10-12T01:47:26Z"))),
+		"college first quarter":      halftimeEnds("cfb", feed("STATUS_HALFTIME", quarter(1, "2026-10-12T01:47:26Z"))),
+		"baseball":                   halftimeEnds("mlb", feed("STATUS_HALFTIME", half("End of Half", "2026-10-12T01:47:26Z"))),
+		"no end play":                halftimeEnds("nfl", feed("STATUS_HALFTIME", half("Pass", "2026-10-12T01:40:00Z"))),
+		"no stamp":                   halftimeEnds("nfl", feed("STATUS_HALFTIME", half("End of Half", ""))),
 	} {
 		if !got.IsZero() {
 			t.Errorf("%s: got %v, want none", name, got)

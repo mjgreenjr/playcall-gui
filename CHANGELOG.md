@@ -14,7 +14,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ### Added
 - `--version` on both binaries, and the version at the foot of the GUI's settings screen.
-- NFL halftime shows an estimated countdown ("Halftime · ~9:40"): the end-of-half play's time plus the usual 14:15 break. It goes back to plain "Halftime" when the estimate runs out, and works when you start mid-break.
+- Football halftime shows an estimated countdown ("Halftime · ~9:40"): the end-of-half play's time plus the usual break (14:15 NFL, 20:45 college). It goes back to plain "Halftime" when the estimate runs out, and works when you start mid-break.
 
 ### Changed
 
