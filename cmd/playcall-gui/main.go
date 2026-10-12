@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"time"
 
@@ -89,6 +90,7 @@ func run() int {
 	}
 
 	s.app = app.New() // before any widget: they read the theme from it
+	s.focus.attach(s.app)
 	if paths, err := core.DefaultPaths(); err == nil {
 		s.logos = newLogoCache(filepath.Join(paths.CacheDir, "logos"), func(f func()) { fyne.Do(f) })
 		s.divisions = core.NewDivisionCache(filepath.Join(paths.CacheDir, "standings"), s.fetcher)
@@ -134,7 +136,13 @@ type shell struct {
 	// gameShown is true while the game view is the screen on display (not
 	// the settings opened over it). Read by the poll goroutine.
 	gameShown atomic.Bool
-	logos     *logoCache // team logos on disk; nil if the cache folder is unknown
+	// focus is whether the window has focus, the router's answer where the
+	// window manager can't be asked (not Hyprland).
+	focus focusTracker
+	// visible asks the window manager whether the window is on screen; nil
+	// means windowVisible. Tests replace it.
+	visible func(ctx context.Context) (bool, error)
+	logos   *logoCache // team logos on disk; nil if the cache folder is unknown
 	// divisions is the day's division records for the pro sports; nil if the
 	// cache folder is unknown.
 	divisions *core.DivisionCache
@@ -257,12 +265,33 @@ func (s *shell) settingsFromGame(sport string, view *ui) {
 
 // gameVisible is the router's test: the game screen is up and the window is
 // on a visible workspace. With settings open the game can't be seen, so its
-// plays go to a toast.
+// plays go to a toast. Where the window manager can't say (not Hyprland, or
+// hyprctl fails), a window with focus counts as visible and one without does
+// not.
 func (s *shell) gameVisible(ctx context.Context) (bool, error) {
 	if !s.gameShown.Load() {
 		return false, nil
 	}
-	return windowVisible(ctx)
+	ask := s.visible
+	if ask == nil {
+		ask = windowVisible
+	}
+	vis, err := ask(ctx)
+	if err != nil {
+		slog.Debug("window manager can't say if the window is visible; using focus", "err", err, "focused", s.focus.has())
+		return s.focus.has(), nil
+	}
+	return vis, nil
+}
+
+// fyneToast is the last way to show a toast, for a desktop without
+// omarchy-notification-send or notify-send: Fyne's own notification (the
+// freedesktop D-Bus service, so it needs a notification daemon but no program).
+// It cannot open the game page and says nothing if there is no daemon; the
+// play is in the window either way.
+func (s *shell) fyneToast(e core.Event) {
+	title, body := e.MarkedTitle(), e.BodyText()
+	fyne.Do(func() { s.app.SendNotification(fyne.NewNotification(title, body)) })
 }
 
 // groupPrefs reads and writes each sport's remembered group in config.json.
@@ -354,7 +383,8 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 	s.gameView = view
 	view.onSettings = func() { s.settingsFromGame(sport, view) }
 	win := guiSink{view}
-	sink := routerSink{win: win, toast: core.ToastSink{Runner: core.ExecRunner{}}, Visible: s.gameVisible}
+	sink := routerSink{win: win, toast: core.ToastSink{Runner: core.ExecRunner{}}, Visible: s.gameVisible,
+		Fallback: s.fyneToast, noToast: new(sync.Once)}
 	state := &core.State{GameID: gameID, Sport: sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, sink, fetch)
 	if err != nil {

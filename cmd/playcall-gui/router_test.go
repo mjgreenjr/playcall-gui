@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
+	"sync"
 	"testing"
 
 	"playcall/internal/core"
@@ -98,5 +100,49 @@ func TestGameVisibleNeedsGameScreen(t *testing.T) {
 	s := &shell{}
 	if v, err := s.gameVisible(context.Background()); v || err != nil {
 		t.Errorf("game not shown: got %v, %v", v, err)
+	}
+}
+
+func TestRouterWithNoNotifierUsesTheWindow(t *testing.T) {
+	win, toast := &countSink{}, &countSink{err: fmt.Errorf("%w (nothing installed)", core.ErrNoNotifier)}
+	var fallback int
+	r := routerSink{win: win, toast: toast, noToast: new(sync.Once),
+		Visible:  func(context.Context) (bool, error) { return false, nil },
+		Fallback: func(core.Event) { fallback++ }}
+	for i := 0; i < 3; i++ {
+		if err := r.Send(context.Background(), core.Event{PlayID: "1"}); err != nil {
+			t.Fatalf("a desktop with no way to toast must not fail the play: %v", err)
+		}
+	}
+	if win.n != 3 || fallback != 3 {
+		t.Errorf("window got %d, fallback %d; want 3 each", win.n, fallback)
+	}
+	// Without a Fallback the window alone has the play.
+	r.Fallback = nil
+	if err := r.Send(context.Background(), core.Event{PlayID: "2"}); err != nil || win.n != 4 {
+		t.Errorf("no fallback: err=%v window=%d", err, win.n)
+	}
+}
+
+func TestGameVisibleFallsBackToFocus(t *testing.T) {
+	s := &shell{}
+	s.gameShown.Store(true)
+	s.visible = func(context.Context) (bool, error) { return false, errors.New("no hyprctl") }
+	if v, err := s.gameVisible(context.Background()); v || err != nil {
+		t.Errorf("unfocused, window manager unknown: got %v, %v", v, err)
+	}
+	s.focus.focused.Store(true)
+	if v, err := s.gameVisible(context.Background()); !v || err != nil {
+		t.Errorf("focused, window manager unknown: got %v, %v", v, err)
+	}
+	// When the window manager does answer, focus does not matter.
+	s.visible = func(context.Context) (bool, error) { return false, nil }
+	if v, _ := s.gameVisible(context.Background()); v {
+		t.Error("hyprland says hidden; focus must not override it")
+	}
+	s.visible = func(context.Context) (bool, error) { return true, nil }
+	s.focus.focused.Store(false)
+	if v, _ := s.gameVisible(context.Background()); !v {
+		t.Error("hyprland says visible; no focus must not hide it")
 	}
 }

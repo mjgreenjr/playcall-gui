@@ -12,6 +12,10 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Added
+- Toasts work without Omarchy: when `omarchy-notification-send` is not installed, `notify-send` is used (no click-to-open), and when neither works the GUI shows the play in the window only and tries Fyne's own notification. Before, a missing notifier kept every play out of the window.
+- Without Hyprland the GUI can't ask where its window is, so a window with focus counts as visible (plays go to the list) and one without gets toasts.
+
 ## [0.2.0] - 2026-10-12
 
 ### Added

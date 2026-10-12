@@ -35,8 +35,8 @@ setup:
 
 | Feature | Needs |
 | --- | --- |
-| Toasts | `omarchy-notification-send` |
-| Window-or-toast routing | Hyprland (`hyprctl`); without it every play is a toast |
+| Toasts | `omarchy-notification-send`, else `notify-send` (no click-to-open), else the window alone |
+| Window-or-toast routing | Hyprland (`hyprctl`); elsewhere the window's focus decides |
 | CLI autostart (`follow`, `stop`, `resume`) | a systemd user unit |
 
 The OS-specific code is kept in its own files behind small interfaces so that

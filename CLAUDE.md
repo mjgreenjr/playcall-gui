@@ -154,7 +154,7 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
 - The loop stops cleanly when its context is cancelled.
 
 ## Toast contract (ToastSink, Linux, optional)
-- Use `omarchy-notification-send`, never `notify-send`.
+- Use `omarchy-notification-send`. `notify-send` is only the fallback `ToastSink` runs when `omarchy-notification-send` is not installed (`exec.ErrNotFound`; no `--exec`, so no click-to-open); when neither works `Send` returns `ErrNoNotifier`, which the GUI router treats as "no toasts here" (the play goes to the window, plus Fyne's own `SendNotification`, with one WARN in the log). Any other failure of `omarchy-notification-send` is still returned and retried.
 - `--exec` must be LAST, with the command as separate words (not a quoted string).
 - Example: `omarchy-notification-send -u low -t 15000 "Bills 17, Jets 14" "Mahomes 45yd TD" --exec xdg-open https://www.espn.com/nfl/game/_/gameId/401872925`
 - Urgency flag: `-u normal` or `-u low` from `Event.Urgent`. Duration `-t 15000` (`NOTIF_EXPIRE_MS`). Always include `--exec xdg-open <game page url>`.
@@ -167,7 +167,7 @@ Flat `plays` list: made shots, misses, free throws, rebounds, substitutions, fou
   1. `hyprctl clients -j`: find our window by PID (`os.Getpid()` matches the client's `pid`; more robust than class/title), read `workspace.id`, `mapped`, `hidden`.
   2. `hyprctl monitors -j`: collect every monitor's `activeWorkspace.id` (each monitor has its own active workspace).
   3. Visible = our workspace id is in the active set AND `mapped` AND NOT `hidden`. A `special:` (scratchpad) workspace counts as hidden.
-- Fallback: if `hyprctl` is unavailable, send the toast. Keep this behind the OS-specific notifier interface with the rest of the Linux notification code.
+- Fallback: if `hyprctl` is unavailable or fails, a window with focus counts as visible and one without does not (`focusTracker`, from Fyne's foreground events; it starts unfocused). Sway and others could get their own check later. Keep this behind the OS-specific notifier interface with the rest of the Linux notification code.
 
 ## Commands
 `./playcall` (built with `go build -o playcall ./cmd/playcall`). Flags (`--dry-run`, `--once`, `--interval`, `--mock`, `--sport`) work before or after the subcommand. Go's `flag` stops at the first positional argument, so use a `FlagSet` per subcommand and handle positionals yourself.

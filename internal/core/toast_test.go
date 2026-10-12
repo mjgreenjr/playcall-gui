@@ -3,6 +3,8 @@ package core
 import (
 	"context"
 	"errors"
+	"fmt"
+	"os/exec"
 	"reflect"
 	"testing"
 	"time"
@@ -84,5 +86,69 @@ func TestMarkedTitleBalls(t *testing.T) {
 		if got := e.MarkedTitle(); got != ball+" A 1 · x · B 2" {
 			t.Errorf("%s: %q", sport, got)
 		}
+	}
+}
+
+// scriptRunner fails the programs named in errs and records every run.
+type scriptRunner struct {
+	errs map[string]error
+	ran  []string
+	args map[string][]string
+}
+
+func (r *scriptRunner) Run(_ context.Context, name string, args ...string) error {
+	r.ran = append(r.ran, name)
+	if r.args == nil {
+		r.args = map[string][]string{}
+	}
+	r.args[name] = args
+	return r.errs[name]
+}
+
+func TestToastFallsBackToNotifySend(t *testing.T) {
+	missing := fmt.Errorf("exec: %q: %w", NotifCmd, exec.ErrNotFound)
+	r := &scriptRunner{errs: map[string]error{NotifCmd: missing}}
+	e := Event{Title: "BAL 21 · 0:40 4th · ATL 23", Body: "Pass complete", Urgent: true, URL: "https://x/g"}
+	if err := (ToastSink{Runner: r}).Send(context.Background(), e); err != nil {
+		t.Fatalf("the fallback should deliver: %v", err)
+	}
+	if !reflect.DeepEqual(r.ran, []string{NotifCmd, FallbackNotifCmd}) {
+		t.Errorf("ran %v", r.ran)
+	}
+	want := []string{"-u", "normal", "-t", "15000", "-a", "playcall", e.Title, "Pass complete"}
+	if got := r.args[FallbackNotifCmd]; !reflect.DeepEqual(got, want) {
+		t.Errorf("notify-send args %q, want %q", got, want)
+	}
+}
+
+func TestToastWithNoNotifierAtAll(t *testing.T) {
+	missing := fmt.Errorf("exec: %w", exec.ErrNotFound)
+	for name, errs := range map[string]map[string]error{
+		"neither installed":     {NotifCmd: missing, FallbackNotifCmd: missing},
+		"notify-send can't run": {NotifCmd: missing, FallbackNotifCmd: errors.New("exit status 1")},
+	} {
+		r := &scriptRunner{errs: errs}
+		err := ToastSink{Runner: r}.Send(context.Background(), Event{Title: "t", URL: "u"})
+		if !errors.Is(err, ErrNoNotifier) {
+			t.Errorf("%s: err = %v, want ErrNoNotifier", name, err)
+		}
+	}
+}
+
+func TestToastOmarchyFailureDoesNotFallBack(t *testing.T) {
+	// The program exists but failed: retry it next poll; notify-send is only
+	// for a desktop that does not have it.
+	boom := errors.New("exit status 1")
+	r := &scriptRunner{errs: map[string]error{NotifCmd: boom}}
+	err := ToastSink{Runner: r}.Send(context.Background(), Event{Title: "t", URL: "u"})
+	if !errors.Is(err, boom) || errors.Is(err, ErrNoNotifier) || len(r.ran) != 1 {
+		t.Errorf("err = %v, ran %v", err, r.ran)
+	}
+}
+
+func TestExecRunnerMissingProgramIsNotFound(t *testing.T) {
+	err := (ExecRunner{}).Run(context.Background(), "playcall-no-such-program")
+	if !errors.Is(err, exec.ErrNotFound) {
+		t.Errorf("err = %v; the fallback relies on errors.Is(err, exec.ErrNotFound)", err)
 	}
 }
