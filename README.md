@@ -12,6 +12,8 @@ unofficial and undocumented, so it can change without notice.
 
 ## What you get
 
+![The game picker on college football's Top 25, with rankings, records and kickoff times](docs/screenshots/picker-top25.png)
+
 - **A GUI** (`playcall-gui`, built with [Fyne](https://fyne.io)): pick a game
   from today's scoreboard, then watch a header with both teams' logos, the
   score, clock and situation, over a list of plays, newest first. Urgent plays
