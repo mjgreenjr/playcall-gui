@@ -27,7 +27,10 @@ is built unless it says so; the [changelog](CHANGELOG.md) lists what exists.
 
 ## New sports
 
-ESPN has all three; none of them has been looked at yet, and each probably
+The scoreboard addresses below were only checked for an HTTP 200; what they
+return has not been read.
+
+ESPN has all of these; none of them has been looked at yet, and each probably
 has a different data shape from the team sports here, so each needs its own
 research (and a fixture, goldens and the `add-sport` skill) before any
 promise.
@@ -39,6 +42,26 @@ promise.
 - **Soccer.** Many leagues, each its own path on ESPN; plays are commentary
   entries, and stoppage time and extra time make the clock unlike the other
   sports.
+
+- **CFL (Canadian football).** ESPN has a scoreboard for it (`football/cfl`
+  answered when checked; the contents were not examined). It is likely close
+  to the NFL and college football feeds, so most of that code could carry
+  over, but the rules differ and the rule-dependent parts need their own
+  handling: three downs instead of four, twelve players, a longer and wider
+  field, a single point (the rouge) for a missed kick that goes into the end
+  zone, a three-minute warning where the NFL has two, different timeouts and
+  its own overtime. The timeout dots, the down-and-distance text and the
+  halftime estimate all assume the NFL and need checking.
+- **Rugby.** Two codes that ESPN files separately. Rugby league has a
+  scoreboard (`rugby-league/3`, the NRL, answered when checked); rugby union is
+  organised by competition ids that have not been looked up yet. Scoring
+  events (tries, conversions, penalty kicks, drop goals; tries are worth
+  different amounts in the two codes), cards and substitutions are the likely
+  events, with an 80-minute clock in two halves.
+- **Australian rules football (AFL).** ESPN has a scoreboard
+  (`australian-football/afl` answered when checked). Four quarters; scores are
+  written as goals, behinds and a total ("12.8.80", a goal is six points and a
+  behind one), so the score display and the title format need a new shape.
 
 ## Larger changes
 
