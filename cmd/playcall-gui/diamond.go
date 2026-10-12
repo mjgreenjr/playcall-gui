@@ -17,15 +17,15 @@ import (
 // and has no files to cache; all eight combinations come from the same three
 // circles.
 const (
-	diamondW, diamondH = 44, 36
-	baseSize           = 12
+	diamondW, diamondH = 36, 28
+	baseSize           = 9
 )
 
 // baseCenters are the circles' centers: first, second, third.
-var baseCenters = [3]fyne.Position{{X: 38, Y: 19}, {X: 22, Y: 7}, {X: 6, Y: 19}}
+var baseCenters = [3]fyne.Position{{X: 31, Y: 14}, {X: 18, Y: 5}, {X: 5, Y: 14}}
 
 // plate is home plate's corners, point down.
-var plate = [5]fyne.Position{{X: 17, Y: 26}, {X: 27, Y: 26}, {X: 27, Y: 30}, {X: 22, Y: 35}, {X: 17, Y: 30}}
+var plate = [5]fyne.Position{{X: 14, Y: 19}, {X: 22, Y: 19}, {X: 22, Y: 22}, {X: 18, Y: 27}, {X: 14, Y: 22}}
 
 type diamond struct {
 	box    *fyne.Container
@@ -83,7 +83,7 @@ func (d *diamond) recolor() {
 		b.Refresh()
 	}
 	for _, l := range d.plate {
-		l.StrokeColor, l.StrokeWidth = fg, 1.5
+		l.StrokeColor, l.StrokeWidth = fg, 1.25
 		l.Refresh()
 	}
 }
