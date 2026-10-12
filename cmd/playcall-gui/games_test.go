@@ -113,16 +113,14 @@ func TestSportLabels(t *testing.T) {
 }
 
 func TestTeamRecord(t *testing.T) {
-	cases := []struct{ overall, conf, wins, other, want string }{
-		{"3-1", "1-0", "", "", "3-1 (1-0)"},
-		{"85-77", "", "", "", "85-77"},
-		{"85-77", "", "2", "1", "series 2-1"},
-		{"85-77", "", "2", "", "85-77"},
-		{"", "", "", "", ""},
+	cases := []struct{ overall, conf, want string }{
+		{"3-1", "1-0", "3-1 (1-0)"},
+		{"85-77", "", "85-77"},
+		{"", "", ""},
 	}
 	for _, c := range cases {
-		if got := teamRecord(c.overall, c.conf, c.wins, c.other); got != c.want {
-			t.Errorf("teamRecord(%q, %q, %q, %q) = %q, want %q", c.overall, c.conf, c.wins, c.other, got, c.want)
+		if got := teamRecord(c.overall, c.conf); got != c.want {
+			t.Errorf("teamRecord(%q, %q) = %q, want %q", c.overall, c.conf, got, c.want)
 		}
 	}
 }
@@ -189,12 +187,30 @@ func TestPostseasonDropsSeasonRecords(t *testing.T) {
 		t.Errorf("game page %q, %q", away, home)
 	}
 	g := espn.Game{Season: "3", AwayRecord: "84-78", HomeRecord: "85-77", AwaySeries: "2", HomeSeries: "1"}
-	if awayRecord(g) != "series 2-1" || homeRecord(g) != "series 1-2" {
+	if awayRecord(g) != "" || homeRecord(g) != "" {
 		t.Errorf("series game %q, %q", awayRecord(g), homeRecord(g))
 	}
+}
+
+func TestSeriesStandingIsOneStatement(t *testing.T) {
+	g := espn.Game{Season: "3", Away: "LAD ", Home: "MIL ", State: "in", Status: "Top 3rd", AwayScore: "1", HomeScore: "0", AwaySeries: "2", HomeSeries: "1"}
+	if got := seriesStanding(g); got != "Series: LAD 2-1" {
+		t.Errorf("away leads: %q", got)
+	}
+	g.AwaySeries, g.HomeSeries = "1", "3"
+	if got := seriesStanding(g); got != "Series: MIL 3-1" {
+		t.Errorf("home leads: %q", got)
+	}
+	g.AwaySeries, g.HomeSeries = "2", "2"
+	if got := seriesStanding(g); got != "Series: Tied 2-2" {
+		t.Errorf("tied: %q", got)
+	}
+	if got := gameDetail(g, time.Now()); got != "Series: Tied 2-2 · 1-0  Top 3rd" {
+		t.Errorf("detail %q", got)
+	}
 	g.AwaySeries, g.HomeSeries = "", ""
-	if awayRecord(g) != "" || homeRecord(g) != "" {
-		t.Errorf("other postseason game %q, %q", awayRecord(g), homeRecord(g))
+	if got := seriesStanding(g); got != "" {
+		t.Errorf("no series: %q", got)
 	}
 }
 

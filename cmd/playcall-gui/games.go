@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -37,34 +38,50 @@ func matchup(g espn.Game) string {
 	return strings.TrimSpace(g.Away) + " @ " + strings.TrimSpace(g.Home)
 }
 
-// teamRecord is the small text after a team's abbreviation: the series
-// record in a playoff series ("series 2-1", wins then the opponent's wins),
-// otherwise the season record with the conference record after it ("3-1 (1-0)").
-// Any part ESPN did not send is left out.
-func teamRecord(overall, conf, seriesWins, opponentSeriesWins string) string {
-	if seriesWins != "" && opponentSeriesWins != "" {
-		return "series " + seriesWins + "-" + opponentSeriesWins
-	}
+// teamRecord is the small text after a team's abbreviation: the season record
+// with the conference record after it ("3-1 (1-0)"). Any part ESPN did not
+// send is left out.
+func teamRecord(overall, conf string) string {
 	if overall != "" && conf != "" {
 		return overall + " (" + conf + ")"
 	}
 	return overall
 }
 
-// Regular-season records mean nothing in the postseason (season type 3): a
-// series game keeps its series standing, any other shows none.
+// Regular-season records mean nothing in the postseason (season type 3), so
+// those games show none; a playoff series is one statement in the row's detail
+// (seriesStanding), not a record under each team.
 func awayRecord(g espn.Game) string {
 	if g.Season == "3" {
-		return teamRecord("", "", g.AwaySeries, g.HomeSeries)
+		return ""
 	}
-	return teamRecord(g.AwayRecord, g.AwayConf, g.AwaySeries, g.HomeSeries)
+	return teamRecord(g.AwayRecord, g.AwayConf)
 }
 
 func homeRecord(g espn.Game) string {
 	if g.Season == "3" {
-		return teamRecord("", "", g.HomeSeries, g.AwaySeries)
+		return ""
 	}
-	return teamRecord(g.HomeRecord, g.HomeConf, g.HomeSeries, g.AwaySeries)
+	return teamRecord(g.HomeRecord, g.HomeConf)
+}
+
+// seriesStanding is the picker's one statement about a playoff series, leader
+// first, as the game page words it: "Series: LAD 2-1", "Series: Tied 2-2".
+// "" outside a series.
+func seriesStanding(g espn.Game) string {
+	a, errA := strconv.Atoi(g.AwaySeries)
+	h, errH := strconv.Atoi(g.HomeSeries)
+	if errA != nil || errH != nil {
+		return ""
+	}
+	away, home := strings.TrimSpace(g.Away), strings.TrimSpace(g.Home)
+	switch {
+	case a == h:
+		return fmt.Sprintf("Series: Tied %d-%d", a, h)
+	case a > h:
+		return fmt.Sprintf("Series: %s %d-%d", away, a, h)
+	}
+	return fmt.Sprintf("Series: %s %d-%d", home, h, a)
 }
 
 // statusRecords are the two teams' record texts for the game page header. A
@@ -82,8 +99,8 @@ func statusRecords(s core.GameStatus, division func(abbr string) string) (away, 
 		}
 		return r.Conf
 	}
-	return teamRecord(s.AwayRecord.Overall, conf(s.AwayRecord, s.Away.Abbr), "", ""),
-		teamRecord(s.HomeRecord.Overall, conf(s.HomeRecord, s.Home.Abbr), "", "")
+	return teamRecord(s.AwayRecord.Overall, conf(s.AwayRecord, s.Away.Abbr)),
+		teamRecord(s.HomeRecord.Overall, conf(s.HomeRecord, s.Home.Abbr))
 }
 
 // gameDetail is the right-hand side of a picker row: the score once the game
@@ -96,6 +113,9 @@ func gameDetail(g espn.Game, now time.Time) string {
 	detail := gameStatusText(g, now)
 	if g.Season == "1" && g.State != core.IdleState {
 		return "Preseason · " + detail
+	}
+	if series := seriesStanding(g); series != "" && g.State != core.IdleState {
+		return series + " · " + detail
 	}
 	return detail
 }

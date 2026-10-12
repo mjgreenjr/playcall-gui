@@ -15,6 +15,10 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ### Added
 - `--version` on both binaries, and the version at the foot of the GUI's settings screen.
 
+### Changed
+
+- The game picker shows a playoff series as one statement on the right of the row ("Series: LAD 2-1", "Series: Tied 2-2") instead of a "series 2-1" record under each team.
+
 ### Fixed
 - The settings screen scrolls when the window is too short to show it all, so the bottom (and the version) can still be reached.
 - NFL timeout circles are drawn shapes, so the filled and outlined ones are the same size and sit on one line.
