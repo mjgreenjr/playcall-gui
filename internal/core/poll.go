@@ -295,7 +295,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 			Possession: possession(p.Sport, feed),
 			Batter:     msg.Batter,
 			Display:    msg.Display,
-			Revision:   s.update && !espn.Truthy(s.play["scoringPlay"]),
+			Revision:   s.update && (!espn.Truthy(s.play["scoringPlay"]) || staleScoringPlay(plays, s.play)),
 		}
 		if err := p.Sink.Send(ctx, ev); err != nil {
 			// Stop here; the play stays unsent and the next poll retries it.
@@ -672,6 +672,29 @@ func revisablePlay(sport string, p espn.Data) bool {
 		return espn.Truthy(espn.Map(p["type"])["penaltyMinutes"])
 	}
 	return false
+}
+
+// staleUpdateAfter is how much older than the newest play a scoring play can be
+// before a change to its text is only a quiet correction, not news.
+const staleUpdateAfter = 10 * time.Minute
+
+// staleScoringPlay is true when play happened more than staleUpdateAfter before
+// the newest play in the feed (by their `wallclock` stamps; false if either is
+// missing). ESPN keeps rewording old scoring plays ("Edman to second on a
+// throwing error", then back, an hour later); an extra point added to a
+// touchdown arrives within a minute or two and still counts as an update.
+func staleScoringPlay(plays []espn.Data, play espn.Data) bool {
+	at, err := time.Parse(time.RFC3339, espn.Str(play["wallclock"]))
+	if err != nil {
+		return false
+	}
+	var newest time.Time
+	for _, pl := range plays {
+		if t, err := time.Parse(time.RFC3339, espn.Str(pl["wallclock"])); err == nil && t.After(newest) {
+			newest = t
+		}
+	}
+	return !newest.IsZero() && newest.Sub(at) > staleUpdateAfter
 }
 
 // findRevisions returns the revisable plays already sent whose text is now

@@ -882,3 +882,93 @@ func TestMLBRevisedStartBatterIsResent(t *testing.T) {
 		t.Errorf("edit re-sent: %d events", len(sink.events))
 	}
 }
+
+func editPlayText(t *testing.T, d espn.Data, key, text string) espn.Data {
+	t.Helper()
+	c := deepCopy(t, d)
+	n := 0
+	for _, h := range espn.PlayHolders(c) {
+		for _, v := range h["plays"].([]any) {
+			if p := espn.Map(v); espn.PlayKey(p) == key {
+				p["text"] = text
+				n++
+			}
+		}
+	}
+	if n == 0 {
+		t.Fatalf("play %s not found", key)
+	}
+	return c
+}
+
+// ESPN rewords old scoring plays long after the fact (the same error call
+// flipped back and forth an hour later): that is a quiet correction. An extra
+// point added to a touchdown a minute later is still an update.
+func TestOldScoringPlayChangesAreQuietRevisions(t *testing.T) {
+	data := loadFixture(t, "playbyplay_mlb_multi_plays.json")
+	typ := espn.Map(espn.Status(data)["type"])
+	typ["state"] = "in"
+	typ["name"] = "STATUS_IN_PROGRESS"
+	all := espn.ExtractPlays(data)
+	var scoring []int
+	for i, p := range all {
+		if espn.Truthy(p["scoringPlay"]) && i > 100 {
+			scoring = append(scoring, i)
+		}
+	}
+	if len(scoring) < 2 {
+		t.Fatal("need two scoring plays")
+	}
+	old := all[scoring[0]]
+	for _, c := range []struct {
+		name       string
+		reveal     int
+		play       espn.Data
+		wantRevise bool
+	}{
+		{"hours old", len(all), old, true},
+		{"just happened", scoring[0] + 3, old, false},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			first := reveal(t, data, c.reveal, false)
+			edited := editPlayText(t, first, espn.PlayKey(c.play), espn.PlayText(c.play)+" (changed)")
+			feed := first
+			sink := &recordSink{}
+			poller, err := NewPoller(&State{GameID: "999", Sport: "mlb"}, sink, func(context.Context) (espn.Data, error) { return feed, nil })
+			if err != nil {
+				t.Fatal(err)
+			}
+			poll := func() {
+				t.Helper()
+				if _, err := poller.Poll(context.Background()); err != nil {
+					t.Fatal(err)
+				}
+			}
+			poll()
+			sent := len(sink.events)
+			feed = edited
+			poll()
+			if len(sink.events) != sent+1 {
+				t.Fatalf("after the edit: %d new events", len(sink.events)-sent)
+			}
+			ev := sink.events[sent]
+			if ev.Kind != KindUpdate || ev.Revision != c.wantRevise {
+				t.Errorf("kind %q, revision %v; want an update with revision %v", ev.Kind, ev.Revision, c.wantRevise)
+			}
+		})
+	}
+}
+
+func TestStaleScoringPlay(t *testing.T) {
+	at := func(s string) espn.Data { return espn.Data{"wallclock": s} }
+	plays := []espn.Data{at("2026-10-12T22:00:00Z"), at("2026-10-12T22:30:00Z")}
+	if !staleScoringPlay(plays, plays[0]) {
+		t.Error("30 minutes older should be stale")
+	}
+	if staleScoringPlay(plays, at("2026-10-12T22:25:00Z")) {
+		t.Error("5 minutes older is not stale")
+	}
+	if staleScoringPlay(plays, espn.Data{}) || staleScoringPlay([]espn.Data{{}}, plays[0]) {
+		t.Error("no timestamp is never stale")
+	}
+}
