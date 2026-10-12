@@ -12,6 +12,8 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-12
+
 ### Added
 - College teams' rankings (1 to 25) show as a small number before the team's abbreviation, in the picker rows and in the game header, for college football and basketball; unranked teams show nothing. The window opens a little wider (540 instead of 480) so a ranked game's clock still fits on one line.
 - College football's group list in the picker has a "Top 25" choice, after All: the games with a ranked team, from ESPN's own default scoreboard (no teams-without-a-game rows for it).
