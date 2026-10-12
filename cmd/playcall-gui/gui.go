@@ -43,6 +43,9 @@ type ui struct {
 	// diamond is baseball's bases, under the count and outs.
 	diamond                *diamond
 	awayRecord, homeRecord *widget.RichText
+	// awayRoom and homeRoom hold the width of the record column fixed in
+	// baseball, where the batter and pitcher names change under the teams.
+	awayRoom, homeRoom *canvas.Rectangle
 	// division is a team's division record for the header, from memory (it
 	// runs on the UI goroutine); nil shows none.
 	division func(abbr string) string
@@ -84,6 +87,10 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	u.awayTO, u.homeTO = newDotRow(), newDotRow()
 	u.diamond = newDiamond()
 	u.awayRecord, u.homeRecord = widget.NewRichText(), widget.NewRichText()
+	for _, r := range []*widget.RichText{u.awayRecord, u.homeRecord} {
+		r.Truncation = fyne.TextTruncateEllipsis // a long name is cut, not allowed to push the header wider
+	}
+	u.awayRoom, u.homeRoom = canvas.NewRectangle(color.Transparent), canvas.NewRectangle(color.Transparent)
 	u.setRecords("", "")
 	u.series = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Italic: true})
 	u.stale = widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{})
@@ -109,9 +116,9 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 		// situation between, then the home team's score, abbreviation, logo
 		// and ball. Football's timeouts sit under each score.
 		// Each team's record sits centered under its abbreviation.
-		container.NewBorder(nil, nil,
-			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(rankedName(u.awayRank, u.away), u.awayRecord), scoreGap(), container.NewVBox(u.awayScore, u.awayTO.box)),
-			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO.box), scoreGap(), container.NewVBox(rankedName(u.homeRank, u.home), u.homeRecord), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
+		container.New(headerRow{},
+			container.NewHBox(ballSlot(u.awayBall), container.NewVBox(u.awayBadge.box), container.NewVBox(container.NewCenter(rankedName(u.awayRank, u.away)), container.NewStack(u.awayRoom, u.awayRecord)), scoreGap(), container.NewVBox(u.awayScore, u.awayTO.box)),
+			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO.box), scoreGap(), container.NewVBox(container.NewCenter(rankedName(u.homeRank, u.home)), container.NewStack(u.homeRoom, u.homeRecord)), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
 			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.New(layout.NewCustomPaddedVBoxLayout(0), u.statusText, u.situation, u.diamond.box))),
 		// Basketball's timeouts and fouls, under each team's score.
 		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
@@ -299,6 +306,13 @@ func (u *ui) refreshRecords() {
 
 // setRecords shows each team's record under its side, in the situation's size.
 func (u *ui) setRecords(away, home string) {
+	width := float32(0)
+	if u.status.Sport == "mlb" {
+		width = roleWidth
+	}
+	for _, room := range []*canvas.Rectangle{u.awayRoom, u.homeRoom} {
+		room.SetMinSize(fyne.NewSize(width, 1))
+	}
 	for _, r := range []struct {
 		w     *widget.RichText
 		text  string
@@ -387,6 +401,37 @@ func (g guiSink) Status(s core.GameStatus) {
 
 var _ core.Sink = guiSink{}
 var _ core.StatusSink = guiSink{}
+
+// roleWidth is the width of the column under each team in baseball, enough for
+// "Pitcher: Yoshinobu ..."; the names change with every batter, and the
+// header must not.
+const roleWidth = 130
+
+// headerRow lays out the score bug's three parts: the away side against the
+// left edge, the home side against the right, and the clock, situation and
+// bases in the middle of the window, not in the middle of what the sides leave
+// over. A plain Border moved the middle whenever a side changed width. Children in order:
+// away side, home side, middle.
+type headerRow struct{}
+
+func (headerRow) MinSize(objs []fyne.CanvasObject) fyne.Size {
+	l, r, m := objs[0].MinSize(), objs[1].MinSize(), objs[2].MinSize()
+	return fyne.NewSize(2*max(l.Width, r.Width)+m.Width+2*theme.Padding(), max(l.Height, r.Height, m.Height))
+}
+
+func (headerRow) Layout(objs []fyne.CanvasObject, size fyne.Size) {
+	l, r, m := objs[0].MinSize(), objs[1].MinSize(), objs[2].MinSize()
+	pad := theme.Padding()
+	// Each side stays against its edge. The middle is laid out as if both were
+	// as wide as the wider one, which puts it on the window's center.
+	side := max(l.Width, r.Width)
+	objs[0].Resize(fyne.NewSize(l.Width, size.Height))
+	objs[0].Move(fyne.NewPos(0, 0))
+	objs[1].Resize(fyne.NewSize(r.Width, size.Height))
+	objs[1].Move(fyne.NewPos(size.Width-r.Width, 0))
+	objs[2].Resize(fyne.NewSize(max(size.Width-2*side-2*pad, m.Width), size.Height))
+	objs[2].Move(fyne.NewPos(side+pad, 0))
+}
 
 // scoreLineCenter centers its one child across the width and, vertically,
 // within the first height pixels: the score line, so the clock and situation

@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Changed
+- The game page's header keeps its middle (clock, count, bases) on the window's center instead of shifting with the names under the teams. In baseball the batter and pitcher names get a fixed-width column under each team and a longer name is cut short with "..." (before, a long name widened the header and squeezed the middle).
 - Baseball's game page shows the bases as a small diamond of three circles (second on top), filled for each runner on, with home plate at the bottom (the bases are squares turned on a corner), in place of "2 on" under the count and outs. Toasts, titles and the CLI keep the "2 on" text.
 
 ### Added

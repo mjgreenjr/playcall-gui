@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/test"
 
 	"playcall/internal/core"
@@ -61,5 +62,30 @@ func TestWithoutRunnerCount(t *testing.T) {
 		if got := withoutRunnerCount(in); got != want {
 			t.Errorf("%q -> %q, want %q", in, got, want)
 		}
+	}
+}
+
+func TestMiddleStaysPutWhenTheNamesChange(t *testing.T) {
+	test.NewApp()
+	u := newUI(10*time.Second, nil, highlights[0], nil)
+	w := test.NewWindow(u.content)
+	st := core.GameStatus{Sport: "mlb", State: "in", Detail: "Top 6", Situation: "1-2, 1 out, 2 on", Bases: "13",
+		Away: core.TeamScore{Abbr: "LAD", Score: "3"}, Home: core.TeamScore{Abbr: "ATL", Score: "1"}, BattingSide: "away"}
+	centers := map[string]float32{}
+	for _, c := range []struct{ name, bat, pitch string }{
+		{"short", "Ohtani", "Sale"},
+		{"long", "Jung Hoo Lee", "Yoshinobu Yamamoto"},
+	} {
+		st.Batter, st.Pitcher = c.bat, c.pitch
+		u.setStatus(st)
+		for i := 0; i < 4; i++ { // the test driver needs a few passes to settle
+			w.Resize(fyne.NewSize(620+float32(i), 300))
+			u.content.Refresh()
+		}
+		centers[c.name] = absX(u.diamond.box) + u.diamond.box.Size().Width/2
+	}
+	mid := w.Canvas().Size().Width / 2
+	if centers["short"] != centers["long"] || centers["short"] < mid-1 || centers["short"] > mid+1 {
+		t.Errorf("the diamond's center is %v with short names and %v with long ones, window center %v", centers["short"], centers["long"], mid)
 	}
 }
