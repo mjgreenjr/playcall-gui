@@ -14,7 +14,7 @@ unofficial and undocumented, so it can change without notice.
 
 ![The game picker on college football's Top 25, with rankings, records and kickoff times](docs/screenshots/picker-top25.png)
 
-![A baseball game in progress: the score, the bases, the count and outs, the batter and pitcher, and the newest plays](docs/screenshots/game-baseball.png)
+![A baseball game in progress with the bases loaded: the score, the bases, the count and outs, the batter and pitcher, and the newest plays, including a pitching change](docs/screenshots/game-baseball.png)
 
 - **A GUI** (`playcall-gui`, built with [Fyne](https://fyne.io)): pick a game
   from today's scoreboard, then watch a header with both teams' logos, the
