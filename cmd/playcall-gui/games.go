@@ -219,12 +219,12 @@ func sportFromLabel(label string) string {
 }
 
 // atBatRoles are baseball's pitcher and batter, each under its own team: the
-// batting side gets "At bat: ...", the other "Pitcher: ...".
+// batting side gets "AB: ...", the other "P: ...".
 func atBatRoles(s core.GameStatus) (away, home string) {
 	if s.Batter == "" || s.BattingSide == "" {
 		return "", ""
 	}
-	bat, pitch := "At bat: "+s.Batter, "Pitcher: "+s.Pitcher
+	bat, pitch := "AB: "+s.Batter, "P: "+s.Pitcher
 	if s.BattingSide == "away" {
 		return bat, pitch
 	}

@@ -403,9 +403,9 @@ var _ core.Sink = guiSink{}
 var _ core.StatusSink = guiSink{}
 
 // roleWidth is the width of the column under each team in baseball, enough for
-// "Pitcher: Yoshinobu ..."; the names change with every batter, and the
-// header must not.
-const roleWidth = 130
+// "AB: Christopher Sanchez". The names change with every batter, and the header
+// must not.
+const roleWidth = 136
 
 // headerRow lays out the score bug's three parts: the away side against the
 // left edge, the home side against the right, and the clock, situation and
