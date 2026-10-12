@@ -208,6 +208,18 @@ func TestSeriesStandingIsOneStatement(t *testing.T) {
 	if got := gameDetail(g, time.Now()); got != "Series: Tied 2-2 · 1-0  Top 3rd" {
 		t.Errorf("detail %q", got)
 	}
+	g.AwaySeries, g.HomeSeries, g.SeriesLength = "4", "2", "7"
+	if got := seriesStanding(g); got != "Series: LAD WINS" {
+		t.Errorf("clinched: %q", got)
+	}
+	g.AwaySeries, g.HomeSeries = "3", "3"
+	if got := seriesStanding(g); got != "Series: Tied 3-3" {
+		t.Errorf("tied 3-3 in a best of 7: %q", got)
+	}
+	g.AwaySeries, g.HomeSeries = "0", "0"
+	if got := seriesStanding(g); got != "" {
+		t.Errorf("0-0: %q", got)
+	}
 	g.AwaySeries, g.HomeSeries = "", ""
 	if got := seriesStanding(g); got != "" {
 		t.Errorf("no series: %q", got)

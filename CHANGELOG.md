@@ -17,7 +17,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ### Changed
 
-- The game picker shows a playoff series as one statement on the right of the row ("Series: LAD 2-1", "Series: Tied 2-2") instead of a "series 2-1" record under each team.
+- The game picker shows a playoff series as one statement on the right of the row ("Series: LAD 2-1", "Series: Tied 2-2", "Series: LAD WINS" once it is won; nothing at 0-0) instead of a "series 2-1" record under each team.
 
 ### Fixed
 - The settings screen scrolls when the window is too short to show it all, so the bottom (and the version) can still be reached.

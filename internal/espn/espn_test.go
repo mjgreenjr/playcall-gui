@@ -389,7 +389,7 @@ func TestFetchTeamsCarriesLogos(t *testing.T) {
 
 func TestScoreboardRecordsAndSeries(t *testing.T) {
 	event, err := Decode([]byte(`{"id":"1","date":"2026-10-10T01:00Z","competitions":[{
-		"series":{"type":"playoff","competitors":[{"id":"5","wins":2},{"id":"4","wins":1}]},
+		"series":{"type":"playoff","totalCompetitions":7,"competitors":[{"id":"5","wins":2},{"id":"4","wins":1}]},
 		"competitors":[
 		{"id":"5","homeAway":"home","team":{"abbreviation":"CLE"},"score":"0","records":[{"type":"total","summary":"85-77"},{"type":"vsconf","summary":"7-2"}]},
 		{"id":"4","homeAway":"away","team":{"abbreviation":"CHW"},"score":"0","records":[{"type":"total","summary":"84-78"}]}]}]}`))
@@ -405,5 +405,8 @@ func TestScoreboardRecordsAndSeries(t *testing.T) {
 	}
 	if g.HomeSeries != "2" || g.AwaySeries != "1" {
 		t.Errorf("series: home %q away %q", g.HomeSeries, g.AwaySeries)
+	}
+	if g.SeriesLength != "7" {
+		t.Errorf("series length %q", g.SeriesLength)
 	}
 }

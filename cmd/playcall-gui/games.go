@@ -66,22 +66,27 @@ func homeRecord(g espn.Game) string {
 }
 
 // seriesStanding is the picker's one statement about a playoff series, leader
-// first, as the game page words it: "Series: LAD 2-1", "Series: Tied 2-2".
-// "" outside a series.
+// first, as the game page words it: "Series: LAD 2-1", "Series: Tied 2-2",
+// "Series: LAD WINS" once a team has the wins the length needs. "" outside a
+// series and at 0-0 (the game page says nothing then either).
 func seriesStanding(g espn.Game) string {
 	a, errA := strconv.Atoi(g.AwaySeries)
 	h, errH := strconv.Atoi(g.HomeSeries)
-	if errA != nil || errH != nil {
+	if errA != nil || errH != nil || a+h == 0 {
 		return ""
 	}
 	away, home := strings.TrimSpace(g.Away), strings.TrimSpace(g.Home)
-	switch {
-	case a == h:
-		return fmt.Sprintf("Series: Tied %d-%d", a, h)
-	case a > h:
-		return fmt.Sprintf("Series: %s %d-%d", away, a, h)
+	lead, wins, trail := away, a, h
+	if h > a {
+		lead, wins, trail = home, h, a
 	}
-	return fmt.Sprintf("Series: %s %d-%d", home, h, a)
+	if n, err := strconv.Atoi(g.SeriesLength); err == nil && n > 0 && wins >= n/2+1 {
+		return "Series: " + lead + " WINS"
+	}
+	if a == h {
+		return fmt.Sprintf("Series: Tied %d-%d", a, h)
+	}
+	return fmt.Sprintf("Series: %s %d-%d", lead, wins, trail)
 }
 
 // statusRecords are the two teams' record texts for the game page header. A

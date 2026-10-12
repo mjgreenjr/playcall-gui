@@ -44,6 +44,8 @@ type Game struct {
 	// Wins in the current playoff series ("2"), "" outside one. They count
 	// completed games only.
 	AwaySeries, HomeSeries string
+	// SeriesLength is the series' best-of number ("7"), "" when ESPN gives none.
+	SeriesLength string
 }
 
 // ParseScoreboardEvent reads a scoreboard event. ok is false when the event
@@ -77,12 +79,13 @@ func ParseScoreboardEvent(event Data) (g Game, ok bool) {
 		AwayLogo:  TeamLogos(Map(away["team"])),
 		HomeLogo:  TeamLogos(Map(home["team"])),
 
-		AwayRecord: Record(away, "total"),
-		HomeRecord: Record(home, "total"),
-		AwayConf:   Record(away, "vsconf"),
-		HomeConf:   Record(home, "vsconf"),
-		AwaySeries: SeriesWins(Competition(event), away),
-		HomeSeries: SeriesWins(Competition(event), home),
+		AwayRecord:   Record(away, "total"),
+		HomeRecord:   Record(home, "total"),
+		AwayConf:     Record(away, "vsconf"),
+		HomeConf:     Record(home, "vsconf"),
+		AwaySeries:   SeriesWins(Competition(event), away),
+		HomeSeries:   SeriesWins(Competition(event), home),
+		SeriesLength: SeriesLength(Competition(event)),
 	}, true
 }
 
@@ -117,6 +120,24 @@ func SeriesWins(comp Data, competitor Data) string {
 			tm := Map(t)
 			if Str(tm["id"]) == Str(competitor["id"]) && tm["wins"] != nil {
 				return Str(tm["wins"])
+			}
+		}
+	}
+	return ""
+}
+
+// SeriesLength is the playoff series' length (best of N) as ESPN's
+// `totalCompetitions`, "" if the game is not in a series or ESPN gives none.
+func SeriesLength(comp Data) string {
+	candidates := List(comp["series"])
+	if m := Map(comp["series"]); m != nil {
+		candidates = []any{m}
+	}
+	for _, c := range candidates {
+		m := Map(c)
+		if Str(m["type"]) == "playoff" {
+			if n, ok := Int64(m["totalCompetitions"]); ok && n > 0 {
+				return Str(m["totalCompetitions"])
 			}
 		}
 	}
