@@ -629,6 +629,8 @@ func TestRevisablePlay(t *testing.T) {
 		{"mlb", typ("Substitution"), false},
 		{"mlb", typ("Start Batter/Pitcher"), true},
 		{"mlb", typ("Ball"), false},
+		{"nfl", typ("Rush"), true},
+		{"cfb", typ("Pass Reception"), true},
 	} {
 		if got := revisablePlay(c.sport, c.play); got != c.want {
 			t.Errorf("%s %v: got %v", c.sport, c.play["type"], got)
@@ -962,13 +964,58 @@ func TestOldScoringPlayChangesAreQuietRevisions(t *testing.T) {
 func TestStaleScoringPlay(t *testing.T) {
 	at := func(s string) espn.Data { return espn.Data{"wallclock": s} }
 	plays := []espn.Data{at("2026-10-12T22:00:00Z"), at("2026-10-12T22:30:00Z")}
-	if !staleScoringPlay(plays, plays[0]) {
+	if !stalePlay(plays, plays[0]) {
 		t.Error("30 minutes older should be stale")
 	}
-	if staleScoringPlay(plays, at("2026-10-12T22:25:00Z")) {
+	if stalePlay(plays, at("2026-10-12T22:25:00Z")) {
 		t.Error("5 minutes older is not stale")
 	}
-	if staleScoringPlay(plays, espn.Data{}) || staleScoringPlay([]espn.Data{{}}, plays[0]) {
+	if stalePlay(plays, espn.Data{}) || stalePlay([]espn.Data{{}}, plays[0]) {
 		t.Error("no timestamp is never stale")
 	}
+}
+
+// ESPN corrects a football play's text for a few minutes ("enforced at BUF 24"
+// became "BUF 25"). A recent play's row is rewritten once and quietly; an old
+// play's correction is ignored.
+func TestFootballRecentPlayTextCorrectionIsAQuietRevision(t *testing.T) {
+	data := loadFixture(t, "playbyplay_multi_plays.json")
+	run := func(t *testing.T, editedIndex int) []Event {
+		t.Helper()
+		all := espn.ExtractPlays(data)
+		first := reveal(t, data, 3, false) // plays 0-2, the last at 00:18
+		next := reveal(t, data, 5, false)  // play 3 is a touchdown, play 4 an hour later
+		edited := editPlayText(t, next, espn.PlayKey(all[editedIndex]), espn.PlayText(all[editedIndex])+" (corrected)")
+		feed := first
+		sink := &recordSink{}
+		poller, err := NewPoller(&State{GameID: "999", Sport: "nfl"}, sink, func(context.Context) (espn.Data, error) { return feed, nil })
+		if err != nil {
+			t.Fatal(err)
+		}
+		poll := func() {
+			t.Helper()
+			if _, err := poller.Poll(context.Background()); err != nil {
+				t.Fatal(err)
+			}
+		}
+		poll() // announces play 2 (the newest)
+		feed = next
+		poll() // announces plays 3 and 4
+		sent := len(sink.events)
+		feed = edited
+		poll()
+		poll() // the correction goes out once
+		return sink.events[sent:]
+	}
+	t.Run("the newest play", func(t *testing.T) {
+		got := run(t, 4)
+		if len(got) != 1 || got[0].Kind != KindUpdate || !got[0].Revision || !strings.Contains(got[0].Body, "(corrected)") {
+			t.Fatalf("events after the correction: %+v", got)
+		}
+	})
+	t.Run("a play an hour older", func(t *testing.T) {
+		if got := run(t, 2); len(got) != 0 {
+			t.Fatalf("an old play's correction was sent: %+v", got)
+		}
+	})
 }
