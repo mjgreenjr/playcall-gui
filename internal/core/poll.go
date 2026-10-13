@@ -681,30 +681,51 @@ func revisablePlay(sport string, p espn.Data) bool {
 }
 
 // staleUpdateAfter is how much older than the newest play a scoring play can be
-// before a change to its text is only a quiet correction, not news.
-const staleUpdateAfter = 10 * time.Minute
+// before a change to its text is only a quiet correction, not news. The
+// numbers behind it (401 scoring-text changes over a weekend of games): the
+// real additions, an extra point or an assist, arrived within 5 minutes
+// (8 at the slowest), and the changes after that were rewordings.
+const staleUpdateAfter = 5 * time.Minute
 
-// stalePlay is true when play happened more than staleUpdateAfter before
-// the newest play in the feed (by their `wallclock` stamps; false if either is
-// missing). ESPN keeps rewording old scoring plays ("Edman to second on a
-// throwing error", then back, an hour later); an extra point added to a
-// touchdown arrives within a minute or two and still counts as an update.
+// periodMovedOnAfter is how old a play must be for a newer period to make it
+// stale on its own, so an extra point added right after a quarter ends is
+// still news.
+const periodMovedOnAfter = time.Minute
+
+// stalePlay is true when play is more than staleUpdateAfter older than the
+// newest play in the feed (by their `wallclock` stamps), or is at least
+// periodMovedOnAfter older and the newest play is in a later period (a later
+// quarter, half or period; in baseball, a later half-inning). False if the
+// stamps are missing. ESPN keeps rewording old scoring plays ("Edman to
+// second on a throwing error", then back, an hour later); an extra point added
+// to a touchdown arrives within a minute or two and still counts as an update.
 func stalePlay(plays []espn.Data, play espn.Data) bool {
 	at, err := time.Parse(time.RFC3339, espn.Str(play["wallclock"]))
 	if err != nil {
 		return false
 	}
 	var newest time.Time
+	var latest espn.Data
 	for _, pl := range plays {
 		if t, err := time.Parse(time.RFC3339, espn.Str(pl["wallclock"])); err == nil && t.After(newest) {
-			newest = t
+			newest, latest = t, pl
 		}
 	}
-	return !newest.IsZero() && newest.Sub(at) > staleUpdateAfter
+	if newest.IsZero() {
+		return false
+	}
+	age := newest.Sub(at)
+	return age > staleUpdateAfter || (age >= periodMovedOnAfter && periodOf(play) != periodOf(latest))
 }
 
-// tooOldToRevise is true for a football play more than staleUpdateAfter older
-// than the newest one: there are hundreds of small corrections a game, and an
+// periodOf names a play's period: its number, and for baseball whether it is
+// the top or the bottom.
+func periodOf(p espn.Data) string {
+	per := espn.Map(p["period"])
+	return espn.Str(per["type"]) + "/" + espn.ScoreText(per["number"])
+}
+
+// tooOldToRevise is true for a football play that is stale (see stalePlay): there are hundreds of small corrections a game, and an
 // old play's is not worth redrawing. Basketball, hockey and baseball
 // revisions have no limit (they are few, and fill in a name that was missing).
 func (p *Poller) tooOldToRevise(plays []espn.Data, pl espn.Data) bool {

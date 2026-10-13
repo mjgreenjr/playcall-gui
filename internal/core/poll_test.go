@@ -3,6 +3,7 @@ package core
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -967,8 +968,11 @@ func TestStaleScoringPlay(t *testing.T) {
 	if !stalePlay(plays, plays[0]) {
 		t.Error("30 minutes older should be stale")
 	}
-	if stalePlay(plays, at("2026-10-12T22:25:00Z")) {
-		t.Error("5 minutes older is not stale")
+	if !stalePlay(plays, at("2026-10-12T22:24:00Z")) {
+		t.Error("6 minutes older should be stale")
+	}
+	if stalePlay(plays, at("2026-10-12T22:26:00Z")) {
+		t.Error("4 minutes older, same period, is not stale")
 	}
 	if stalePlay(plays, espn.Data{}) || stalePlay([]espn.Data{{}}, plays[0]) {
 		t.Error("no timestamp is never stale")
@@ -1018,4 +1022,26 @@ func TestFootballRecentPlayTextCorrectionIsAQuietRevision(t *testing.T) {
 			t.Fatalf("an old play's correction was sent: %+v", got)
 		}
 	})
+}
+
+// Older than a minute and the game has moved to a later period or half-inning:
+// stale even inside the 5 minutes. Right after a period ends it is not.
+func TestStalePlayWhenThePeriodMovedOn(t *testing.T) {
+	play := func(wc string, period int, half string) espn.Data {
+		return espn.Data{"wallclock": wc, "period": map[string]any{"number": json.Number(fmt.Sprint(period)), "type": half}}
+	}
+	td := play("2026-10-12T22:00:00Z", 1, "")
+	if !stalePlay([]espn.Data{td, play("2026-10-12T22:03:00Z", 2, "")}, td) {
+		t.Error("3 minutes later in the next quarter should be stale")
+	}
+	if stalePlay([]espn.Data{td, play("2026-10-12T22:00:30Z", 2, "")}, td) {
+		t.Error("30 seconds later in the next quarter is not stale: the extra point may still be coming")
+	}
+	if stalePlay([]espn.Data{td, play("2026-10-12T22:03:00Z", 1, "")}, td) {
+		t.Error("3 minutes later in the same quarter is not stale")
+	}
+	top := play("2026-10-12T22:00:00Z", 5, "Top")
+	if !stalePlay([]espn.Data{top, play("2026-10-12T22:04:00Z", 5, "Bottom")}, top) {
+		t.Error("the bottom of the inning should make the top stale")
+	}
 }
