@@ -16,6 +16,8 @@ unofficial and undocumented, so it can change without notice.
 
 ![A baseball game in progress with the bases loaded: the score, the bases, the count and outs, the batter and pitcher, and the newest plays, including a pitching change](docs/screenshots/game-baseball.png)
 
+![A football game in progress: the timeouts left for each team, the ball, the down and distance, and a touchdown row updated with its extra point](docs/screenshots/game-football.png)
+
 - **A GUI** (`playcall-gui`, built with [Fyne](https://fyne.io)): pick a game
   from today's scoreboard, then watch a header with both teams' logos, the
   score, clock and situation, over a list of plays, newest first. Urgent plays
