@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"time"
 
 	"playcall/internal/espn"
 )
@@ -58,6 +59,13 @@ type Event struct {
 	// icing's team; "" when there is nothing to add. Body itself stays ESPN's
 	// text so the CLI output is unchanged.
 	Display string
+	// Late marks a football or baseball play that ESPN posted under an id
+	// below ones already sent (it happened earlier than plays the list
+	// already shows), and At is the play's own `wallclock` stamp (zero when
+	// ESPN gave none). A sink with a list can place a late play by At, in
+	// game order, instead of on top.
+	Late bool
+	At   time.Time
 }
 
 // BodyText is what the window and toasts show: Display, or else Body.

@@ -194,6 +194,10 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		}
 	}
 	rules := p.Rules.Prepare(feed)
+	var lastBefore int64 = -1 // plays at or below it are late (football and baseball only)
+	if st.LastPlayID != nil && !track {
+		lastBefore = int64(*st.LastPlayID)
+	}
 	for _, pl := range unseen {
 		if !rules.Announced(pl) {
 			p.markKnown(pl) // a late play that is never announced is not late again next poll
@@ -276,6 +280,8 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 				msg.Display = shown
 			}
 		}
+		id, idOK := espn.PlayID(s.play)
+		at, _ := time.Parse(time.RFC3339, espn.Str(s.play["wallclock"]))
 		ev := Event{
 			GameID:   st.GameID,
 			PlayID:   espn.PlayKey(s.play),
@@ -296,6 +302,8 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 			Batter:     msg.Batter,
 			Display:    msg.Display,
 			Revision:   s.update && (!espn.Truthy(s.play["scoringPlay"]) || stalePlay(plays, s.play)),
+			Late:       !s.update && idOK && id <= lastBefore,
+			At:         at,
 		}
 		if err := p.Sink.Send(ctx, ev); err != nil {
 			// Stop here; the play stays unsent and the next poll retries it.

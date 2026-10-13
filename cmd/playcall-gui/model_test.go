@@ -22,6 +22,53 @@ func TestModelNewestFirst(t *testing.T) {
 	}
 }
 
+// ESPN posted a blocked field goal after three plays that followed it. It
+// goes below those, above the plays before it.
+func TestModelLatePlayGoesInGameOrder(t *testing.T) {
+	var m Model
+	at := func(sec int) time.Time { return time.Date(2026, 10, 12, 23, 40, sec, 0, time.UTC) }
+	for i, id := range []string{"812", "869", "891", "913"} {
+		m.Apply(core.Event{PlayID: id, Kind: core.KindPlay, At: at(10 * (i + 1))})
+	}
+	index, added := m.ApplyAt(core.Event{PlayID: "848", Kind: core.KindPlay, Late: true, At: at(15)})
+	if !added || index != 3 {
+		t.Fatalf("late play at %d (added %v), want 3", index, added)
+	}
+	got := ""
+	for _, r := range m.Rows {
+		got += r.PlayID + " "
+	}
+	if got != "913 891 869 848 812 " {
+		t.Errorf("order: %s", got)
+	}
+	// Same stamp as a row: the late play goes above it, as an arrival would.
+	if index, _ := m.ApplyAt(core.Event{PlayID: "850", Kind: core.KindPlay, Late: true, At: at(30)}); index != 1 {
+		t.Errorf("tie went to %d, want 1", index)
+	}
+	// Older than everything: the bottom.
+	if index, _ := m.ApplyAt(core.Event{PlayID: "700", Kind: core.KindPlay, Late: true, At: at(1)}); index != len(m.Rows)-1 {
+		t.Errorf("oldest went to %d, want the bottom", index)
+	}
+}
+
+// A late play with no stamp, or a play that is not late, goes on top, and a
+// late one never lands above the final.
+func TestModelLateWithoutStampOrAfterFinal(t *testing.T) {
+	var m Model
+	at := time.Date(2026, 10, 12, 23, 40, 0, 0, time.UTC)
+	m.Apply(core.Event{PlayID: "1", Kind: core.KindPlay, At: at})
+	if index, _ := m.ApplyAt(core.Event{PlayID: "2", Kind: core.KindPlay, Late: true}); index != 0 {
+		t.Errorf("late without a stamp went to %d", index)
+	}
+	if index, _ := m.ApplyAt(core.Event{PlayID: "3", Kind: core.KindPlay, At: at.Add(-time.Hour)}); index != 0 {
+		t.Errorf("a play that is not late went to %d", index)
+	}
+	m.Apply(core.Event{Kind: core.KindFinal})
+	if index, _ := m.ApplyAt(core.Event{PlayID: "4", Kind: core.KindPlay, Late: true, At: at.Add(time.Second)}); index == 0 {
+		t.Errorf("late play went above the final")
+	}
+}
+
 func TestModelUpdateRewritesRow(t *testing.T) {
 	var m Model
 	m.Apply(core.Event{PlayID: "1", Kind: core.KindPlay, Body: "TD"})

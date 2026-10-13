@@ -368,7 +368,7 @@ func newRow(r Row, hl highlight) fyne.CanvasObject {
 
 func (u *ui) addEvent(e core.Event) {
 	atTop := u.scroll.Offset.Y <= 0
-	added := u.model.Apply(e)
+	at, added := u.model.ApplyAt(e)
 	if !added {
 		for i, r := range u.model.Rows {
 			if r.PlayID == e.PlayID {
@@ -378,18 +378,31 @@ func (u *ui) addEvent(e core.Event) {
 		u.rows.Refresh()
 		return
 	}
-	row := newRow(u.model.Rows[0], u.hl)
-	u.rows.Objects = append([]fyne.CanvasObject{row}, u.rows.Objects...)
+	row := newRow(u.model.Rows[at], u.hl)
+	// Where the row lands: the top, or lower for a late play. What the user
+	// is reading stays where it is if the row goes in above it.
+	var above float32
+	for _, o := range u.rows.Objects[:at] {
+		above += o.Size().Height + theme.Padding()
+	}
+	objs := make([]fyne.CanvasObject, 0, len(u.rows.Objects)+1)
+	objs = append(objs, u.rows.Objects[:at]...)
+	objs = append(objs, row)
+	u.rows.Objects = append(objs, u.rows.Objects[at:]...)
 	u.rows.Refresh()
 	if atTop {
-		return
+		return // a late row below the top sits under the rows on show; no counter
 	}
-	// Keep what the user is reading where it is: push the offset down by the
-	// height of the new row, and count it.
+	if above > u.scroll.Offset.Y {
+		return // below the part being read; nothing moves
+	}
 	row.Resize(fyne.NewSize(u.scroll.Size().Width, row.MinSize().Height))
 	h := row.MinSize().Height + theme.Padding()
 	u.scroll.Offset.Y += h
 	u.scroll.Refresh()
+	if at > 0 {
+		return // a late play above the reading place only shifts the view; "new" counts rows at the top
+	}
 	u.unseen++
 	u.newBtn.SetText(fmt.Sprintf("%d new", u.unseen))
 	u.newBtn.Show()

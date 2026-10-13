@@ -715,6 +715,7 @@ func TestFootballLatePlayWithALowerIDIsSent(t *testing.T) {
 	clone := deepCopy(t, espn.Data(plays[0]))
 	clone["id"] = fmt.Sprint(maxID - 1)
 	clone["text"] = "The late snap"
+	clone["wallclock"] = "2026-10-08T01:02:03Z"
 	holders[len(holders)-1]["plays"] = append(holders[len(holders)-1]["plays"].([]any), map[string]any(clone))
 
 	feed := data
@@ -740,6 +741,13 @@ func TestFootballLatePlayWithALowerIDIsSent(t *testing.T) {
 	}
 	if *state.LastPlayID != lastBefore {
 		t.Errorf("last_play_id moved from %d to %d", lastBefore, *state.LastPlayID)
+	}
+	// The window places a late play by its own stamp, so the event says so.
+	if ev := sink.events[sent]; !ev.Late || !ev.At.Equal(time.Date(2026, 10, 8, 1, 2, 3, 0, time.UTC)) {
+		t.Errorf("late play: Late=%v At=%v", ev.Late, ev.At)
+	}
+	if sink.events[0].Late {
+		t.Errorf("the first play is not late: %+v", sink.events[0])
 	}
 	poll()
 	poll()

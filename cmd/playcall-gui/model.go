@@ -16,6 +16,7 @@ type Row struct {
 	Urgent  bool
 	Updated bool // a scoring play whose text changed after it was shown
 	Final   bool
+	At      time.Time // the play's own wallclock stamp; zero when ESPN gave none
 }
 
 // Model is the play list, newest first. It has no Fyne types and is only
@@ -25,8 +26,19 @@ type Model struct {
 }
 
 // Apply adds an event, or rewrites the row of a re-sent scoring play. It
-// returns true when a new row was added at the top.
+// returns true when a new row was added.
 func (m *Model) Apply(e core.Event) (added bool) {
+	_, added = m.ApplyAt(e)
+	return added
+}
+
+// ApplyAt is Apply that also says where the new row went (0 is the top).
+// Rows are in arrival order, newest first, except a late play (one ESPN
+// posted after plays that came later in the game), which goes below the rows
+// that happened after it, by its own wallclock stamp. A late play with no
+// stamp, or older than every stamped row, takes the top or the bottom as
+// arrival or age says; rows with no stamp (the final) are stepped over.
+func (m *Model) ApplyAt(e core.Event) (index int, added bool) {
 	row := Row{
 		PlayID:  e.PlayID,
 		Title:   e.Title,
@@ -34,17 +46,30 @@ func (m *Model) Apply(e core.Event) (added bool) {
 		Urgent:  e.Urgent,
 		Updated: e.Kind == core.KindUpdate,
 		Final:   e.Kind == core.KindFinal,
+		At:      e.At,
 	}
 	if e.Kind == core.KindUpdate {
 		for i := range m.Rows {
 			if m.Rows[i].PlayID == e.PlayID && !m.Rows[i].Final {
 				m.Rows[i] = row
-				return false
+				return i, false
 			}
 		}
 	}
-	m.Rows = append([]Row{row}, m.Rows...)
-	return true
+	at := 0
+	if e.Late && !e.At.IsZero() {
+		at = len(m.Rows)
+		for i, r := range m.Rows {
+			if !r.At.IsZero() && !r.At.After(e.At) {
+				at = i
+				break
+			}
+		}
+	}
+	m.Rows = append(m.Rows, Row{})
+	copy(m.Rows[at+1:], m.Rows[at:])
+	m.Rows[at] = row
+	return at, true
 }
 
 // statusLine is the header's second line: what ESPN says the game is doing.
