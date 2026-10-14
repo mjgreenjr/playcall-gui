@@ -1053,3 +1053,25 @@ func TestStalePlayWhenThePeriodMovedOn(t *testing.T) {
 		t.Error("the bottom of the inning should make the top stale")
 	}
 }
+
+// DEL @ MTSU, 2026-10-13: a rush posted for 0 yards was replaced by the same
+// snap for 3 yards under a new id, and the replacement check missed it. The
+// near match names the old play so the log can say what differed.
+func TestNearReplaced(t *testing.T) {
+	sigs := map[string]string{
+		"777": "4|1:40|Rush|(01:48) No Huddle-Shotgun #8 A",
+		"700": "4|9:12|Pass|(09:15) Shotgun #7 T.Bell pass",
+	}
+	present := map[string]bool{"700": true}
+	if old, was := nearReplaced(sigs, "794", "4|1:48|Rush|(01:48) No Huddle-Shotgun #8 A", present); old != "777" || was != sigs["777"] {
+		t.Errorf("near match: %q %q", old, was)
+	}
+	// Still in the feed: not replaced.
+	if old, _ := nearReplaced(sigs, "794", "4|1:48|Rush|(01:48) No Huddle-Shotgun #8 A", map[string]bool{"777": true}); old != "" {
+		t.Errorf("a play still in the feed matched: %q", old)
+	}
+	// A different play: no match.
+	if old, _ := nearReplaced(sigs, "795", "4|1:30|Rush|(01:31) Shotgun #20 J.Walton rush", present); old != "" {
+		t.Errorf("a different play matched: %q", old)
+	}
+}

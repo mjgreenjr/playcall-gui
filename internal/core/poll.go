@@ -466,6 +466,26 @@ func playSignature(pl espn.Data) string {
 	return strconv.FormatInt(n, 10) + "|" + espn.Str(espn.Map(pl["clock"])["displayValue"]) + "|" + playType(pl) + "|" + string(text)
 }
 
+// nearReplaced finds an earlier play, gone from the feed, that has the same
+// period and the same start of text as the new one (signature sig) but not the
+// same clock or type: a replaced play dropReplaced did not catch. It returns
+// the old play's id and signature, or "" if there is none.
+func nearReplaced(signatures map[string]string, key, sig string, present map[string]bool) (string, string) {
+	near := func(s string) string {
+		parts := strings.SplitN(s, "|", 4)
+		if len(parts) < 4 {
+			return s
+		}
+		return parts[0] + "|" + parts[3]
+	}
+	for old, s := range signatures {
+		if old != key && !present[old] && near(s) == near(sig) {
+			return old, s
+		}
+	}
+	return "", ""
+}
+
 // dropReplaced takes out of unseen the football plays that are an earlier play
 // again under a new id: ESPN corrects a play (a kickoff's "fair catch" became
 // "Touchback") by dropping the old id and posting the corrected play with a
@@ -490,6 +510,12 @@ func (p *Poller) dropReplaced(plays, unseen []espn.Data) []espn.Data {
 			}
 		}
 		if replaced == "" {
+			// Not the same play by our test; say so when it is close (same
+			// period and start of text, a different clock or type) and the
+			// old one is gone, to learn what ESPN changed when it swaps an id.
+			if old, was := nearReplaced(p.signatures, key, sig, present); old != "" {
+				slog.Debug("Play like a replaced one", "game", p.State.GameID, "old", old, "new", key, "was", was, "now", sig)
+			}
 			kept = append(kept, pl)
 			continue
 		}
