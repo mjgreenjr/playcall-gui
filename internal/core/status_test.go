@@ -708,6 +708,89 @@ func TestFootballCounts(t *testing.T) {
 	}
 }
 
+func TestCollegeCounts(t *testing.T) {
+	feed := func(name string, period int, away, home any) *Feed {
+		comp := func(side string, used any) espn.Data {
+			c := espn.Data{"homeAway": side}
+			if used != nil {
+				c["timeoutsUsed"] = used
+			}
+			return c
+		}
+		return &Feed{Data: espn.Data{
+			"header": espn.Data{"competitions": []any{espn.Data{
+				"competitors": []any{comp("away", away), comp("home", home)},
+				"status": espn.Data{"period": json.Number(strconv.Itoa(period)),
+					"type": espn.Data{"state": "in", "name": name}},
+			}}},
+		}}
+	}
+	n := func(v int) json.Number { return json.Number(strconv.Itoa(v)) }
+	counts := func(away, home int) []*TeamCounts {
+		return []*TeamCounts{{Timeouts: away, TimeoutSlots: 3}, {Timeouts: home, TimeoutSlots: 3}}
+	}
+	type step struct {
+		name string
+		f    *Feed
+		want []*TeamCounts // nil: no counts
+	}
+	check := func(p *Poller, steps []step) {
+		t.Helper()
+		for _, c := range steps {
+			away, home := p.collegeCounts(c.f)
+			var got []*TeamCounts
+			if away != nil || home != nil {
+				got = []*TeamCounts{away, home}
+			}
+			if !reflect.DeepEqual(got, c.want) {
+				t.Errorf("%s: got %+v, want %+v", c.name, got, c.want)
+			}
+		}
+	}
+	live := "STATUS_IN_PROGRESS"
+	// Watched from the start: DEL @ MTSU on 2026-10-13 (counter 1-1 at the
+	// break, DEL took two more) and FIU @ JXST (FIU used all three in the half).
+	check(&Poller{}, []step{
+		{"first quarter, none used", feed(live, 1, n(0), n(0)), counts(3, 3)},
+		{"first half, one used", feed(live, 2, n(1), n(0)), counts(2, 3)},
+		{"end of the half", feed(live, 2, n(3), n(1)), counts(0, 2)},
+		{"halftime shows the second half's three", feed("STATUS_HALFTIME", 2, n(3), n(1)), counts(3, 3)},
+		{"third quarter, none taken yet", feed(live, 3, n(3), n(1)), counts(3, 3)},
+		{"one taken by the home side", feed(live, 3, n(3), n(2)), counts(3, 2)},
+		{"fourth quarter", feed(live, 4, n(6), n(3)), counts(0, 1)},
+		{"charged beyond three is none left", feed(live, 4, n(7), n(3)), counts(0, 1)},
+		{"overtime shows nothing", feed(live, 5, n(6), n(3)), nil},
+		{"no counter", feed(live, 3, nil, nil), nil},
+	})
+	// Joined at the break: the counter then is the first half's total.
+	check(&Poller{}, []step{
+		{"joined at halftime", feed("STATUS_HALFTIME", 2, n(2), n(1)), counts(3, 3)},
+		{"second half after it", feed(live, 3, n(3), n(1)), counts(2, 3)},
+	})
+	// Joined in the second half: nothing, unless no timeout has been used.
+	check(&Poller{}, []step{
+		{"joined in the 3rd with timeouts used", feed(live, 3, n(1), n(0)), nil},
+		{"still nothing as it goes on", feed(live, 4, n(2), n(0)), nil},
+	})
+	check(&Poller{}, []step{
+		{"joined in the 3rd, none used", feed(live, 3, n(0), n(0)), counts(3, 3)},
+		{"first one taken", feed(live, 3, n(1), n(0)), counts(2, 3)},
+		{"later", feed(live, 4, n(2), n(1)), counts(1, 2)},
+	})
+	// One team used none and the other did: still unknown.
+	check(&Poller{}, []step{
+		{"one side with no timeouts, the other not", feed(live, 3, n(0), n(1)), nil},
+	})
+	final := feed(live, 4, n(1), n(1))
+	final.Finished = true
+	check(&Poller{}, []step{
+		{"final game", final, nil},
+		{"not in play", &Feed{Data: espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+			"status": espn.Data{"period": json.Number("0"), "type": espn.Data{"state": "pre"}},
+		}}}}}, nil},
+	})
+}
+
 func TestHalftimeEnds(t *testing.T) {
 	feed := func(status string, plays ...espn.Data) *Feed {
 		f := &Feed{Data: espn.Data{"header": espn.Data{"competitions": []any{espn.Data{

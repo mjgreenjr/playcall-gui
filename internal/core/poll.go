@@ -85,6 +85,9 @@ type Poller struct {
 	// signatures is what each football play looked like (period, clock, type,
 	// start of the text), to spot a play ESPN replaced with a new id.
 	signatures map[string]string
+	// collegeFirstHalf is each college side's timeouts used when the first half
+	// ended ("away", "home"), seen while it was in play; see collegeCounts.
+	collegeFirstHalf map[string]int64
 	// ended is the periods whose end an earlier poll's feed already showed.
 	ended map[int64]bool
 	// sentTexts is the text of each revisable play (see revisablePlay) as it

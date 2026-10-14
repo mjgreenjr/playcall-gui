@@ -162,6 +162,75 @@ func footballCounts(f *Feed) (away, home *TeamCounts) {
 	return count(a), count(h)
 }
 
+// collegeHalfTimeouts is a college team's timeouts in each half; unused ones
+// do not carry over to the second half.
+const collegeHalfTimeouts = 3
+
+// collegeCounts is each college team's timeouts left in the half. ESPN's
+// timeoutsUsed counts charged timeouts for the whole game, never resetting
+// (the plays cannot be used instead: ESPN files official timeouts under a
+// team too), so the second half's number needs the first half's total, taken
+// while the first half is in play or at the break and kept here. A run that
+// starts in the second half does not have it: it shows nothing, unless no
+// team has used a timeout (so the first half's total was 0). Overtime shows
+// nothing (not checked). Nil also when the game is not in play or ESPN sends
+// no counter.
+func (p *Poller) collegeCounts(f *Feed) (away, home *TeamCounts) {
+	st := espn.Status(f.Data)
+	typ := espn.Map(st["type"])
+	if f.Finished || espn.Str(typ["state"]) != "in" {
+		return nil, nil
+	}
+	period, ok := espn.Int64(st["period"])
+	if !ok || period < 1 || period > 4 {
+		return nil, nil
+	}
+	h, a := espn.Teams(espn.Competition(f.Data))
+	if h == nil || a == nil {
+		return nil, nil
+	}
+	sides := [2]string{"away", "home"}
+	var used [2]int64
+	for i, c := range []espn.Data{a, h} {
+		u, ok := espn.Int64(c["timeoutsUsed"])
+		if !ok {
+			return nil, nil
+		}
+		used[i] = u
+	}
+	if period <= 2 {
+		if p.collegeFirstHalf == nil {
+			p.collegeFirstHalf = map[string]int64{}
+		}
+		for i, side := range sides {
+			p.collegeFirstHalf[side] = used[i]
+		}
+	}
+	if period >= 3 && p.collegeFirstHalf == nil && used[0] == 0 && used[1] == 0 {
+		// Nobody has used one, so the first half's total was 0 for both; keep
+		// that for when the first one is taken.
+		p.collegeFirstHalf = map[string]int64{"away": 0, "home": 0}
+	}
+	var left [2]int64
+	for i, side := range sides {
+		switch {
+		case espn.Str(typ["name"]) == "STATUS_HALFTIME":
+			left[i] = collegeHalfTimeouts // the second half's, as the NFL's
+		case period <= 2:
+			left[i] = collegeHalfTimeouts - used[i]
+		default:
+			base, known := p.collegeFirstHalf[side]
+			if !known {
+				return nil, nil
+			}
+			left[i] = collegeHalfTimeouts - (used[i] - base)
+		}
+		left[i] = min(max(left[i], 0), collegeHalfTimeouts)
+	}
+	return &TeamCounts{Timeouts: int(left[0]), TimeoutSlots: collegeHalfTimeouts},
+		&TeamCounts{Timeouts: int(left[1]), TimeoutSlots: collegeHalfTimeouts}
+}
+
 // Most timeouts a pro team may use in the 4th quarter and in each overtime.
 const (
 	fourthQuarterTimeouts = 4
@@ -266,8 +335,11 @@ func (p *Poller) publishStatus(f *Feed) {
 		detail = "End of " + period // ESPN's own says "15:00 - 3rd"
 	}
 	awayCounts, homeCounts := basketballCounts(p.Sport, f)
-	if p.Sport == "nfl" {
+	switch p.Sport {
+	case "nfl":
 		awayCounts, homeCounts = footballCounts(f)
+	case "cfb":
+		awayCounts, homeCounts = p.collegeCounts(f)
 	}
 	homeComp, awayComp := espn.Teams(espn.Competition(f.Data))
 	series := f.Series

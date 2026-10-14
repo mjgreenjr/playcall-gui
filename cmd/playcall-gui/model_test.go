@@ -209,7 +209,12 @@ func TestFootballTimeoutsUnderScore(t *testing.T) {
 	}
 	u.setStatus(core.GameStatus{Sport: "cfb", State: "in"})
 	if u.awayTO.box.Visible() || u.homeTO.box.Visible() {
-		t.Error("college football shows timeouts")
+		t.Error("college football shows timeouts with no counts (a restart in the second half)")
+	}
+	u.setStatus(core.GameStatus{Sport: "cfb", State: "in",
+		AwayCounts: &core.TeamCounts{Timeouts: 1, TimeoutSlots: 3}, HomeCounts: &core.TeamCounts{Timeouts: 3, TimeoutSlots: 3}})
+	if !u.awayTO.box.Visible() || len(u.awayTO.dots) != 3 || u.awayTO.left != 1 || u.homeTO.left != 3 {
+		t.Errorf("college football: shown %v, %d circles, %d and %d left", u.awayTO.box.Visible(), len(u.awayTO.dots), u.awayTO.left, u.homeTO.left)
 	}
 }
 

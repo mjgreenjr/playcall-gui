@@ -221,7 +221,7 @@ func (u *ui) setStatus(s core.GameStatus) {
 	u.homeBadge.setLogo(u.logos, s.Home.Logo)
 	u.setBalls(s)
 	u.refreshRecords()
-	if s.Sport == "nfl" {
+	if s.Sport == "nfl" || s.Sport == "cfb" {
 		u.awayTO.set(s.AwayCounts)
 		u.homeTO.set(s.HomeCounts)
 	} else {
