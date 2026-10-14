@@ -151,6 +151,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 		return Outcome{Status: FetchFailed}, nil
 	}
 	plays := espn.ExtractPlays(data)
+	startedBeforeStatus(p.Sport, data, plays)
 	finished := espn.IsFinal(data)
 	p.logTextChanges(plays)
 	feed := p.newFeed(data, plays, finished)

@@ -1,6 +1,8 @@
 package core
 
 import (
+	"encoding/json"
+	"log/slog"
 	"regexp"
 	"strconv"
 	"strings"
@@ -345,4 +347,50 @@ func completeSpots(text string, names map[string]string) string {
 		}
 		return m
 	})
+}
+
+// startedBeforeStatus makes a football game that has plays but whose status
+// still says "pre" a live one in the 1st quarter. ESPN posts the kickoff
+// about 10 to 20 seconds before its status block leaves "pre" (KENN @ MOST on
+// 2026-10-14: the kickoff play at 19:33:11, the counters in the status at
+// 19:33:32), and the header sat on the start time meanwhile. Nothing is lost
+// by assuming: the first plays are in the 1st quarter at 0-0 and no timeout
+// has been taken. The data is changed in place, once per poll, before
+// anything reads it; the next poll's real status takes over.
+func startedBeforeStatus(sport string, data espn.Data, plays []espn.Data) {
+	if (sport != "nfl" && sport != "cfb") || len(plays) == 0 {
+		return
+	}
+	status := espn.Status(data)
+	typ := espn.Map(status["type"])
+	if typ == nil || espn.Str(typ["state"]) != "pre" {
+		return
+	}
+	last := plays[len(plays)-1]
+	period := espn.Map(last["period"])
+	if n, ok := espn.Int64(period["number"]); !ok || n != 1 {
+		return
+	}
+	slog.Debug("Status still pre with plays; treating the game as live", "play", espn.PlayKey(last))
+	typ["state"] = "in"
+	status["period"] = json.Number("1")
+	status["displayPeriod"] = espn.Str(period["displayValue"])
+	status["displayClock"] = espn.Str(espn.Map(last["clock"])["displayValue"])
+	home, away := espn.Teams(espn.Competition(data))
+	// The play has the score (a kickoff returned for a touchdown is already
+	// 6-0); without it the game is 0-0.
+	for _, c := range []struct {
+		team  espn.Data
+		score any
+	}{{away, last["awayScore"]}, {home, last["homeScore"]}} {
+		if c.team == nil {
+			continue
+		}
+		if _, ok := espn.Int64(c.team["timeoutsUsed"]); !ok {
+			c.team["timeoutsUsed"] = json.Number("0")
+		}
+		if c.score != nil {
+			c.team["score"] = c.score
+		}
+	}
 }

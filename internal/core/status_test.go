@@ -826,3 +826,69 @@ func TestHalftimeEnds(t *testing.T) {
 		}
 	}
 }
+
+func TestStartedBeforeStatus(t *testing.T) {
+	build := func(state string, period int) (espn.Data, []espn.Data) {
+		comp := func(side string) espn.Data { return espn.Data{"homeAway": side} }
+		data := espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+			"competitors": []any{comp("away"), comp("home")},
+			"status": espn.Data{"displayClock": "0:00", "period": json.Number("0"),
+				"type": espn.Data{"state": state, "name": "STATUS_SCHEDULED"}},
+		}}}}
+		play := espn.Data{"id": "1", "type": espn.Data{"text": "Kickoff"},
+			"period": espn.Data{"number": json.Number(strconv.Itoa(period)), "displayValue": "1st Quarter"},
+			"clock":  espn.Data{"displayValue": "15:00"}}
+		return data, []espn.Data{play}
+	}
+	p := &Poller{Sport: "cfb"}
+
+	data, plays := build("pre", 1)
+	startedBeforeStatus("cfb", data, plays)
+	f := p.newFeed(data, plays, false)
+	if !inPlay(f) || f.Clock != "15:00" || f.Period != "1st Quarter" {
+		t.Errorf("not live: inPlay=%v clock=%q period=%q", inPlay(f), f.Clock, f.Period)
+	}
+	if f.Away.Score != "0" || f.Home.Score != "0" {
+		t.Errorf("scores %q-%q, want 0-0 when the play has none", f.Away.Score, f.Home.Score)
+	}
+	away, home := p.collegeCounts(f)
+	if away == nil || home == nil || away.Timeouts != 3 || home.Timeouts != 3 {
+		t.Errorf("counts at the kickoff: %+v %+v, want 3 each", away, home)
+	}
+
+	for name, c := range map[string]struct {
+		sport, state string
+		period       int
+		plays        bool
+	}{
+		"no plays":       {"cfb", "pre", 1, false},
+		"already in":     {"cfb", "in", 1, true},
+		"a later period": {"cfb", "pre", 2, true},
+		"another sport":  {"nba", "pre", 1, true},
+		"final":          {"cfb", "post", 1, true},
+	} {
+		data, plays := build(c.state, c.period)
+		if !c.plays {
+			plays = nil
+		}
+		startedBeforeStatus(c.sport, data, plays)
+		got := espn.Str(espn.Map(espn.Status(data)["type"])["state"])
+		if got != c.state {
+			t.Errorf("%s: state changed to %q", name, got)
+		}
+	}
+}
+
+func TestStartedBeforeStatusScoreFromPlay(t *testing.T) {
+	data := espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+		"competitors": []any{espn.Data{"homeAway": "away", "score": "0"}, espn.Data{"homeAway": "home", "score": "0"}},
+		"status":      espn.Data{"type": espn.Data{"state": "pre"}},
+	}}}}
+	plays := []espn.Data{{"id": "1", "awayScore": json.Number("0"), "homeScore": json.Number("6"),
+		"period": espn.Data{"number": json.Number("1")}}}
+	startedBeforeStatus("cfb", data, plays)
+	f := (&Poller{Sport: "cfb"}).newFeed(data, plays, false)
+	if f.Away.Score != "0" || f.Home.Score != "6" {
+		t.Errorf("scores %s-%s, want 0-6 from the play", f.Away.Score, f.Home.Score)
+	}
+}
