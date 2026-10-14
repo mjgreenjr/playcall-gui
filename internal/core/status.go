@@ -316,7 +316,7 @@ func (p *Poller) publishStatus(f *Feed) {
 // The usual halftime break, counted from the first half's last play stamp to
 // the kickoff play's. NFL: eight games, 13:57 to 15:37 with most near 14:15
 // (BUF @ LAR on 2026-10-12 took 13:59; the one in London took 19:45). College: 45 finished games, median 20:40,
-// 40 of them between 19:36 and 21:36 (the rest were delays).
+// 40 of them between 19:36 and 21:36 (the rest were delays); DEL @ MTSU on 2026-10-13 took 21:03.
 const (
 	nflHalftime = 14*time.Minute + 15*time.Second
 	cfbHalftime = 20*time.Minute + 45*time.Second
