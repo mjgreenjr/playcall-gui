@@ -31,6 +31,9 @@ func (r footballPlays) Message(p espn.Data) Message {
 		body = footballTimeoutBody(f.Plays, p, text)
 	}
 	body = completeSpots(body, spotNames(f.Data))
+	if isPeriodEnd(p) {
+		body = text // its own down and distance is not reliable (see situation)
+	}
 	if footballHalftime(p) {
 		// The end-of-half play stands in for the break: "Halftime" replaces
 		// the clock, and its down and distance (the next possession) is dropped.

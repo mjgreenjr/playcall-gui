@@ -222,6 +222,15 @@ func TestSituation(t *testing.T) {
 		t.Errorf("touchdown should show no situation: %q", got)
 	}
 
+	// DEL @ MTSU, 2026-10-13: a 3-yard rush left 2nd & 7, and the End Period
+	// row after it said 2nd & 10 (the header showed that one).
+	before["type"] = map[string]any{"text": "Rush"}
+	before["end"] = map[string]any{"shortDownDistanceText": "2nd & 7"}
+	last["type"] = map[string]any{"text": "End Period"}
+	last["end"] = map[string]any{"shortDownDistanceText": "2nd & 10"}
+	if got := situation("cfb", feed(false)); got != "2nd & 7" {
+		t.Errorf("end of the quarter: %q", got)
+	}
 	last["end"] = map[string]any{"downDistanceText": "1st & 10 at NO 25"}
 	if got := situation("nba", feed(false)); got != "" {
 		t.Errorf("basketball: %q", got)

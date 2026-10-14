@@ -436,19 +436,35 @@ func situation(sport string, f *Feed) string {
 		return ""
 	}
 	last := f.Plays[len(f.Plays)-1]
-	if isTimeout(last) {
+	if isTimeout(last) || isPeriodEnd(last) {
 		// A timeout changes nothing on the field and has no "after" of its
 		// own, and its "start" can be stale (after a punt it still shows the
 		// fourth down). So it is the situation after the last real play. If
-		// that play has none (a score, a kickoff), there is none to show.
+		// that play has none (a score, a kickoff), there is none to show. The
+		// End Period row is the same: its own "end" can be the down and
+		// distance from before the play ("2nd & 10" after a gain that left
+		// 2nd & 7).
 		for i := len(f.Plays) - 2; i >= 0; i-- {
-			if !isTimeout(f.Plays[i]) {
+			if !isTimeout(f.Plays[i]) && !isPeriodEnd(f.Plays[i]) {
 				return downDistanceFull(espn.Map(f.Plays[i]["end"]))
 			}
 		}
-		return downDistanceFull(espn.Map(last["start"]))
+		if isTimeout(last) {
+			return downDistanceFull(espn.Map(last["start"]))
+		}
+		return ""
 	}
 	return downDistanceFull(espn.Map(last["end"]))
+}
+
+// isPeriodEnd is a football play that marks the end of a quarter, a half or
+// the game.
+func isPeriodEnd(p espn.Data) bool {
+	switch playType(p) {
+	case "End Period", "End of Half", "End of Regulation", "End of Game":
+		return true
+	}
+	return false
 }
 
 func isTimeout(p espn.Data) bool {

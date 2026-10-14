@@ -20,6 +20,8 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 - Football and baseball: a play ESPN posts late, after plays that came later in the game (a blocked field goal that showed up after three plays of the next drive), now goes into the window's list at its place in the game, by the play's own time stamp, instead of on top. It is still announced once, with a toast if the window is hidden.
 
+- Football: at the end of a quarter or half the header's down and distance no longer jumps to a wrong number (DEL @ MTSU showed "2nd & 10" after a 3-yard gain that left 2nd & 7), and the end-of-quarter row no longer carries one: ESPN's own figure on those rows differed from the play before in about 70 of 90 cases. The header keeps the situation after the last real play.
+
 ### Changed
 - A scoring play whose text ESPN changes more than 5 minutes after it happened, or after the quarter, period or half-inning it was in has ended (an old home run's distance, a reworded error call that flips back and forth), is corrected in place quietly: no new alert and no toast, only the row's text changes. A real addition such as an extra point arrives within a couple of minutes. An extra point added to a touchdown within a couple of minutes is still announced as an update.
 - In baseball, the batter's name under the team is blank between an at-bat's result and the announcement of the next batter (the pitcher stays), so it no longer names the batter who just walked or made an out.
