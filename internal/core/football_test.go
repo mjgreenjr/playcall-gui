@@ -471,6 +471,9 @@ func TestPlayEndContradictedByFirstDown(t *testing.T) {
 	if got := body(play("rush for 2 yards, 1ST DOWN", "1st & 10")); got != "3rd & 1 · rush for 2 yards, 1ST DOWN · 1st & 10" {
 		t.Errorf("end of a real first down lost: %q", got)
 	}
+	if got := body(play("pass incomplete. CALL OVERTURNED. (Original Play: pass complete, 1ST DOWN)", "2nd & 10")); got != "3rd & 1 · pass incomplete. CALL OVERTURNED. (Original Play: pass complete, 1ST DOWN) · 2nd & 10" {
+		t.Errorf("end of a reviewed play dropped: %q", got)
+	}
 	if got := body(play("rush for 2 yards", "4th & 1")); got != "3rd & 1 · rush for 2 yards · 4th & 1" {
 		t.Errorf("ordinary end changed: %q", got)
 	}

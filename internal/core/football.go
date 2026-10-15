@@ -434,12 +434,16 @@ var touchdownFirstDown = regexp.MustCompile(`(TOUCHDOWN(?:, clock \d+:\d+)?), 1S
 // playEnd is a play's `end` (down, distance, spot), or nil when its own text
 // contradicts it: a play whose text says "1ST DOWN" but whose end is still
 // "4th & 1" (ESPN does not update the end for a first down, and not after a
-// penalty that gives one: 8 of the 71 non-scoring plays with it in two games on
-// 2026-10-14, e.g. a 2-yard rush on 3rd & 1 with "4th & 1" after it). There is
+// penalty that gives one: 6 of the 71 non-scoring plays with it in two games on
+// 2026-10-14 had the next snap start at 1st, e.g. a 2-yard rush on 3rd & 1 with
+// "4th & 1" after it). There is
 // no down and distance to show then, and the next snap's start fills it in.
 func playEnd(p espn.Data) espn.Data {
 	end := espn.Map(p["end"])
-	if end != nil && strings.Contains(espn.PlayText(p), "1ST DOWN") &&
+	text := espn.PlayText(p)
+	// A reviewed play carries the first down of the play it replaced ("(Original
+	// Play: ... 1ST DOWN)"): its end is the right one (2 of 2).
+	if end != nil && strings.Contains(text, "1ST DOWN") && !strings.Contains(text, "Original Play") &&
 		!strings.HasPrefix(espn.Str(end["shortDownDistanceText"]), "1st") {
 		return nil
 	}
