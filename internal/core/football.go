@@ -41,14 +41,21 @@ func (r footballPlays) Message(p espn.Data) Message {
 		// the clock, and its down and distance (the next possession) is dropped.
 		clock, period, body = "Halftime", "", text
 	}
+	display := ""
+	if espn.Truthy(p["scoringPlay"]) {
+		if shown := touchdownFirstDown.ReplaceAllString(body, "$1"); shown != body {
+			display = shown
+		}
+	}
 	return Message{
-		Title:  FormatTitle(f.Away.Abbr, f.Away.Score, clock, period, f.Home.Abbr, f.Home.Score),
-		Body:   body,
-		Urgent: footballUrgent(p, text),
-		Home:   f.Home,
-		Away:   f.Away,
-		Clock:  clock,
-		Period: period,
+		Title:   FormatTitle(f.Away.Abbr, f.Away.Score, clock, period, f.Home.Abbr, f.Home.Score),
+		Display: display,
+		Body:    body,
+		Urgent:  footballUrgent(p, text),
+		Home:    f.Home,
+		Away:    f.Away,
+		Clock:   clock,
+		Period:  period,
 	}
 }
 
@@ -417,3 +424,9 @@ func startedBeforeStatus(sport string, data espn.Data, plays []espn.Data) {
 		}
 	}
 }
+
+// touchdownFirstDown matches the ", 1ST DOWN" ESPN adds to a touchdown pass
+// that also gained a first down ("... KSU00 TOUCHDOWN, clock 09:20, 1ST DOWN
+// #36 Y.Obeid kick attempt good"). Meaningless on a score, so the window and
+// toasts leave it out; Body keeps ESPN's text.
+var touchdownFirstDown = regexp.MustCompile(`(TOUCHDOWN(?:, clock \d+:\d+)?), 1ST DOWN`)

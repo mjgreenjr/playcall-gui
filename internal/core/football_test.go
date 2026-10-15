@@ -435,3 +435,23 @@ func TestDropAfterPeriodEnd(t *testing.T) {
 		t.Errorf("last_play_id %d, known %v", *p.State.LastPlayID, p.known)
 	}
 }
+
+func TestTouchdownFirstDownLeftOutOfDisplay(t *testing.T) {
+	msg := func(text string, scoring bool) Message {
+		play := espn.Data{"id": "1", "text": text, "scoringPlay": scoring, "type": espn.Data{"text": "Passing Touchdown"},
+			"period": espn.Data{"number": json.Number("2")}}
+		return footballPlays{&Feed{Plays: []espn.Data{play}}}.Message(play)
+	}
+	const raw = "(09:23) pass complete to #3 I.Myers caught at KSU00, for 12 yards to the KSU00 TOUCHDOWN, clock 09:20, 1ST DOWN"
+	m := msg(raw, true)
+	if m.Display != "(09:23) pass complete to #3 I.Myers caught at KSU end zone, for 12 yards to the KSU end zone TOUCHDOWN, clock 09:20" || !strings.Contains(m.Body, "1ST DOWN") {
+		t.Errorf("score: display %q body %q", m.Display, m.Body)
+	}
+	m = msg(raw+" #36 Y.Obeid kick attempt good", true)
+	if strings.Contains(m.Display, "1ST DOWN") || !strings.Contains(m.Display, "kick attempt good") {
+		t.Errorf("update: display %q", m.Display)
+	}
+	if m := msg("rush for 4 yards, 1ST DOWN", false); m.Display != "" {
+		t.Errorf("a plain first down changed: %q", m.Display)
+	}
+}
