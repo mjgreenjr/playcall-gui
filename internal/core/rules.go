@@ -24,6 +24,10 @@ type Feed struct {
 	Clock      string // top-level clock, else status displayClock
 	Period     string // top-level period, else status displayPeriod
 	Series     string // postseason series standing, e.g. "LAD 2-1"; "" if none
+	// Charged is college football's timeout rows by play id: true for one
+	// ESPN's counter charged to a team, false for an official's. A row not in
+	// it has no verdict (the rules decide).
+	Charged map[string]bool
 }
 
 // Message is what a play becomes: the rendered text, and the structured parts

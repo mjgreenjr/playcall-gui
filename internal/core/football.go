@@ -30,7 +30,7 @@ func (r footballPlays) Message(p espn.Data) Message {
 	f := r.f
 	clock, period, body := f.Clock, f.Period, footballBody(p, dropPlaceholderClock(text, f.Clock))
 	if isTimeout(p) {
-		body = footballTimeoutBody(f.Plays, p, text)
+		body = footballTimeoutBody(f.Plays, p, text, f.Charged)
 	}
 	body = completeSpots(body, spotNames(f.Data))
 	if isPeriodEnd(p) {
@@ -69,13 +69,17 @@ func footballHalftime(p espn.Data) bool {
 // footballTimeoutBody is a timeout's text framed by the situation after the
 // play before it. ESPN's own "start" for a timeout can be stale (after a punt
 // it still has the fourth down); with no earlier play to go by it is used as is.
-func footballTimeoutBody(plays []espn.Data, p espn.Data, text string) string {
+func footballTimeoutBody(plays []espn.Data, p espn.Data, text string, charged map[string]bool) string {
 	id := espn.PlayKey(p)
 	for i, q := range plays {
 		if espn.PlayKey(q) != id {
 			continue
 		}
-		if (i > 0 && (changesPossession(plays[i-1]) || espn.Truthy(plays[i-1]["scoringPlay"]))) || twoMinuteWarning(plays, i) {
+		official := (i > 0 && (changesPossession(plays[i-1]) || espn.Truthy(plays[i-1]["scoringPlay"]))) || twoMinuteWarning(plays, i)
+		if c, ok := charged[id]; ok {
+			official = !c // ESPN's counter knows
+		}
+		if official {
 			text = officialTimeout(text)
 		}
 		for j := i - 1; j >= 0; j-- {

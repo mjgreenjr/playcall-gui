@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Fixed
+- College football: a timeout row is "Official timeout" or the team's by ESPN's own counter (`timeoutsUsed`) instead of by guesswork from the plays, so a row no longer contradicts the circles (a timeout right after a kickoff was charged, and a TV break filed under the offense was not, both in KENN @ MOST). Rows already in the feed when the app starts keep the old rules, since the counter's history is gone.
 - Football: the header no longer sits on the start time for 10 to 20 seconds after the kickoff. ESPN posts the kickoff play before its status leaves "pre"; a game with plays is now treated as live in the 1st quarter, with the score and the clock from the play and three timeouts each.
 - Football: when ESPN corrects a play's text ("enforced at BUF 24" became "BUF 25", an 8-yard gain became 9) the play's row is rewritten in place, quietly (no toast, no new row, tagged "(updated)"). Before, the row kept the first wording while the header already used the corrected spot. Only plays that are not stale are rewritten (see the scoring-play entry below for what stale means).
 - The game page no longer cuts the record under a team short ("1-2 (...") in football, hockey and the other sports: only baseball's fixed-width name column truncates.

@@ -75,6 +75,13 @@ type Poller struct {
 	lastTimeouts   string
 	timeoutPlays   map[string]bool
 	timeoutsSeeded bool
+	// College timeout labels from the counter (see collegeTimeoutVerdicts).
+	timeoutVerdicts map[string]bool
+	timeoutSeen     map[string]bool
+	verdictsSeeded  bool
+	usedSeeded      bool
+	lastUsed        [2]int64
+	credits         []time.Time
 	// known is the football plays this run has seen or sent whose ids are not
 	// above last_play_id. ESPN's football ids are not always in play order (a
 	// timeout can carry a higher id than the snap that followed it), so a play
@@ -156,6 +163,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 	p.logTextChanges(plays)
 	feed := p.newFeed(data, plays, finished)
 	p.logTimeouts(feed)
+	p.collegeTimeoutVerdicts(feed)
 	p.publishStatus(feed)
 	var out Outcome
 	if len(plays) == 0 {

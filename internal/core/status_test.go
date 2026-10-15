@@ -892,3 +892,67 @@ func TestStartedBeforeStatusScoreFromPlay(t *testing.T) {
 		t.Errorf("scores %s-%s, want 0-6 from the play", f.Away.Score, f.Home.Score)
 	}
 }
+
+func TestCollegeTimeoutVerdicts(t *testing.T) {
+	clock := time.Date(2026, 10, 14, 20, 0, 0, 0, time.UTC)
+	p := &Poller{Sport: "cfb", Now: func() time.Time { return clock }}
+	play := func(id, text, typ string) espn.Data {
+		return espn.Data{"id": id, "text": text, "type": espn.Data{"text": typ},
+			"period": espn.Data{"number": json.Number("1")}}
+	}
+	feed := func(away, home int, plays ...espn.Data) *Feed {
+		c := func(side string, n int) espn.Data {
+			return espn.Data{"homeAway": side, "timeoutsUsed": json.Number(strconv.Itoa(n))}
+		}
+		return &Feed{Plays: plays, Data: espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+			"competitors": []any{c("away", away), c("home", home)}}}}}}
+	}
+	snap := play("1", "(14:50) rush for 3 yards", "Rush")
+	t1 := play("2", "Timeout Kennesaw State, clock 05:57", "Timeout")
+	t2 := play("3", "Timeout Kennesaw State, clock 14:07", "Timeout")
+	t3 := play("4", "Timeout Missouri State, clock 10:00", "Timeout")
+
+	// First poll: a row already there has no verdict.
+	f := feed(0, 0, snap, t1)
+	p.collegeTimeoutVerdicts(f)
+	if _, ok := f.Charged["2"]; ok {
+		t.Error("row seen on the first poll got a verdict")
+	}
+	// A row with no rise of the counter is an official's.
+	clock = clock.Add(10 * time.Second)
+	f = feed(0, 0, snap, t1, t2)
+	p.collegeTimeoutVerdicts(f)
+	if c, ok := f.Charged["3"]; !ok || c {
+		t.Errorf("no rise: verdict %v %v, want uncharged", c, ok)
+	}
+	// The counter rises, then the row arrives: charged.
+	clock = clock.Add(10 * time.Second)
+	p.collegeTimeoutVerdicts(feed(1, 0, snap, t1, t2))
+	clock = clock.Add(10 * time.Second)
+	f = feed(1, 0, snap, t1, t2, t3)
+	p.collegeTimeoutVerdicts(f)
+	if c, ok := f.Charged["4"]; !ok || !c {
+		t.Errorf("after a rise: verdict %v %v, want charged", c, ok)
+	}
+	if got := f.Charged["3"]; got {
+		t.Error("an earlier verdict changed")
+	}
+	// The label follows the verdict, whatever the rules say.
+	body := footballPlays{f}.Message(t3).Body
+	if !strings.Contains(body, "Timeout Missouri State") {
+		t.Errorf("charged row: %q", body)
+	}
+	body = footballPlays{f}.Message(t2).Body
+	if !strings.Contains(body, "Official timeout") {
+		t.Errorf("uncharged row: %q", body)
+	}
+	// A rise nobody claims runs out.
+	p.collegeTimeoutVerdicts(feed(2, 0, snap, t1, t2, t3))
+	clock = clock.Add(2 * time.Minute)
+	t4 := play("5", "Timeout Kennesaw State, clock 09:00", "Timeout")
+	f = feed(2, 0, snap, t1, t2, t3, t4)
+	p.collegeTimeoutVerdicts(f)
+	if c, ok := f.Charged["5"]; !ok || c {
+		t.Errorf("stale credit: verdict %v %v, want uncharged", c, ok)
+	}
+}
