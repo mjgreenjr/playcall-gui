@@ -455,3 +455,23 @@ func TestTouchdownFirstDownLeftOutOfDisplay(t *testing.T) {
 		t.Errorf("a plain first down changed: %q", m.Display)
 	}
 }
+
+func TestPlayEndContradictedByFirstDown(t *testing.T) {
+	play := func(text, end string) espn.Data {
+		return espn.Data{"id": "1", "text": text, "type": espn.Data{"text": "Rush"},
+			"start": espn.Data{"shortDownDistanceText": "3rd & 1"},
+			"end":   espn.Data{"shortDownDistanceText": end}}
+	}
+	body := func(p espn.Data) string {
+		return footballPlays{&Feed{Plays: []espn.Data{p}}}.Message(p).Body
+	}
+	if got := body(play("rush for 2 yards, 1ST DOWN", "4th & 1")); got != "3rd & 1 · rush for 2 yards, 1ST DOWN" {
+		t.Errorf("end kept after a first down: %q", got)
+	}
+	if got := body(play("rush for 2 yards, 1ST DOWN", "1st & 10")); got != "3rd & 1 · rush for 2 yards, 1ST DOWN · 1st & 10" {
+		t.Errorf("end of a real first down lost: %q", got)
+	}
+	if got := body(play("rush for 2 yards", "4th & 1")); got != "3rd & 1 · rush for 2 yards · 4th & 1" {
+		t.Errorf("ordinary end changed: %q", got)
+	}
+}

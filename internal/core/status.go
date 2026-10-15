@@ -518,7 +518,7 @@ func situation(sport string, f *Feed) string {
 		// 2nd & 7).
 		for i := len(f.Plays) - 2; i >= 0; i-- {
 			if !isTimeout(f.Plays[i]) && !isPeriodEnd(f.Plays[i]) {
-				return downDistanceFull(espn.Map(f.Plays[i]["end"]))
+				return downDistanceFull(playEnd(f.Plays[i]))
 			}
 		}
 		if isTimeout(last) {
@@ -526,7 +526,7 @@ func situation(sport string, f *Feed) string {
 		}
 		return ""
 	}
-	return downDistanceFull(espn.Map(last["end"]))
+	return downDistanceFull(playEnd(last))
 }
 
 // isPeriodEnd is a football play that marks the end of a quarter, a half or

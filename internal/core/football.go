@@ -91,7 +91,7 @@ func footballTimeoutBody(plays []espn.Data, p espn.Data, text string, charged ma
 		}
 		for j := i - 1; j >= 0; j-- {
 			if !isTimeout(plays[j]) {
-				return joinParts(downDistance(espn.Map(plays[j]["end"])), endZone(text))
+				return joinParts(downDistance(playEnd(plays[j])), endZone(text))
 			}
 		}
 	}
@@ -204,7 +204,7 @@ func footballBody(p espn.Data, text string) string {
 	for _, s := range []string{
 		downDistance(espn.Map(p["start"])),
 		endZone(text),
-		downDistance(espn.Map(p["end"])),
+		downDistance(playEnd(p)),
 	} {
 		if s != "" {
 			parts = append(parts, s)
@@ -430,3 +430,18 @@ func startedBeforeStatus(sport string, data espn.Data, plays []espn.Data) {
 // #36 Y.Obeid kick attempt good"). Meaningless on a score, so the window and
 // toasts leave it out; Body keeps ESPN's text.
 var touchdownFirstDown = regexp.MustCompile(`(TOUCHDOWN(?:, clock \d+:\d+)?), 1ST DOWN`)
+
+// playEnd is a play's `end` (down, distance, spot), or nil when its own text
+// contradicts it: a play whose text says "1ST DOWN" but whose end is still
+// "4th & 1" (ESPN does not update the end for a first down, and not after a
+// penalty that gives one: 8 of the 71 non-scoring plays with it in two games on
+// 2026-10-14, e.g. a 2-yard rush on 3rd & 1 with "4th & 1" after it). There is
+// no down and distance to show then, and the next snap's start fills it in.
+func playEnd(p espn.Data) espn.Data {
+	end := espn.Map(p["end"])
+	if end != nil && strings.Contains(espn.PlayText(p), "1ST DOWN") &&
+		!strings.HasPrefix(espn.Str(end["shortDownDistanceText"]), "1st") {
+		return nil
+	}
+	return end
+}
