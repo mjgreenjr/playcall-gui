@@ -956,3 +956,41 @@ func TestCollegeTimeoutVerdicts(t *testing.T) {
 		t.Errorf("stale credit: verdict %v %v, want uncharged", c, ok)
 	}
 }
+
+func TestStatusBehindAtPeriodBreaks(t *testing.T) {
+	build := func(name string, statusPeriod, playPeriod int, playType string) (espn.Data, []espn.Data) {
+		data := espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+			"competitors": []any{espn.Data{"homeAway": "away", "timeoutsUsed": json.Number("3")}, espn.Data{"homeAway": "home", "timeoutsUsed": json.Number("1")}},
+			"status": espn.Data{"displayClock": "0:00", "period": json.Number(strconv.Itoa(statusPeriod)),
+				"type": espn.Data{"state": "in", "name": name}},
+		}}}}
+		play := espn.Data{"id": "1", "type": espn.Data{"text": playType},
+			"period": espn.Data{"number": json.Number(strconv.Itoa(playPeriod)), "displayValue": "3rd Quarter"},
+			"clock":  espn.Data{"displayValue": "15:00"}}
+		return data, []espn.Data{play}
+	}
+	for name, c := range map[string]struct {
+		status     string
+		sp, pp     int
+		typ        string
+		wantLive   bool
+		wantPeriod string
+	}{
+		"kickoff of the 3rd at halftime": {"STATUS_HALFTIME", 2, 3, "Kickoff", true, "3rd Quarter"},
+		"kickoff of the 2nd at a break":  {"STATUS_END_PERIOD", 1, 2, "Kickoff", true, "3rd Quarter"},
+		"the End Period row itself":      {"STATUS_HALFTIME", 2, 2, "End Period", false, ""},
+		"halftime with the 2nd's plays":  {"STATUS_HALFTIME", 2, 2, "Pass Reception", false, ""},
+		"already in progress":            {"STATUS_IN_PROGRESS", 3, 3, "Kickoff", false, ""},
+	} {
+		data, plays := build(c.status, c.sp, c.pp, c.typ)
+		startedBeforeStatus("cfb", data, plays)
+		f := (&Poller{Sport: "cfb"}).newFeed(data, plays, false)
+		live := espn.Str(espn.Map(espn.Status(data)["type"])["name"]) == "STATUS_IN_PROGRESS" && c.status != "STATUS_IN_PROGRESS"
+		if live != c.wantLive {
+			t.Errorf("%s: live=%v, want %v", name, live, c.wantLive)
+		}
+		if c.wantLive && (f.Period != c.wantPeriod || f.Clock != "15:00" || footballPeriodBreak("cfb", f)) {
+			t.Errorf("%s: period %q clock %q", name, f.Period, f.Clock)
+		}
+	}
+}
