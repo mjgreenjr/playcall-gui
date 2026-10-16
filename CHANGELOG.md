@@ -34,6 +34,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 - Baseball's game page shows the bases as a small diamond (second on top, squares turned on a corner, filled for each runner on, home plate at the bottom), and the balls, strikes and outs as rows of circles (B, S, O) beside it, filled as they pile up, the two centered together under the status line. They replace the text "1-2, 1 out, 2 on" there. Toasts, titles and the CLI keep the text.
 
 ### Added
+- College football: the first half's timeout totals are saved (a small `first_half.json` in the cache folder, per game, kept a week), so restarting the GUI in the second half keeps the circles. Only totals saved at halftime are used; a game the app did not see at the break still shows none.
 - College football shows each team's timeouts left in the half as circles under its score, like the NFL's. It comes from ESPN's counter, which only counts charged timeouts (not the official ones ESPN files under a team), and needs the first half's total: if the app starts after halftime it shows none (unless no team has used a timeout), and overtime shows none.
 - A `Makefile`: `make` builds both programs, `make install` copies them to `~/.local/bin` (or `PREFIX`), `make uninstall`, `make cli`, `make test`. The README has an Install section.
 

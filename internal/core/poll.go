@@ -95,6 +95,10 @@ type Poller struct {
 	// collegeFirstHalf is each college side's timeouts used when the first half
 	// ended ("away", "home"), seen while it was in play; see collegeCounts.
 	collegeFirstHalf map[string]int64
+	// FirstHalfStore, when set (the GUI), saves those totals and takes them
+	// back after a restart in the second half. Once never saves.
+	FirstHalfStore *HalfStore
+	halfSaved      FirstHalf
 	// ended is the periods whose end an earlier poll's feed already showed.
 	ended map[int64]bool
 	// sentTexts is the text of each revisable play (see revisablePlay) as it

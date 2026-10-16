@@ -1,6 +1,7 @@
 package core
 
 import (
+	"log/slog"
 	"strings"
 	"time"
 
@@ -205,6 +206,13 @@ func (p *Poller) collegeCounts(f *Feed) (away, home *TeamCounts) {
 		for i, side := range sides {
 			p.collegeFirstHalf[side] = used[i]
 		}
+		p.saveFirstHalf(used, espn.Str(typ["name"]) == "STATUS_HALFTIME")
+	} else if p.collegeFirstHalf == nil && p.FirstHalfStore != nil {
+		// A restart in the second half: the totals saved at the break, if the
+		// last run saw it (one saved while the half was in play can be short).
+		if h, ok := p.FirstHalfStore.Load(p.State.GameID); ok && h.Final {
+			p.collegeFirstHalf = map[string]int64{"away": h.Away, "home": h.Home}
+		}
 	}
 	if period >= 3 && p.collegeFirstHalf == nil && used[0] == 0 && used[1] == 0 {
 		// Nobody has used one, so the first half's total was 0 for both; keep
@@ -229,6 +237,24 @@ func (p *Poller) collegeCounts(f *Feed) (away, home *TeamCounts) {
 	}
 	return &TeamCounts{Timeouts: int(left[0]), TimeoutSlots: collegeHalfTimeouts},
 		&TeamCounts{Timeouts: int(left[1]), TimeoutSlots: collegeHalfTimeouts}
+}
+
+// saveFirstHalf writes the first-half totals when they or their finality
+// changed.
+func (p *Poller) saveFirstHalf(used [2]int64, final bool) {
+	if p.Once || p.FirstHalfStore == nil {
+		return
+	}
+	h := FirstHalf{Away: used[0], Home: used[1], Final: final}
+	if h.Away == p.halfSaved.Away && h.Home == p.halfSaved.Home && h.Final == p.halfSaved.Final && p.halfSaved.At != 0 {
+		return
+	}
+	if err := p.FirstHalfStore.Save(p.State.GameID, h); err != nil {
+		slog.Warn("Could not save the first-half timeouts", "err", err)
+		return
+	}
+	h.At = 1
+	p.halfSaved = h
 }
 
 // Most timeouts a pro team may use in the 4th quarter and in each overtime.

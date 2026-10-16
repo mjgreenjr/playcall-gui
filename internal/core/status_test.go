@@ -1022,3 +1022,58 @@ func TestHalftimeFromEndOfHalfRow(t *testing.T) {
 		}
 	}
 }
+
+func TestCollegeFirstHalfSurvivesRestart(t *testing.T) {
+	feed := func(name string, period int, away, home int) *Feed {
+		comp := func(side string, used int) espn.Data {
+			return espn.Data{"homeAway": side, "timeoutsUsed": json.Number(strconv.Itoa(used))}
+		}
+		return &Feed{Data: espn.Data{
+			"header": espn.Data{"competitions": []any{espn.Data{
+				"competitors": []any{comp("away", away), comp("home", home)},
+				"status": espn.Data{"period": json.Number(strconv.Itoa(period)),
+					"type": espn.Data{"state": "in", "name": name}},
+			}}},
+		}}
+	}
+	live := "STATUS_IN_PROGRESS"
+	dir := t.TempDir()
+	store := func() *HalfStore { return NewHalfStore(Paths{CacheDir: dir}) }
+	poller := func(game string) *Poller {
+		return &Poller{State: &State{GameID: game}, FirstHalfStore: store()}
+	}
+	left := func(p *Poller, f *Feed) [2]int {
+		a, h := p.collegeCounts(f)
+		if a == nil || h == nil {
+			return [2]int{-1, -1}
+		}
+		return [2]int{a.Timeouts, h.Timeouts}
+	}
+
+	// The first run sees the break: 3 and 1 used.
+	first := poller("100")
+	first.collegeCounts(feed(live, 2, 3, 1))
+	first.collegeCounts(feed("STATUS_HALFTIME", 2, 3, 1))
+
+	// A restart in the 3rd quarter, the home side has taken one since.
+	if got := left(poller("100"), feed(live, 3, 3, 2)); got != [2]int{3, 2} {
+		t.Errorf("restart in the 3rd: %v, want [3 2]", got)
+	}
+	// Another game's totals are not borrowed.
+	if got := left(poller("200"), feed(live, 3, 3, 2)); got != [2]int{-1, -1} {
+		t.Errorf("other game: %v, want no circles", got)
+	}
+	// Totals saved while the half was still in play can be short: not used.
+	partial := poller("300")
+	partial.collegeCounts(feed(live, 2, 1, 0))
+	if got := left(poller("300"), feed(live, 3, 3, 2)); got != [2]int{-1, -1} {
+		t.Errorf("unfinished first half: %v, want no circles", got)
+	}
+	// A standalone check (Once) writes nothing.
+	once := poller("400")
+	once.Once = true
+	once.collegeCounts(feed("STATUS_HALFTIME", 2, 3, 1))
+	if got := left(poller("400"), feed(live, 3, 3, 2)); got != [2]int{-1, -1} {
+		t.Errorf("Once saved: %v", got)
+	}
+}

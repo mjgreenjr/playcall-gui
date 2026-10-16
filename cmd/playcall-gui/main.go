@@ -412,6 +412,9 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 		return
 	}
 	poller.StatusSink = win
+	if paths, err := core.DefaultPaths(); err == nil {
+		poller.FirstHalfStore = core.NewHalfStore(paths)
+	}
 	s.watchDivisions(ctx, sport, view, poller)
 
 	s.win.SetTitle(fmt.Sprintf("playcall - %s %s", sportLabel(sport), gameID))
