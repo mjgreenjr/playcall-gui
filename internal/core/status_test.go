@@ -994,3 +994,31 @@ func TestStatusBehindAtPeriodBreaks(t *testing.T) {
 		}
 	}
 }
+
+func TestHalftimeFromEndOfHalfRow(t *testing.T) {
+	for name, c := range map[string]struct {
+		sport, typ, status string
+		period, statusPer  int
+		want               bool
+	}{
+		"cfb End Period of the 2nd, status behind": {"cfb", "End Period", "STATUS_IN_PROGRESS", 2, 2, true},
+		"nfl End of Half, status behind":           {"nfl", "End of Half", "STATUS_IN_PROGRESS", 2, 2, true},
+		"cfb End Period of the 1st":                {"cfb", "End Period", "STATUS_IN_PROGRESS", 1, 1, false},
+		"cfb status already in the 3rd":            {"cfb", "End Period", "STATUS_IN_PROGRESS", 2, 3, false},
+		"cfb ordinary play":                        {"cfb", "Rush", "STATUS_IN_PROGRESS", 2, 2, false},
+	} {
+		data := espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+			"status": espn.Data{"displayClock": "0:00", "period": json.Number(strconv.Itoa(c.statusPer)),
+				"type": espn.Data{"state": "in", "name": c.status}},
+		}}}}
+		play := espn.Data{"id": "1", "type": espn.Data{"text": c.typ}, "wallclock": "2026-10-16T01:12:34Z",
+			"period": espn.Data{"number": json.Number(strconv.Itoa(c.period))}, "clock": espn.Data{"displayValue": "0:00"}}
+		plays := []espn.Data{play}
+		startedBeforeStatus(c.sport, data, plays)
+		f := (&Poller{Sport: c.sport}).newFeed(data, plays, false)
+		got := !halftimeEnds(c.sport, f).IsZero()
+		if got != c.want {
+			t.Errorf("%s: halftime countdown %v, want %v", name, got, c.want)
+		}
+	}
+}

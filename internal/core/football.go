@@ -391,6 +391,17 @@ func startedBeforeStatus(sport string, data espn.Data, plays []espn.Data) {
 		return
 	}
 	name := espn.Str(typ["name"])
+	if halfOver(sport, last) && espn.Str(typ["state"]) == "in" && name != "STATUS_HALFTIME" {
+		// The half's last play is in and the status is still in the 2nd
+		// quarter (GASO @ ODU and ECU @ UAB on 2026-10-15: the End Period row
+		// first, "Halftime" about 40 seconds later; DEL @ MTSU: 80).
+		if shown, ok := espn.Int64(status["period"]); ok && shown > 2 {
+			return
+		}
+		slog.Debug("Status behind the plays; treating the game as at halftime", "play", espn.PlayKey(last), "status", name)
+		typ["name"] = "STATUS_HALFTIME"
+		return
+	}
 	switch {
 	case espn.Str(typ["state"]) == "pre" && playPeriod == 1:
 	case (name == "STATUS_HALFTIME" || name == "STATUS_END_PERIOD") && !isPeriodEnd(last):
@@ -423,6 +434,18 @@ func startedBeforeStatus(sport string, data espn.Data, plays []espn.Data) {
 			c.team["score"] = c.score
 		}
 	}
+}
+
+// halfOver is true for the play that ends the first half: the NFL's End of
+// Half, college's End Period of the 2nd quarter.
+func halfOver(sport string, p espn.Data) bool {
+	switch {
+	case sport == "nfl":
+		return strings.EqualFold(playType(p), "End of Half")
+	case sport == "cfb":
+		return strings.EqualFold(playType(p), "End Period") && espn.Str(espn.Map(p["period"])["number"]) == "2"
+	}
+	return false
 }
 
 // touchdownFirstDown matches the ", 1ST DOWN" ESPN adds to a touchdown pass
