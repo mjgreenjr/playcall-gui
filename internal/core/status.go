@@ -349,6 +349,12 @@ func (p *Poller) publishStatus(f *Feed) {
 		return
 	}
 	st := espn.Map(espn.Status(f.Data)["type"])
+	over := footballGameOver(p.Sport, f)
+	if over {
+		g := *f
+		g.Finished = true // the header, counts and situation read it as final
+		f = &g
+	}
 	period := f.Period
 	if br, ok := p.Rules.(basketballRules); ok {
 		// ESPN's status says "5th" in overtime; the plays say "OT".
@@ -357,6 +363,9 @@ func (p *Poller) publishStatus(f *Feed) {
 		}
 	}
 	detail := espn.Str(st["shortDetail"])
+	if over {
+		detail = "Final"
+	}
 	if footballPeriodBreak(p.Sport, f) && espn.Str(st["name"]) != "STATUS_END_PERIOD" {
 		detail = "End of " + period // ESPN's own says "15:00 - 3rd"
 	}

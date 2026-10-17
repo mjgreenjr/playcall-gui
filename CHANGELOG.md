@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Fixed
+- Football: the header shows "Final" as soon as the game's End of Game row is posted, not 20 seconds or so later when ESPN's status catches up (PSU @ MICH sat on the 4th with no clock while ESPN already had the new records). The final event ("Game over") and the end of polling still wait for ESPN's status; a tied college game going to overtime is not affected.
 - Football: the header shows "Halftime" with its countdown as soon as the first half's last play (the 2nd quarter's End Period, the NFL's End of Half) is posted, not 40 to 80 seconds later when ESPN's status catches up.
 - Football: a play whose text says "1ST DOWN" no longer shows ESPN's down and distance after it when that says otherwise ("3rd & 1 ... 1ST DOWN · 4th & 1" after a 2-yard rush; also after a penalty that gave the first down). The header shows nothing for the situation until the next snap, which has the right one.
 - College football: a timeout row is "Official timeout" or the team's by ESPN's own counter (`timeoutsUsed`) instead of by guesswork from the plays, so a row no longer contradicts the circles (a timeout right after a kickoff was charged, and a TV break filed under the offense was not, both in KENN @ MOST). Rows already in the feed when the app starts keep the old rules, since the counter's history is gone.

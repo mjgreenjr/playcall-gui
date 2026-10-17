@@ -436,6 +436,19 @@ func startedBeforeStatus(sport string, data espn.Data, plays []espn.Data) {
 	}
 }
 
+// footballGameOver is true when the feed's newest play is the End of Game row
+// but ESPN's status has not gone final yet (PSU @ MICH on 2026-10-17: the row
+// at 19:11:12, Final at 19:11:32, the status in between "in" with no period or
+// clock). The row is its own type, so a tie going to overtime ("End of
+// Regulation") does not match. Only the window's header uses it; the final
+// event and the end of polling still wait for ESPN.
+func footballGameOver(sport string, f *Feed) bool {
+	if (sport != "nfl" && sport != "cfb") || len(f.Plays) == 0 || f.Finished {
+		return false
+	}
+	return strings.EqualFold(playType(f.Plays[len(f.Plays)-1]), "End of Game")
+}
+
 // halfOver is true for the play that ends the first half: the NFL's End of
 // Half, college's End Period of the 2nd quarter.
 func halfOver(sport string, p espn.Data) bool {

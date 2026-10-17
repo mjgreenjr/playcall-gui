@@ -1077,3 +1077,35 @@ func TestCollegeFirstHalfSurvivesRestart(t *testing.T) {
 		t.Errorf("Once saved: %v", got)
 	}
 }
+
+func TestStatusEndOfGameRow(t *testing.T) {
+	for name, c := range map[string]struct {
+		sport, typ, state string
+		want              bool
+	}{
+		"cfb End of Game, status still in": {"cfb", "End of Game", "in", true},
+		"nfl End of Game, status still in": {"nfl", "End of Game", "in", true},
+		"cfb End of Regulation":            {"cfb", "End of Regulation", "in", false},
+		"cfb End Period":                   {"cfb", "End Period", "in", false},
+		"cfb ordinary play":                {"cfb", "Rush", "in", false},
+		"nba End of Game":                  {"nba", "End of Game", "in", false},
+	} {
+		data := espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+			"status": espn.Data{"displayClock": "0:00", "period": json.Number("4"),
+				"type": espn.Data{"state": c.state, "name": "STATUS_IN_PROGRESS", "shortDetail": "0:00 - 4th"}},
+		}}}}
+		play := espn.Data{"id": "1", "type": espn.Data{"text": c.typ}, "wallclock": "2026-10-17T23:10:41Z",
+			"period": espn.Data{"number": json.Number("4")}, "clock": espn.Data{"displayValue": "0:00"}}
+		var got GameStatus
+		p := &Poller{Sport: c.sport, State: &State{GameID: "1"}}
+		p.StatusSink = StatusFunc(func(s GameStatus) { got = s })
+		f := p.newFeed(data, []espn.Data{play}, false)
+		p.publishStatus(f)
+		if got.Final != c.want {
+			t.Errorf("%s: Final = %v, want %v", name, got.Final, c.want)
+		}
+		if c.want && (got.Detail != "Final" || got.State != "in" || f.Finished) {
+			t.Errorf("%s: detail %q, state %q, feed finished %v", name, got.Detail, got.State, f.Finished)
+		}
+	}
+}

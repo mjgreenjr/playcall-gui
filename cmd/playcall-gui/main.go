@@ -367,7 +367,7 @@ func (s *shell) watchDivisions(ctx context.Context, sport string, view *ui, poll
 	var wasLive bool
 	poller.StatusSink = core.StatusFunc(func(st core.GameStatus) {
 		guiSink{view}.Status(st)
-		if !st.Final {
+		if !st.Final || st.State != "post" { // the header can say Final before ESPN's status does
 			wasLive = true
 			return
 		}
