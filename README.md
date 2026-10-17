@@ -175,8 +175,8 @@ text.
 ```
 
 Tests need neither the network nor a notification daemon. Golden files in
-`test/golden/` pin the exact output for every fixture; see `CLAUDE.md` for the
-rules around them and for the message contract per sport.
+`test/golden/` pin the exact output for every fixture; see `.claude/skills/golden-tests/SKILL.md` for the rules around them and
+`.claude/skills/message-contract/SKILL.md` and `sport-rules/SKILL.md` for the message contract per sport.
 
 ## What's next
 
