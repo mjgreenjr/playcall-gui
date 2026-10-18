@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Fixed
+- The game page checks the game once more 5 minutes after it turns final, so the teams' records catch up when ESPN updates them after the final status (BUF @ LV kept the pregame 4-1 for BUF; KENN @ MOST did the same). Polling still stops at the final, and a game opened already final is not rechecked.
 - College basketball: a coach's challenge that the play text says "charged with a timeout" now takes one of the team's timeout circles. ESPN posts no timeout play for it in college games (the NBA does post one beside it, so the NBA's count was already right), so the circles showed one too many after each upheld challenge (5 of 20 games checked).
 - Football: the header shows "Final" as soon as the game's End of Game row is posted, not 20 seconds or so later when ESPN's status catches up (PSU @ MICH sat on the 4th with no clock while ESPN already had the new records). The final event ("Game over") and the end of polling still wait for ESPN's status; a tied college game going to overtime is not affected.
 - Football: the header shows "Halftime" with its countdown as soon as the first half's last play (the 2nd quarter's End Period, the NFL's End of Half) is posted, not 40 to 80 seconds later when ESPN's status catches up.

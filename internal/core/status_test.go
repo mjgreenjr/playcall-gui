@@ -3,6 +3,7 @@ package core
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -1148,5 +1149,28 @@ func TestTimeoutsTakenChallenges(t *testing.T) {
 	}
 	if got := timeoutsTaken(append(nba[:1:1], play("Coach's Challenge (Stands)", "charged with a timeout", "28", "9:00")), "28"); got != 2 {
 		t.Errorf("a challenge at another clock: %d taken, want 2", got)
+	}
+}
+
+func TestRecheckPublishesStatusOnly(t *testing.T) {
+	data := espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+		"status": espn.Data{"type": espn.Data{"state": "post", "name": "STATUS_FINAL", "shortDetail": "Final"}},
+	}}}}
+	var got []GameStatus
+	st := &State{GameID: "7"}
+	p := &Poller{Sport: "nfl", State: st,
+		Fetch:      func(context.Context) (espn.Data, error) { return data, nil },
+		StatusSink: StatusFunc(func(s GameStatus) { got = append(got, s) })}
+	p.Recheck(context.Background())
+	if len(got) != 1 || !got[0].Final || got[0].State != "post" {
+		t.Errorf("published %+v, want one final status", got)
+	}
+	if len(st.SentIDs) != 0 || st.LastPlayID != nil {
+		t.Errorf("state changed: %+v", st)
+	}
+	p.Fetch = func(context.Context) (espn.Data, error) { return nil, errors.New("down") }
+	p.Recheck(context.Background())
+	if len(got) != 1 {
+		t.Errorf("a failed fetch published a status")
 	}
 }

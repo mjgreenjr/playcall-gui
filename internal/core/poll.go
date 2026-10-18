@@ -364,6 +364,19 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 	return out, nil
 }
 
+// Recheck fetches the game once more and publishes its status, for a game that
+// is already final: ESPN can change the teams' records minutes after the final
+// status (KENN @ MOST, BUF @ LV), when polling has stopped. It sends no play
+// or event, and writes no state. A failed fetch changes nothing.
+func (p *Poller) Recheck(ctx context.Context) {
+	data, err := p.Fetch(ctx)
+	if err != nil || data == nil {
+		slog.Warn("Failed to recheck the final", "game", p.State.GameID, "err", err)
+		return
+	}
+	p.publishStatus(p.newFeed(data, espn.ExtractPlays(data), espn.IsFinal(data)))
+}
+
 // rank is a team's ranking, for the sports that rank their teams.
 func (p *Poller) rank(competitor espn.Data) string {
 	if !sports.HasRankings(p.Sport) {

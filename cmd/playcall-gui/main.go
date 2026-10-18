@@ -386,6 +386,38 @@ func (s *shell) watchDivisions(ctx context.Context, sport string, view *ui, poll
 	})
 }
 
+// recheckFinal fetches a followed game's status once more, finalRecheck after
+// it turns final: ESPN can update the teams' records after the final status,
+// when polling has stopped (KENN @ MOST, BUF @ LV), and the header would keep
+// the old ones. Only a game seen live is rechecked; one opened already final is
+// as current as its first fetch. It wraps the poller's StatusSink, so it comes
+// after watchDivisions.
+func recheckFinal(ctx context.Context, poller *core.Poller) {
+	inner := poller.StatusSink
+	var wasLive bool
+	poller.StatusSink = core.StatusFunc(func(st core.GameStatus) {
+		inner.Status(st)
+		if !st.Final || st.State != "post" { // the header can say Final before ESPN's status does
+			wasLive = true
+			return
+		}
+		if !wasLive {
+			return
+		}
+		wasLive = false
+		go func() {
+			select {
+			case <-ctx.Done():
+			case <-time.After(finalRecheck):
+				poller.Recheck(ctx)
+			}
+		}()
+	})
+}
+
+// finalRecheck is how long after the final the game is fetched once more.
+const finalRecheck = 5 * time.Minute
+
 // follow polls one game into a fresh game view. back adds a button that
 // returns to the picker.
 func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duration, back bool) {
@@ -416,6 +448,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 		poller.FirstHalfStore = core.NewHalfStore(paths)
 	}
 	s.watchDivisions(ctx, sport, view, poller)
+	recheckFinal(ctx, poller)
 
 	s.win.SetTitle(fmt.Sprintf("playcall - %s %s", sportLabel(sport), gameID))
 	s.win.SetContent(view.content)
