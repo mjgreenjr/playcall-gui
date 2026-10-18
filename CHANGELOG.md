@@ -12,6 +12,8 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-18
+
 ### Fixed
 - The game page checks the game once more 5 minutes after it turns final, so the teams' records catch up when ESPN updates them after the final status (BUF @ LV kept the pregame 4-1 for BUF; KENN @ MOST did the same). Polling still stops at the final, and a game opened already final is not rechecked.
 - College basketball: a coach's challenge that the play text says "charged with a timeout" now takes one of the team's timeout circles. ESPN posts no timeout play for it in college games (the NBA does post one beside it, so the NBA's count was already right), so the circles showed one too many after each upheld challenge (5 of 20 games checked).
