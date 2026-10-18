@@ -196,6 +196,8 @@ about one time in ten. The result:
 - If you start or restart the app in the middle of an overtime period, the
   circles stay off for that period and return with the next one. Each team
   gets one timeout per overtime period.
+- The NFL does not have this problem: its counter restarts each half and each
+  overtime, so the circles are right whenever you start the app.
 
 ## What's next
 
