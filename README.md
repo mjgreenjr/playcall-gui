@@ -178,6 +178,25 @@ Tests need neither the network nor a notification daemon. Golden files in
 `test/golden/` pin the exact output for every fixture; see `.claude/skills/golden-tests/SKILL.md` for the rules around them and
 `.claude/skills/message-contract/SKILL.md` and `sport-rules/SKILL.md` for the message contract per sport.
 
+## Known limits
+
+**College football timeout circles can be missing.** ESPN reports one number
+per team, the timeouts charged over the whole game. It never resets at the
+half or in overtime, and it is blank once the game ends, so playcall can only
+work out what is left in the current half or overtime period by remembering
+the count from the start of that period. The plays cannot stand in for it:
+ESPN files official (TV, injury and two-minute) stoppages under a team, just
+like a timeout the team called, so counting timeout plays gets the number wrong
+about one time in ten. The result:
+
+- If you start the app in the second half, after missing the first half's
+  total, the circles stay off for that game. They also come back if no team
+  has used a timeout yet. The app saves the first half's totals, so
+  restarting it later in the same game keeps the circles.
+- If you start or restart the app in the middle of an overtime period, the
+  circles stay off for that period and return with the next one. Each team
+  gets one timeout per overtime period.
+
 ## What's next
 
 See the [roadmap](ROADMAP.md): a waybar module, then golf and tennis, then a
