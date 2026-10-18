@@ -173,9 +173,9 @@ const collegeHalfTimeouts = 3
 // team too), so the second half's number needs the first half's total, taken
 // while the first half is in play or at the break and kept here. A run that
 // starts in the second half does not have it: it shows nothing, unless no
-// team has used a timeout (so the first half's total was 0). Overtime shows
-// nothing (not checked). Nil also when the game is not in play or ESPN sends
-// no counter.
+// team has used a timeout (so the first half's total was 0). Overtime has one
+// timeout per team in each period (see collegeOvertime). Nil also when the
+// game is not in play or ESPN sends no counter.
 func (p *Poller) collegeCounts(f *Feed) (away, home *TeamCounts) {
 	st := espn.Status(f.Data)
 	typ := espn.Map(st["type"])
@@ -183,7 +183,7 @@ func (p *Poller) collegeCounts(f *Feed) (away, home *TeamCounts) {
 		return nil, nil
 	}
 	period, ok := espn.Int64(st["period"])
-	if !ok || period < 1 || period > 4 {
+	if !ok || period < 1 {
 		return nil, nil
 	}
 	h, a := espn.Teams(espn.Competition(f.Data))
@@ -199,6 +199,10 @@ func (p *Poller) collegeCounts(f *Feed) (away, home *TeamCounts) {
 		}
 		used[i] = u
 	}
+	if period > 4 {
+		return p.collegeOvertime(period, used)
+	}
+	p.collegeWatched = true
 	if period <= 2 {
 		if p.collegeFirstHalf == nil {
 			p.collegeFirstHalf = map[string]int64{}
@@ -237,6 +241,29 @@ func (p *Poller) collegeCounts(f *Feed) (away, home *TeamCounts) {
 	}
 	return &TeamCounts{Timeouts: int(left[0]), TimeoutSlots: collegeHalfTimeouts},
 		&TeamCounts{Timeouts: int(left[1]), TimeoutSlots: collegeHalfTimeouts}
+}
+
+// collegeOvertime is each college team's timeouts in an overtime period: one
+// each, gone when ESPN's running counter rises (FSU @ MIA on 2026-10-17: MIA 4
+// to 5 and FSU 1 to 2 in the second overtime, none in the first), and a new
+// one for each further period. The period's base is the counter at the first
+// poll of the period, so it needs a poll that came before it; joined or
+// restarted inside an overtime, the base is unknown and nothing is shown for
+// that period.
+func (p *Poller) collegeOvertime(period int64, used [2]int64) (away, home *TeamCounts) {
+	if p.collegeOTPeriod != period {
+		p.collegeOTPeriod = period
+		p.collegeOTKnown = p.collegeWatched
+		p.collegeOTBase = used
+	}
+	p.collegeWatched = true
+	if !p.collegeOTKnown {
+		return nil, nil
+	}
+	left := func(i int) *TeamCounts {
+		return &TeamCounts{Timeouts: int(min(max(1-(used[i]-p.collegeOTBase[i]), 0), 1)), TimeoutSlots: 1}
+	}
+	return left(0), left(1)
 }
 
 // saveFirstHalf writes the first-half totals when they or their finality

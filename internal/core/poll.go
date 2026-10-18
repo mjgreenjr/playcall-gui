@@ -95,6 +95,13 @@ type Poller struct {
 	// collegeFirstHalf is each college side's timeouts used when the first half
 	// ended ("away", "home"), seen while it was in play; see collegeCounts.
 	collegeFirstHalf map[string]int64
+	// collegeWatched is whether an earlier poll of this run found the game in
+	// play; collegeOTPeriod, collegeOTBase and collegeOTKnown are the current
+	// overtime period and ESPN's counters when it began (see collegeOvertime).
+	collegeWatched  bool
+	collegeOTPeriod int64
+	collegeOTBase   [2]int64
+	collegeOTKnown  bool
 	// FirstHalfStore, when set (the GUI), saves those totals and takes them
 	// back after a restart in the second half. Once never saves.
 	FirstHalfStore *HalfStore

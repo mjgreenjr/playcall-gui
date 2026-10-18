@@ -729,6 +729,9 @@ func TestCollegeCounts(t *testing.T) {
 	counts := func(away, home int) []*TeamCounts {
 		return []*TeamCounts{{Timeouts: away, TimeoutSlots: 3}, {Timeouts: home, TimeoutSlots: 3}}
 	}
+	otCounts := func(away, home int) []*TeamCounts {
+		return []*TeamCounts{{Timeouts: away, TimeoutSlots: 1}, {Timeouts: home, TimeoutSlots: 1}}
+	}
 	type step struct {
 		name string
 		f    *Feed
@@ -759,13 +762,22 @@ func TestCollegeCounts(t *testing.T) {
 		{"one taken by the home side", feed(live, 3, n(3), n(2)), counts(3, 2)},
 		{"fourth quarter", feed(live, 4, n(6), n(3)), counts(0, 1)},
 		{"charged beyond three is none left", feed(live, 4, n(7), n(3)), counts(0, 1)},
-		{"overtime shows nothing", feed(live, 5, n(6), n(3)), nil},
+		{"overtime: one each", feed(live, 5, n(6), n(3)), otCounts(1, 1)},
+		{"overtime: the home side takes it", feed(live, 5, n(6), n(4)), otCounts(1, 0)},
+		{"second overtime: a new one each", feed(live, 6, n(6), n(4)), otCounts(1, 1)},
+		{"second overtime: both taken", feed(live, 6, n(7), n(5)), otCounts(0, 0)},
 		{"no counter", feed(live, 3, nil, nil), nil},
 	})
 	// Joined at the break: the counter then is the first half's total.
 	check(&Poller{}, []step{
 		{"joined at halftime", feed("STATUS_HALFTIME", 2, n(2), n(1)), counts(3, 3)},
 		{"second half after it", feed(live, 3, n(3), n(1)), counts(2, 3)},
+	})
+	// Joined inside an overtime: that period shows nothing, the next one does.
+	check(&Poller{}, []step{
+		{"joined in the first overtime", feed(live, 5, n(6), n(3)), nil},
+		{"still nothing as it goes on", feed(live, 5, n(7), n(3)), nil},
+		{"second overtime starts", feed(live, 6, n(7), n(3)), otCounts(1, 1)},
 	})
 	// Joined in the second half: nothing, unless no timeout has been used.
 	check(&Poller{}, []step{
