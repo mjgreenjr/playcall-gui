@@ -1,6 +1,7 @@
 package core
 
 import (
+	"fmt"
 	"log/slog"
 	"strings"
 	"time"
@@ -325,15 +326,46 @@ func capCollegeTimeouts(c *TeamCounts, period int) {
 }
 
 // timeoutsTaken counts the timeout plays that belong to a team. A timeout
-// called by nobody (the "Official timeout") has no team and is not counted.
+// called by nobody (the "Official timeout", college's "Official TV Timeout")
+// has no team and is not counted. A coach's challenge that ESPN's text says
+// charged a timeout counts too, unless the team's own timeout play sits right
+// next to it at the same clock: the NBA posts one (6 of 6 in the 2026
+// preseason), college basketball does not (5 of 5 in last season's games).
 func timeoutsTaken(plays []espn.Data, teamID string) int {
 	n := 0
-	for _, p := range plays {
-		if strings.Contains(strings.ToLower(playType(p)), "timeout") && espn.Str(espn.Map(p["team"])["id"]) == teamID {
+	for i, p := range plays {
+		if espn.Str(espn.Map(p["team"])["id"]) != teamID {
+			continue
+		}
+		switch {
+		case isTimeout(p):
+			n++
+		case chargedChallenge(p) && !timeoutNextTo(plays, i):
 			n++
 		}
 	}
 	return n
+}
+
+func chargedChallenge(p espn.Data) bool {
+	return strings.Contains(strings.ToLower(playType(p)), "challenge") &&
+		strings.Contains(strings.ToLower(espn.Str(p["text"])), "charged with a timeout")
+}
+
+// timeoutNextTo is whether a timeout play of the same team, period and clock is
+// within two plays of plays[i].
+func timeoutNextTo(plays []espn.Data, i int) bool {
+	at := func(p espn.Data) (string, string, string) {
+		return espn.Str(espn.Map(p["team"])["id"]), espn.Str(espn.Map(p["clock"])["displayValue"]),
+			fmt.Sprint(espn.Map(p["period"])["number"])
+	}
+	team, clock, period := at(plays[i])
+	for j := max(i-2, 0); j <= min(i+2, len(plays)-1); j++ {
+		if t, c, pe := at(plays[j]); j != i && isTimeout(plays[j]) && t == team && c == clock && pe == period {
+			return true
+		}
+	}
+	return false
 }
 
 // teamCounts is nil when the competitor has neither timeouts nor fouls.

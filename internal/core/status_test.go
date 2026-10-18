@@ -1121,3 +1121,32 @@ func TestStatusEndOfGameRow(t *testing.T) {
 		}
 	}
 }
+
+// Plays shaped like ESPN's: college basketball posts no timeout play for a
+// charged coach's challenge (its type reads "Overturned" when the text says
+// "Upheld"); the NBA posts the team's Full Timeout beside it at the same clock.
+func TestTimeoutsTakenChallenges(t *testing.T) {
+	play := func(typ, text, team, clock string) espn.Data {
+		return espn.Data{"type": espn.Data{"text": typ}, "text": text, "team": espn.Data{"id": team},
+			"period": espn.Data{"number": json.Number("2")}, "clock": espn.Data{"displayValue": clock}}
+	}
+	college := []espn.Data{
+		play("ShortTimeOut", "Florida 30 second timeout", "57", "12:00"),
+		play("OfficialTVTimeOut", "Official TV Timeout", "", "11:00"),
+		play("Coach's Challenge (Overturned)", "Florida Coach's Challenge (Upheld) Florida charged with a timeout", "57", "9:00"),
+		play("Coach's Challenge (Stands)", "Florida Coach's Challenge (Overturned) Florida retains its timeout", "57", "5:00"),
+	}
+	if got := timeoutsTaken(college, "57"); got != 2 {
+		t.Errorf("college: %d taken, want 2 (a timeout and a charged challenge)", got)
+	}
+	nba := []espn.Data{
+		play("Full Timeout", "Raptors Full timeout", "28", "11:26"),
+		play("Coach's Challenge (Stands)", "(11:26) [Raptors] COACH'S CHALLENGE (CALL STANDS) [Raptors] charged with a timeout", "28", "11:26"),
+	}
+	if got := timeoutsTaken(nba, "28"); got != 1 {
+		t.Errorf("nba: %d taken, want 1 (the challenge shares its timeout play)", got)
+	}
+	if got := timeoutsTaken(append(nba[:1:1], play("Coach's Challenge (Stands)", "charged with a timeout", "28", "9:00")), "28"); got != 2 {
+		t.Errorf("a challenge at another clock: %d taken, want 2", got)
+	}
+}
