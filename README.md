@@ -186,6 +186,13 @@ Tests need neither the network nor a notification daemon. Golden files in
 
 ## Known limits
 
+**Plays arrive late.** ESPN posts a play 40 to 80 seconds after the time it
+stamps on it (measured over several football games; overtime plays in a college
+game came 45 to 60 seconds after), and playcall then adds up to one poll
+interval (10 seconds by default). A play can show up a minute or more after it
+happened, so it may trail a live broadcast by about as much, and a stream with
+its own delay can be ahead or behind it either way.
+
 **College football timeout circles can be missing.** ESPN reports one number
 per team, the timeouts charged over the whole game. It never resets at the
 half or in overtime, and it is blank once the game ends, so playcall can only
