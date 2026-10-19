@@ -28,6 +28,10 @@ unofficial and undocumented, so it can change without notice.
   possession in basketball, so it is inferred from the plays. Baseball shows
   the bases as a diamond, the balls, strikes and outs as circles, and the
   batter and pitcher under the teams.
+- **Timeouts and game context** in the header: football timeouts left as
+  circles under each score, basketball timeouts with team fouls and the bonus,
+  college rankings, season records for every league, and a countdown through
+  the NFL and college halftime.
 - **Series standings** in the title during a playoff series, such as
   `(LAD 2-1)` or `(BOS WINS)`.
 - **Toasts**: when the window is not on screen (another workspace, hidden or
@@ -151,6 +155,8 @@ Under `$XDG_CONFIG_HOME` and `$XDG_CACHE_HOME` when those are set (`~/.config` a
 | `~/.config/playcall/config.json` | favorite teams per sport, poll interval (default 10 s, minimum 5 s), GUI settings |
 | `~/.cache/playcall/state.json` | the game being followed (CLI) |
 | `~/.cache/playcall/logos/` | team logos, downloaded once and cached |
+| `~/.cache/playcall/first_half.json` | a college football game's first-half timeout totals, so a restart in the second half keeps the circles (kept a week) |
+| `~/.cache/playcall/standings/` | each pro league's division records, refreshed when a followed game ends |
 | `~/.cache/playcall/playcall.log` | log |
 
 ## Layout
