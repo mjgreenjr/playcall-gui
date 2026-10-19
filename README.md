@@ -221,7 +221,16 @@ cricket, motor racing and following several games at once.
 ## Credits and data
 
 Game data and logos come from ESPN and belong to ESPN and the leagues and
-teams. This project is not affiliated with or endorsed by any of them.
+teams. This project is not affiliated with or endorsed by ESPN, The Walt
+Disney Company or any league or team.
+
+playcall reads ESPN's unofficial, undocumented site API, which ESPN has not
+licensed for this use. It is meant for personal, non-commercial use, and it
+asks ESPN for data no more often than the polling interval you set. ESPN's
+terms of use (Disney's general terms) restrict automated access to its
+services, so you are responsible for making sure your own use complies with
+them. ESPN may change or block the API at any time. The test fixtures are
+snapshots of ESPN responses, kept only for regression testing.
 
 ## License
 
