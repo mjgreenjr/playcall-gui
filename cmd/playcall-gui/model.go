@@ -128,7 +128,12 @@ func countsText(sport string, c *core.TeamCounts) string {
 	if c == nil {
 		return ""
 	}
-	parts := []string{"TO " + timeoutDots(c), fmt.Sprintf("Fouls %d", c.Fouls)}
+	return "TO " + timeoutDots(c) + " · " + foulsText(sport, c)
+}
+
+// foulsText is the fouls and bonus part of the counts line.
+func foulsText(sport string, c *core.TeamCounts) string {
+	parts := []string{fmt.Sprintf("Fouls %d", c.Fouls)}
 	switch {
 	case c.Bonus == "":
 	case sport == "cbb" && c.Bonus == "double":

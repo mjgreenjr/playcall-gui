@@ -37,7 +37,7 @@ type ui struct {
 	logos                  *logoCache
 	statusText             *widget.RichText
 	situation              *widget.RichText
-	awayCounts, homeCounts *widget.Label
+	awayCounts, homeCounts *countsLine
 	// awayTO and homeTO are football's timeouts, under each team's score.
 	awayTO, homeTO *dotRow
 	// diamond is baseball's bases, counts its balls, strikes and outs beside
@@ -82,11 +82,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 	u.situation = widget.NewRichText()
 	u.situation.Wrapping = fyne.TextWrapWord
 	u.setStatusLine("waiting for ESPN...", false)
-	u.awayCounts = widget.NewLabelWithStyle("", fyne.TextAlignLeading, fyne.TextStyle{})
-	u.homeCounts = widget.NewLabelWithStyle("", fyne.TextAlignTrailing, fyne.TextStyle{})
-	for _, l := range []*widget.Label{u.awayCounts, u.homeCounts} {
-		l.Hide() // basketball only
-	}
+	u.awayCounts, u.homeCounts = newCountsLine(), newCountsLine()
 	u.awayTO, u.homeTO = newDotRow(), newDotRow()
 	u.diamond = newDiamond()
 	u.counts = newCountBox()
@@ -123,7 +119,7 @@ func newUI(interval time.Duration, onBack func(), hl highlight, logos *logoCache
 			container.NewHBox(container.NewVBox(u.homeScore, u.homeTO.box), scoreGap(), container.NewVBox(container.NewCenter(rankedName(u.homeRank, u.home)), container.NewStack(u.homeRoom, u.homeRecord)), container.NewVBox(u.homeBadge.box), ballSlot(u.homeBall)),
 			container.New(scoreLineCenter{height: func() float32 { return u.awayScore.MinSize().Height }}, container.New(layout.NewCustomPaddedVBoxLayout(0), u.statusText, u.situation, u.baseball))),
 		// Basketball's timeouts and fouls, under each team's score.
-		container.NewBorder(nil, nil, u.awayCounts, u.homeCounts),
+		container.NewBorder(nil, nil, u.awayCounts.box, u.homeCounts.box),
 		u.series, u.stale,
 		widget.NewSeparator(),
 	)
@@ -227,8 +223,8 @@ func (u *ui) setStatus(s core.GameStatus) {
 	} else {
 		u.awayTO.set(nil)
 		u.homeTO.set(nil)
-		u.setCounts(u.awayCounts, s.Sport, s.AwayCounts)
-		u.setCounts(u.homeCounts, s.Sport, s.HomeCounts)
+		u.awayCounts.set(s.Sport, s.AwayCounts)
+		u.homeCounts.set(s.Sport, s.HomeCounts)
 	}
 	var tags []string
 	if s.Preseason {
@@ -247,16 +243,6 @@ func (u *ui) setStatus(s core.GameStatus) {
 		u.series.Hide()
 	}
 	u.refreshStale()
-}
-
-// setCounts shows a team's timeouts and fouls, or hides the line.
-func (u *ui) setCounts(l *widget.Label, sport string, c *core.TeamCounts) {
-	if text := countsText(sport, c); text != "" {
-		l.SetText(text)
-		l.Show()
-	} else {
-		l.Hide()
-	}
 }
 
 // setBalls puts the sport's ball at the outer edge of the team on offence.

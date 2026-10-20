@@ -64,9 +64,8 @@ Golf and tennis each need their own research, a fixture, goldens and the
   it is a tag-worthy change, and the old Python repository's fate is part of
   the same decision). Window visibility on Sway and other compositors (only
   Hyprland is checked directly; elsewhere it falls back to window focus).
-  Basketball's timeout and foul indicators still use the ● ○ characters; the
-  football ones are drawn circles. College football's halftime status and the
-  Top 25 list, still to confirm on a game day.
+  College football's halftime status and the Top 25 list, still to confirm on
+  a game day.
 
 ## Longer term
 

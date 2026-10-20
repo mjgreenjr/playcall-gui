@@ -12,6 +12,9 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Fixed
+- Basketball: the timeout circles under each team are drawn, like football's, instead of typed ● and ○ characters, so the empty ones no longer sit higher than the filled ones.
+
 ## [0.4.0] - 2026-10-18
 
 ### Fixed

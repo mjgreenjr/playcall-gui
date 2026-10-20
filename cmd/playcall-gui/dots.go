@@ -7,6 +7,7 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
 
 	"playcall/internal/core"
 )
@@ -67,4 +68,38 @@ func (d *dotRow) recolor() {
 		}
 		dot.Refresh()
 	}
+}
+
+// countsLine is basketball's line under a score: "TO", the timeout circles
+// (drawn, like football's) and the fouls and bonus text.
+type countsLine struct {
+	box  *fyne.Container
+	to   *widget.Label
+	dots *dotRow
+	rest *widget.Label
+}
+
+func newCountsLine() *countsLine {
+	l := &countsLine{to: widget.NewLabel("TO"), dots: newDotRow(), rest: widget.NewLabel("")}
+	l.box = container.NewHBox(l.to, l.dots.box, l.rest)
+	l.box.Hide() // basketball only
+	return l
+}
+
+// set shows the line, or hides it when there is nothing to show.
+func (l *countsLine) set(sport string, c *core.TeamCounts) {
+	if c == nil {
+		l.box.Hide()
+		return
+	}
+	d := *c
+	d.TimeoutSlots = max(c.TimeoutSlots, max(c.Timeouts, 0))
+	l.dots.set(&d)
+	l.to.SetText("TO")
+	if d.TimeoutSlots == 0 {
+		l.to.SetText("TO 0")
+	}
+	l.rest.SetText("· " + foulsText(sport, c))
+	l.box.Show()
+	l.box.Refresh()
 }

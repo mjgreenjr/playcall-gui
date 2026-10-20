@@ -198,7 +198,7 @@ func TestFootballTimeoutsUnderScore(t *testing.T) {
 			t.Errorf("%d circles filled, want %d", filled, c.filled)
 		}
 	}
-	if u.awayCounts.Visible() || u.homeCounts.Visible() {
+	if u.awayCounts.box.Visible() || u.homeCounts.box.Visible() {
 		t.Error("the basketball row is showing for football")
 	}
 	// Overtime is two each, and a sport with no counts hides the row.
@@ -271,5 +271,25 @@ func TestHeaderShowsRankingsOnlyForRankedTeams(t *testing.T) {
 	u.setStatus(core.GameStatus{Sport: "cfb", State: "in", Away: core.TeamScore{Abbr: "OU"}, Home: core.TeamScore{Abbr: "TEX"}})
 	if u.homeRank.box.Visible() {
 		t.Error("ranking stayed after the team lost it")
+	}
+}
+
+func TestBasketballTimeoutsAreDrawn(t *testing.T) {
+	test.NewApp()
+	l := newCountsLine()
+	l.set("wnba", &core.TeamCounts{Timeouts: 2, TimeoutSlots: 4, Fouls: 3, Bonus: "double"})
+	if !l.box.Visible() || len(l.dots.dots) != 4 || l.dots.left != 2 {
+		t.Fatalf("visible %v, %d circles, %d filled", l.box.Visible(), len(l.dots.dots), l.dots.left)
+	}
+	if l.to.Text != "TO" || l.rest.Text != "· Fouls 3 · Bonus" {
+		t.Errorf("texts %q, %q", l.to.Text, l.rest.Text)
+	}
+	l.set("wnba", &core.TeamCounts{Fouls: 1})
+	if l.to.Text != "TO 0" || l.dots.box.Visible() {
+		t.Errorf("no timeouts: %q, dots visible %v", l.to.Text, l.dots.box.Visible())
+	}
+	l.set("wnba", nil)
+	if l.box.Visible() {
+		t.Error("nil counts should hide the line")
 	}
 }
