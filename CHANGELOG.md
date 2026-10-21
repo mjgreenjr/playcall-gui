@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Fixed
+- The records after a final now update as soon as ESPN has them: the game page fetches the game every 20 seconds after the final, for up to 5 minutes, and stops when a record changes. Before, it checked once at 5 minutes, so the pregame records stayed on screen for that long even when ESPN had the new ones within seconds (PHI @ NY: 20 seconds).
 - Basketball: the timeout circles under each team are drawn, like football's, instead of typed ● and ○ characters, so the empty ones no longer sit higher than the filled ones.
 
 ## [0.4.0] - 2026-10-18

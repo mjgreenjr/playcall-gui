@@ -386,37 +386,65 @@ func (s *shell) watchDivisions(ctx context.Context, sport string, view *ui, poll
 	})
 }
 
-// recheckFinal fetches a followed game's status once more, finalRecheck after
-// it turns final: ESPN can update the teams' records after the final status,
-// when polling has stopped (KENN @ MOST, BUF @ LV), and the header would keep
-// the old ones. Only a game seen live is rechecked; one opened already final is
-// as current as its first fetch. It wraps the poller's StatusSink, so it comes
-// after watchDivisions.
+// recheckFinal keeps fetching a followed game's status after it turns final,
+// every finalRecheckEvery for up to finalRecheckFor, until the teams' records
+// change: ESPN updates them after the final status, when polling has stopped
+// (KENN @ MOST, BUF @ LV; PHI @ NY had them 20 seconds later), and the header
+// would keep the old ones. Only a game seen live is rechecked; one opened
+// already final is as current as its first fetch, and so is one whose final
+// poll already carried new records. It wraps the poller's StatusSink, so it
+// comes after watchDivisions.
 func recheckFinal(ctx context.Context, poller *core.Poller) {
 	inner := poller.StatusSink
-	var wasLive bool
+	var mu sync.Mutex // the poll loop and the recheck both publish statuses
+	var wasLive, caught bool
+	var base [2]core.TeamRecord // the records before the final
 	poller.StatusSink = core.StatusFunc(func(st core.GameStatus) {
 		inner.Status(st)
+		recs := [2]core.TeamRecord{st.AwayRecord, st.HomeRecord}
+		mu.Lock()
+		defer mu.Unlock()
 		if !st.Final || st.State != "post" { // the header can say Final before ESPN's status does
-			wasLive = true
+			wasLive, caught, base = true, false, recs
 			return
 		}
 		if !wasLive {
+			caught = caught || recs != base
 			return
 		}
 		wasLive = false
-		go func() {
-			select {
-			case <-ctx.Done():
-			case <-time.After(finalRecheck):
-				poller.Recheck(ctx)
-			}
-		}()
+		if recs != base {
+			return
+		}
+		go recheckUntil(ctx, finalRecheckEvery, finalRecheckFor,
+			func() { poller.Recheck(ctx) },
+			func() bool { mu.Lock(); defer mu.Unlock(); return caught })
 	})
 }
 
-// finalRecheck is how long after the final the game is fetched once more.
-const finalRecheck = 5 * time.Minute
+// recheckUntil calls fetch every `every` for up to `total`, stopping early
+// once done reports true after a fetch or ctx ends.
+func recheckUntil(ctx context.Context, every, total time.Duration, fetch func(), done func() bool) {
+	deadline := time.Now().Add(total)
+	for time.Now().Before(deadline) {
+		select {
+		case <-ctx.Done():
+			return
+		case <-time.After(every):
+		}
+		fetch()
+		if done() {
+			return
+		}
+	}
+}
+
+// After the final, the game is fetched every finalRecheckEvery for up to
+// finalRecheckFor.
+const (
+	finalRecheckEvery = 20 * time.Second
+	finalRecheckFor   = 5 * time.Minute
+)
 
 // follow polls one game into a fresh game view. back adds a button that
 // returns to the picker.

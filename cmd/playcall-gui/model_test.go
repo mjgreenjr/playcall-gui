@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/test"
@@ -291,5 +292,27 @@ func TestBasketballTimeoutsAreDrawn(t *testing.T) {
 	l.set("wnba", nil)
 	if l.box.Visible() {
 		t.Error("nil counts should hide the line")
+	}
+}
+
+func TestRecheckUntilStopsWhenDone(t *testing.T) {
+	calls := 0
+	recheckUntil(context.Background(), time.Millisecond, time.Second,
+		func() { calls++ }, func() bool { return calls == 3 })
+	if calls != 3 {
+		t.Errorf("fetched %d times, want 3", calls)
+	}
+	calls = 0
+	recheckUntil(context.Background(), time.Millisecond, 20*time.Millisecond,
+		func() { calls++ }, func() bool { return false })
+	if calls < 2 || calls > 20 {
+		t.Errorf("never done: fetched %d times in 20 ms", calls)
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	calls = 0
+	recheckUntil(ctx, time.Millisecond, time.Second, func() { calls++ }, func() bool { return false })
+	if calls != 0 {
+		t.Errorf("cancelled context still fetched %d times", calls)
 	}
 }
