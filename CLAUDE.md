@@ -54,6 +54,8 @@ To add a new sport, use the `add-sport` skill (`.claude/skills/add-sport/`).
 
 The `Makefile` builds and installs both programs (`make`, `make install [PREFIX=...]`, `make uninstall`, `make cli`, `make test`); the README's Install section documents it. It is not part of `/verify`.
 
+`tools/capture.py OUTDIR HOURS` is the live-data capture job (NBA and college football on ESPN: status changes, edited plays, timeout plays and counters, basketball fouls and possession), written as JSON lines to `OUTDIR/events.jsonl`. Run it outside the repo, e.g. `cd ~/Work/playcall-capture && cp <repo>/tools/capture.py . && setsid nohup python3 -I capture.py run 240 &`, and see the `live-data-capture-job` memory for what to check. It is not part of the build or `/verify`.
+
 `tools/cloud-tests/` holds instructions for a Claude Code cloud session to run things this desktop can't (a clean Linux with no Omarchy or Hyprland); start one with `claude --cloud` and tell it to follow the file. A cloud session writes its report under `tools/cloud-tests/results/` and opens a pull request with only that, from a `cloud-tests/...` branch (the exception to "no branches or pull requests"); it never changes code. The desktop session reviews the PR (`gh pr view`, `gh pr diff`) and tells the maintainer whether to merge; the maintainer merges and deletes the branch.
 
 ## Versioning and changelog
