@@ -1174,3 +1174,26 @@ func TestRecheckPublishesStatusOnly(t *testing.T) {
 		t.Errorf("a failed fetch published a status")
 	}
 }
+
+func TestNBAOffensiveFoulsAreNotTeamFouls(t *testing.T) {
+	// OKC @ SA, 1st quarter: OKC had three personal fouls and an offensive
+	// foul; ESPN's teamFoulsCurrent said 4, the arena board 3.
+	play := func(team, typ string, period int) espn.Data {
+		return espn.Data{"team": map[string]any{"id": team}, "type": map[string]any{"text": typ}, "period": map[string]any{"number": json.Number(strconv.Itoa(period))}}
+	}
+	plays := []espn.Data{
+		play("1", "Shooting Foul", 1), play("1", "Offensive Foul", 1), play("1", "Offensive Charge", 1),
+		play("1", "Offensive Foul", 0), play("2", "Offensive Foul", 1), play("1", "Offensive Foul Turnover", 1),
+	}
+	c := &TeamCounts{Fouls: 4}
+	dropOffensiveFouls(c, espn.Data{"id": "1"}, plays, 1)
+	if c.Fouls != 2 {
+		t.Errorf("fouls %d, want 2 (two offensive fouls by team 1 in period 1)", c.Fouls)
+	}
+	dropOffensiveFouls(nil, espn.Data{"id": "1"}, plays, 1) // no counts: nothing to do
+	z := &TeamCounts{Fouls: 1}
+	dropOffensiveFouls(z, espn.Data{"id": "1"}, plays, 1)
+	if z.Fouls != 0 {
+		t.Errorf("fouls %d, want 0 and never negative", z.Fouls)
+	}
+}

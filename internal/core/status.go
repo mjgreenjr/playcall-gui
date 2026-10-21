@@ -112,10 +112,14 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 	}
 	h, a := espn.Teams(espn.Competition(f.Data))
 	away, home = teamCounts(a, f.Plays), teamCounts(h, f.Plays)
+	period, _ := espn.Int64(espn.Status(f.Data)["period"])
+	if sport == "nba" {
+		dropOffensiveFouls(away, a, f.Plays, period)
+		dropOffensiveFouls(home, h, f.Plays, period)
+	}
 	// NBA and WNBA: 7 a game, but no more than 4 in the 4th quarter and 2 in
 	// each overtime. ESPN's timeoutsRemaining is not capped (a team that took
 	// both of its overtime timeouts still shows one left), so do it here.
-	period, _ := espn.Int64(espn.Status(f.Data)["period"])
 	if sport == "cbb" {
 		capCollegeTimeouts(away, int(period))
 		capCollegeTimeouts(home, int(period))
@@ -128,6 +132,30 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 		capTimeouts(home, h, limit, overtime)
 	}
 	return away, home
+}
+
+// dropOffensiveFouls takes a team's offensive fouls this period off its foul
+// count. The NBA does not count them as team fouls, so they do not move a team
+// toward the bonus or show on the arena's board, but ESPN's teamFoulsCurrent
+// does (OKC @ SA on 2026-10-20: the board said 3 and ESPN 4 after an offensive
+// foul, while ESPN's own foulsToGive, 1, agreed with the board). Only the NBA
+// is known to work this way; the WNBA and college are left as ESPN sends them.
+func dropOffensiveFouls(c *TeamCounts, competitor espn.Data, plays []espn.Data, period int64) {
+	if c == nil {
+		return
+	}
+	id := espn.Str(competitor["id"])
+	for _, p := range plays {
+		if espn.Str(espn.Map(p["team"])["id"]) != id {
+			continue
+		}
+		if n, _ := espn.Int64(espn.Map(p["period"])["number"]); n != period {
+			continue
+		}
+		if t := playType(p); t == "Offensive Foul" || t == "Offensive Charge" {
+			c.Fouls = max(c.Fouls-1, 0)
+		}
+	}
 }
 
 // NFL teams get 3 timeouts in each half and 2 in overtime. ESPN's

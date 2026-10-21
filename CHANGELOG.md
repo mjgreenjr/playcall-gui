@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Fixed
+- NBA: a team's foul count under its score no longer includes offensive fouls, which the NBA does not count as team fouls (OKC @ SA: the arena board said 3, the app 4 after an offensive foul). ESPN counts them in its total but not in its own fouls-to-give. The WNBA and college are unchanged, since nothing shows how they count.
 - The records after a final now update as soon as ESPN has them: the game page fetches the game every 20 seconds after the final, for up to 5 minutes, and stops when a record changes. Before, it checked once at 5 minutes, so the pregame records stayed on screen for that long even when ESPN had the new ones within seconds (PHI @ NY: 20 seconds).
 - Basketball: the timeout circles under each team are drawn, like football's, instead of typed ● and ○ characters, so the empty ones no longer sit higher than the filled ones.
 
