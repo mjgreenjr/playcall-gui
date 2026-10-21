@@ -31,6 +31,20 @@ detail has not been read.
   October events). The tour runs from January to November, with the season
   resuming in January, around the Australian summer swing and then the
   Australian Open.
+- **Windows.** The CLI and the core already cross-compile for Windows
+  (`GOOS=windows go build ./cmd/playcall` works, and the config and cache
+  folders use Go's standard locations). The GUI is the work: Fyne needs cgo,
+  so it needs a C compiler (MSYS2/MinGW-w64 or Zig) and a build script in
+  place of the `Makefile`; toasts need a Windows notifier behind the existing
+  sink (Fyne's own notification call is the simplest, without a click action
+  that opens the game page); the window-visibility check needs a stub so it
+  falls back to window focus; and the install steps and README change. None of
+  it can be tested on Linux, so it needs a Windows machine or a GitHub Actions
+  `windows-latest` job, and a look at the rendering. `CLAUDE.md` and the README
+  say Linux only, so those lines change first. About a day, plus testing. Planned soon after the first public release;
+  start with a GitHub Actions `windows-latest` job (free once the repo is
+  public) that builds both programs and runs the tests, then try the exe by
+  hand on Windows.
 - **Screenshots in the README:** a game in progress (a header with runners on,
   or a ranked football game), and possibly the settings screen.
 - **A `.desktop` entry and icon** so the GUI starts from a launcher.
@@ -66,18 +80,6 @@ Golf and tennis each need their own research, a fixture, goldens and the
   Hyprland is checked directly; elsewhere it falls back to window focus).
   College football's halftime status and the Top 25 list, still to confirm on
   a game day.
-
-- **Windows.** The CLI and the core already cross-compile for Windows
-  (`GOOS=windows go build ./cmd/playcall` works, and the config and cache
-  folders use Go's standard locations). The GUI is the work: Fyne needs cgo,
-  so it needs a C compiler (MSYS2/MinGW-w64 or Zig) and a build script in
-  place of the `Makefile`; toasts need a Windows notifier behind the existing
-  sink (Fyne's own notification call is the simplest, without a click action
-  that opens the game page); the window-visibility check needs a stub so it
-  falls back to window focus; and the install steps and README change. None of
-  it can be tested on Linux, so it needs a Windows machine or a GitHub Actions
-  `windows-latest` job, and a look at the rendering. `CLAUDE.md` and the README
-  say Linux only, so those lines change first. About a day, plus testing.
 
 ## Longer term
 
