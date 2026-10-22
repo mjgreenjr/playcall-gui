@@ -118,12 +118,17 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 		dropOffensiveFouls(home, h, f.Plays, period)
 	}
 	// NBA and WNBA: 7 a game, but no more than 4 in the 4th quarter and 2 in
-	// each overtime. ESPN's timeoutsRemaining is not capped (a team that took
-	// both of its overtime timeouts still shows one left), so do it here.
+	// each overtime. ESPN's timeoutsRemaining is not capped in overtime (a team
+	// that took both of its overtime timeouts still shows one left), so do it
+	// here; in regulation it is cut to 4 early, which the row's 7 allows for.
 	if sport == "cbb" {
 		capCollegeTimeouts(away, int(period))
 		capCollegeTimeouts(home, int(period))
-	} else if period >= 4 {
+	} else if period <= 4 {
+		raiseTimeoutSlots(away)
+		raiseTimeoutSlots(home)
+	}
+	if sport != "cbb" && period >= 4 {
 		limit, overtime := fourthQuarterTimeouts, false
 		if period > 4 {
 			limit, overtime = overtimeTimeouts, true
@@ -315,9 +320,20 @@ func (p *Poller) saveFirstHalf(used [2]int64, final bool) {
 
 // Most timeouts a pro team may use in the 4th quarter and in each overtime.
 const (
+	proTimeouts           = 7
 	fourthQuarterTimeouts = 4
 	overtimeTimeouts      = 2
 )
+
+// raiseTimeoutSlots makes a pro team's regulation row its full 7. ESPN's
+// timeoutsRemaining is already cut to 4 by the end of the 3rd (PHX @ POR and
+// SAC @ LAC on 2026-10-21: LAC had taken two and showed 4 left, not 5), so
+// remaining plus timeouts taken comes up short.
+func raiseTimeoutSlots(c *TeamCounts) {
+	if c != nil {
+		c.TimeoutSlots = max(c.TimeoutSlots, proTimeouts)
+	}
+}
 
 // capTimeouts lowers the timeouts a team can still use to what the period's
 // limit allows, given what it used so far in the period (ESPN's timeoutsUsed

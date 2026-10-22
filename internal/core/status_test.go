@@ -1197,3 +1197,21 @@ func TestNBAOffensiveFoulsAreNotTeamFouls(t *testing.T) {
 		t.Errorf("fouls %d, want 0 and never negative", z.Fouls)
 	}
 }
+
+func TestProTimeoutRowIsSevenCircles(t *testing.T) {
+	// PHX @ POR and SAC @ LAC, 2026-10-21: ESPN cuts timeoutsRemaining to 4 by
+	// the end of the 3rd. LAC had taken two, so remaining plus taken was 6.
+	c := &TeamCounts{Timeouts: 4, TimeoutSlots: 6}
+	raiseTimeoutSlots(c)
+	capTimeouts(c, espn.Data{"timeoutsUsed": json.Number("0")}, fourthQuarterTimeouts, false)
+	if c.Timeouts != 4 || c.TimeoutSlots != 7 {
+		t.Errorf("got %+v, want 4 filled of 7", *c)
+	}
+	// A team that took all seven already has no more than the row.
+	d := &TeamCounts{Timeouts: 0, TimeoutSlots: 7}
+	raiseTimeoutSlots(d)
+	if d.TimeoutSlots != 7 {
+		t.Errorf("slots %d, want 7", d.TimeoutSlots)
+	}
+	raiseTimeoutSlots(nil)
+}
