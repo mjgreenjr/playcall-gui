@@ -12,6 +12,8 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-10-22
+
 ### Fixed
 - Basketball: once a team is in the bonus its line shows only "Bonus" ("1-and-1" or "Double bonus" in college), like a TV scoreboard, instead of the foul count and the bonus. The foul count shows until then.
 - NBA and WNBA: a team's timeout circles in regulation always number 7. ESPN cuts its remaining count to 4 before the quarter starts, so a team that had taken only two showed 6 circles.
