@@ -131,17 +131,17 @@ func countsText(sport string, c *core.TeamCounts) string {
 	return "TO " + timeoutDots(c) + " · " + foulsText(sport, c)
 }
 
-// foulsText is the fouls and bonus part of the counts line.
+// foulsText is the fouls and bonus part of the counts line. Like a TV
+// scoreboard it shows the foul count until the team is in the bonus, then only
+// the bonus.
 func foulsText(sport string, c *core.TeamCounts) string {
-	parts := []string{fmt.Sprintf("Fouls %d", c.Fouls)}
 	switch {
 	case c.Bonus == "":
+		return fmt.Sprintf("Fouls %d", c.Fouls)
 	case sport == "cbb" && c.Bonus == "double":
-		parts = append(parts, "Double bonus")
+		return "Double bonus"
 	case sport == "cbb":
-		parts = append(parts, "1-and-1")
-	default:
-		parts = append(parts, "Bonus")
+		return "1-and-1"
 	}
-	return strings.Join(parts, " · ")
+	return "Bonus"
 }

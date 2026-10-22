@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Fixed
+- Basketball: once a team is in the bonus its line shows only "Bonus" ("1-and-1" or "Double bonus" in college), like a TV scoreboard, instead of the foul count and the bonus. The foul count shows until then.
 - NBA and WNBA: a team's timeout circles in regulation always number 7. ESPN cuts its remaining count to 4 before the quarter starts, so a team that had taken only two showed 6 circles.
 - NBA: a team's foul count under its score no longer includes offensive fouls, which the NBA does not count as team fouls (OKC @ SA: the arena board said 3, the app 4 after an offensive foul). ESPN counts them in its total but not in its own fouls-to-give. While a team is short of the bonus the count is now 4 minus ESPN's fouls-to-give, so a play ESPN retypes late no longer changes it. The WNBA and college are unchanged, since nothing shows how they count.
 - The records after a final now update as soon as ESPN has them: the game page fetches the game every 20 seconds after the final, for up to 5 minutes, and stops when a record changes. Before, it checked once at 5 minutes, so the pregame records stayed on screen for that long even when ESPN had the new ones within seconds (PHI @ NY: 20 seconds).
