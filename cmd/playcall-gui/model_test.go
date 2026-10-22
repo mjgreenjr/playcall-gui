@@ -162,6 +162,9 @@ func TestCountsText(t *testing.T) {
 		{"nba", nil, ""},
 		{"nba", &core.TeamCounts{Timeouts: 3, TimeoutSlots: 7, Fouls: 2}, "TO ●●●○○○○ · Fouls 2"},
 		{"wnba", &core.TeamCounts{Timeouts: 0, TimeoutSlots: 3, Fouls: 5, Bonus: "double"}, "TO ○○○ · Bonus"},
+		{"nba", &core.TeamCounts{Timeouts: 6, TimeoutSlots: 7, Fouls: 0, Bonus: "double"}, "TO ●●●●●●○ · Fouls 0 · Bonus"},
+		{"nba", &core.TeamCounts{Timeouts: 6, TimeoutSlots: 7, Fouls: 4}, "TO ●●●●●●○"},
+		{"nba", &core.TeamCounts{Timeouts: 6, TimeoutSlots: 7, Fouls: 3}, "TO ●●●●●●○ · Fouls 3"},
 		{"nba", &core.TeamCounts{Timeouts: 2, TimeoutSlots: 3}, "TO ●●○ · Fouls 0"},
 		{"nba", &core.TeamCounts{}, "TO 0 · Fouls 0"},
 		{"cbb", &core.TeamCounts{Timeouts: 1, Fouls: 7, Bonus: "single"}, "TO ● · 1-and-1"},
@@ -282,7 +285,7 @@ func TestBasketballTimeoutsAreDrawn(t *testing.T) {
 	if !l.box.Visible() || len(l.dots.dots) != 4 || l.dots.left != 2 {
 		t.Fatalf("visible %v, %d circles, %d filled", l.box.Visible(), len(l.dots.dots), l.dots.left)
 	}
-	if l.to.Text != "TO" || l.rest.Text != "· Bonus" {
+	if l.to.Text != "TO" || l.rest.Text != "· Fouls 3 · Bonus" {
 		t.Errorf("texts %q, %q", l.to.Text, l.rest.Text)
 	}
 	l.set("wnba", &core.TeamCounts{Fouls: 1})

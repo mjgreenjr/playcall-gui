@@ -99,7 +99,10 @@ func (l *countsLine) set(sport string, c *core.TeamCounts) {
 	if d.TimeoutSlots == 0 {
 		l.to.SetText("TO 0")
 	}
-	l.rest.SetText("· " + foulsText(sport, c))
+	l.rest.SetText("")
+	if f := foulsText(sport, c); f != "" {
+		l.rest.SetText("· " + f)
+	}
 	l.box.Show()
 	l.box.Refresh()
 }

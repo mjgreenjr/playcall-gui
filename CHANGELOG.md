@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Fixed
+- NBA and WNBA: the line under a team's score shows its fouls while it has fewer than four, next to "Bonus" when it is in the bonus; a team at four or more that is not in the bonus shows neither. 0.4.1 hid the foul count whenever a team was in the bonus. College is unchanged.
 - NBA: when ESPN's timeouts and fouls are missing or wrong, the timeout circles and the foul and bonus line are worked out from the plays instead of showing nothing or false values (CLE @ PHI on 2026-10-22: no counts at all, then 0 timeouts left and the bonus for both teams). The bonus in the last two minutes of a period, which comes earlier, is not covered in that case.
 
 ## [0.4.1] - 2026-10-22

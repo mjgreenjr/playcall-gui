@@ -128,20 +128,35 @@ func countsText(sport string, c *core.TeamCounts) string {
 	if c == nil {
 		return ""
 	}
-	return "TO " + timeoutDots(c) + " · " + foulsText(sport, c)
+	text := "TO " + timeoutDots(c)
+	if f := foulsText(sport, c); f != "" {
+		text += " · " + f
+	}
+	return text
 }
 
-// foulsText is the fouls and bonus part of the counts line. Like a TV
-// scoreboard it shows the foul count until the team is in the bonus, then only
-// the bonus.
+// foulsText is the fouls and bonus part of the counts line, like a TV
+// scoreboard. In the NBA and WNBA a team's fouls show while it is under four
+// (past that the other team is in the bonus and the count says no more), next
+// to "Bonus" when the team is in it; a team at four or more that is not in the
+// bonus shows nothing. College shows the foul count, or only the bonus once
+// the team is in it. "" when there is nothing to show.
 func foulsText(sport string, c *core.TeamCounts) string {
-	switch {
-	case c.Bonus == "":
-		return fmt.Sprintf("Fouls %d", c.Fouls)
-	case sport == "cbb" && c.Bonus == "double":
-		return "Double bonus"
-	case sport == "cbb":
+	if sport == "cbb" {
+		switch {
+		case c.Bonus == "":
+			return fmt.Sprintf("Fouls %d", c.Fouls)
+		case c.Bonus == "double":
+			return "Double bonus"
+		}
 		return "1-and-1"
 	}
-	return "Bonus"
+	var parts []string
+	if c.Fouls < 4 {
+		parts = append(parts, fmt.Sprintf("Fouls %d", c.Fouls))
+	}
+	if c.Bonus != "" {
+		parts = append(parts, "Bonus")
+	}
+	return strings.Join(parts, " · ")
 }
