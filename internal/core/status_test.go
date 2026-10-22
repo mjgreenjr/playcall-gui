@@ -1215,3 +1215,33 @@ func TestProTimeoutRowIsSevenCircles(t *testing.T) {
 	}
 	raiseTimeoutSlots(nil)
 }
+
+func TestNBAFoulsFromFoulsToGive(t *testing.T) {
+	comp := func(toGive any) espn.Data {
+		f := map[string]any{"teamFoulsCurrent": json.Number("4")}
+		if toGive != nil {
+			f["foulsToGive"] = json.Number(toGive.(string))
+		}
+		return espn.Data{"id": "1", "fouls": espn.Data(f)}
+	}
+	plays := []espn.Data{{"team": map[string]any{"id": "1"}, "type": map[string]any{"text": "Offensive Foul"}, "period": map[string]any{"number": json.Number("3")}}}
+	for _, c := range []struct {
+		name   string
+		toGive any
+		fouls  int // ESPN's teamFoulsCurrent
+		want   int
+	}{
+		{"SA, 3rd: raw 4, one to give", "1", 4, 3},
+		{"plays disagree: ESPN's count wins", "2", 4, 2},
+		{"none yet", "4", 1, 0},
+		{"in the bonus: plays less the offensive foul", "0", 6, 5},
+		{"no foulsToGive: plays less the offensive foul", nil, 4, 3},
+	} {
+		tc := &TeamCounts{Fouls: c.fouls}
+		nbaFouls(tc, comp(c.toGive), plays, 3)
+		if tc.Fouls != c.want {
+			t.Errorf("%s: got %d, want %d", c.name, tc.Fouls, c.want)
+		}
+	}
+	nbaFouls(nil, comp("1"), plays, 3)
+}

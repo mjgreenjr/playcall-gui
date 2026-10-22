@@ -114,8 +114,8 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 	away, home = teamCounts(a, f.Plays), teamCounts(h, f.Plays)
 	period, _ := espn.Int64(espn.Status(f.Data)["period"])
 	if sport == "nba" {
-		dropOffensiveFouls(away, a, f.Plays, period)
-		dropOffensiveFouls(home, h, f.Plays, period)
+		nbaFouls(away, a, f.Plays, period)
+		nbaFouls(home, h, f.Plays, period)
 	}
 	// NBA and WNBA: 7 a game, but no more than 4 in the 4th quarter and 2 in
 	// each overtime. ESPN's timeoutsRemaining is not capped in overtime (a team
@@ -137,6 +137,27 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 		capTimeouts(home, h, limit, overtime)
 	}
 	return away, home
+}
+
+// nbaTeamFouls is how many team fouls a team can commit before the other side
+// shoots free throws; ESPN's foulsToGive counts down from it.
+const nbaTeamFouls = 4
+
+// nbaFouls sets an NBA team's fouls this period. While the team is short of
+// the bonus ESPN's foulsToGive is the count to trust: it is 4 minus the team
+// fouls and leaves out offensive fouls, and it holds up when ESPN retypes or
+// reorders plays after posting them. At 0 the team is in the bonus and the
+// number no longer says how far past 4 it is, so the count comes from
+// teamFoulsCurrent less the period's offensive fouls (dropOffensiveFouls).
+func nbaFouls(c *TeamCounts, competitor espn.Data, plays []espn.Data, period int64) {
+	if c == nil {
+		return
+	}
+	if toGive, ok := espn.Int64(espn.Map(competitor["fouls"])["foulsToGive"]); ok && toGive >= 1 && toGive <= nbaTeamFouls {
+		c.Fouls = nbaTeamFouls - int(toGive)
+		return
+	}
+	dropOffensiveFouls(c, competitor, plays, period)
 }
 
 // dropOffensiveFouls takes a team's offensive fouls this period off its foul
