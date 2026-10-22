@@ -1,8 +1,10 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"log/slog"
+	"strconv"
 	"strings"
 	"time"
 
@@ -111,8 +113,11 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 		return nil, nil
 	}
 	h, a := espn.Teams(espn.Competition(f.Data))
-	away, home = teamCounts(a, f.Plays), teamCounts(h, f.Plays)
 	period, _ := espn.Int64(espn.Status(f.Data)["period"])
+	if sport == "nba" && !espnCountsUsable(a, h, f.Plays) {
+		a, h = countsFromPlays(a, h, f.Plays, period), countsFromPlays(h, a, f.Plays, period)
+	}
+	away, home = teamCounts(a, f.Plays), teamCounts(h, f.Plays)
 	if sport == "nba" {
 		nbaFouls(away, a, f.Plays, period)
 		nbaFouls(home, h, f.Plays, period)
@@ -137,6 +142,107 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 		capTimeouts(home, h, limit, overtime)
 	}
 	return away, home
+}
+
+// espnCountsUsable is whether ESPN's timeouts and fouls can be trusted. CLE @
+// PHI on 2026-10-22 had no counts at all in the feed for the first minutes,
+// then 0 timeouts left for both teams (also after PHI's first timeout, with 1
+// used), the bonus for both and fouls that did not match the plays. A team
+// with none left must have taken all 7 by the plays, so a 0 that the plays
+// do not back up is no data.
+func espnCountsUsable(away, home espn.Data, plays []espn.Data) bool {
+	if away == nil || home == nil {
+		return true
+	}
+	for _, c := range []espn.Data{away, home} {
+		left, ok := espn.Int64(c["timeoutsRemaining"])
+		if !ok || left == 0 && timeoutsTaken(plays, espn.Str(c["id"])) < proTimeouts {
+			return false
+		}
+	}
+	return true
+}
+
+// countsFromPlays builds the fields teamCounts reads from the plays alone:
+// 7 timeouts less the ones taken (a challenge that kept its timeout is given
+// back), the timeouts taken this period, the team's fouls this period, and the
+// bonus when the other team has four. The last two minutes of a period, when
+// the NBA gives the bonus earlier, are not modelled. teamFoulsCurrent includes
+// the offensive fouls because nbaFouls takes them off again.
+func countsFromPlays(c, other espn.Data, plays []espn.Data, period int64) espn.Data {
+	if c == nil {
+		return nil
+	}
+	num := func(n int) json.Number { return json.Number(strconv.Itoa(n)) }
+	id := espn.Str(c["id"])
+	fouls, offensive := periodFouls(plays, id, period)
+	otherFouls, _ := periodFouls(plays, espn.Str(other["id"]), period)
+	bonus := "NONE"
+	if otherFouls >= nbaTeamFouls {
+		bonus = "DOUBLE"
+	}
+	return espn.Data{
+		"id":                id,
+		"timeoutsRemaining": num(max(proTimeouts-netTimeouts(plays, id, 0), 0)),
+		"timeoutsUsed":      num(netTimeouts(plays, id, period)),
+		"fouls": espn.Data{
+			"teamFoulsCurrent": num(fouls + offensive),
+			"foulsToGive":      num(max(nbaTeamFouls-fouls, 0)),
+			"bonusState":       bonus,
+		},
+	}
+}
+
+// periodFouls counts a team's team fouls in a period, and separately its
+// offensive fouls, which the NBA does not count against the team. Technical
+// fouls are not team fouls either.
+func periodFouls(plays []espn.Data, teamID string, period int64) (fouls, offensive int) {
+	for _, p := range plays {
+		if espn.Str(espn.Map(p["team"])["id"]) != teamID {
+			continue
+		}
+		if n, _ := espn.Int64(espn.Map(p["period"])["number"]); n != period {
+			continue
+		}
+		t := strings.ToLower(playType(p))
+		switch {
+		case !strings.Contains(t, "foul"), strings.Contains(t, "technical"), strings.Contains(t, "turnover"):
+		case strings.Contains(t, "offensive"):
+			offensive++
+		default:
+			fouls++
+		}
+	}
+	return fouls, offensive
+}
+
+// netTimeouts is timeoutsTaken for one period (0 for the whole game) less the
+// challenges whose text says the team keeps its timeout. ESPN's own counter
+// gave those back in 7 of 8 cases in the first two NBA nights.
+func netTimeouts(plays []espn.Data, teamID string, period int64) int {
+	n := 0
+	for i, p := range plays {
+		if espn.Str(espn.Map(p["team"])["id"]) != teamID {
+			continue
+		}
+		if pe, _ := espn.Int64(espn.Map(p["period"])["number"]); period > 0 && pe != period {
+			continue
+		}
+		switch {
+		case isTimeout(p):
+			n++
+		case chargedChallenge(p) && !timeoutNextTo(plays, i):
+			n++
+		case retainedChallenge(p) && timeoutNextTo(plays, i):
+			n--
+		}
+	}
+	return max(n, 0)
+}
+
+func retainedChallenge(p espn.Data) bool {
+	return strings.Contains(strings.ToLower(playType(p)), "challenge") &&
+		strings.Contains(strings.ToLower(espn.Str(p["text"])), "retain their timeout")
 }
 
 // nbaTeamFouls is how many team fouls a team can commit before the other side

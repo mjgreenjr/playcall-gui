@@ -1245,3 +1245,52 @@ func TestNBAFoulsFromFoulsToGive(t *testing.T) {
 	}
 	nbaFouls(nil, comp("1"), plays, 3)
 }
+
+func TestNBACountsFromPlaysWhenESPNHasNone(t *testing.T) {
+	// CLE @ PHI on 2026-10-22: no counts, then 0 left and 0 used for both.
+	play := func(team, typ, text string, period int, clock string) espn.Data {
+		return espn.Data{
+			"team": map[string]any{"id": team}, "type": map[string]any{"text": typ}, "text": text,
+			"period": map[string]any{"number": json.Number(strconv.Itoa(period))},
+			"clock":  map[string]any{"displayValue": clock},
+		}
+	}
+	plays := []espn.Data{
+		play("1", "Personal Foul", "", 1, "9:00"), play("1", "Shooting Foul", "", 1, "8:00"),
+		play("1", "Offensive Foul", "", 1, "7:00"), play("1", "Technical Foul", "", 1, "6:30"),
+		play("1", "Offensive Foul Turnover", "", 1, "7:00"),
+		play("1", "Personal Foul", "", 1, "6:00"), play("1", "Loose Ball Foul", "", 1, "5:00"),
+		play("1", "Full timeout", "", 1, "4:00"), play("1", "Full timeout", "", 1, "3:00"),
+		play("1", "Coach's Challenge (Overturned)", "[A] retain their timeout", 1, "3:00"),
+		play("2", "Personal Foul", "", 1, "2:00"),
+	}
+	zero := func(id string) espn.Data {
+		return espn.Data{"id": id, "timeoutsRemaining": json.Number("0"), "timeoutsUsed": json.Number("0")}
+	}
+	if espnCountsUsable(zero("1"), zero("2"), plays) || espnCountsUsable(espn.Data{"id": "1"}, zero("2"), plays) {
+		t.Error("0 left that the plays do not back up, or no counts, should not be usable")
+	}
+	real := func(id string) espn.Data {
+		return espn.Data{"id": id, "timeoutsRemaining": json.Number("5"), "timeoutsUsed": json.Number("2")}
+	}
+	if !espnCountsUsable(real("1"), real("2"), plays) || !espnCountsUsable(nil, nil, plays) {
+		t.Error("real counts, or no competitors, should be usable")
+	}
+
+	a := teamCounts(countsFromPlays(espn.Data{"id": "1"}, espn.Data{"id": "2"}, plays, 1), plays)
+	nbaFouls(a, countsFromPlays(espn.Data{"id": "1"}, espn.Data{"id": "2"}, plays, 1), plays, 1)
+	// 4 team fouls (personal, shooting, personal, loose ball); the offensive
+	// foul and the technical are not counted. 2 timeouts, one given back.
+	if a.Fouls != 4 || a.Timeouts != 6 || a.Bonus != "" {
+		t.Errorf("team 1: %+v", *a)
+	}
+	b := countsFromPlays(espn.Data{"id": "2"}, espn.Data{"id": "1"}, plays, 1)
+	bc := teamCounts(b, plays)
+	nbaFouls(bc, b, plays, 1)
+	if bc.Fouls != 1 || bc.Bonus != "double" {
+		t.Errorf("team 2 should be in the bonus with team 1 at four fouls: %+v", *bc)
+	}
+	if countsFromPlays(nil, nil, plays, 1) != nil {
+		t.Error("nil competitor")
+	}
+}

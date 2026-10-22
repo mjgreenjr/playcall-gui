@@ -12,6 +12,9 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Fixed
+- NBA: when ESPN's timeouts and fouls are missing or wrong, the timeout circles and the foul and bonus line are worked out from the plays instead of showing nothing or false values (CLE @ PHI on 2026-10-22: no counts at all, then 0 timeouts left and the bonus for both teams). The bonus in the last two minutes of a period, which comes earlier, is not covered in that case.
+
 ## [0.4.1] - 2026-10-22
 
 ### Fixed
