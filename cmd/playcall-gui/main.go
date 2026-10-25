@@ -388,16 +388,18 @@ func (s *shell) watchDivisions(ctx context.Context, sport string, view *ui, poll
 
 // recheckFinal keeps fetching a followed game's status after it turns final,
 // every finalRecheckEvery for up to finalRecheckFor, until the teams' records
-// change: ESPN updates them after the final status, when polling has stopped
-// (KENN @ MOST, BUF @ LV; PHI @ NY had them 20 seconds later), and the header
-// would keep the old ones. Only a game seen live is rechecked; one opened
-// already final is as current as its first fetch, and so is one whose final
-// poll already carried new records. It wraps the poller's StatusSink, so it
+// change and ESPN's scores catch up with the plays: ESPN updates them after
+// the final status, when polling has stopped (KENN @ MOST, BUF @ LV; PHI @ NY
+// had them 20 seconds later; GB @ DET had the records before the winning
+// field goal's score), and the header would keep the old ones. Only a game
+// seen live is rechecked; one opened already final is as current as its first
+// fetch, and so is one whose final poll already carried new records and
+// scores. It wraps the poller's StatusSink, so it
 // comes after watchDivisions.
 func recheckFinal(ctx context.Context, poller *core.Poller) {
 	inner := poller.StatusSink
 	var mu sync.Mutex // the poll loop and the recheck both publish statuses
-	var wasLive, caught bool
+	var wasLive, recordsNew, behind bool
 	var base [2]core.TeamRecord // the records before the final
 	poller.StatusSink = core.StatusFunc(func(st core.GameStatus) {
 		inner.Status(st)
@@ -405,20 +407,21 @@ func recheckFinal(ctx context.Context, poller *core.Poller) {
 		mu.Lock()
 		defer mu.Unlock()
 		if !st.Final || st.State != "post" { // the header can say Final before ESPN's status does
-			wasLive, caught, base = true, false, recs
+			wasLive, recordsNew, behind, base = true, false, false, recs
 			return
 		}
+		recordsNew = recordsNew || recs != base
+		behind = st.ScoreBehind
 		if !wasLive {
-			caught = caught || recs != base
 			return
 		}
 		wasLive = false
-		if recs != base {
+		if recordsNew && !behind {
 			return
 		}
 		go recheckUntil(ctx, finalRecheckEvery, finalRecheckFor,
 			func() { poller.Recheck(ctx) },
-			func() bool { mu.Lock(); defer mu.Unlock(); return caught })
+			func() bool { mu.Lock(); defer mu.Unlock(); return recordsNew && !behind })
 	})
 }
 

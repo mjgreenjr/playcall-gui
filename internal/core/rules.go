@@ -18,7 +18,10 @@ type Feed struct {
 	Data     espn.Data
 	Plays    []espn.Data // in ExtractPlays order
 	Finished bool
-	SentIDs  map[string]bool // ids announced or skipped (sent-id sports)
+	// ScoreBehind is true when the team scores were raised to the newest
+	// play's because ESPN's final status still had the old ones.
+	ScoreBehind bool
+	SentIDs     map[string]bool // ids announced or skipped (sent-id sports)
 
 	Home, Away TeamScore
 	Clock      string // top-level clock, else status displayClock

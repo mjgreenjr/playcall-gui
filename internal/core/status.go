@@ -33,6 +33,9 @@ type GameStatus struct {
 	// zero until the next one starts; Detail then says what to show.
 	Break bool
 	Final bool
+	// ScoreBehind is true when ESPN's own scores lagged the plays and the
+	// newest play's were used; a recheck should wait for ESPN's.
+	ScoreBehind bool
 	// Preseason is true for exhibition games (ESPN's season type 1).
 	Preseason bool
 	// Postseason is true for playoff and bowl games (season type 3).
@@ -634,6 +637,7 @@ func (p *Poller) publishStatus(f *Feed) {
 		HalftimeEnds: halftimeEnds(p.Sport, f),
 		Break:        espn.Str(st["name"]) == "STATUS_END_PERIOD" || footballPeriodBreak(p.Sport, f),
 		Final:        f.Finished,
+		ScoreBehind:  f.ScoreBehind,
 		Series:       series,
 		SeriesInfo:   seriesInfo(f.Data, p.State.GameID),
 		Preseason:    espn.SeasonType(f.Data) == "1",

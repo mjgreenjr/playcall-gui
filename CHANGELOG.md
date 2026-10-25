@@ -12,6 +12,9 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Fixed
+- NFL and college football: when ESPN's final status still has the old score, the header and the Final event use the score of the newest play instead (GB @ DET on 2026-10-25: the winning field goal was a play, but the game ended "17-17" while the records had already changed). The game page also keeps checking after the final until ESPN's own score matches, not only until the records change.
+
 ## [0.4.2] - 2026-10-23
 
 ### Fixed

@@ -436,6 +436,46 @@ func startedBeforeStatus(sport string, data espn.Data, plays []espn.Data) {
 	}
 }
 
+// catchUpScore raises a final football game's team scores to the newest play's
+// when ESPN's are behind it, and reports whether it did. ESPN's final status
+// can land with the winning score missing while the records already changed
+// (GB @ DET on 2026-10-25: the field goal that made it 17-20 was a play, the
+// Final event and the header said 17-17). Scores only go up, so a lower play
+// score is ignored. Football only, final games only.
+func catchUpScore(sport string, data espn.Data, plays []espn.Data) bool {
+	if (sport != "nfl" && sport != "cfb") || !espn.IsFinal(data) {
+		return false
+	}
+	var last espn.Data
+	for i := len(plays) - 1; i >= 0; i-- {
+		if plays[i]["awayScore"] != nil && plays[i]["homeScore"] != nil {
+			last = plays[i]
+			break
+		}
+	}
+	home, away := espn.Teams(espn.Competition(data))
+	if last == nil || home == nil || away == nil {
+		return false
+	}
+	behind := false
+	for _, c := range []struct {
+		team  espn.Data
+		score any
+	}{{away, last["awayScore"]}, {home, last["homeScore"]}} {
+		have, _ := espn.Int64(espn.ScoreText(c.team["score"]))
+		want, ok := espn.Int64(c.score)
+		slog.Debug("Final score", "team", espn.TeamAbbr(c.team), "status", have, "play", c.score)
+		if ok && want > have {
+			c.team["score"] = c.score
+			behind = true
+		}
+	}
+	if behind {
+		slog.Debug("Status score behind the plays; using the newest play's", "play", espn.PlayKey(last))
+	}
+	return behind
+}
+
 // footballGameOver is true when the feed's newest play is the End of Game row
 // but ESPN's status has not gone final yet (PSU @ MICH on 2026-10-17: the row
 // at 19:11:12, Final at 19:11:32, the status in between "in" with no period or

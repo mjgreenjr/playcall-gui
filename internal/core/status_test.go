@@ -1294,3 +1294,50 @@ func TestNBACountsFromPlaysWhenESPNHasNone(t *testing.T) {
 		t.Error("nil competitor")
 	}
 }
+
+func TestCatchUpScore(t *testing.T) {
+	build := func(final bool, away, home string) (espn.Data, []espn.Data) {
+		comp := func(side, score string) espn.Data {
+			return espn.Data{"homeAway": side, "score": score, "team": espn.Data{"abbreviation": side}}
+		}
+		name := "STATUS_IN_PROGRESS"
+		if final {
+			name = "STATUS_FINAL"
+		}
+		data := espn.Data{"header": espn.Data{"competitions": []any{espn.Data{
+			"competitors": []any{comp("away", away), comp("home", home)},
+			"status":      espn.Data{"type": espn.Data{"name": name}},
+		}}}}
+		plays := []espn.Data{
+			{"id": "1", "awayScore": json.Number("17"), "homeScore": json.Number("17")},
+			{"id": "2", "awayScore": json.Number("17"), "homeScore": json.Number("20")},
+			{"id": "3"},
+		}
+		return data, plays
+	}
+	p := &Poller{Sport: "nfl"}
+
+	data, plays := build(true, "17", "17")
+	if !catchUpScore("nfl", data, plays) {
+		t.Fatal("a final with scores behind the plays was not caught up")
+	}
+	if f := p.newFeed(data, plays, true); f.Away.Score != "17" || f.Home.Score != "20" {
+		t.Errorf("scores %s-%s, want 17-20", f.Away.Score, f.Home.Score)
+	}
+
+	for name, c := range map[string]struct {
+		sport      string
+		final      bool
+		away, home string
+	}{
+		"already current": {"nfl", true, "17", "20"},
+		"ahead of plays":  {"nfl", true, "17", "23"},
+		"not final":       {"nfl", false, "17", "17"},
+		"other sport":     {"nba", true, "17", "17"},
+	} {
+		data, plays := build(c.final, c.away, c.home)
+		if catchUpScore(c.sport, data, plays) {
+			t.Errorf("%s: scores were changed", name)
+		}
+	}
+}
