@@ -120,6 +120,9 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 	if sport == "nba" && !espnCountsUsable(a, h, f.Plays) {
 		a, h = countsFromPlays(a, h, f.Plays, period), countsFromPlays(h, a, f.Plays, period)
 	}
+	if sport == "nba" {
+		a, h = withRetainedTimeouts(a, f.Plays, period), withRetainedTimeouts(h, f.Plays, period)
+	}
 	away, home = teamCounts(a, f.Plays), teamCounts(h, f.Plays)
 	if sport == "nba" {
 		nbaFouls(away, a, f.Plays, period)
@@ -164,6 +167,38 @@ func espnCountsUsable(away, home espn.Data, plays []espn.Data) bool {
 		}
 	}
 	return true
+}
+
+// withRetainedTimeouts gives a team that kept a timeout on a challenge its
+// timeout counts from the plays. ESPN's timeoutsRemaining mostly does not give
+// the timeout back (2026-10-20 to 25, 43 games: a team with an earlier
+// retained challenge was 1 low in 34 of 40 readings, against 227 of 280 right
+// without one), so the row would show a circle too few for the rest of the
+// game, and the 4th quarter's cap would count the kept timeout as used. The
+// competitor is copied; ESPN's data is left as it was.
+func withRetainedTimeouts(c espn.Data, plays []espn.Data, period int64) espn.Data {
+	if c == nil || !hasRetainedTimeout(plays, espn.Str(c["id"])) {
+		return c
+	}
+	out := make(espn.Data, len(c)+2)
+	for k, v := range c {
+		out[k] = v
+	}
+	id := espn.Str(c["id"])
+	out["timeoutsRemaining"] = json.Number(strconv.Itoa(max(proTimeouts-netTimeouts(plays, id, 0), 0)))
+	out["timeoutsUsed"] = json.Number(strconv.Itoa(netTimeouts(plays, id, period)))
+	return out
+}
+
+// hasRetainedTimeout is whether a challenge of the team kept its timeout, next
+// to the timeout play it refunds.
+func hasRetainedTimeout(plays []espn.Data, teamID string) bool {
+	for i, p := range plays {
+		if espn.Str(espn.Map(p["team"])["id"]) == teamID && retainedChallenge(p) && timeoutNextTo(plays, i) {
+			return true
+		}
+	}
+	return false
 }
 
 // countsFromPlays builds the fields teamCounts reads from the plays alone:

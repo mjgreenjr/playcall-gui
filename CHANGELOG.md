@@ -13,6 +13,7 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 ## [Unreleased]
 
 ### Fixed
+- NBA: a team that kept a timeout on a challenge ("retain their timeout") shows it again in the timeout circles. ESPN's count mostly stays one low for the rest of the game (34 of 40 readings in 43 games), so the row had a circle too few; the count now comes from the plays for such a team. Other teams still use ESPN's count.
 - The end of a game makes one toast, not two: ESPN posts an "End of Game" row and then the final status, and both toasted with the same score (KC @ SEA on 2026-10-25). The first one is kept, whichever comes first; a second with a different score still toasts. The window still shows both rows.
 - NFL and college football: when ESPN's final status still has the old score, the header and the Final event use the score of the newest play instead (GB @ DET on 2026-10-25: the winning field goal was a play, but the game ended "17-17" while the records had already changed). The game page also keeps checking after the final until ESPN's own score matches, not only until the records change.
 

@@ -1341,3 +1341,38 @@ func TestCatchUpScore(t *testing.T) {
 		}
 	}
 }
+
+func TestWithRetainedTimeouts(t *testing.T) {
+	// ESPN keeps a retained timeout charged: 1 used, 6 left, though the
+	// challenge was overturned (CHA @ BKN, 2026-10-21: 6 left in the 3rd with
+	// none really taken).
+	play := func(team, typ, text, clock string) espn.Data {
+		return espn.Data{
+			"team": map[string]any{"id": team}, "type": map[string]any{"text": typ}, "text": text,
+			"period": map[string]any{"number": json.Number("1")},
+			"clock":  map[string]any{"displayValue": clock},
+		}
+	}
+	plays := []espn.Data{
+		play("1", "Full timeout", "", "2:37"),
+		play("1", "Coach's Challenge (Overturned)", "[A] retain their timeout", "2:37"),
+		play("2", "Full timeout", "", "5:00"),
+		play("2", "Coach's Challenge (Overturned)", "[B] retain their timeout", "1:00"), // no timeout beside it
+	}
+	comp := func(id string) espn.Data {
+		return espn.Data{"id": id, "timeoutsRemaining": json.Number("6"), "timeoutsUsed": json.Number("1")}
+	}
+	got := withRetainedTimeouts(comp("1"), plays, 1)
+	if got["timeoutsRemaining"] != json.Number("7") || got["timeoutsUsed"] != json.Number("0") {
+		t.Errorf("retained: remaining %v used %v, want 7 and 0", got["timeoutsRemaining"], got["timeoutsUsed"])
+	}
+	if orig := comp("1"); orig["timeoutsRemaining"] != json.Number("6") {
+		t.Error("the competitor in the feed was changed")
+	}
+	if other := withRetainedTimeouts(comp("2"), plays, 1); other["timeoutsRemaining"] != json.Number("6") {
+		t.Errorf("a challenge with no timeout beside it should leave ESPN's count: %v", other["timeoutsRemaining"])
+	}
+	if withRetainedTimeouts(nil, plays, 1) != nil {
+		t.Error("nil competitor")
+	}
+}
