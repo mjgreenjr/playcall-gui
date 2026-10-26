@@ -91,7 +91,9 @@ func run() int {
 		start = func() { s.showPicker(startSport(*sport, sportGiven, s.cfg)) }
 	}
 
-	s.app = app.New() // before any widget: they read the theme from it
+	// The ID is also the Wayland app_id (class in hyprctl); without one Fyne
+	// makes up "missing-id-<time>", which changes on every launch.
+	s.app = app.NewWithID("playcall-gui") // before any widget: they read the theme from it
 	s.focus.attach(s.app)
 	if paths, err := core.DefaultPaths(); err == nil {
 		s.logos = newLogoCache(filepath.Join(paths.CacheDir, "logos"), func(f func()) { fyne.Do(f) })

@@ -12,6 +12,9 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Fixed
+- The GUI window has a stable Wayland app_id, `playcall-gui` (the class in `hyprctl clients`). It was `missing-id-<number>`, a new one each launch, so Hyprland window rules and session restore could not match it. A window rule written for the old class must use `playcall-gui` now.
+
 ## [0.4.3] - 2026-10-26
 
 ### Fixed
