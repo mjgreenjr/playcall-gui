@@ -489,6 +489,13 @@ func footballGameOver(sport string, f *Feed) bool {
 	return strings.EqualFold(playType(f.Plays[len(f.Plays)-1]), "End of Game")
 }
 
+// endsGame is true for the row ESPN posts when a game ends (type "End of
+// Game", "End Game" in some feeds).
+func endsGame(p espn.Data) bool {
+	t := playType(p)
+	return strings.EqualFold(t, "End of Game") || strings.EqualFold(t, "End Game")
+}
+
 // halfOver is true for the play that ends the first half: the NFL's End of
 // Half, college's End Period of the 2nd quarter.
 func halfOver(sport string, p espn.Data) bool {

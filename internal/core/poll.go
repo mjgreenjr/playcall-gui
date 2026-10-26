@@ -329,6 +329,7 @@ func (p *Poller) Poll(ctx context.Context) (Outcome, error) {
 			Revision:   s.update && (!espn.Truthy(s.play["scoringPlay"]) || stalePlay(plays, s.play)),
 			Late:       !s.update && idOK && id <= lastBefore,
 			At:         at,
+			Ending:     endsGame(s.play),
 		}
 		if err := p.Sink.Send(ctx, ev); err != nil {
 			// Stop here; the play stays unsent and the next poll retries it.
@@ -447,6 +448,7 @@ func (p *Poller) sendFinal(ctx context.Context, f *Feed) bool {
 		Period: detail,
 		Sport:  p.Sport,
 		Series: series,
+		Ending: true,
 	})
 	if err != nil {
 		slog.Error("Failed to send final event", "game", st.GameID, "err", err)

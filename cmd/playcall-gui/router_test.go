@@ -139,3 +139,43 @@ func TestGameVisibleFallsBackToFocus(t *testing.T) {
 		t.Error("hyprland says visible; no focus must not hide it")
 	}
 }
+
+func TestRouterToastsOnlyTheFirstClosingEvent(t *testing.T) {
+	end := func(game, away, home string) core.Event {
+		return core.Event{GameID: game, Ending: true, Away: core.TeamScore{Score: away}, Home: core.TeamScore{Score: home}}
+	}
+	newRouter := func() (routerSink, *countSink, *countSink) {
+		toast, win := &countSink{}, &countSink{}
+		return routerSink{win: win, toast: toast, ended: new(endedToasts),
+			Visible: func(context.Context) (bool, error) { return false, nil }}, toast, win
+	}
+	ctx := context.Background()
+
+	// The End of Game row, then the final event with the same scores.
+	r, toast, win := newRouter()
+	for _, e := range []core.Event{end("1", "3", "20"), end("1", "3", "20")} {
+		if err := r.Send(ctx, e); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if toast.n != 1 || win.n != 2 {
+		t.Errorf("same scores: %d toasts, %d window rows, want 1 and 2", toast.n, win.n)
+	}
+
+	// A second closing event that changes the score is news.
+	r, toast, _ = newRouter()
+	r.Send(ctx, end("1", "17", "17"))
+	r.Send(ctx, end("1", "17", "20"))
+	if toast.n != 2 {
+		t.Errorf("changed score: %d toasts, want 2", toast.n)
+	}
+
+	// Another game, and ordinary plays, are never skipped.
+	r, toast, _ = newRouter()
+	r.Send(ctx, end("1", "3", "20"))
+	r.Send(ctx, end("2", "3", "20"))
+	r.Send(ctx, core.Event{GameID: "1", Away: core.TeamScore{Score: "3"}, Home: core.TeamScore{Score: "20"}})
+	if toast.n != 3 {
+		t.Errorf("other game and a play: %d toasts, want 3", toast.n)
+	}
+}

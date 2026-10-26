@@ -66,6 +66,10 @@ type Event struct {
 	// game order, instead of on top.
 	Late bool
 	At   time.Time
+	// Ending marks the events that close a game: the final event and the
+	// End of Game row. ESPN posts the row and then the status, so a sink that
+	// toasts can keep the first and skip a second with the same scores.
+	Ending bool
 }
 
 // BodyText is what the window and toasts show: Display, or else Body.

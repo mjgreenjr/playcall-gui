@@ -465,7 +465,7 @@ func (s *shell) follow(sport, gameID string, fetch fetchFunc, every time.Duratio
 	view.onSettings = func() { s.settingsFromGame(sport, view) }
 	win := guiSink{view}
 	sink := routerSink{win: win, toast: core.ToastSink{Runner: core.ExecRunner{}}, Visible: s.gameVisible,
-		noToast: new(sync.Once)}
+		noToast: new(sync.Once), ended: new(endedToasts)}
 	state := &core.State{GameID: gameID, Sport: sport, StartedAt: float64(time.Now().UnixNano()) / 1e9}
 	poller, err := core.NewPoller(state, sink, fetch)
 	if err != nil {
