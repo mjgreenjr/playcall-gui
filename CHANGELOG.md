@@ -12,6 +12,8 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+## [0.4.4] - 2026-10-27
+
 ### Fixed
 - NBA overtime: a team that kept a timeout on a challenge no longer shows 0 timeouts left in overtime. 0.4.3 counted from the whole game, so a team that used all 7 in regulation showed none of its 2 overtime timeouts (BKN @ BOS on 2026-10-27: one kept, one taken, one left, shown as none). Overtime counts from the 2 each team gets per period.
 - The GUI window has a stable Wayland app_id, `playcall-gui` (the class in `hyprctl clients`). It was `missing-id-<number>`, a new one each launch, so Hyprland window rules and session restore could not match it. A window rule written for the old class must use `playcall-gui` now.
