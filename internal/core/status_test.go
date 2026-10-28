@@ -1376,3 +1376,46 @@ func TestWithRetainedTimeouts(t *testing.T) {
 		t.Error("nil competitor")
 	}
 }
+
+func TestRetainedTimeoutInOvertime(t *testing.T) {
+	// BKN @ BOS on 2026-10-27, 5th period: BKN had used all 7 in regulation,
+	// called a timeout, kept it on a challenge and called another. ESPN said
+	// 2 used, 0 left; the team really has 1 of its 2 overtime timeouts left.
+	play := func(team, typ, text string, period int, clock string) espn.Data {
+		return espn.Data{
+			"team": map[string]any{"id": team}, "type": map[string]any{"text": typ}, "text": text,
+			"period": map[string]any{"number": json.Number(strconv.Itoa(period))},
+			"clock":  map[string]any{"displayValue": clock},
+		}
+	}
+	var plays []espn.Data
+	for i := 0; i < 7; i++ {
+		plays = append(plays, play("17", "Full timeout", "", 1+i/3, strconv.Itoa(10-i)+":00"))
+	}
+	plays = append(plays,
+		play("17", "Full timeout", "", 5, "0:04.9"),
+		play("17", "Coach's Challenge (Overturned)", "[Nets] retain their timeout", 5, "0:04.9"),
+		play("17", "Full timeout", "", 5, "0:03.0"),
+	)
+	comp := espn.Data{"id": "17", "timeoutsRemaining": json.Number("0"), "timeoutsUsed": json.Number("2")}
+	got := withRetainedTimeouts(comp, plays, 5)
+	tc := &TeamCounts{Timeouts: int(mustInt(t, got["timeoutsRemaining"])), TimeoutSlots: overtimeTimeouts}
+	capTimeouts(tc, got, overtimeTimeouts, true)
+	if tc.Timeouts != 1 {
+		t.Errorf("overtime, one kept: %d left, want 1", tc.Timeouts)
+	}
+	// A retained challenge in regulation leaves overtime to ESPN's fresh count.
+	reg := withRetainedTimeouts(espn.Data{"id": "17", "timeoutsRemaining": json.Number("2"), "timeoutsUsed": json.Number("0")}, plays[:7], 5)
+	if reg["timeoutsRemaining"] != json.Number("2") {
+		t.Errorf("no overtime retain should keep ESPN's count: %v", reg["timeoutsRemaining"])
+	}
+}
+
+func mustInt(t *testing.T, v any) int64 {
+	t.Helper()
+	n, ok := espn.Int64(v)
+	if !ok {
+		t.Fatalf("not a number: %v", v)
+	}
+	return n
+}

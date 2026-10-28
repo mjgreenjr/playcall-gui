@@ -177,24 +177,39 @@ func espnCountsUsable(away, home espn.Data, plays []espn.Data) bool {
 // game, and the 4th quarter's cap would count the kept timeout as used. The
 // competitor is copied; ESPN's data is left as it was.
 func withRetainedTimeouts(c espn.Data, plays []espn.Data, period int64) espn.Data {
-	if c == nil || !hasRetainedTimeout(plays, espn.Str(c["id"])) {
+	id := espn.Str(c["id"])
+	overtime := period > 4
+	// Overtime starts over with 2 (BKN @ BOS on 2026-10-27: 0 and 0 used,
+	// 2 left for both after a regulation that used all 7), so only a kept
+	// timeout in this period matters there, and what is left is out of 2.
+	scope := int64(0)
+	if overtime {
+		scope = period
+	}
+	if c == nil || !hasRetainedTimeout(plays, id, scope) {
 		return c
 	}
 	out := make(espn.Data, len(c)+2)
 	for k, v := range c {
 		out[k] = v
 	}
-	id := espn.Str(c["id"])
-	out["timeoutsRemaining"] = json.Number(strconv.Itoa(max(proTimeouts-netTimeouts(plays, id, 0), 0)))
+	left := proTimeouts - netTimeouts(plays, id, 0)
+	if overtime {
+		left = overtimeTimeouts - netTimeouts(plays, id, period)
+	}
+	out["timeoutsRemaining"] = json.Number(strconv.Itoa(max(left, 0)))
 	out["timeoutsUsed"] = json.Number(strconv.Itoa(netTimeouts(plays, id, period)))
 	return out
 }
 
 // hasRetainedTimeout is whether a challenge of the team kept its timeout, next
-// to the timeout play it refunds.
-func hasRetainedTimeout(plays []espn.Data, teamID string) bool {
+// to the timeout play it refunds, in the given period (0 for any).
+func hasRetainedTimeout(plays []espn.Data, teamID string, period int64) bool {
 	for i, p := range plays {
-		if espn.Str(espn.Map(p["team"])["id"]) == teamID && retainedChallenge(p) && timeoutNextTo(plays, i) {
+		if espn.Str(espn.Map(p["team"])["id"]) != teamID || !retainedChallenge(p) || !timeoutNextTo(plays, i) {
+			continue
+		}
+		if n, _ := espn.Int64(espn.Map(p["period"])["number"]); period == 0 || n == period {
 			return true
 		}
 	}
