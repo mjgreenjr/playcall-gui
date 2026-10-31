@@ -12,6 +12,8 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+## [0.4.5] - 2026-10-30
+
 ### Fixed
 - The game window no longer adds an old play to the top of the list when ESPN corrects it later. Opening the game after the play, or a restart, left no row to correct, so a 4th-quarter touchdown whose receiver ESPN filled in during overtime appeared above the overtime plays (TULN @ CLT on 2026-10-30). Corrections still rewrite a row that is in the list.
 - College football overtime: opening or restarting the game page inside an overtime period now shows that period's timeout circles. They were blank, because the count needs the counter from before the period began; the period's own timeout rows ("Timeout Tulane, clock 15:00") are counted instead (TULN @ CLT on 2026-10-30).
