@@ -12,6 +12,9 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Added
+- `playcall-gui --resume` follows the game you watched last, the one the picker's Continue button offers, without opening the picker. With no remembered game it opens the picker; it cannot be combined with `--game` or `--mock`.
+
 ## [0.4.5] - 2026-10-30
 
 ### Fixed

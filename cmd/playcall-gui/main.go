@@ -34,6 +34,7 @@ func run() int {
 	mock := flag.String("mock", "", "replay a fixture file as if it were live, instead of ESPN")
 	step := flag.Int("step", 3, "with --mock: plays revealed per poll")
 	interval := flag.Duration("interval", 0, "poll interval (default: the config's; 1s with --mock; never below 5s live)")
+	resume := flag.Bool("resume", false, "follow the game watched last (the picker's Continue button); the picker opens if there is none")
 	debug := flag.Bool("debug", false, "log at DEBUG level this run, whatever the settings say")
 	showVersion := flag.Bool("version", false, "print the version and exit")
 	flag.Parse()
@@ -46,6 +47,11 @@ func run() int {
 
 	if err := sports.Validate(*sport); err != nil {
 		fmt.Fprintln(os.Stderr, err)
+		return 2
+	}
+
+	if *resume && (*game != "" || *mock != "") {
+		fmt.Fprintln(os.Stderr, "playcall-gui: --resume cannot be combined with --game or --mock")
 		return 2
 	}
 
@@ -85,6 +91,15 @@ func run() int {
 			every = time.Second
 		}
 		start = func() { s.follow(*sport, id, fetch, every, false) }
+	case *resume:
+		start = func() {
+			if last, ok := resumeGame(s.cfg); ok {
+				s.followPicked(last)
+				return
+			}
+			slog.Info("Nothing to resume; opening the picker")
+			s.showPicker(startSport(*sport, sportGiven, s.cfg))
+		}
 	case *game != "":
 		start = func() { s.follow(*sport, *game, liveFetcher(*sport, *game), s.liveInterval(), false) }
 	default:
@@ -117,6 +132,16 @@ func run() int {
 	s.app.Lifecycle().SetOnStarted(func() { fyne.Do(start) })
 	s.win.ShowAndRun()
 	return 0
+}
+
+// resumeGame is the game --resume follows: the one remembered for the
+// Continue button, if its sport is still one we know.
+func resumeGame(cfg core.Config) (core.LastGame, bool) {
+	last, ok := cfg.LastGame()
+	if !ok || sports.Validate(last.Sport) != nil {
+		return core.LastGame{}, false
+	}
+	return last, true
 }
 
 // shell owns the window and switches it between the picker and one game.

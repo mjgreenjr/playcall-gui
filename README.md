@@ -108,6 +108,7 @@ launcher entry or key binding at `playcall-gui`.
 ./playcall-gui                        # game picker
 ./playcall-gui --sport nhl            # picker, starting on NHL
 ./playcall-gui --sport nba --game ID  # follow one game directly
+./playcall-gui --resume               # follow the game watched last
 ```
 
 `--mock fixture.json` replays a saved feed as if it were live (`--step` sets

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"testing"
+
+	"playcall/internal/core"
 )
 
 // TestMain keeps every test away from the real config and cache: whatever a
@@ -20,4 +22,19 @@ func TestMain(m *testing.M) {
 	code := m.Run()
 	os.RemoveAll(home)
 	os.Exit(code)
+}
+
+func TestResumeGame(t *testing.T) {
+	var cfg core.Config
+	if _, ok := resumeGame(cfg); ok {
+		t.Error("resumed with nothing remembered")
+	}
+	cfg.SetLastGame(core.LastGame{Sport: "nba", ID: "401", Label: "SA @ UTAH"})
+	if g, ok := resumeGame(cfg); !ok || g.ID != "401" || g.Sport != "nba" {
+		t.Errorf("got %+v, %v", g, ok)
+	}
+	cfg.SetLastGame(core.LastGame{Sport: "curling", ID: "1"})
+	if _, ok := resumeGame(cfg); ok {
+		t.Error("resumed a sport that is not supported")
+	}
 }
