@@ -1419,3 +1419,44 @@ func mustInt(t *testing.T, v any) int64 {
 	}
 	return n
 }
+
+func TestCollegeOvertimeFromPlays(t *testing.T) {
+	team := func(side, loc, abbr string, used int) espn.Data {
+		return espn.Data{"homeAway": side, "timeoutsUsed": json.Number(strconv.Itoa(used)),
+			"team": espn.Data{"location": loc, "abbreviation": abbr}}
+	}
+	play := func(period int, text string) espn.Data {
+		return espn.Data{"type": espn.Data{"text": "Timeout"}, "text": text,
+			"period": espn.Data{"number": json.Number(strconv.Itoa(period))}}
+	}
+	away, home := team("away", "Tulane", "TULN", 5), team("home", "Charlotte", "CLT", 4)
+	feed := func(plays ...espn.Data) *Feed {
+		return &Feed{Plays: plays, Data: espn.Data{
+			"header": espn.Data{"competitions": []any{espn.Data{
+				"competitors": []any{away, home},
+				"status": espn.Data{"period": json.Number("5"),
+					"type": espn.Data{"state": "in", "name": "STATUS_IN_PROGRESS"}},
+			}}},
+		}}
+	}
+	left := func(f *Feed) [2]int {
+		a, h := (&Poller{State: &State{GameID: "1"}}).collegeCounts(f)
+		if a == nil || h == nil {
+			return [2]int{-1, -1}
+		}
+		return [2]int{a.Timeouts, h.Timeouts}
+	}
+	// Joined inside the overtime: the period's timeout rows give the count, and
+	// the regulation ones do not.
+	got := left(feed(play(4, "Timeout Tulane, clock 00:02"), play(5, "Timeout Tulane, clock 15:00")))
+	if got != [2]int{0, 1} {
+		t.Errorf("one overtime timeout: %v, want [0 1]", got)
+	}
+	if got := left(feed(play(4, "Timeout Tulane, clock 00:02"))); got != [2]int{1, 1} {
+		t.Errorf("none yet: %v, want [1 1]", got)
+	}
+	// A row naming neither team is no basis for a count.
+	if got := left(feed(play(5, "Timeout Somewhere, clock 15:00"))); got != [2]int{-1, -1} {
+		t.Errorf("unknown team: %v, want no circles", got)
+	}
+}

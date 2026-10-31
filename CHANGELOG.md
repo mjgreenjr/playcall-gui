@@ -12,6 +12,9 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Fixed
+- College football overtime: opening or restarting the game page inside an overtime period now shows that period's timeout circles. They were blank, because the count needs the counter from before the period began; the period's own timeout rows ("Timeout Tulane, clock 15:00") are counted instead (TULN @ CLT on 2026-10-30).
+
 ## [0.4.4] - 2026-10-27
 
 ### Fixed

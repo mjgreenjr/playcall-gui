@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log/slog"
+	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -414,7 +416,7 @@ func (p *Poller) collegeCounts(f *Feed) (away, home *TeamCounts) {
 		used[i] = u
 	}
 	if period > 4 {
-		return p.collegeOvertime(period, used)
+		return p.collegeOvertime(period, used, overtimeTimeoutPlays(f.Plays, a, h, period))
 	}
 	p.collegeWatched = true
 	if period <= 2 {
@@ -461,23 +463,73 @@ func (p *Poller) collegeCounts(f *Feed) (away, home *TeamCounts) {
 // each, gone when ESPN's running counter rises (FSU @ MIA on 2026-10-17: MIA 4
 // to 5 and FSU 1 to 2 in the second overtime, none in the first), and a new
 // one for each further period. The period's base is the counter at the first
-// poll of the period, so it needs a poll that came before it; joined or
-// restarted inside an overtime, the base is unknown and nothing is shown for
-// that period.
-func (p *Poller) collegeOvertime(period int64, used [2]int64) (away, home *TeamCounts) {
+// poll of the period, so it needs a poll that came before it. Joined or
+// restarted inside an overtime, the base is unknown and the period's timeout
+// rows stand in (byPlays, TULN @ CLT on 2026-10-30); with no usable rows
+// nothing is shown for that period.
+func (p *Poller) collegeOvertime(period int64, used [2]int64, byPlays *[2]int) (away, home *TeamCounts) {
 	if p.collegeOTPeriod != period {
 		p.collegeOTPeriod = period
 		p.collegeOTKnown = p.collegeWatched
 		p.collegeOTBase = used
 	}
 	p.collegeWatched = true
+	one := func(taken int64) *TeamCounts {
+		return &TeamCounts{Timeouts: int(min(max(1-taken, 0), 1)), TimeoutSlots: 1}
+	}
 	if !p.collegeOTKnown {
-		return nil, nil
+		if byPlays == nil {
+			return nil, nil
+		}
+		return one(int64(byPlays[0])), one(int64(byPlays[1]))
 	}
-	left := func(i int) *TeamCounts {
-		return &TeamCounts{Timeouts: int(min(max(1-(used[i]-p.collegeOTBase[i]), 0), 1)), TimeoutSlots: 1}
+	return one(used[0] - p.collegeOTBase[0]), one(used[1] - p.collegeOTBase[1])
+}
+
+var overtimeTimeoutText = regexp.MustCompile(`^Timeout ([^,]+), clock `)
+
+// overtimeTimeoutPlays is how many timeout rows each college team has in an
+// overtime period, by the name in the text ("Timeout Tulane, clock 15:00").
+// Nil when there are no plays at all or a row names neither team, so a guess
+// is never shown as a count.
+func overtimeTimeoutPlays(plays []espn.Data, away, home espn.Data, period int64) *[2]int {
+	names := func(c espn.Data) []string {
+		t := espn.Map(c["team"])
+		var out []string
+		for _, k := range []string{"location", "abbreviation", "shortDisplayName", "name", "displayName"} {
+			if v := strings.ToLower(espn.Str(t[k])); v != "" {
+				out = append(out, v)
+			}
+		}
+		return out
 	}
-	return left(0), left(1)
+	if len(plays) == 0 {
+		return nil
+	}
+	sides := [2][]string{names(away), names(home)}
+	var n [2]int
+	for _, pl := range plays {
+		if pe, _ := espn.Int64(espn.Map(pl["period"])["number"]); pe != period || !isTimeout(pl) {
+			continue
+		}
+		m := overtimeTimeoutText.FindStringSubmatch(espn.Str(pl["text"]))
+		if m == nil {
+			return nil
+		}
+		name := strings.ToLower(strings.TrimSpace(m[1]))
+		matched := false
+		for i, list := range sides {
+			if slices.Contains(list, name) {
+				n[i]++
+				matched = true
+				break
+			}
+		}
+		if !matched {
+			return nil
+		}
+	}
+	return &n
 }
 
 // saveFirstHalf writes the first-half totals when they or their finality
