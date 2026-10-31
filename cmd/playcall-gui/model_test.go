@@ -89,6 +89,18 @@ func TestModelUpdateWithoutOriginalAdds(t *testing.T) {
 	}
 }
 
+func TestModelRevisionWithoutOriginalIsDropped(t *testing.T) {
+	var m Model
+	m.Apply(core.Event{PlayID: "5", Kind: core.KindPlay, Body: "snap"})
+	if m.Apply(core.Event{PlayID: "1", Kind: core.KindUpdate, Revision: true, Body: "old TD, name filled in"}) || len(m.Rows) != 1 {
+		t.Errorf("a revision of a play never shown added a row: %+v", m.Rows)
+	}
+	m.Apply(core.Event{PlayID: "5", Kind: core.KindUpdate, Revision: true, Body: "snap, fixed"})
+	if len(m.Rows) != 1 || m.Rows[0].Body != "snap, fixed" {
+		t.Errorf("a revision of a shown play: %+v", m.Rows)
+	}
+}
+
 func TestModelFinalIsARow(t *testing.T) {
 	var m Model
 	m.Apply(core.Event{PlayID: "1", Kind: core.KindPlay})

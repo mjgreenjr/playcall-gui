@@ -55,6 +55,13 @@ func (m *Model) ApplyAt(e core.Event) (index int, added bool) {
 				return i, false
 			}
 		}
+		if e.Revision {
+			// A quiet correction fixes a row; with none to fix (the game was
+			// opened after the play, or its toast went to the desktop) it
+			// would only drop an old play on top of the list, a 4th-quarter
+			// touchdown in the middle of overtime (TULN @ CLT, 2026-10-30).
+			return 0, false
+		}
 	}
 	at := 0
 	if e.Late && !e.At.IsZero() {
