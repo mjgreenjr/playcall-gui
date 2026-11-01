@@ -8,7 +8,7 @@ One JSON object per line in events.jsonl:
   timeouts_used  ESPN's timeoutsUsed/timeoutsRemaining changed for a team (with the timeout plays seen so far, by team)
   kick_followup  once per game at the end: every kickoff/punt and the type of the play after it
   status_change  the status (state, name, period), the play count or the newest play changed: what ESPN's status said when each play arrived
-  competitor_fields  (basketball) everything ESPN sends per competitor at the first poll
+  competitor_fields  (basketball, NBA and men's college) everything ESPN sends per competitor at the first poll
   team_stats     (basketball) boxscore fouls, technicals, flagrants, turnovers when they change
   possession     (basketball) ESPN's per-competitor possession flag when it changes
   (timeout_play and timeouts_used also cover coach's challenge plays)
@@ -23,12 +23,20 @@ os.makedirs(OUT, exist_ok=True)
 EVENTS = os.path.join(OUT, "events.jsonl")
 LOG = os.path.join(OUT, "capture.log")
 
-# (sport path, scoreboard params, priority: lower is tracked first)
+# (sport path, scoreboard params, priority: lower is tracked first, key).
+# {today} is the local date as YYYYMMDD. Men's college basketball has dozens of
+# games a day, so it is tracked Michigan first (priority 2), then the rest of
+# the Big Ten (group 7), then any other game (group 50 is only ESPN's default
+# day, hence the date); a game found by several lists keeps the lowest number.
 LEAGUES = [
     ("basketball/nba", "", 0, "nba"),
     ("football/college-football", "?groups=80", 1, "cfb"),
+    ("basketball/mens-college-basketball", "?groups=7&limit=100", 3, "cbb"),
+    ("basketball/mens-college-basketball", "?groups=50&limit=400&dates={today}", 4, "cbb"),
 ]
-MAX_GAMES = 8
+MICHIGAN = "MICH"
+MICHIGAN_PRIORITY = 2
+MAX_GAMES = {"nba": 8, "cfb": 8, "cbb": 8}  # most followed at once, per key
 POLL = 20          # seconds between polls of one game
 DISCOVER = 30      # seconds between scoreboard checks
 PREGAME = 15 * 60  # follow a game from this long before its start, to see its status flip
@@ -143,7 +151,7 @@ class Game:
                  period=comp.get("status", {}).get("period"), clock=comp.get("status", {}).get("displayClock"),
                  espn=used, timeout_plays_by_team_period=by_team)
             self.used = used
-        if self.key == "nba":
+        if self.key in ("nba", "cbb"):
             self.basketball(d, comp, teams, plays, last)
         if self.first:
             emit(kind="game_start", game=self.gid, label=self.label, sport=self.key, plays_so_far=len(plays),
@@ -189,10 +197,11 @@ Game.basketball = _basketball
 
 
 def discover(tracked):
-    found = []
+    found = {}
+    today = f"{datetime.date.today():%Y%m%d}"
     for path, params, prio, key in LEAGUES:
         try:
-            sb = get(f"https://site.api.espn.com/apis/site/v2/sports/{path}/scoreboard{params}")
+            sb = get(f"https://site.api.espn.com/apis/site/v2/sports/{path}/scoreboard{params.format(today=today)}")
         except Exception as e:
             log(f"scoreboard {key}: {e}")
             continue
@@ -207,9 +216,12 @@ def discover(tracked):
                     soon = False
             if (st.get("state") == "in" or soon) and ev["id"] not in tracked:
                 comp = ev["competitions"][0]["competitors"]
-                label = " @ ".join(c["team"]["abbreviation"] for c in sorted(comp, key=lambda c: c["homeAway"] == "home"))
-                found.append((prio, Game(path, key, ev["id"], f"{key} {label}")))
-    return [g for _, g in sorted(found, key=lambda x: x[0])]
+                abbrs = [c["team"]["abbreviation"] for c in sorted(comp, key=lambda c: c["homeAway"] == "home")]
+                if key == "cbb" and MICHIGAN in abbrs:
+                    prio = min(prio, MICHIGAN_PRIORITY)
+                if ev["id"] not in found or prio < found[ev["id"]][0]:
+                    found[ev["id"]] = (prio, Game(path, key, ev["id"], f"{key} {' @ '.join(abbrs)}"))
+    return [g for _, g in sorted(found.values(), key=lambda x: x[0])]
 
 
 def main():
@@ -222,7 +234,7 @@ def main():
         if now - last_discover > DISCOVER:
             last_discover = now
             for g in discover(set(games) | done_ids):
-                if len(games) < MAX_GAMES:
+                if sum(1 for x in games.values() if x.key == g.key) < MAX_GAMES[g.key]:
                     games[g.gid] = g
                     log(f"tracking {g.label} ({g.gid})")
         for gid in list(games):
