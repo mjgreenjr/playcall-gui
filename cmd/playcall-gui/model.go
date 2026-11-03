@@ -142,21 +142,35 @@ func countsText(sport string, c *core.TeamCounts) string {
 	return text
 }
 
+// collegeBonusFouls is the team fouls in a half after which the other side
+// shoots a one-and-one (core's rule, repeated here for what the line shows).
+const collegeBonusFouls = 7
+
 // foulsText is the fouls and bonus part of the counts line, like a TV
 // scoreboard. In the NBA and WNBA a team's fouls show while it is under four
 // (past that the other team is in the bonus and the count says no more), next
 // to "Bonus" when the team is in it; a team at four or more that is not in the
-// bonus shows nothing. College shows the foul count, or only the bonus once
-// the team is in it. "" when there is nothing to show.
+// bonus shows nothing. College shows the foul count while it is under seven,
+// then the bonus, both together when the team is in the bonus with few fouls
+// of its own. "" when there is nothing to show.
 func foulsText(sport string, c *core.TeamCounts) string {
 	if sport == "cbb" {
-		switch {
-		case c.Bonus == "":
-			return fmt.Sprintf("Fouls %d", c.Fouls)
-		case c.Bonus == "double":
-			return "Double bonus"
+		// The team's own count shows while it is short of seven, which is how
+		// close it is to giving the other side the bonus (a team can be in the
+		// bonus with few fouls of its own). From seven it is left out when the
+		// bonus is on show, which says what the other side's count means.
+		var parts []string
+		if c.Bonus == "" || c.Fouls < collegeBonusFouls {
+			parts = append(parts, fmt.Sprintf("Fouls %d", c.Fouls))
 		}
-		return "1-and-1"
+		switch c.Bonus {
+		case "":
+		case "double":
+			parts = append(parts, "Double bonus")
+		default:
+			parts = append(parts, "1-and-1")
+		}
+		return strings.Join(parts, " · ")
 	}
 	var parts []string
 	if c.Fouls < 4 {

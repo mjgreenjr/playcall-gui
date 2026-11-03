@@ -181,6 +181,10 @@ func TestCountsText(t *testing.T) {
 		{"nba", &core.TeamCounts{}, "TO 0 · Fouls 0"},
 		{"cbb", &core.TeamCounts{Timeouts: 1, Fouls: 7, Bonus: "single"}, "TO ● · 1-and-1"},
 		{"cbb", &core.TeamCounts{Timeouts: 1, Fouls: 10, Bonus: "double"}, "TO ● · Double bonus"},
+		{"cbb", &core.TeamCounts{Timeouts: 1, Fouls: 6, Bonus: "double"}, "TO ● · Fouls 6 · Double bonus"},
+		{"cbb", &core.TeamCounts{Timeouts: 1, Fouls: 4, Bonus: "single"}, "TO ● · Fouls 4 · 1-and-1"},
+		{"cbb", &core.TeamCounts{Timeouts: 1, Fouls: 10}, "TO ● · Fouls 10"},
+		{"cbb", &core.TeamCounts{Timeouts: 1, Fouls: 3}, "TO ● · Fouls 3"},
 	} {
 		if got := countsText(c.sport, c.c); got != c.want {
 			t.Errorf("%s %+v: got %q, want %q", c.sport, c.c, got, c.want)
