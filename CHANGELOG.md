@@ -12,15 +12,15 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-02
+
 ### Added
 - NBA and men's college basketball show a halftime countdown ("Halftime · ~12:40"), as football does: the first half's last play's time plus the usual break, about 15:25 in the NBA and 14:30 in college. It is an estimate; college breaks ranged from 8 to 17 minutes. The WNBA has none yet.
+- `playcall-gui --resume` follows the game you watched last, the one the picker's Continue button offers, without opening the picker. With no remembered game it opens the picker; it cannot be combined with `--game` or `--mock`.
 
 ### Fixed
 - After a game ends, the header now waits for both teams' records to change before it stops checking. It stopped at the first one, so a record ESPN posted a little later stayed old (OAK @ MICH on 2026-11-02: Oakland showed 0-1, Michigan stayed 0-0). In the playoffs, where only the winner's series wins change, either side counts.
 - Men's college basketball: the fouls and the bonus in the counts line now work. ESPN keeps its foul counts at 0 all game for cbb, so both teams showed "Fouls 0". They are counted from the plays instead, per half (overtime counts with the second half), with the one-and-one from the other side's seventh foul and the double bonus from its tenth (OAK @ MICH on 2026-11-02). A team's own count shows while it is under seven, next to the bonus label when it is in the bonus ("Fouls 6 · Double bonus"), so a team with few fouls still shows how many.
-
-### Added
-- `playcall-gui --resume` follows the game you watched last, the one the picker's Continue button offers, without opening the picker. With no remembered game it opens the picker; it cannot be combined with `--game` or `--mock`.
 
 ## [0.4.5] - 2026-10-30
 
