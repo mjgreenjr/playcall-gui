@@ -426,7 +426,8 @@ func (s *shell) watchDivisions(ctx context.Context, sport string, view *ui, poll
 func recheckFinal(ctx context.Context, poller *core.Poller) {
 	inner := poller.StatusSink
 	var mu sync.Mutex // the poll loop and the recheck both publish statuses
-	var wasLive, recordsNew, behind bool
+	var wasLive, behind bool
+	var moved [2]bool           // each side's record changed since the final
 	var base [2]core.TeamRecord // the records before the final
 	poller.StatusSink = core.StatusFunc(func(st core.GameStatus) {
 		inner.Status(st)
@@ -434,10 +435,11 @@ func recheckFinal(ctx context.Context, poller *core.Poller) {
 		mu.Lock()
 		defer mu.Unlock()
 		if !st.Final || st.State != "post" { // the header can say Final before ESPN's status does
-			wasLive, recordsNew, behind, base = true, false, false, recs
+			wasLive, moved, behind, base = true, [2]bool{}, false, recs
 			return
 		}
-		recordsNew = recordsNew || recs != base
+		moved = [2]bool{moved[0] || recs[0] != base[0], moved[1] || recs[1] != base[1]}
+		recordsNew := recordsUpdated(base, moved)
 		behind = st.ScoreBehind
 		if !wasLive {
 			return
@@ -448,8 +450,21 @@ func recheckFinal(ctx context.Context, poller *core.Poller) {
 		}
 		go recheckUntil(ctx, finalRecheckEvery, finalRecheckFor,
 			func() { poller.Recheck(ctx) },
-			func() bool { mu.Lock(); defer mu.Unlock(); return recordsNew && !behind })
+			func() bool { mu.Lock(); defer mu.Unlock(); return recordsUpdated(base, moved) && !behind })
 	})
+}
+
+// recordsUpdated is whether ESPN has posted the game's result to the records:
+// both teams' records changed, since a game moves each side's season record
+// (OAK @ MICH on 2026-11-02: OAK's 0-1 was in the final poll, MICH's 1-0 came
+// later, and stopping at the first left the header on 0-0). In the
+// postseason there is no season record, only the winner's series wins change,
+// so either side's change counts there.
+func recordsUpdated(base [2]core.TeamRecord, moved [2]bool) bool {
+	if base[0].Overall != "" && base[1].Overall != "" {
+		return moved[0] && moved[1]
+	}
+	return moved[0] || moved[1]
 }
 
 // recheckUntil calls fetch every `every` for up to `total`, stopping early

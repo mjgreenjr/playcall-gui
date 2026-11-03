@@ -290,3 +290,24 @@ func TestShellRemembersTheSportAcrossStarts(t *testing.T) {
 		t.Errorf("after showing the mlb picker: %q", saved.LastSport())
 	}
 }
+
+func TestRecordsUpdated(t *testing.T) {
+	rec := func(overall, series string) core.TeamRecord {
+		return core.TeamRecord{Overall: overall, SeriesWins: series}
+	}
+	season := [2]core.TeamRecord{rec("0-0", ""), rec("0-0", "")}
+	if recordsUpdated(season, [2]bool{true, false}) {
+		t.Error("one side's record moved: the other is still to come")
+	}
+	if !recordsUpdated(season, [2]bool{true, true}) {
+		t.Error("both records moved")
+	}
+	if recordsUpdated(season, [2]bool{}) {
+		t.Error("nothing moved")
+	}
+	// Postseason: no season record, and only the winner's series wins change.
+	series := [2]core.TeamRecord{rec("", "1"), rec("", "2")}
+	if !recordsUpdated(series, [2]bool{false, true}) {
+		t.Error("the winner's series wins moved")
+	}
+}
