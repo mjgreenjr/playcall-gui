@@ -826,7 +826,22 @@ func TestHalftimeEnds(t *testing.T) {
 	if got := halftimeEnds("nfl", feed("STATUS_HALFTIME", half("Pass", "2026-10-12T01:40:00Z"), half("End of Half", "2026-10-12T01:47:26Z"))); !got.Equal(want) {
 		t.Errorf("halftime: got %v, want %v", got, want)
 	}
+	// The NBA's 2nd quarter, found even when later plays follow it; men's
+	// college basketball's break comes after the 1st (and last) period of the
+	// first half.
+	nbaEnd := time.Date(2026, 11, 3, 1, 7, 15, 0, time.UTC)
+	if got := halftimeEnds("nba", feed("STATUS_HALFTIME", quarter(1, "2026-11-03T00:36:41Z"), quarter(2, "2026-11-03T01:07:15Z"), half("Substitution", "2026-11-03T01:07:30Z"))); !got.Equal(nbaEnd.Add(nbaHalftime)) {
+		t.Errorf("NBA halftime: got %v", got)
+	}
+	cbbEnd := time.Date(2026, 11, 1, 15, 33, 57, 0, time.UTC)
+	if got := halftimeEnds("cbb", feed("STATUS_HALFTIME", quarter(1, "2026-11-01T15:33:57Z"))); !got.Equal(cbbEnd.Add(cbbHalftime)) {
+		t.Errorf("college basketball halftime: got %v", got)
+	}
 	for name, got := range map[string]time.Time{
+		"NBA first quarter":          halftimeEnds("nba", feed("STATUS_HALFTIME", quarter(1, "2026-11-03T00:36:41Z"))),
+		"NBA third quarter":          halftimeEnds("nba", feed("STATUS_HALFTIME", quarter(3, "2026-11-03T01:49:53Z"))),
+		"cbb second half":            halftimeEnds("cbb", feed("STATUS_HALFTIME", quarter(2, "2026-11-01T16:58:07Z"))),
+		"NBA not at halftime":        halftimeEnds("nba", feed("STATUS_IN_PROGRESS", quarter(2, "2026-11-03T01:07:15Z"))),
 		"not halftime":               halftimeEnds("nfl", feed("STATUS_IN_PROGRESS", half("End of Half", "2026-10-12T01:47:26Z"))),
 		"college has no End of Half": halftimeEnds("cfb", feed("STATUS_HALFTIME", half("End of Half", "2026-10-12T01:47:26Z"))),
 		"college first quarter":      halftimeEnds("cfb", feed("STATUS_HALFTIME", quarter(1, "2026-10-12T01:47:26Z"))),

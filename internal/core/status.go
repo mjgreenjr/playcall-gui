@@ -821,33 +821,54 @@ func (p *Poller) publishStatus(f *Feed) {
 // the kickoff play's. NFL: eight games, 13:57 to 15:37 with most near 14:15
 // (BUF @ LAR on 2026-10-12 took 13:59; the one in London took 19:45). College: 45 finished games, median 20:40,
 // 40 of them between 19:36 and 21:36 (the rest were delays); DEL @ MTSU on 2026-10-13 took 21:03.
+// NBA: 41 games from 2026-10-20 to 25, the 2nd quarter's End Period stamp to
+// the first play of the 3rd, median 15:24, 13:24 to 17:36 (two stamps were
+// off). Men's college basketball: 21 games on 2026-11-02, the 1st half's End
+// Period to the first play of the 2nd, median 14:30 but 7:48 to 17:18, which
+// is a wide spread; the break there is a guess more than a measurement.
 const (
 	nflHalftime = 14*time.Minute + 15*time.Second
 	cfbHalftime = 20*time.Minute + 45*time.Second
+	nbaHalftime = 15*time.Minute + 25*time.Second
+	cbbHalftime = 14*time.Minute + 30*time.Second
 )
 
-// halftimeEnds estimates when the football halftime break ends: the first
-// half's last play's `wallclock` plus the usual break. The NFL ends the half
-// with an End of Half play, college with the 2nd quarter's End Period. Zero
-// outside halftime or when ESPN gives no stamp. It comes from the feed, so a
-// late start has it too.
+// halfEnd says whether p is the play that ends the first half in this sport,
+// and how long the usual break after it is. The NFL ends the half with an End
+// of Half play, college football and the basketball leagues with the End
+// Period of the period the half ends in (football's and the NBA's 2nd, men's
+// college basketball's 1st).
+func halfEnd(sport string, p espn.Data) (time.Duration, bool) {
+	typ := playType(p)
+	period := espn.Str(espn.Map(p["period"])["number"])
+	switch {
+	case sport == "nfl" && strings.EqualFold(typ, "End of Half"):
+		return nflHalftime, true
+	case sport == "cfb" && strings.EqualFold(typ, "End Period") && period == "2":
+		return cfbHalftime, true
+	case sport == "nba" && strings.EqualFold(typ, "End Period") && period == "2":
+		return nbaHalftime, true
+	case sport == "cbb" && strings.EqualFold(typ, "End Period") && period == "1":
+		return cbbHalftime, true
+	}
+	return 0, false
+}
+
+// halftimeEnds estimates when the halftime break ends: the first half's last
+// play's `wallclock` plus the usual break. Zero outside halftime or when ESPN
+// gives no stamp. It comes from the feed, so a late start has it too. The
+// half's End Period row is found anywhere in the feed: at the NBA's halftime
+// the newest play was not that row in about a quarter of games.
 func halftimeEnds(sport string, f *Feed) time.Time {
-	if (sport != "nfl" && sport != "cfb") || espn.Str(espn.Map(espn.Status(f.Data)["type"])["name"]) != "STATUS_HALFTIME" {
+	if espn.Str(espn.Map(espn.Status(f.Data)["type"])["name"]) != "STATUS_HALFTIME" {
 		return time.Time{}
 	}
 	for i := len(f.Plays) - 1; i >= 0; i-- {
-		p := f.Plays[i]
-		typ := playType(p)
-		var length time.Duration
-		switch {
-		case sport == "nfl" && strings.EqualFold(typ, "End of Half"):
-			length = nflHalftime
-		case sport == "cfb" && strings.EqualFold(typ, "End Period") && espn.Str(espn.Map(p["period"])["number"]) == "2":
-			length = cfbHalftime
-		default:
+		length, ok := halfEnd(sport, f.Plays[i])
+		if !ok {
 			continue
 		}
-		t, err := time.Parse(time.RFC3339, espn.Str(p["wallclock"]))
+		t, err := time.Parse(time.RFC3339, espn.Str(f.Plays[i]["wallclock"]))
 		if err != nil {
 			return time.Time{}
 		}
