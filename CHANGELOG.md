@@ -12,6 +12,9 @@ cut only on request: "Unreleased" becomes the next version and `Version` in
 
 ## [Unreleased]
 
+### Fixed
+- Men's college basketball: the fouls and the bonus in the counts line now work. ESPN keeps its foul counts at 0 all game for cbb, so both teams showed "Fouls 0". They are counted from the plays instead, per half (overtime counts with the second half), with the one-and-one from the other side's seventh foul and the double bonus from its tenth (OAK @ MICH on 2026-11-02).
+
 ### Added
 - `playcall-gui --resume` follows the game you watched last, the one the picker's Continue button offers, without opening the picker. With no remembered game it opens the picker; it cannot be combined with `--game` or `--mock`.
 

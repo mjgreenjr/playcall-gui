@@ -1460,3 +1460,50 @@ func TestCollegeOvertimeFromPlays(t *testing.T) {
 		t.Errorf("unknown team: %v, want no circles", got)
 	}
 }
+
+// ESPN's cbb competitors keep a fouls block at 0 all game; the plays have the
+// fouls (OAK @ MICH on 2026-11-02).
+func TestCollegeFoulsFromPlays(t *testing.T) {
+	comp := func(side, id string) espn.Data {
+		return espn.Data{"homeAway": side, "id": id, "timeoutsRemaining": json.Number("0"),
+			"fouls": espn.Data{"teamFouls": json.Number("0"), "teamFoulsCurrent": json.Number("0"),
+				"foulsToGive": json.Number("0"), "bonusState": "NONE"}}
+	}
+	foul := func(period int, team, typ string) espn.Data {
+		return espn.Data{"type": espn.Data{"text": typ}, "team": espn.Data{"id": team},
+			"period": espn.Data{"number": json.Number(strconv.Itoa(period))}}
+	}
+	var plays []espn.Data
+	add := func(n, period int, team, typ string) {
+		for range n {
+			plays = append(plays, foul(period, team, typ))
+		}
+	}
+	add(9, 1, "2473", "PersonalFoul") // OAK, first half
+	add(8, 1, "130", "PersonalFoul")  // MICH, first half
+	add(1, 1, "130", "Technical Foul")
+	add(2, 2, "2473", "PersonalFoul")
+	add(2, 2, "130", "PersonalFoul")
+	feed := func(period int) *Feed {
+		return &Feed{Plays: plays, Data: espn.Data{
+			"header": espn.Data{"competitions": []any{espn.Data{
+				"competitors": []any{comp("away", "2473"), comp("home", "130")},
+				"status": espn.Data{"period": json.Number(strconv.Itoa(period)),
+					"type": espn.Data{"state": "in", "name": "STATUS_IN_PROGRESS"}},
+			}}},
+		}}
+	}
+	away, home := basketballCounts("cbb", feed(1))
+	if away.Fouls != 9 || home.Fouls != 8 || away.Bonus != "single" || home.Bonus != "single" {
+		t.Errorf("first half: away %+v home %+v, want 9 and 8 fouls and both in the one-and-one", away, home)
+	}
+	away, home = basketballCounts("cbb", feed(2))
+	if away.Fouls != 2 || home.Fouls != 2 || away.Bonus != "" || home.Bonus != "" {
+		t.Errorf("second half: away %+v home %+v, want 2 and 2 and no bonus", away, home)
+	}
+	add(8, 2, "2473", "PersonalFoul") // OAK now 10 in the half
+	away, home = basketballCounts("cbb", feed(3))
+	if away.Fouls != 10 || home.Bonus != "double" {
+		t.Errorf("overtime counts with the second half: away %+v home %+v", away, home)
+	}
+}

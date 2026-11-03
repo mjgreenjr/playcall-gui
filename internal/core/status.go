@@ -135,6 +135,9 @@ func basketballCounts(sport string, f *Feed) (away, home *TeamCounts) {
 	// that took both of its overtime timeouts still shows one left), so do it
 	// here; in regulation it is cut to 4 early, which the row's 7 allows for.
 	if sport == "cbb" {
+		collegeFouls(away, a, f.Plays, period)
+		collegeFouls(home, h, f.Plays, period)
+		collegeBonus(away, home)
 		capCollegeTimeouts(away, int(period))
 		capCollegeTimeouts(home, int(period))
 	} else if period <= 4 {
@@ -591,6 +594,64 @@ const (
 	collegeTimeouts = 4
 	collegeHalves   = 2
 )
+
+// College team fouls come from the plays: ESPN's cbb competitors carry a
+// fouls block that stays at 0 (teamFoulsCurrent 0, foulsToGive 0, bonusState
+// NONE, timeoutsRemaining 0) all game (OAK @ MICH on 2026-11-02: OAK had 9
+// fouls in the first half and 2 in the second by the plays, and the feed still
+// said 0 and 0). The plays' fouls match the box score (ND @ VILL: ND 18
+// personal plus 1 technical, 19 in the box), and all of them are typed
+// PersonalFoul, offensive and flagrant ones included. Fouls start over for the
+// second half, and overtime counts with it. The bonus is the other side's
+// seventh foul of the half (one-and-one) and its tenth (two shots).
+const (
+	collegeBonusFouls  = 7
+	collegeDoubleFouls = 10
+)
+
+// halfFouls is a team's team fouls in the half the period belongs to: the
+// first half is period 1, the second half and every overtime the rest.
+func halfFouls(plays []espn.Data, teamID string, period int64) int {
+	n := 0
+	for _, p := range plays {
+		if espn.Str(espn.Map(p["team"])["id"]) != teamID {
+			continue
+		}
+		pe, _ := espn.Int64(espn.Map(p["period"])["number"])
+		if (pe == 1) != (period == 1) {
+			continue
+		}
+		t := strings.ToLower(playType(p))
+		if strings.Contains(t, "foul") && !strings.Contains(t, "technical") && !strings.Contains(t, "turnover") {
+			n++
+		}
+	}
+	return n
+}
+
+func collegeFouls(c *TeamCounts, competitor espn.Data, plays []espn.Data, period int64) {
+	if c != nil {
+		c.Fouls = halfFouls(plays, espn.Str(competitor["id"]), period)
+	}
+}
+
+// collegeBonus puts each side in the bonus when the other one has the fouls
+// for it. Fouls is already the half's count.
+func collegeBonus(away, home *TeamCounts) {
+	if away == nil || home == nil {
+		return
+	}
+	bonus := func(otherFouls int) string {
+		switch {
+		case otherFouls >= collegeDoubleFouls:
+			return "double"
+		case otherFouls >= collegeBonusFouls:
+			return "single"
+		}
+		return ""
+	}
+	away.Bonus, home.Bonus = bonus(home.Fouls), bonus(away.Fouls)
+}
 
 func capCollegeTimeouts(c *TeamCounts, period int) {
 	if c == nil {
